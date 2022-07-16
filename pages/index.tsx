@@ -8,7 +8,7 @@ const SlideShow = dynamic(() => import("../components/SlideShow"), {
 
 const Home: NextPage = () => {
   return (
-    <Box w="100vw" h="100vh">
+    <Box w="90vw" h="100vh">
       <SlideShow />
     </Box>
   );

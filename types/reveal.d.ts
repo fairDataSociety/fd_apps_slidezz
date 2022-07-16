@@ -12,6 +12,7 @@ declare module "reveal.js" {
   // Reveal plugins are globals since 4.0 (if not loaded through ES Modules): https://revealjs.com/plugins/
   declare const RevealHighlight: Plugin;
   declare const RevealMarkdown: Plugin;
+
   declare const RevealSearch: Plugin;
   declare const RevealNotes: Plugin;
   declare const RevealMath: Plugin;
