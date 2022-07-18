@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { Box } from "@chakra-ui/react";
+import { Center, HStack } from "@chakra-ui/react";
+import SideBar from "../components/SideBar";
 
 const SlideShow = dynamic(() => import("../components/SlideShow"), {
   ssr: false,
@@ -8,9 +9,12 @@ const SlideShow = dynamic(() => import("../components/SlideShow"), {
 
 const Home: NextPage = () => {
   return (
-    <Box w="90vw" h="100vh">
-      <SlideShow />
-    </Box>
+    <HStack h="100vh">
+      <SideBar />
+      <Center h="full" w="full">
+        <SlideShow />
+      </Center>
+    </HStack>
   );
 };
 
