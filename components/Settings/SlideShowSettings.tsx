@@ -10,12 +10,16 @@ import {
   Button,
   Checkbox,
   VStack,
+  FormControl,
+  FormLabel,
+  FormHelperText,
+  Select,
 } from "@chakra-ui/react";
 import { FiSettings } from "react-icons/fi";
 import SideBarItem from "../SideBar/SideBarItem";
 import { Formik, Form } from "formik";
 import { useAtom } from "jotai";
-import { slideShowSettingsAtom } from "../../store";
+import { slideShowSettingsAtom, controlsLayoutOptions } from "../../store";
 
 export default function SlideShowSettings() {
   const [slideShowSettings, setSlideShowSettings] = useAtom(
@@ -47,50 +51,93 @@ export default function SlideShowSettings() {
                 <DrawerHeader>Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
-                    <Checkbox
-                      id="controls"
-                      name="controls"
-                      onChange={handleChange}
-                      isChecked={values.controls}
-                    >
-                      Display presentation control arrows
-                    </Checkbox>
+                    <FormControl>
+                      <Checkbox
+                        id="controls"
+                        name="controls"
+                        onChange={handleChange}
+                        isChecked={values.controls}
+                      >
+                        Controls
+                      </Checkbox>
+                      <FormHelperText>
+                        Display presentation control arrows
+                      </FormHelperText>
+                    </FormControl>
 
-                    <Checkbox
-                      id="progress"
-                      name="progress"
-                      onChange={handleChange}
-                      isChecked={values.progress}
-                    >
-                      Display a presentation progress bar
-                    </Checkbox>
+                    <FormControl>
+                      <Checkbox
+                        id="progress"
+                        name="progress"
+                        onChange={handleChange}
+                        isChecked={values.progress}
+                      >
+                        Progress
+                      </Checkbox>
+                      <FormHelperText>
+                        Display a presentation progress bar
+                      </FormHelperText>
+                    </FormControl>
 
-                    <Checkbox
-                      id="history"
-                      name="history"
-                      onChange={handleChange}
-                      isChecked={values.history}
-                    >
-                      Push each slide change to the browser history
-                    </Checkbox>
+                    <FormControl>
+                      <Checkbox
+                        id="history"
+                        name="history"
+                        onChange={handleChange}
+                        isChecked={values.history}
+                      >
+                        History
+                      </Checkbox>
 
-                    <Checkbox
-                      id="center"
-                      name="center"
-                      onChange={handleChange}
-                      isChecked={values.center}
-                    >
-                      Vertical centering of slides
-                    </Checkbox>
+                      <FormHelperText>
+                        Push each slide change to the browser history
+                      </FormHelperText>
+                    </FormControl>
 
-                    <Checkbox
-                      id="loop"
-                      name="loop"
-                      onChange={handleChange}
-                      isChecked={values.loop}
-                    >
-                      Loop the presentation
-                    </Checkbox>
+                    <FormControl>
+                      <Checkbox
+                        id="center"
+                        name="center"
+                        onChange={handleChange}
+                        isChecked={values.center}
+                      >
+                        Center
+                      </Checkbox>
+                      <FormHelperText>
+                        Vertical centering of slides
+                      </FormHelperText>
+                    </FormControl>
+
+                    <FormControl>
+                      <Checkbox
+                        id="loop"
+                        name="loop"
+                        onChange={handleChange}
+                        isChecked={values.loop}
+                      >
+                        Loop
+                      </Checkbox>
+                      <FormHelperText>Loop the presentation</FormHelperText>
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel htmlFor="theme">Controls Layout</FormLabel>
+                      <Select
+                        id="controlsLayout"
+                        name="controlsLayout"
+                        onChange={handleChange}
+                        value={values.controlsLayout}
+                      >
+                        {controlsLayoutOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </Select>
+                      <FormHelperText>
+                        Determines where controls appear
+                      </FormHelperText>
+                    </FormControl>
                   </VStack>
                 </DrawerBody>
 

@@ -1,12 +1,14 @@
 import { atomWithStorage } from "jotai/utils";
 
+export const controlsLayoutOptions = ["bottom-right", "edges"] as const;
+
 export interface SlideShowSettings {
   controls: boolean;
   progress: boolean;
   history: boolean;
   center: boolean;
   loop: boolean;
-  //   controlsLayout?: "bottom-right" | "edges";
+  controlsLayout: typeof controlsLayoutOptions[number];
 }
 
 const initialSettings: SlideShowSettings = {
@@ -15,6 +17,7 @@ const initialSettings: SlideShowSettings = {
   history: true,
   center: true,
   loop: true,
+  controlsLayout: "bottom-right",
 };
 
 export const slideShowSettingsAtom = atomWithStorage(

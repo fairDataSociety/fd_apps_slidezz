@@ -29,12 +29,10 @@ export default function SlideShow() {
 
   return (
     <Box
+      border="1px"
+      borderBottom="none"
       w={{ base: "80%", md: "70%", lg: "60%" }}
       h={{ base: "30%", md: "50%", lg: "70%" }}
-      transition="all 0.2s"
-      _hover={{
-        transform: "scale(1.01)",
-      }}
     >
       <Box className="reveal">
         <Box className="slides">
