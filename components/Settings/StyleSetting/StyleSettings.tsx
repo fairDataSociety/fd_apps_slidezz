@@ -8,14 +8,14 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Button,
-  Select,
   VStack,
 } from "@chakra-ui/react";
 import { HiColorSwatch } from "react-icons/hi";
-import SideBarItem from "./SideBarItem";
+import SideBarItem from "../../SideBar/SideBarItem";
 import { Formik, Form } from "formik";
 import { useAtom } from "jotai";
-import { styleSettingsAtom, themes } from "../store";
+import { styleSettingsAtom } from "../../../store";
+import ColorSelect from "./ColorSelect";
 
 export default function PresentationSettings() {
   const [styleSettings, setStyleSettings] = useAtom(styleSettingsAtom);
@@ -34,26 +34,14 @@ export default function PresentationSettings() {
           }}
           initialValues={styleSettings}
         >
-          {({ handleSubmit, handleChange, values }) => (
+          {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Presentation settings</DrawerHeader>
+                <DrawerHeader>Style settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
-                    <Select
-                      name="theme"
-                      id="theme"
-                      onChange={handleChange}
-                      value={values.theme}
-                      placeholder="Select theme"
-                    >
-                      {Object.keys(themes).map((theme) => (
-                        <option key={theme} value={theme}>
-                          {theme}
-                        </option>
-                      ))}
-                    </Select>
+                    <ColorSelect />
                   </VStack>
                 </DrawerBody>
 

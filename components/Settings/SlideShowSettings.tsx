@@ -12,14 +12,14 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FiSettings } from "react-icons/fi";
-import SideBarItem from "./SideBarItem";
+import SideBarItem from "../SideBar/SideBarItem";
 import { Formik, Form } from "formik";
 import { useAtom } from "jotai";
-import { presentationSettingsAtom } from "../store";
+import { slideShowSettingsAtom } from "../../store";
 
-export default function PresentationSettings() {
-  const [presentationSettings, setPresentationSettings] = useAtom(
-    presentationSettingsAtom
+export default function SlideShowSettings() {
+  const [slideShowSettings, setSlideShowSettings] = useAtom(
+    slideShowSettingsAtom
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -35,10 +35,10 @@ export default function PresentationSettings() {
         <DrawerOverlay />
         <Formik
           onSubmit={(values) => {
-            setPresentationSettings(values);
+            setSlideShowSettings(values);
             onClose();
           }}
-          initialValues={presentationSettings}
+          initialValues={slideShowSettings}
         >
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>

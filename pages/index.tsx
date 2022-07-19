@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { Center, HStack } from "@chakra-ui/react";
-import SideBar from "../components/SideBar";
+import SideBar from "../components/SideBar/SideBar";
 
 const SlideShow = dynamic(() => import("../components/SlideShow"), {
   ssr: false,
