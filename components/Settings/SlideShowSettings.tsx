@@ -48,7 +48,7 @@ export default function SlideShowSettings() {
             <Form onSubmit={handleSubmit}>
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Presentation settings</DrawerHeader>
+                <DrawerHeader as="h2">Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
                     <FormControl>
@@ -145,9 +145,7 @@ export default function SlideShowSettings() {
                   <Button variant="outline" mr={3} onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button type="submit" colorScheme="blue">
-                    Save
-                  </Button>
+                  <Button type="submit">Save</Button>
                 </DrawerFooter>
               </DrawerContent>
             </Form>

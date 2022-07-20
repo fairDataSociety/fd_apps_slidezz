@@ -38,7 +38,7 @@ export default function PresentationSettings() {
             <Form onSubmit={handleSubmit}>
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Style settings</DrawerHeader>
+                <DrawerHeader as="h2">Style settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
                     <ColorSelect />
@@ -49,9 +49,7 @@ export default function PresentationSettings() {
                   <Button variant="outline" mr={3} onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button type="submit" colorScheme="blue">
-                    Save
-                  </Button>
+                  <Button type="submit">Save</Button>
                 </DrawerFooter>
               </DrawerContent>
             </Form>

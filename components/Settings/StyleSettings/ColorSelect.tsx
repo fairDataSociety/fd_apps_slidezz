@@ -8,7 +8,7 @@ export default function ColorSelect() {
 
   return (
     <Box>
-      <Heading fontWeight="light" size="md" mb={3}>
+      <Heading fontWeight="semibold" size="md" mb={3}>
         Color
       </Heading>
       <SimpleGrid columns={3} spacing={5}>

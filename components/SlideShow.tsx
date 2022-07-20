@@ -29,8 +29,8 @@ export default function SlideShow() {
 
   return (
     <Box
-      border="1px"
-      borderColor={useColorModeValue("gray.700", "gray.400")}
+      borderWidth="1px"
+      borderColor={useColorModeValue("lavender.700", "lavender.100")}
       borderBottom="none"
       w={{ base: "80%", md: "70%", lg: "60%" }}
       h={{ base: "30%", md: "50%", lg: "70%" }}

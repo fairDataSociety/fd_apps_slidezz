@@ -1,17 +1,17 @@
-import { useColorModeValue, VStack } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import PresentationSettings from "../Settings/SlideShowSettings";
 import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 
 export default function SideBar() {
   return (
-    <VStack
+    <Box
+      bg={useColorModeValue("crust.50", "crust.700")}
       fontSize="2xl"
       h="full"
       w="5rem"
-      bg={useColorModeValue("gray.100", "gray.700")}
     >
       <PresentationSettings />
       <StyleSettings />
-    </VStack>
+    </Box>
   );
 }
