@@ -81,6 +81,26 @@ export const themes = {
     mainColor: "#eee",
     linkColor: "#a23",
   },
+  latte: {
+    bg: "#eff1f5",
+    mainColor: "#4c4f69",
+    linkColor: "#dc8a78",
+  },
+  // frappe: {
+  //   bg: "#303446",
+  //   mainColor: "#c6d0f5",
+  //   linkColor: "#f2d5cf",
+  // },
+  macchiato: {
+    bg: "#24273a",
+    mainColor: "#cad3f5",
+    linkColor: "#f4dbd6",
+  },
+  // mocha: {
+  //   bg: "#1e1e2e",
+  //   mainColor: "#cdd6f4",
+  //   linkColor: "#f5e0dc",
+  // },
 };
 
 export interface StyleSettings {
