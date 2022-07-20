@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import Reveal from "reveal.js";
@@ -30,13 +30,26 @@ export default function SlideShow() {
   return (
     <Box
       border="1px"
+      borderColor={useColorModeValue("gray.700", "gray.400")}
       borderBottom="none"
       w={{ base: "80%", md: "70%", lg: "60%" }}
       h={{ base: "30%", md: "50%", lg: "70%" }}
     >
       <Box className="reveal">
         <Box className="slides">
-          <section data-markdown="test.md" data-separator="---"></section>
+          <section data-markdown="" data-separator="---">
+            <textarea
+              data-template
+              defaultValue="
+              ## Slide 1
+              A paragraph with some text and a [link](http://hakim.se).
+              ---
+              ## Slide 2
+              ---
+              ## Slide 3
+            "
+            />
+          </section>
         </Box>
       </Box>
     </Box>

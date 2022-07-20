@@ -15,6 +15,7 @@ export default function ColorSelect() {
         {Object.entries(themes).map(([key, value]) => {
           return (
             <Box
+              key={key}
               onClick={() => {
                 setFieldValue("theme", key);
               }}
