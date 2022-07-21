@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormHelperText,
   Select,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FiSettings } from "react-icons/fi";
 import SideBarItem from "../SideBar/SideBarItem";
@@ -46,7 +47,7 @@ export default function SlideShowSettings() {
         >
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
-              <DrawerContent>
+              <DrawerContent bg={useColorModeValue("crust.50", "crust.700")}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>

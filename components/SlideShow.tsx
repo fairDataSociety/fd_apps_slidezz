@@ -30,7 +30,7 @@ export default function SlideShow() {
   return (
     <Box
       borderWidth="1px"
-      borderColor={useColorModeValue("lavender.700", "lavender.100")}
+      borderColor={useColorModeValue("overlay0.700", "overlay0.400")}
       borderBottom="none"
       w={{ base: "80%", md: "70%", lg: "60%" }}
       h={{ base: "30%", md: "50%", lg: "70%" }}

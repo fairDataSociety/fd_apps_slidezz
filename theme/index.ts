@@ -16,12 +16,22 @@ const theme = extendTheme(
         },
       }),
     },
+    components: {
+      Text: {
+        variants: {
+          subtext: (props: any) => ({
+            color: mode("subtext0.500", "subtext0.100")(props),
+          }),
+        },
+      },
+    },
   },
   withDefaultProps({
     defaultProps: {
       colorScheme: "surface1",
+      size: "lg",
     },
-    components: ["Button"],
+    components: ["Button", "Checkbox"],
   })
 );
 

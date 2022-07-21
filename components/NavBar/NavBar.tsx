@@ -1,10 +1,16 @@
-import { Flex } from "@chakra-ui/react";
+import { Heading, HStack, Link } from "@chakra-ui/react";
 import ThemeToggleButton from "./ThemeToggleButton";
 
 export default function NavBar() {
   return (
-    <Flex flexDir="row-reverse" py={4} px={10} w="full">
+    <HStack gap={10} flexDir="row-reverse" py={4} px={10} w="full">
       <ThemeToggleButton />
-    </Flex>
+      <Link
+        href="https://github.com/soheil555/fairdrive-apps-slideshow"
+        isExternal
+      >
+        Github
+      </Link>
+    </HStack>
   );
 }

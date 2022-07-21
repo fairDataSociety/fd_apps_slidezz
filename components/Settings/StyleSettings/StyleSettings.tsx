@@ -9,6 +9,7 @@ import {
   DrawerCloseButton,
   Button,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { HiColorSwatch } from "react-icons/hi";
 import SideBarItem from "../../SideBar/SideBarItem";
@@ -36,7 +37,7 @@ export default function PresentationSettings() {
         >
           {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
-              <DrawerContent>
+              <DrawerContent bg={useColorModeValue("crust.50", "crust.700")}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Style settings</DrawerHeader>
                 <DrawerBody mt={5}>
