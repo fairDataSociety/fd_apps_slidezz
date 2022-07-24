@@ -47,7 +47,9 @@ export default function SlideShowSettings() {
         >
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
-              <DrawerContent bg={useColorModeValue("crust.50", "crust.700")}>
+              <DrawerContent
+                bg={useColorModeValue("latte-crust", "frappe-crust")}
+              >
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>

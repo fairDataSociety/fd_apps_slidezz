@@ -5,7 +5,7 @@ import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 export default function SideBar() {
   return (
     <Box
-      bg={useColorModeValue("crust.50", "crust.700")}
+      bg={useColorModeValue("latte-crust", "frappe-crust")}
       fontSize="2xl"
       h="full"
       w="5rem"

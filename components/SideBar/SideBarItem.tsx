@@ -1,4 +1,4 @@
-import { Tooltip, Center, Icon } from "@chakra-ui/react";
+import { Tooltip, Center, Icon, useColorModeValue } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
 interface SideBarItemInterface {
@@ -13,13 +13,20 @@ export default function SideBarItem({
   label,
 }: SideBarItemInterface) {
   return (
-    <Tooltip label={label} placement="right" hasArrow>
+    <Tooltip
+      bg={useColorModeValue("latte-overlay1", "frappe-overlay1")}
+      label={label}
+      placement="right"
+      hasArrow
+    >
       <Center
         onClick={onClick}
         cursor="pointer"
         p={5}
         w="full"
-        _hover={{ bg: "gray.500", color: "gray.100" }}
+        _hover={{
+          bg: useColorModeValue("latte-surface2", "frappe-surface2"),
+        }}
       >
         <Icon as={icon} />
       </Center>

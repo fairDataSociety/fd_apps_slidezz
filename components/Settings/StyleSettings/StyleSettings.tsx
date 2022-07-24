@@ -37,7 +37,9 @@ export default function PresentationSettings() {
         >
           {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
-              <DrawerContent bg={useColorModeValue("crust.50", "crust.700")}>
+              <DrawerContent
+                bg={useColorModeValue("latte-crust", "frappe-crust")}
+              >
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Style settings</DrawerHeader>
                 <DrawerBody mt={5}>

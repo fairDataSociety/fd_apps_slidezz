@@ -8,11 +8,11 @@ const theme = extendTheme(
     styles: {
       global: (props: any) => ({
         body: {
-          bg: mode("base.150", "text.900")(props),
-          color: mode("text.800", "text.50")(props),
+          bg: mode("latte-base", "frappe-base")(props),
+          color: mode("latte-text", "frappe-text")(props),
         },
         h2: {
-          color: mode("subtext0.700", "subtext0.50")(props),
+          color: mode("latte-subtext0", "frappe-subtext0")(props),
         },
       }),
     },
@@ -20,8 +20,58 @@ const theme = extendTheme(
       Text: {
         variants: {
           subtext: (props: any) => ({
-            color: mode("subtext0.500", "subtext0.100")(props),
+            color: mode("latte-subtext1", "frappe-subtext1")(props),
           }),
+        },
+      },
+      Link: {
+        variants: {
+          primary: (props: any) => ({
+            fontWeight: "semibold",
+            color: mode("latte-rosewater", "frappe-rosewater")(props),
+            _hover: {
+              color: mode("latte-flamingo", "frappe-flamingo")(props),
+            },
+          }),
+        },
+        defaultProps: {
+          variant: "primary",
+        },
+      },
+
+      Select: {
+        variants: {
+          primary: (props: any) => ({
+            field: {
+              cursor: "pointer",
+              border: "1px",
+              borderColor: mode("latte-overlay0", "frappe-overlay0")(props),
+              bg: "transparent",
+              _focus: {
+                borderColor: mode("latte-lavender", "frappe-lavender")(props),
+              },
+            },
+          }),
+        },
+        defaultProps: {
+          variant: "primary",
+        },
+      },
+      Input: {
+        variants: {
+          primary: (props: any) => ({
+            field: {
+              border: "1px",
+              borderColor: mode("latte-overlay0", "frappe-overlay0")(props),
+              bg: "transparent",
+              _focus: {
+                borderColor: mode("latte-lavender", "frappe-lavender")(props),
+              },
+            },
+          }),
+        },
+        defaultProps: {
+          variant: "primary",
         },
       },
     },

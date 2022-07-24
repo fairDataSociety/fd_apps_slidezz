@@ -19,7 +19,7 @@ export default function Login() {
       </VStack>
 
       <VStack
-        bg={useColorModeValue("crust.50", "crust.700")}
+        bg={useColorModeValue("latte-crust", "frappe-crust")}
         p={8}
         rounded="lg"
         boxShadow="lg"
@@ -40,11 +40,7 @@ export default function Login() {
         <Button>Login</Button>
         <Text align="center" variant="subtext">
           Don't have an account?{" "}
-          <Link
-            color="rosewater.300"
-            href="https://fairdrive.vercel.app/register"
-            isExternal
-          >
+          <Link href="https://fairdrive.vercel.app/register" isExternal>
             Register
           </Link>
         </Text>
