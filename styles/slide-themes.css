@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&family=League+Gothic&family=Montserrat:wght@700&family=News+Cycle:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Quicksand:wght@400;700&family=Source+Sans+Pro:wght@400;600&family=Ubuntu:ital,wght@0,300;0,700;1,300;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600&display=swap");
 
 section.has-dark-background,
 section.has-dark-background h1,
@@ -52,24 +52,8 @@ section.has-light-background h6 {
 
 body[data-theme="black"] {
   --r-background-color: #191919;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-main-font-size: 42px;
   --r-main-color: #fff;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: Source Sans Pro, Helvetica, sans-serif;
   --r-heading-color: #fff;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: 600;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 2.5em;
-  --r-heading2-size: 1.6em;
-  --r-heading3-size: 1.3em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #42affa;
   --r-link-color-dark: #068de9;
   --r-link-color-hover: #8dcffc;
@@ -79,28 +63,13 @@ body[data-theme="black"] {
 
 body[data-theme="beige"] {
   --r-background-color: #f7f3de;
-  --r-main-font: Lato, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #333;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: League Gothic, Impact, sans-serif;
   --r-heading-color: #333;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
   --r-heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
     0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
     0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
     0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
     0 20px 20px rgba(0, 0, 0, 0.15);
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #8b743d;
   --r-link-color-dark: #564826;
   --r-link-color-hover: #c0a86e;
@@ -110,28 +79,14 @@ body[data-theme="beige"] {
 
 body[data-theme="blood"] {
   --r-background-color: #222;
-  --r-main-font: Ubuntu, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #eee;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: Ubuntu, sans-serif;
   --r-heading-color: #eee;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
   --r-heading-text-shadow: 2px 2px 2px #222;
-  --r-heading-font-weight: normal;
   --r-heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
     0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
     0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
     0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
     0 20px 20px rgba(0, 0, 0, 0.15);
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #a23;
   --r-link-color-dark: #6a1520;
   --r-link-color-hover: #dd5566;
@@ -141,28 +96,14 @@ body[data-theme="blood"] {
 
 body[data-theme="league"] {
   --r-background-color: #2b2b2b;
-  --r-main-font: Lato, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #eee;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: League Gothic, Impact, sans-serif;
   --r-heading-color: #eee;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
   --r-heading-text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
-  --r-heading-font-weight: normal;
   --r-heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb,
     0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1),
     0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3),
     0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
     0 20px 20px rgba(0, 0, 0, 0.15);
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #13daec;
   --r-link-color-dark: #0d99a5;
   --r-link-color-hover: #71e9f4;
@@ -172,24 +113,8 @@ body[data-theme="league"] {
 
 body[data-theme="moon"] {
   --r-background-color: #002b36;
-  --r-main-font: Lato, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #93a1a1;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: League Gothic, Impact, sans-serif;
   --r-heading-color: #eee8d5;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #268bd2;
   --r-link-color-dark: #1a6091;
   --r-link-color-hover: #78b9e6;
@@ -199,24 +124,8 @@ body[data-theme="moon"] {
 
 body[data-theme="night"] {
   --r-background-color: #111;
-  --r-main-font: Open Sans, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #eee;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: Montserrat, Impact, sans-serif;
   --r-heading-color: #eee;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: -0.03em;
-  --r-heading-text-transform: none;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #e7ad52;
   --r-link-color-dark: #d08a1d;
   --r-link-color-hover: #f3d7ac;
@@ -226,24 +135,8 @@ body[data-theme="night"] {
 
 body[data-theme="serif"] {
   --r-background-color: #f0f1eb;
-  --r-main-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
-  --r-main-font-size: 40px;
   --r-main-color: #000;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
   --r-heading-color: #383d3d;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: none;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #51483d;
   --r-link-color-dark: #25211c;
   --r-link-color-hover: #8b7c69;
@@ -253,24 +146,8 @@ body[data-theme="serif"] {
 
 body[data-theme="simple"] {
   --r-background-color: #fff;
-  --r-main-font: Lato, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #000;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: News Cycle, Impact, sans-serif;
   --r-heading-color: #000;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: none;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #00008b;
   --r-link-color-dark: #00003f;
   --r-link-color-hover: #0000f1;
@@ -280,24 +157,8 @@ body[data-theme="simple"] {
 
 body[data-theme="sky"] {
   --r-background-color: #f7fbfc;
-  --r-main-font: Open Sans, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #333;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: Quicksand, sans-serif;
   --r-heading-color: #333;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: -0.08em;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #3b759e;
   --r-link-color-dark: #264c66;
   --r-link-color-hover: #74a7cb;
@@ -307,24 +168,8 @@ body[data-theme="sky"] {
 
 body[data-theme="solarized"] {
   --r-background-color: #fdf6e3;
-  --r-main-font: Lato, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #657b83;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-heading-font: League Gothic, Impact, sans-serif;
   --r-heading-color: #586e75;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #268bd2;
   --r-link-color-dark: #1a6091;
   --r-link-color-hover: #78b9e6;
@@ -334,24 +179,8 @@ body[data-theme="solarized"] {
 
 body[data-theme="latte"] {
   --r-background-color: #eff1f5;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #4c4f69;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
   --r-heading-color: #5c5f77;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #dc8a78;
   --r-link-color-dark: #dc7f6a;
   --r-link-color-hover: #dc9586;
@@ -359,86 +188,16 @@ body[data-theme="latte"] {
   --r-selection-color: #4c4f69;
 }
 
-/* body[data-theme="frappe"] {
-  --r-background-color: #303446;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-main-font-size: 40px;
-  --r-main-color: #c6d0f5;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-heading-color: #b5bfe2;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
-  --r-link-color: #f2d5cf;
-  --r-link-color-dark: #eec8c0;
-  --r-link-color-hover: #f2dcd8;
-  --r-selection-background-color: #626880;
-  --r-selection-color: #c6d0f5;
-} */
-
 body[data-theme="macchiato"] {
   --r-background-color: #24273a;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-main-font-size: 40px;
   --r-main-color: #cad3f5;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
   --r-heading-color: #b8c0e0;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
   --r-link-color: #f4dbd6;
   --r-link-color-dark: #f4cbc3;
   --r-link-color-hover: #f3e0dc;
   --r-selection-background-color: #5b6078;
   --r-selection-color: #cad3f5;
 }
-
-/* body[data-theme="mocha"] {
-  --r-background-color: #1e1e2e;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-main-font-size: 40px;
-  --r-main-color: #cdd6f4;
-  --r-block-margin: 20px;
-  --r-heading-margin: 0 0 20px 0;
-  --r-main-font: Source Sans Pro, Helvetica, sans-serif;
-  --r-heading-color: #bac2de;
-  --r-heading-line-height: 1.2;
-  --r-heading-letter-spacing: normal;
-  --r-heading-text-transform: uppercase;
-  --r-heading-text-shadow: none;
-  --r-heading-font-weight: normal;
-  --r-heading1-text-shadow: none;
-  --r-heading1-size: 3.77em;
-  --r-heading2-size: 2.11em;
-  --r-heading3-size: 1.55em;
-  --r-heading4-size: 1em;
-  --r-code-font: monospace;
-  --r-link-color: #f5e0dc;
-  --r-link-color-dark: #f3d3cd;
-  --r-link-color-hover: #f5e4e1;
-  --r-selection-background-color: #585b70;
-  --r-selection-color: #cdd6f4;
-} */
 
 .reveal-viewport {
   background: var(--r-background-color);
