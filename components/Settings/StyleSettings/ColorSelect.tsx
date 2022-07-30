@@ -1,6 +1,7 @@
 import { SimpleGrid, Box, Heading, Icon } from "@chakra-ui/react";
 import { useFormikContext } from "formik";
-import { themes, StyleSettings } from "../../../store";
+import { StyleSettings } from "../../../store";
+import { slideThemes } from "../../../slide-themes";
 import { AiFillCheckCircle } from "react-icons/ai";
 
 export default function ColorSelect() {
@@ -12,7 +13,7 @@ export default function ColorSelect() {
         Color
       </Heading>
       <SimpleGrid columns={3} spacing={5}>
-        {Object.entries(themes).map(([key, value]) => {
+        {Object.entries(slideThemes).map(([key, value]) => {
           return (
             <Box
               key={key}

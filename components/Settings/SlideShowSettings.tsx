@@ -20,7 +20,8 @@ import { FiSettings } from "react-icons/fi";
 import SideBarItem from "../SideBar/SideBarItem";
 import { Formik, Form } from "formik";
 import { useAtom } from "jotai";
-import { slideShowSettingsAtom, controlsLayoutOptions } from "../../store";
+import { slideShowSettingsAtom } from "../../store";
+import { checkBoxSettings, selectSettings } from "../../settings";
 
 export default function SlideShowSettings() {
   const [slideShowSettings, setSlideShowSettings] = useAtom(
@@ -54,93 +55,42 @@ export default function SlideShowSettings() {
                 <DrawerHeader as="h2">Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
-                    <FormControl>
-                      <Checkbox
-                        id="controls"
-                        name="controls"
-                        onChange={handleChange}
-                        isChecked={values.controls}
-                      >
-                        Controls
-                      </Checkbox>
-                      <FormHelperText>
-                        Display presentation control arrows
-                      </FormHelperText>
-                    </FormControl>
+                    {checkBoxSettings.map((item) => {
+                      return (
+                        <FormControl key={item.name}>
+                          <Checkbox
+                            id={item.name}
+                            name={item.name}
+                            onChange={handleChange}
+                            isChecked={values[item.name]}
+                          >
+                            {item.label}
+                          </Checkbox>
+                          <FormHelperText>{item.description}</FormHelperText>
+                        </FormControl>
+                      );
+                    })}
 
-                    <FormControl>
-                      <Checkbox
-                        id="progress"
-                        name="progress"
-                        onChange={handleChange}
-                        isChecked={values.progress}
-                      >
-                        Progress
-                      </Checkbox>
-                      <FormHelperText>
-                        Display a presentation progress bar
-                      </FormHelperText>
-                    </FormControl>
-
-                    <FormControl>
-                      <Checkbox
-                        id="history"
-                        name="history"
-                        onChange={handleChange}
-                        isChecked={values.history}
-                      >
-                        History
-                      </Checkbox>
-
-                      <FormHelperText>
-                        Push each slide change to the browser history
-                      </FormHelperText>
-                    </FormControl>
-
-                    <FormControl>
-                      <Checkbox
-                        id="center"
-                        name="center"
-                        onChange={handleChange}
-                        isChecked={values.center}
-                      >
-                        Center
-                      </Checkbox>
-                      <FormHelperText>
-                        Vertical centering of slides
-                      </FormHelperText>
-                    </FormControl>
-
-                    <FormControl>
-                      <Checkbox
-                        id="loop"
-                        name="loop"
-                        onChange={handleChange}
-                        isChecked={values.loop}
-                      >
-                        Loop
-                      </Checkbox>
-                      <FormHelperText>Loop the presentation</FormHelperText>
-                    </FormControl>
-
-                    <FormControl>
-                      <FormLabel htmlFor="theme">Controls Layout</FormLabel>
-                      <Select
-                        id="controlsLayout"
-                        name="controlsLayout"
-                        onChange={handleChange}
-                        value={values.controlsLayout}
-                      >
-                        {controlsLayoutOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </Select>
-                      <FormHelperText>
-                        Determines where controls appear
-                      </FormHelperText>
-                    </FormControl>
+                    {selectSettings.map((item) => {
+                      return (
+                        <FormControl>
+                          <FormLabel>{item.label}</FormLabel>
+                          <Select
+                            id={item.name}
+                            name={item.name}
+                            onChange={handleChange}
+                            value={values[item.name]}
+                          >
+                            {item.options.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </Select>
+                          <FormHelperText>{item.description}</FormHelperText>
+                        </FormControl>
+                      );
+                    })}
                   </VStack>
                 </DrawerBody>
 
