@@ -7,8 +7,12 @@ export default function SideBar() {
     <Box
       bg={useColorModeValue("latte-crust", "frappe-crust")}
       fontSize="2xl"
-      h="full"
       w="5rem"
+      position="fixed"
+      top={5}
+      left={5}
+      rounded="2xl"
+      overflow="hidden"
     >
       <PresentationSettings />
       <StyleSettings />
