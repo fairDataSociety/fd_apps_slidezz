@@ -9,8 +9,8 @@ export default function SideBar() {
       fontSize="2xl"
       w="5rem"
       position="fixed"
-      top={5}
-      left={5}
+      top={2}
+      left={9}
       rounded="2xl"
       overflow="hidden"
     >

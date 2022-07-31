@@ -38,6 +38,7 @@ const Login: NextPage = () => {
       onSubmit={async (values) => {
         try {
           await fdp.account.login(values.username, values.password);
+
           toast.closeAll();
           router.push("/");
         } catch (error: any) {
