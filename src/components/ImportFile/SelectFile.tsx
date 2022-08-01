@@ -11,7 +11,7 @@ import { fdpAtom } from "../../store";
 import { useEffect, useState } from "react";
 import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
 import type { DirectoryItem } from "@fairdatasociety/fdp-storage/dist/content-items/directory-item";
-import { join } from "path";
+import { join, extname } from "path";
 import { AiFillFolder, AiOutlineFile } from "react-icons/ai";
 import ItemBox from "./ItemBox";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -19,9 +19,14 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 interface SelectFileProps {
   pod: Pod;
   setFilePath: (filePath: string) => void;
+  allowedExtensions?: string[];
 }
 
-export default function SelectFile({ pod, setFilePath }: SelectFileProps) {
+export default function SelectFile({
+  pod,
+  setFilePath,
+  allowedExtensions,
+}: SelectFileProps) {
   const [path, setPath] = useState("/");
   const [fdp] = useAtom(fdpAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,14 +84,21 @@ export default function SelectFile({ pod, setFilePath }: SelectFileProps) {
               onClick={() => setPath(join(path, dir.name))}
             />
           ))}
-          {items?.getFiles().map((file) => (
-            <ItemBox
-              key={file.name}
-              text={file.name}
-              icon={AiOutlineFile}
-              onClick={() => setFilePath(join(path, file.name))}
-            />
-          ))}
+          {items?.getFiles().map((file) => {
+            const fileExtension = extname(file.name).slice(1);
+
+            if (allowedExtensions && !allowedExtensions.includes(fileExtension))
+              return null;
+
+            return (
+              <ItemBox
+                key={file.name}
+                text={file.name}
+                icon={AiOutlineFile}
+                onClick={() => setFilePath(join(path, file.name))}
+              />
+            );
+          })}
         </VStack>
       ) : (
         <Text align="center">No file/folder found.</Text>

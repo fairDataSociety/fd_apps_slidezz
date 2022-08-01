@@ -5,15 +5,25 @@ import type { Data } from "@ethersphere/bee-js";
 interface ImportFileProps {
   setData: (data: Data) => void;
   children: React.ReactNode;
+  allowedExtensions?: string[];
 }
 
-export default function ImportFile({ children, setData }: ImportFileProps) {
+export default function ImportFile({
+  children,
+  setData,
+  allowedExtensions,
+}: ImportFileProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Box onClick={onOpen}>{children}</Box>
-      <ImportFileModal setData={setData} isOpen={isOpen} onClose={onClose} />
+      <ImportFileModal
+        setData={setData}
+        isOpen={isOpen}
+        onClose={onClose}
+        allowedExtensions={allowedExtensions}
+      />
     </>
   );
 }

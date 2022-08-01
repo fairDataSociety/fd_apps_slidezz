@@ -16,7 +16,7 @@ import SideBarItem from "../../SideBar/SideBarItem";
 import { Formik, Form } from "formik";
 import { useAtom } from "jotai";
 import { styleSettingsAtom } from "../../../store";
-import ColorSelect from "./ColorSelect";
+import SelectColor from "./SelectColor";
 
 export default function PresentationSettings() {
   const [styleSettings, setStyleSettings] = useAtom(styleSettingsAtom);
@@ -43,7 +43,7 @@ export default function PresentationSettings() {
                 <DrawerHeader as="h2">Style settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
-                    <ColorSelect />
+                    <SelectColor />
                   </VStack>
                 </DrawerBody>
 

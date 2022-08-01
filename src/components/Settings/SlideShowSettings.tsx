@@ -21,7 +21,7 @@ import SideBarItem from "../SideBar/SideBarItem";
 import { Formik, Form } from "formik";
 import { useAtom } from "jotai";
 import { slideShowSettingsAtom } from "../../store";
-import { checkBoxSettings, selectSettings } from "../../settings";
+import { checkBoxSettings, selectSettings } from "../../config/slide-settings";
 
 export default function SlideShowSettings() {
   const [slideShowSettings, setSlideShowSettings] = useAtom(

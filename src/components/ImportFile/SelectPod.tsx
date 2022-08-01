@@ -1,4 +1,4 @@
-import { Spinner, VStack, Center, Text } from "@chakra-ui/react";
+import { Spinner, VStack, Center, Text, useToast } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ interface SelectPodProps {
 }
 
 export default function SelectPod({ setPod }: SelectPodProps) {
+  const toast = useToast();
   const [fdp] = useAtom(fdpAtom);
   const [pods, setPods] = useState<Pod[]>();
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +22,15 @@ export default function SelectPod({ setPod }: SelectPodProps) {
       .list()
       .then((pods) => {
         setPods(pods);
+      })
+      .catch((error: any) => {
+        toast({
+          title: "Failed to load pods",
+          description: error.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       })
       .finally(() => {
         setIsLoading(false);

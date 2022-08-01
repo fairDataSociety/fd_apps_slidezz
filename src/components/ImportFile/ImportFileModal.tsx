@@ -27,12 +27,14 @@ interface ImportFileModalProps {
   isOpen: boolean;
   onClose: () => void;
   setData: (data: Data) => void;
+  allowedExtensions?: string[];
 }
 
 export default function ImportFileModal({
   isOpen,
   onClose,
   setData,
+  allowedExtensions,
 }: ImportFileModalProps) {
   const toast = useToast();
   const [fdp] = useAtom(fdpAtom);
@@ -41,7 +43,7 @@ export default function ImportFileModal({
   const toastBg = useColorModeValue("latte-surface2", "frappe-surface2");
   const tooltipBg = useColorModeValue("latte-overlay1", "frappe-overlay1");
 
-  const handleClose = () => {
+  const handleModalClose = () => {
     setPod(undefined);
     setFilePath(undefined);
     onClose();
@@ -50,7 +52,7 @@ export default function ImportFileModal({
   useEffect(() => {
     if (pod && filePath) {
       const fullFilePath = filePath;
-      handleClose();
+      handleModalClose();
 
       toast({
         duration: null,
@@ -83,7 +85,11 @@ export default function ImportFileModal({
   }, [pod, filePath]);
 
   return (
-    <Modal size="2xl" isOpen={isOpen} onClose={handleClose}>
+    <Modal
+      size={{ sm: "md", md: "2xl" }}
+      isOpen={isOpen}
+      onClose={handleModalClose}
+    >
       <ModalOverlay />
       <ModalContent bg={useColorModeValue("latte-crust", "frappe-crust")}>
         <ModalHeader>Select a {pod ? "File" : "Pod"}</ModalHeader>
@@ -104,7 +110,11 @@ export default function ImportFileModal({
           )}
           <Box h="300px">
             {pod ? (
-              <SelectFile pod={pod} setFilePath={setFilePath} />
+              <SelectFile
+                pod={pod}
+                setFilePath={setFilePath}
+                allowedExtensions={allowedExtensions}
+              />
             ) : (
               <SelectPod setPod={setPod} />
             )}

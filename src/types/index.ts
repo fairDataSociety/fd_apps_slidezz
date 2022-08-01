@@ -1,4 +1,4 @@
-import { slideThemes } from "../slide-themes";
+import { slideThemes } from "../config/slide-themes";
 
 export interface SlideShowSettings {
   controls: boolean;

@@ -46,7 +46,7 @@ const Home: NextPage = () => {
         {slides ? (
           <SlideShow slides={slides} />
         ) : (
-          <ImportFile setData={setSlides}>
+          <ImportFile setData={setSlides} allowedExtensions={["md"]}>
             <HStack
               bg={importFileBoxBg}
               p={10}

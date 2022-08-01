@@ -23,7 +23,7 @@ export default function SideBar() {
     >
       <PresentationSettings />
       <StyleSettings />
-      <ImportFile setData={setSlides}>
+      <ImportFile setData={setSlides} allowedExtensions={["md"]}>
         <SideBarItem label="Import a Markdown file" icon={BsMarkdown} />
       </ImportFile>
     </Box>
