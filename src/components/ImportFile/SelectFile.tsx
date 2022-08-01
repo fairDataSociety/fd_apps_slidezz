@@ -1,12 +1,4 @@
-import {
-  Spinner,
-  Box,
-  VStack,
-  Center,
-  Icon,
-  HStack,
-  Text,
-} from "@chakra-ui/react";
+import { Spinner, VStack, Center, Text } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { useEffect, useState } from "react";
@@ -14,13 +6,14 @@ import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
 import type { DirectoryItem } from "@fairdatasociety/fdp-storage/dist/content-items/directory-item";
 import { join } from "path";
 import { AiFillFolder, AiOutlineFile } from "react-icons/ai";
+import ItemBox from "./ItemBox";
 
 interface SelectFileProps {
   pod: Pod;
-  setFile: (file: string) => void;
+  setFilePath: (filePath: string) => void;
 }
 
-export default function SelectFile({ pod, setFile }: SelectFileProps) {
+export default function SelectFile({ pod, setFilePath }: SelectFileProps) {
   const [path, setPath] = useState("/");
   const [fdp] = useAtom(fdpAtom);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +36,7 @@ export default function SelectFile({ pod, setFile }: SelectFileProps) {
 
   return (
     <>
+      <Text mb={3}>Dir: {path}</Text>
       {isLoading ? (
         <Center>
           <Spinner />
@@ -50,36 +44,18 @@ export default function SelectFile({ pod, setFile }: SelectFileProps) {
       ) : items ? (
         <VStack align="stretch" gap={2}>
           {items?.getDirectories().map((dir) => (
-            <Box
-              bg="gray.100"
-              _hover={{
-                bg: "gray.300",
-              }}
-              p={5}
-              rounded="xl"
-              cursor="pointer"
+            <ItemBox
+              text={dir.name}
+              icon={AiFillFolder}
               onClick={() => setPath(join(path, dir.name))}
-            >
-              <HStack>
-                <Icon as={AiFillFolder} /> <Text>{dir.name}</Text>
-              </HStack>
-            </Box>
+            />
           ))}
           {items?.getFiles().map((file) => (
-            <Box
-              bg="gray.100"
-              _hover={{
-                bg: "gray.300",
-              }}
-              p={5}
-              rounded="xl"
-              cursor="pointer"
-              onClick={() => setFile(join(path, file.name))}
-            >
-              <HStack>
-                <Icon as={AiOutlineFile} /> <Text>{file.name}</Text>
-              </HStack>
-            </Box>
+            <ItemBox
+              text={file.name}
+              icon={AiOutlineFile}
+              onClick={() => setFilePath(join(path, file.name))}
+            />
           ))}
         </VStack>
       ) : (

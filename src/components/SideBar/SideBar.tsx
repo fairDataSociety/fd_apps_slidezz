@@ -1,8 +1,15 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
+import { useAtom } from "jotai";
+import { slidesAtom } from "../../store";
+import ImportFile from "../ImportFile/ImportFile";
 import PresentationSettings from "../Settings/SlideShowSettings";
 import StyleSettings from "../Settings/StyleSettings/StyleSettings";
+import SideBarItem from "./SideBarItem";
+import { BsMarkdown } from "react-icons/bs";
 
 export default function SideBar() {
+  const [_, setSlides] = useAtom(slidesAtom);
+
   return (
     <Box
       bg={useColorModeValue("latte-crust", "frappe-crust")}
@@ -16,6 +23,9 @@ export default function SideBar() {
     >
       <PresentationSettings />
       <StyleSettings />
+      <ImportFile setData={setSlides}>
+        <SideBarItem label="Import a Markdown file" icon={BsMarkdown} />
+      </ImportFile>
     </Box>
   );
 }

@@ -2,7 +2,7 @@ import { Tooltip, Center, Icon, useColorModeValue } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
 interface SideBarItemInterface {
-  onClick: () => void;
+  onClick?: () => void;
   icon: IconType;
   label: string;
 }

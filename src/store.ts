@@ -1,7 +1,8 @@
 import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
 import { FdpStorage } from "@fairdatasociety/fdp-storage";
-import { SlideShowSettings, StyleSettings } from "./types";
+import { SlideShowSettings, StyleSettings } from "../src/types";
+import type { Data } from "@ethersphere/bee-js";
 
 const initialSettings: SlideShowSettings = {
   controls: true,
@@ -34,11 +35,11 @@ const fdp = new FdpStorage(
   {
     ensOptions: {
       performChecks: true,
-      rpcUrl: "http://localhost:8545",
+      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL as string,
       contractAddresses: {
-        fdsRegistrar: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-        ensRegistry: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-        publicResolver: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        fdsRegistrar: process.env.NEXT_PUBLIC_FDS_REGISTRAR as string,
+        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY as string,
+        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER as string,
       },
     },
     ensDomain: "fds",
@@ -46,3 +47,5 @@ const fdp = new FdpStorage(
 );
 
 export const fdpAtom = atom(fdp);
+
+export const slidesAtom = atom<Data | undefined>(undefined);

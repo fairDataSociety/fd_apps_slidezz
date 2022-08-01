@@ -1,6 +1,6 @@
 import { SimpleGrid, Box, Heading, Icon } from "@chakra-ui/react";
 import { useFormikContext } from "formik";
-import { StyleSettings } from "../../../store";
+import { StyleSettings } from "../../../types";
 import { slideThemes } from "../../../slide-themes";
 import { AiFillCheckCircle } from "react-icons/ai";
 

@@ -1,7 +1,6 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider, Box, HStack } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import NavBar from "../components/NavBar/NavBar";
-import SideBar from "../components/SideBar/SideBar";
 import theme from "../theme";
 
 import "reveal.js/dist/reveal.css";

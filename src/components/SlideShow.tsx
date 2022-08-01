@@ -5,8 +5,13 @@ import Reveal from "reveal.js";
 //@ts-ignore
 import Markdown from "reveal.js/plugin/markdown/markdown";
 import { slideShowSettingsAtom, styleSettingsAtom } from "../store";
+import type { Data } from "@ethersphere/bee-js";
 
-export default function SlideShow() {
+interface SlideShowProps {
+  slides: Data;
+}
+
+export default function SlideShow({ slides }: SlideShowProps) {
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
 
@@ -38,17 +43,7 @@ export default function SlideShow() {
       <Box className="reveal">
         <Box className="slides">
           <section data-markdown="" data-separator="---">
-            <textarea
-              data-template
-              defaultValue="
-              ## Slide 1
-              A paragraph with some text and a [link](http://hakim.se).
-              ---
-              ## Slide 2
-              ---
-              ## Slide 3
-            "
-            />
+            <textarea data-template defaultValue={slides.text()} />
           </section>
         </Box>
       </Box>
