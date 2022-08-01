@@ -31,6 +31,7 @@ const Login: NextPage = () => {
   const router = useRouter();
   const toast = useToast();
   const [fdp] = useAtom(fdpAtom);
+  const loginBoxBg = useColorModeValue("latte-crust", "frappe-crust");
 
   return (
     <Formik
@@ -76,7 +77,7 @@ const Login: NextPage = () => {
             </VStack>
 
             <VStack
-              bg={useColorModeValue("latte-crust", "frappe-crust")}
+              bg={loginBoxBg}
               p={8}
               rounded="lg"
               boxShadow="lg"
@@ -115,7 +116,7 @@ const Login: NextPage = () => {
                 Login
               </Button>
               <Text align="center" variant="subtext">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link href="https://fairdrive.vercel.app/register" isExternal>
                   Register
                 </Link>

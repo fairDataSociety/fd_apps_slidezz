@@ -36,6 +36,7 @@ export default function SelectPod({ setPod }: SelectPodProps) {
       ) : pods && pods.length > 0 ? (
         pods.map((pod) => (
           <ItemBox
+            key={pod.name}
             text={pod.name}
             icon={AiOutlineInbox}
             onClick={() => setPod(pod)}

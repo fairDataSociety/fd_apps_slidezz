@@ -11,6 +11,8 @@ import {
   Spinner,
   Text,
   useColorModeValue,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
@@ -19,6 +21,7 @@ import SelectFile from "./SelectFile";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import type { Data } from "@ethersphere/bee-js";
+import { AiOutlineInbox } from "react-icons/ai";
 
 interface ImportFileModalProps {
   isOpen: boolean;
@@ -35,6 +38,8 @@ export default function ImportFileModal({
   const [fdp] = useAtom(fdpAtom);
   const [pod, setPod] = useState<Pod>();
   const [filePath, setFilePath] = useState<string>();
+  const toastBg = useColorModeValue("latte-surface2", "frappe-surface2");
+  const tooltipBg = useColorModeValue("latte-overlay1", "frappe-overlay1");
 
   const handleClose = () => {
     setPod(undefined);
@@ -50,11 +55,7 @@ export default function ImportFileModal({
       toast({
         duration: null,
         render: () => (
-          <HStack
-            fontSize="xl"
-            bg={useColorModeValue("latte-surface2", "frappe-surface2")}
-            p={3}
-          >
+          <HStack fontSize="xl" bg={toastBg} p={3}>
             <Spinner size="sm" />
             <Text>Loading File</Text>
           </HStack>
@@ -62,7 +63,7 @@ export default function ImportFileModal({
       });
 
       fdp.file
-        .downloadData(pod.name, fullFilePath + "dewd")
+        .downloadData(pod.name, fullFilePath)
         .then((data) => {
           setData(data);
           toast.closeAll();
@@ -88,7 +89,19 @@ export default function ImportFileModal({
         <ModalHeader>Select a {pod ? "File" : "Pod"}</ModalHeader>
         <ModalCloseButton />
         <ModalBody my={2} overflowY="scroll">
-          {pod && <Text mb={3}>Pod: {pod.name}</Text>}
+          {pod && (
+            <HStack mb={3}>
+              <Tooltip bg={tooltipBg} hasArrow label="Select another pod">
+                <IconButton
+                  size="sm"
+                  icon={<AiOutlineInbox />}
+                  aria-label="pod"
+                  onClick={() => setPod(undefined)}
+                />
+              </Tooltip>
+              <Text>Pod: {pod.name}</Text>
+            </HStack>
+          )}
           <Box h="300px">
             {pod ? (
               <SelectFile pod={pod} setFilePath={setFilePath} />

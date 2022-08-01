@@ -74,6 +74,19 @@ const theme = extendTheme(
           variant: "primary",
         },
       },
+      Tooltip: {
+        variants: {
+          primary: (props: any) => ({
+            bg: mode("latte-overlay1", "frappe-overlay1")(props),
+            arrow: {
+              bg: "red",
+            },
+          }),
+        },
+        defaultProps: {
+          variant: "primary",
+        },
+      },
     },
   },
   withDefaultProps({

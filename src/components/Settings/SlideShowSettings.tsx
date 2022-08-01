@@ -28,6 +28,7 @@ export default function SlideShowSettings() {
     slideShowSettingsAtom
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const settingBg = useColorModeValue("latte-crust", "frappe-crust");
 
   return (
     <>
@@ -48,16 +49,14 @@ export default function SlideShowSettings() {
         >
           {({ handleSubmit, handleChange, values }) => (
             <Form onSubmit={handleSubmit}>
-              <DrawerContent
-                bg={useColorModeValue("latte-crust", "frappe-crust")}
-              >
+              <DrawerContent bg={settingBg}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>
                   <VStack align="stretch" gap={5}>
-                    {checkBoxSettings.map((item) => {
+                    {checkBoxSettings.map((item, i) => {
                       return (
-                        <FormControl key={item.name}>
+                        <FormControl key={i}>
                           <Checkbox
                             id={item.name}
                             name={item.name}
@@ -71,9 +70,9 @@ export default function SlideShowSettings() {
                       );
                     })}
 
-                    {selectSettings.map((item) => {
+                    {selectSettings.map((item, i) => {
                       return (
-                        <FormControl>
+                        <FormControl key={i}>
                           <FormLabel>{item.label}</FormLabel>
                           <Select
                             id={item.name}

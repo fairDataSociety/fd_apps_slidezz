@@ -21,6 +21,7 @@ import ColorSelect from "./ColorSelect";
 export default function PresentationSettings() {
   const [styleSettings, setStyleSettings] = useAtom(styleSettingsAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const settingBg = useColorModeValue("latte-crust", "frappe-crust");
 
   return (
     <>
@@ -37,9 +38,7 @@ export default function PresentationSettings() {
         >
           {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
-              <DrawerContent
-                bg={useColorModeValue("latte-crust", "frappe-crust")}
-              >
+              <DrawerContent bg={settingBg}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Style settings</DrawerHeader>
                 <DrawerBody mt={5}>

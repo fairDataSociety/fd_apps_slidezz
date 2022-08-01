@@ -1,4 +1,11 @@
-import { Spinner, VStack, Center, Text } from "@chakra-ui/react";
+import {
+  Spinner,
+  VStack,
+  Center,
+  Text,
+  HStack,
+  IconButton,
+} from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { useEffect, useState } from "react";
@@ -7,6 +14,7 @@ import type { DirectoryItem } from "@fairdatasociety/fdp-storage/dist/content-it
 import { join } from "path";
 import { AiFillFolder, AiOutlineFile } from "react-icons/ai";
 import ItemBox from "./ItemBox";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 interface SelectFileProps {
   pod: Pod;
@@ -20,23 +28,43 @@ export default function SelectFile({ pod, setFilePath }: SelectFileProps) {
   const [items, setItems] = useState<DirectoryItem>();
 
   useEffect(() => {
+    let canceled = false;
+
     setIsLoading(true);
     fdp.directory
       .read(pod.name, path)
       .then((items) => {
-        setItems(items);
+        if (!canceled) setItems(items);
       })
       .catch(() => {
-        setItems(undefined);
+        if (!canceled) setItems(undefined);
       })
       .finally(() => {
         setIsLoading(false);
       });
+
+    return () => {
+      canceled = true;
+    };
   }, [pod, path]);
 
   return (
     <>
-      <Text mb={3}>Dir: {path}</Text>
+      <HStack mb={3}>
+        <IconButton
+          isDisabled={path === "/" || isLoading}
+          onClick={() => {
+            const pathArray = path.split("/");
+            let newPath = pathArray.slice(0, pathArray.length - 1).join("/");
+            if (newPath === "") newPath = "/";
+            setPath(newPath);
+          }}
+          size="sm"
+          aria-label="back"
+          icon={<ArrowBackIcon />}
+        />
+        <Text>Dir: {path}</Text>
+      </HStack>
       {isLoading ? (
         <Center>
           <Spinner />
@@ -45,6 +73,7 @@ export default function SelectFile({ pod, setFilePath }: SelectFileProps) {
         <VStack align="stretch" gap={2}>
           {items?.getDirectories().map((dir) => (
             <ItemBox
+              key={dir.name}
               text={dir.name}
               icon={AiFillFolder}
               onClick={() => setPath(join(path, dir.name))}
@@ -52,6 +81,7 @@ export default function SelectFile({ pod, setFilePath }: SelectFileProps) {
           ))}
           {items?.getFiles().map((file) => (
             <ItemBox
+              key={file.name}
               text={file.name}
               icon={AiOutlineFile}
               onClick={() => setFilePath(join(path, file.name))}

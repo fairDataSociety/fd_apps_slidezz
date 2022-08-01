@@ -24,6 +24,7 @@ const Home: NextPage = () => {
   const [fdp] = useAtom(fdpAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
   const router = useRouter();
+  const importFileBoxBg = useColorModeValue("latte-crust", "frappe-crust");
 
   useEffect(() => {
     if (!fdp.account.wallet) {
@@ -47,7 +48,7 @@ const Home: NextPage = () => {
         ) : (
           <ImportFile setData={setSlides}>
             <HStack
-              bg={useColorModeValue("latte-crust", "frappe-crust")}
+              bg={importFileBoxBg}
               p={10}
               rounded="lg"
               fontSize="xl"
