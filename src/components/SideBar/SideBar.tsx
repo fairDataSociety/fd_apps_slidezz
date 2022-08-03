@@ -6,6 +6,7 @@ import PresentationSettings from "../Settings/SlideShowSettings";
 import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 import SideBarItem from "./SideBarItem";
 import { BsMarkdown } from "react-icons/bs";
+import ImportImage from "../AddImage/AddImage";
 
 export default function SideBar() {
   const [_, setSlides] = useAtom(slidesAtom);
@@ -14,11 +15,11 @@ export default function SideBar() {
     <Box
       bg={useColorModeValue("latte-crust", "frappe-crust")}
       fontSize="2xl"
-      w="5rem"
       position="fixed"
-      top={2}
-      left={9}
-      rounded="2xl"
+      w="5rem"
+      left={0}
+      top={0}
+      borderBottomRightRadius="lg"
       overflow="hidden"
     >
       <PresentationSettings />
@@ -26,6 +27,8 @@ export default function SideBar() {
       <ImportFile setData={setSlides} allowedExtensions={["md"]}>
         <SideBarItem label="Import a Markdown file" icon={BsMarkdown} />
       </ImportFile>
+
+      <ImportImage />
     </Box>
   );
 }

@@ -38,7 +38,7 @@ export const checkBoxSettings: CheckBoxSettings[] = [
 ];
 
 interface SelectSettings {
-  name: "controlsLayout" | "controlsBackArrows";
+  name: "controlsLayout" | "controlsBackArrows" | "slidesLogoPosition";
   label: string;
   description: string;
   options: string[];
@@ -56,5 +56,11 @@ export const selectSettings: SelectSettings[] = [
     label: "Controls Back Arrows",
     description: "Visibility rule for backwards navigation arrows",
     options: ["faded", "hidden", "visible"],
+  },
+  {
+    name: "slidesLogoPosition",
+    label: "Slides Logo/Copyright Image Position",
+    description: "Determines where the logo/copyright image appears",
+    options: ["top-left", "top-right", "bottom-left", "bottom-right"],
   },
 ];

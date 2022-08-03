@@ -83,7 +83,7 @@ const Login: NextPage = () => {
               boxShadow="lg"
               align="stretch"
               gap={3}
-              w={{ base: "sm", md: "md", lg: "lg" }}
+              w={["xs", "sm", "md", "lg"]}
             >
               <FormControl
                 isRequired

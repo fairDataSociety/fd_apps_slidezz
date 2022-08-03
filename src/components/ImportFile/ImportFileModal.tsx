@@ -86,6 +86,7 @@ export default function ImportFileModal({
 
   return (
     <Modal
+      closeOnOverlayClick={false}
       size={{ sm: "md", md: "2xl" }}
       isOpen={isOpen}
       onClose={handleModalClose}

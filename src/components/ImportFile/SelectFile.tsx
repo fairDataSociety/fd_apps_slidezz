@@ -31,6 +31,7 @@ export default function SelectFile({
   const [fdp] = useAtom(fdpAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState<DirectoryItem>();
+  const isItemsAvailable = !!items && items.content.length > 0;
 
   useEffect(() => {
     let canceled = false;
@@ -74,7 +75,7 @@ export default function SelectFile({
         <Center>
           <Spinner />
         </Center>
-      ) : items ? (
+      ) : isItemsAvailable ? (
         <VStack align="stretch" gap={2}>
           {items?.getDirectories().map((dir) => (
             <ItemBox

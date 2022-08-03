@@ -4,7 +4,7 @@ import { IoLogoGithub } from "react-icons/io5";
 
 export default function NavBar() {
   return (
-    <HStack fontSize="lg" gap={10} flexDir="row-reverse" py={4} px={10} h="9vh">
+    <HStack fontSize="lg" gap={10} flexDir="row-reverse" py={4} px={10}>
       <ThemeToggleButton />
       <Link
         href="https://github.com/soheil555/fairdrive-apps-slideshow"

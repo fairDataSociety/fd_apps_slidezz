@@ -13,6 +13,7 @@ const initialSettings: SlideShowSettings = {
   slideNumber: false,
   controlsLayout: "bottom-right",
   controlsBackArrows: "faded",
+  slidesLogoPosition: "top-left",
 };
 
 export const slideShowSettingsAtom = atomWithStorage(
@@ -49,3 +50,5 @@ const fdp = new FdpStorage(
 export const fdpAtom = atom(fdp);
 
 export const slidesAtom = atom<Data | undefined>(undefined);
+
+export const slidesLogoAtom = atom<Data | undefined>(undefined);

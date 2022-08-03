@@ -7,6 +7,7 @@ import {
   useColorModeValue,
   Text,
   Icon,
+  Stack,
 } from "@chakra-ui/react";
 import SideBar from "../components/SideBar/SideBar";
 import { useAtom } from "jotai";
@@ -40,16 +41,20 @@ const Home: NextPage = () => {
     );
 
   return (
-    <HStack h="91vh">
+    <HStack h="80vh">
       <SideBar />
       <Center h="full" w="full">
         {slides ? (
           <SlideShow slides={slides} />
         ) : (
           <ImportFile setData={setSlides} allowedExtensions={["md"]}>
-            <HStack
+            <Stack
+              direction={{ base: "column", md: "row" }}
+              align="center"
+              textAlign="center"
               bg={importFileBoxBg}
-              p={10}
+              p={{ base: 3, md: 10 }}
+              w={{ base: "20rem", sm: "full" }}
               rounded="lg"
               fontSize="xl"
               cursor="pointer"
@@ -59,7 +64,7 @@ const Home: NextPage = () => {
             >
               <Text>Select a Markdown file from Fairdrive.</Text>
               <Icon fontSize="4xl" as={AiFillFileMarkdown} />
-            </HStack>
+            </Stack>
           </ImportFile>
         )}
       </Center>

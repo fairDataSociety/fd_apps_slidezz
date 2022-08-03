@@ -9,6 +9,7 @@ export interface SlideShowSettings {
   slideNumber: boolean;
   controlsLayout: "edges" | "bottom-right";
   controlsBackArrows: "faded" | "hidden" | "visible";
+  slidesLogoPosition: "top-left" | "top-right" | "bottom-left" | "bottom-right";
 }
 
 export interface StyleSettings {

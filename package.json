@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen:theme-typings": "chakra-cli tokens ./theme",
+    "gen:theme-typings": "chakra-cli tokens ./src/theme",
     "postinstall": "npm run gen:theme-typings"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@fairdatasociety/fdp-storage": "^0.2.1",
+    "chakra-ui-steps": "^1.7.3",
     "formik": "^2.2.9",
     "framer-motion": "^6",
     "jotai": "^1.7.5",
