@@ -1,8 +1,6 @@
 # Fair Drive Apps Slideshow
 
-a Slideshow dapp that connects to Fairdrive.
-
-
+A slideshow dapp that connects to Fairdrive.
 
 ## Installation
 
@@ -16,26 +14,22 @@ a Slideshow dapp that connects to Fairdrive.
    yarn
    ```
 
- 4. Run the development server
+4. Run the development server
 
-    ```bash
-    yarn dev
-    ```
+   ```bash
+   yarn dev
+   ```
 
- 5. Build and start the server
+5. Build and start the server
 
-    ```bash
-    yarn build
-    yarn start
-    ```
-
-    
+   ```bash
+   yarn build
+   yarn start
+   ```
 
 ## Configuration
 
 Create an `.env` file in the root directory and set the following properties:
-
-
 
 you can copy the `.env.example` file:
 
@@ -43,14 +37,9 @@ you can copy the `.env.example` file:
 cp .env.example .env
 ```
 
-
-
 - **NEXT_PUBLIC_BEE_URL** - Address of a bee node
 - **NEXT_PUBLIC_BEE_DEBUG_URL** - Address of bee debug API
 - **NEXT_PUBLIC_RPC_URL** - Address of RPC provider
 - **NEXT_PUBLIC_FDS_REGISTRAR** - FDS registrar contract address
 - **NEXT_PUBLIC_ENS_REGISTRY** - ENS Registry contract address
 - **NEXT_PUBLIC_PUBLIC_RESOLVER** - Public Resolver contract address
-
-
-
