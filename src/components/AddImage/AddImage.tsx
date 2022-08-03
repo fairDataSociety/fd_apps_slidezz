@@ -56,6 +56,7 @@ export default function AddImage() {
 
   const handleClose = () => {
     setImageType(undefined);
+    setImage(undefined);
     reset();
     onClose();
   };

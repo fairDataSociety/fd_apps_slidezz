@@ -78,8 +78,9 @@ export default function SlideShow({ slides }: SlideShowProps) {
           <Image
             position="absolute"
             {...getLogoPosition()}
-            h={50}
-            w={50}
+            h={{ base: "10px", sm: "20px", md: "30px", lg: "50px" }}
+            w={{ base: "10px", sm: "20px", md: "30px", lg: "50px" }}
+            objectFit="cover"
             src={URL.createObjectURL(new Blob([slidesLogo.buffer]))}
           />
         )}

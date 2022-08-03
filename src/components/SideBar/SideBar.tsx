@@ -14,7 +14,7 @@ export default function SideBar() {
   return (
     <Box
       bg={useColorModeValue("latte-crust", "frappe-crust")}
-      fontSize="2xl"
+      fontSize={{ base: "xl", md: "2xl" }}
       position="fixed"
       w="5rem"
       left={0}
