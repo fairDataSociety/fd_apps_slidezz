@@ -14,16 +14,18 @@ import {
   useColorModeValue,
   Image,
   VStack,
+  Text,
 } from "@chakra-ui/react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelectImageType from "./SelectImageType";
 import type { Data } from "@ethersphere/bee-js";
 import ImportFile from "../ImportFile/ImportFile";
 import { BiImageAdd } from "react-icons/bi";
 import { ImageType } from "../../constants/image-type";
 import { useAtom } from "jotai";
-import { slidesLogoAtom } from "../../store";
+import { slidesAtom, slidesLogoAtom } from "../../store";
+import SetImagePosition from "./SetImagePosition";
 
 const steps = [
   { label: "Choose image type" },
@@ -32,7 +34,9 @@ const steps = [
 ];
 
 export default function AddImage() {
-  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
+  const [slides, setSlides] = useAtom(slidesAtom);
+  const [tmpSlides, setTmpSlides] = useState<string | undefined>();
+  const [_, setSlidesLogo] = useAtom(slidesLogoAtom);
   const [imageType, setImageType] = useState<ImageType>();
   const [image, setImage] = useState<Data>();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -43,6 +47,12 @@ export default function AddImage() {
     base: "vertical",
     md: "horizontal",
   }) as "horizontal" | "vertical";
+
+  useEffect(() => {
+    if (slides) {
+      setTmpSlides(slides);
+    }
+  }, [slides]);
 
   const isNextDisabled = (activeStep: number) => {
     if (activeStep === 0) {
@@ -65,6 +75,10 @@ export default function AddImage() {
     if (imageType === ImageType.LOGO) {
       setSlidesLogo(image);
     } else if (imageType === ImageType.SLIDE) {
+      setSlides(undefined);
+      setTimeout(() => {
+        setSlides(tmpSlides);
+      }, 500);
     }
 
     handleClose();
@@ -127,6 +141,21 @@ export default function AddImage() {
                           )}
                         </VStack>
                       )}
+
+                      {index === 2 ? (
+                        imageType == ImageType.LOGO ? (
+                          <Text w="400px" textAlign="center">
+                            You can change the Logo/Copyright image position in
+                            the presentation settings menu
+                          </Text>
+                        ) : (
+                          <SetImagePosition
+                            image={image!}
+                            tmpSlides={tmpSlides}
+                            setTmpSlides={setTmpSlides}
+                          />
+                        )
+                      ) : null}
                     </Flex>
                   </Step>
                 ))}

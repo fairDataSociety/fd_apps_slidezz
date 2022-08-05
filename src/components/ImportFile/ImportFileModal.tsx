@@ -26,7 +26,7 @@ import { AiOutlineInbox } from "react-icons/ai";
 interface ImportFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setData: (data: Data) => void;
+  setData: (data: Data | undefined) => void;
   allowedExtensions?: string[];
 }
 
@@ -51,6 +51,8 @@ export default function ImportFileModal({
 
   useEffect(() => {
     if (pod && filePath) {
+      setData(undefined);
+
       const fullFilePath = filePath;
       handleModalClose();
 
@@ -87,7 +89,7 @@ export default function ImportFileModal({
   return (
     <Modal
       closeOnOverlayClick={false}
-      size={{ sm: "md", md: "2xl" }}
+      size={{ base: "xs", sm: "md", md: "2xl" }}
       isOpen={isOpen}
       onClose={handleModalClose}
     >

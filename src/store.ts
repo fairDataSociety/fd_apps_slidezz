@@ -49,6 +49,6 @@ const fdp = new FdpStorage(
 
 export const fdpAtom = atom(fdp);
 
-export const slidesAtom = atom<Data | undefined>(undefined);
+export const slidesAtom = atom<string | undefined>(undefined);
 
 export const slidesLogoAtom = atom<Data | undefined>(undefined);

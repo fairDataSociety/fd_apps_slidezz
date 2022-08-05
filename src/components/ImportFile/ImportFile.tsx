@@ -3,7 +3,7 @@ import ImportFileModal from "./ImportFileModal";
 import type { Data } from "@ethersphere/bee-js";
 
 interface ImportFileProps {
-  setData: (data: Data) => void;
+  setData: (data: Data | undefined) => void;
   children: React.ReactNode;
   allowedExtensions?: string[];
 }
