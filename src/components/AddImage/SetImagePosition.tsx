@@ -1,5 +1,5 @@
 import { Button, HStack, IconButton, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import {
   ChevronUpIcon,
@@ -7,6 +7,8 @@ import {
   PlusSquareIcon,
 } from "@chakra-ui/icons";
 import type { Data } from "@ethersphere/bee-js";
+import { useAtom } from "jotai";
+import { slidesAtom } from "../../store";
 
 const SlideShow = dynamic(() => import("../SlideShow"), {
   ssr: false,
@@ -28,8 +30,17 @@ export default function SetImagePosition({
   tmpSlides,
   setTmpSlides,
 }: SetImagePositionProps) {
+  const [slides, setSlides] = useAtom(slidesAtom);
   const [deck, setDeck] = useState<any>();
   const [position, setPosition] = useState<number>();
+
+  useEffect(() => {
+    if (slides) {
+      setTmpSlides(slides);
+    }
+
+    return () => setTmpSlides(undefined);
+  }, [slides]);
 
   const getCurrentSlideLen = () => {
     if (!tmpSlides || !deck) return 0;
@@ -81,7 +92,7 @@ export default function SetImagePosition({
   };
 
   return (
-    <VStack align="stretch" gap={1} w="full" h="500px">
+    <VStack align="stretch" gap={1} w="full" h={{ base: "200px", md: "500px" }}>
       <HStack w="full" h="full">
         <VStack>
           <IconButton

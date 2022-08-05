@@ -44,11 +44,16 @@ export default function SlideShow({
       ...slideShowSettings,
     });
     newDeck.initialize().then(() => {
-      newDeck.layout();
-      newDeck.sync();
       setDeck(newDeck);
     });
   }, []);
+
+  useEffect(() => {
+    if (deck) {
+      deck.layout();
+      deck.sync();
+    }
+  }, [deck]);
 
   useEffect(() => {
     if (deck) deck.configure(slideShowSettings);

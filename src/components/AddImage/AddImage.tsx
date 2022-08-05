@@ -28,8 +28,8 @@ import { slidesAtom, slidesLogoAtom } from "../../store";
 import SetImagePosition from "./SetImagePosition";
 
 const steps = [
-  { label: "Choose image type" },
-  { label: "Choose an image from Fairdrive" },
+  { label: "Select image type" },
+  { label: "Select an image from Fairdrive" },
   { label: "Add Image" },
 ];
 
@@ -48,13 +48,7 @@ export default function AddImage() {
     md: "horizontal",
   }) as "horizontal" | "vertical";
 
-  useEffect(() => {
-    if (slides) {
-      setTmpSlides(slides);
-    }
-  }, [slides]);
-
-  const isNextDisabled = (activeStep: number) => {
+  const isNextStepDisabled = () => {
     if (activeStep === 0) {
       return imageType === undefined;
     } else if (activeStep === 1) {
@@ -67,6 +61,7 @@ export default function AddImage() {
   const handleClose = () => {
     setImageType(undefined);
     setImage(undefined);
+    setTmpSlides(undefined);
     reset();
     onClose();
   };
@@ -75,6 +70,7 @@ export default function AddImage() {
     if (imageType === ImageType.LOGO) {
       setSlidesLogo(image);
     } else if (imageType === ImageType.SLIDE) {
+      //TODO: a better way of handling reveal.js slides re render
       setSlides(undefined);
       setTimeout(() => {
         setSlides(tmpSlides);
@@ -94,7 +90,7 @@ export default function AddImage() {
 
       <Modal
         closeOnOverlayClick={false}
-        size={{ base: "xs", sm: "sm", md: "3xl" }}
+        size={{ base: "xs", sm: "md", md: "3xl" }}
         isOpen={isOpen}
         onClose={handleClose}
       >
@@ -172,7 +168,7 @@ export default function AddImage() {
                   Prev
                 </Button>
                 <Button
-                  isDisabled={isNextDisabled(activeStep)}
+                  isDisabled={isNextStepDisabled()}
                   size="sm"
                   onClick={
                     activeStep === steps.length - 1 ? handleAddImage : nextStep

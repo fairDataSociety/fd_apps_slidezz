@@ -2,6 +2,12 @@
 
 A slideshow dapp that connects to Fairdrive.
 
+
+
+**Slides separator: `---`**
+
+
+
 ## Installation
 
 1. Clone the repo
