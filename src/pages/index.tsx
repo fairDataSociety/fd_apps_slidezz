@@ -53,6 +53,7 @@ const Home: NextPage = () => {
         >
           {slides ? (
             <SlideShow
+              key={slides}
               deckName="mainDeck"
               deck={deck}
               setDeck={setDeck}
@@ -61,7 +62,7 @@ const Home: NextPage = () => {
           ) : (
             <ImportFile
               setData={(data: Data | undefined) => {
-                setSlides(data?.text());
+                if (data) setSlides(data.text());
               }}
               allowedExtensions={["md"]}
             >

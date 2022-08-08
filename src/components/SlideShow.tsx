@@ -46,6 +46,10 @@ export default function SlideShow({
     newDeck.initialize().then(() => {
       setDeck(newDeck);
     });
+
+    return () => {
+      newDeck.destroy();
+    };
   }, []);
 
   useEffect(() => {

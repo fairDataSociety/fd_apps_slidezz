@@ -15,8 +15,8 @@ const SlideShow = dynamic(() => import("../SlideShow"), {
 });
 
 interface State {
-  indexh: number;
-  indexv: number;
+  slideWithImageIndex?: number;
+  imageVerticalPosition?: number;
 }
 
 interface SetImagePositionProps {
@@ -32,7 +32,7 @@ export default function SetImagePosition({
 }: SetImagePositionProps) {
   const [slides, setSlides] = useAtom(slidesAtom);
   const [deck, setDeck] = useState<any>();
-  const [position, setPosition] = useState<number>();
+  const [state, setState] = useState<State>();
 
   useEffect(() => {
     if (slides) {
@@ -45,10 +45,11 @@ export default function SetImagePosition({
   const getCurrentSlideLen = () => {
     if (!tmpSlides || !deck) return 0;
 
-    const state = deck.getState() as State;
     let slidesArray = tmpSlides.split("---");
 
-    let currentSlide = slidesArray[state.indexh]
+    const currentSlideIndex = deck.getState().indexh as number;
+
+    let currentSlide = slidesArray[currentSlideIndex]
       .trim()
       .split("\n")
       .filter((item) => item !== "");
@@ -56,15 +57,13 @@ export default function SetImagePosition({
     return currentSlide.length;
   };
 
-  const addImageToCurrentSlide = (index: number = 0, initial = true) => {
+  const addImageToCurrentSlide = (index: number = 0) => {
     if (!tmpSlides || !deck) return;
 
-    const state = deck.getState() as State;
     let slidesArray = tmpSlides.split("---");
+    const currentSlideIndex = deck.getState().indexh as number;
 
-    setTmpSlides(undefined);
-
-    let currentSlide = slidesArray[state.indexh]
+    let currentSlide = slidesArray[currentSlideIndex]
       .trim()
       .split("\n")
       .filter((item) => item !== "");
@@ -73,42 +72,52 @@ export default function SetImagePosition({
       new Blob([image.buffer])
     )}" />\n`;
 
-    if (!initial)
+    if (state?.imageVerticalPosition !== undefined) {
       currentSlide = currentSlide
-        .slice(0, position!)
-        .concat(currentSlide.slice(position! + 1));
+        .slice(0, state.imageVerticalPosition)
+        .concat(currentSlide.slice(state.imageVerticalPosition + 1));
+    }
 
     currentSlide = currentSlide
       .slice(0, index)
       .concat(newImage)
       .concat(currentSlide.slice(index));
 
-    slidesArray[state.indexh] = currentSlide.join("\n");
+    slidesArray[currentSlideIndex] = currentSlide.join("\n");
 
-    setTimeout(() => {
-      setTmpSlides(slidesArray.join("\n---\n"));
-      setPosition(index);
-    }, 500);
+    setTmpSlides(slidesArray.join("\n---\n"));
+
+    setState({
+      imageVerticalPosition: index,
+      slideWithImageIndex: currentSlideIndex,
+    });
   };
 
   return (
     <VStack align="stretch" gap={1} w="full" h={{ base: "200px", md: "500px" }}>
       <HStack w="full" h="full">
         <VStack>
+          {/* TODO: disable up and down button on slide change */}
           <IconButton
-            isDisabled={position === undefined || position === 0}
+            isDisabled={
+              state?.imageVerticalPosition === undefined ||
+              state.imageVerticalPosition === 0
+            }
             onClick={() => {
-              addImageToCurrentSlide(position! - 1, false);
+              if (!state) return;
+              addImageToCurrentSlide(state.imageVerticalPosition! - 1);
             }}
             aria-label="up"
             icon={<ChevronUpIcon />}
           />
           <IconButton
             isDisabled={
-              position === undefined || position >= getCurrentSlideLen() - 1
+              state?.imageVerticalPosition === undefined ||
+              state.imageVerticalPosition >= getCurrentSlideLen() - 1
             }
             onClick={() => {
-              addImageToCurrentSlide(position! + 1, false);
+              if (!state) return;
+              addImageToCurrentSlide(state.imageVerticalPosition! + 1);
             }}
             aria-label="down"
             icon={<ChevronDownIcon />}
@@ -118,7 +127,11 @@ export default function SetImagePosition({
         <VStack align="stretch" w="full" h="full">
           <HStack>
             <Button
-              isDisabled={!tmpSlides || !deck || position !== undefined}
+              isDisabled={
+                !tmpSlides ||
+                !deck ||
+                state?.imageVerticalPosition !== undefined
+              }
               onClick={() => {
                 addImageToCurrentSlide();
               }}
@@ -130,6 +143,7 @@ export default function SetImagePosition({
           </HStack>
           {tmpSlides && (
             <SlideShow
+              key={tmpSlides}
               deckName="tmpDeck"
               deck={deck}
               setDeck={setDeck}

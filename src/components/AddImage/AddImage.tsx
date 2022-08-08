@@ -70,11 +70,7 @@ export default function AddImage() {
     if (imageType === ImageType.LOGO) {
       setSlidesLogo(image);
     } else if (imageType === ImageType.SLIDE) {
-      //TODO: a better way of handling reveal.js slides re render
-      setSlides(undefined);
-      setTimeout(() => {
-        setSlides(tmpSlides);
-      }, 500);
+      setSlides(tmpSlides);
     }
 
     handleClose();

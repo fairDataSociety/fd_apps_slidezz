@@ -7,6 +7,7 @@ import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 import SideBarItem from "./SideBarItem";
 import { BsMarkdown } from "react-icons/bs";
 import ImportImage from "../AddImage/AddImage";
+import type { Data } from "@ethersphere/bee-js";
 
 export default function SideBar() {
   const [_, setSlides] = useAtom(slidesAtom);
@@ -24,7 +25,12 @@ export default function SideBar() {
     >
       <PresentationSettings />
       <StyleSettings />
-      <ImportFile setData={setSlides} allowedExtensions={["md"]}>
+      <ImportFile
+        setData={(data: Data | undefined) => {
+          if (data) setSlides(data.text());
+        }}
+        allowedExtensions={["md"]}
+      >
         <SideBarItem label="Import a Markdown file" icon={BsMarkdown} />
       </ImportFile>
 
