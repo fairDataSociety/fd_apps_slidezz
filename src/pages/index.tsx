@@ -18,7 +18,7 @@ import { AiFillFileMarkdown } from "react-icons/ai";
 import ImportFile from "../components/ImportFile/ImportFile";
 import type { Data } from "@ethersphere/bee-js";
 
-const SlideShow = dynamic(() => import("../components/SlideShow"), {
+const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
   ssr: false,
 });
 

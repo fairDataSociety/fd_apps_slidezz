@@ -1,7 +1,7 @@
 import { Box, Image, useColorModeValue, Textarea } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import React, { useEffect } from "react";
-import { LogoPositions } from "../constants/logo-positions";
+import React, { useEffect, useState } from "react";
+import { LogoPositions } from "../../constants/logo-positions";
 
 //@ts-ignore
 import Reveal from "reveal.js";
@@ -12,7 +12,7 @@ import {
   slideShowSettingsAtom,
   styleSettingsAtom,
   slidesLogoAtom,
-} from "../store";
+} from "../../store";
 
 interface SlideShowProps {
   deckName: string;
@@ -30,6 +30,9 @@ export default function SlideShow({
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
   const [slidesLogo] = useAtom(slidesLogoAtom);
+  const [targets, setTargets] = useState<HTMLElement[]>();
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     document.body.setAttribute("data-theme", styleSettings.theme);
@@ -45,6 +48,10 @@ export default function SlideShow({
     });
     newDeck.initialize().then(() => {
       setDeck(newDeck);
+      newDeck.layout();
+      newDeck.sync();
+
+      console.log(newDeck.getSlides());
     });
 
     return () => {
@@ -88,6 +95,8 @@ export default function SlideShow({
           />
         )}
       </Box>
+
+      {/* <MoveableManager >ya</MoveableManager> */}
     </Box>
   );
 }

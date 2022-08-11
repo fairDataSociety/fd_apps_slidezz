@@ -10,7 +10,7 @@ import type { Data } from "@ethersphere/bee-js";
 import { useAtom } from "jotai";
 import { slidesAtom } from "../../store";
 
-const SlideShow = dynamic(() => import("../SlideShow"), {
+const SlideShow = dynamic(() => import("../SlideShow/SlideShow"), {
   ssr: false,
 });
 
