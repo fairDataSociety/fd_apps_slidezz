@@ -19,7 +19,9 @@
     "chakra-ui-steps": "^1.7.3",
     "formik": "^2.2.9",
     "framer-motion": "^6",
+    "fscreen": "^1.2.0",
     "jotai": "^1.7.5",
+    "moveable-helper": "^0.4.0",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "@chakra-ui/cli": "^2.1.2",
+    "@types/fscreen": "^1.0.1",
     "@types/node": "18.0.4",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",

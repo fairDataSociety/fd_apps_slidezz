@@ -13,6 +13,9 @@ import {
   styleSettingsAtom,
   slidesLogoAtom,
 } from "../../store";
+import Moveable from "react-moveable";
+import MoveableHelper from "moveable-helper";
+import fscreen from "fscreen";
 
 interface SlideShowProps {
   deckName: string;
@@ -30,9 +33,12 @@ export default function SlideShow({
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
   const [slidesLogo] = useAtom(slidesLogoAtom);
-  const [targets, setTargets] = useState<HTMLElement[]>();
-
-  useEffect(() => {}, []);
+  const [target, setTarget] = useState<HTMLElement>();
+  const [moveableHelper] = useState(() => {
+    return new MoveableHelper();
+  });
+  const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([]);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     document.body.setAttribute("data-theme", styleSettings.theme);
@@ -51,11 +57,40 @@ export default function SlideShow({
       newDeck.layout();
       newDeck.sync();
 
-      console.log(newDeck.getSlides());
+      newDeck.getSlides().forEach((slide: any) => {
+        slide.children.forEach((element: HTMLElement) => {
+          element.addEventListener("click", () => {
+            setTarget(element);
+          });
+        });
+      });
+
+      setElementGuidelines([
+        newDeck.getRevealElement(),
+        newDeck.getSlidesElement(),
+        newDeck.getViewportElement(),
+      ]);
+
+      document.querySelector(".backgrounds")!.addEventListener("click", () => {
+        setTarget(undefined);
+      });
+
+      newDeck.on("slidechanged", () => {
+        setTarget(undefined);
+      });
+
+      newDeck.on("overviewshown", () => {
+        setTarget(undefined);
+      });
+    });
+
+    fscreen.addEventListener("fullscreenchange", () => {
+      setIsFullscreen(fscreen.fullscreenElement !== null);
     });
 
     return () => {
       newDeck.destroy();
+      fscreen.removeEventListener("fullscreenchange", () => {});
     };
   }, []);
 
@@ -96,7 +131,42 @@ export default function SlideShow({
         )}
       </Box>
 
-      {/* <MoveableManager >ya</MoveableManager> */}
+      {target && !isFullscreen ? (
+        <Moveable
+          elementGuidelines={elementGuidelines}
+          target={target}
+          draggable={true}
+          throttleDrag={0}
+          startDragRotate={0}
+          throttleDragRotate={0}
+          zoom={1}
+          origin={true}
+          padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
+          scalable={true}
+          keepRatio={false}
+          throttleScale={0}
+          renderDirections={["nw", "n", "ne", "w", "e", "sw", "s", "se"]}
+          edge={false}
+          snappable={true}
+          verticalGuidelines={[0, 200, 400]}
+          horizontalGuidelines={[0, 200, 400]}
+          snapThreshold={5}
+          isDisplaySnapDigit={true}
+          snapGap={true}
+          snapDirections={{ top: true, right: true, bottom: true, left: true }}
+          elementSnapDirections={{
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+          }}
+          snapDigit={0}
+          onDragStart={moveableHelper.onDragStart}
+          onDrag={moveableHelper.onDrag}
+          onScaleStart={moveableHelper.onScaleStart}
+          onScale={moveableHelper.onScale}
+        />
+      ) : null}
     </Box>
   );
 }
