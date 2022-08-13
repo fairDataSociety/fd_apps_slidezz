@@ -16,6 +16,7 @@ import {
 import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
+import SlideSideBar from "../SlideSideBar/SlideSideBar";
 
 interface SlideShowProps {
   deckName: string;
@@ -121,6 +122,8 @@ export default function SlideShow({
       w="full"
       h="full"
     >
+      <SlideSideBar />
+
       <Box className={`reveal ${deckName}`}>
         <Box className="slides">
           <section data-markdown="" data-separator="---">

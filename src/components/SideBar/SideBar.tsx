@@ -1,17 +1,17 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import { slidesAtom } from "../../store";
+import { slidesAtom, mediaAtom } from "../../store";
 import ImportFile from "../ImportFile/ImportFile";
 import PresentationSettings from "../Settings/SlideShowSettings";
 import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 import SideBarItem from "./SideBarItem";
 import { BsMarkdown } from "react-icons/bs";
-import AddImage from "../AddImage/AddImage";
-import type { Data } from "@ethersphere/bee-js";
-import AddVideo from "../AddVideo/AddVideo";
+import { MdPermMedia } from "react-icons/md";
+import { File } from "../../types";
 
 export default function SideBar() {
   const [_, setSlides] = useAtom(slidesAtom);
+  const [media, setMedia] = useAtom(mediaAtom);
 
   return (
     <Box
@@ -25,17 +25,34 @@ export default function SideBar() {
       <PresentationSettings />
       <StyleSettings />
       <ImportFile
-        setData={(data: Data | undefined) => {
-          if (data) setSlides(data.text());
+        setFile={(file: File | undefined) => {
+          if (file) setSlides(file.data.text());
         }}
         allowedExtensions={["md"]}
       >
-        <SideBarItem label="Import a Markdown file" icon={BsMarkdown} />
+        <SideBarItem
+          label="Import markdown file from Fairdrive"
+          icon={BsMarkdown}
+        />
       </ImportFile>
 
-      <AddImage />
-
-      <AddVideo />
+      <ImportFile
+        setFile={(file: File | undefined) => {
+          if (file) setMedia([...media, file]);
+        }}
+        allowedExtensions={[
+          "png",
+          "jpg",
+          "jpeg",
+          "gif",
+          "svg",
+          "mp4",
+          "webm",
+          "ogg",
+        ]}
+      >
+        <SideBarItem label="Import media from Fairdrive" icon={MdPermMedia} />
+      </ImportFile>
     </Box>
   );
 }

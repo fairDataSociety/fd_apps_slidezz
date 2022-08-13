@@ -1,4 +1,5 @@
 import { slideThemes } from "./config/slide-themes";
+import type { Data } from "@ethersphere/bee-js";
 
 export interface SlideShowSettings {
   controls: boolean;
@@ -14,4 +15,9 @@ export interface SlideShowSettings {
 
 export interface StyleSettings {
   theme: keyof typeof slideThemes;
+}
+
+export interface File {
+  name: string;
+  data: Data;
 }

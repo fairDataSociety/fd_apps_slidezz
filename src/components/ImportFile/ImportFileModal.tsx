@@ -20,20 +20,21 @@ import SelectPod from "./SelectPod";
 import SelectFile from "./SelectFile";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
-import type { Data } from "@ethersphere/bee-js";
 import { AiOutlineInbox } from "react-icons/ai";
+import { basename } from "path";
+import { File } from "../../types";
 
 interface ImportFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setData: (data: Data | undefined) => void;
+  setFile: (data: File | undefined) => void;
   allowedExtensions?: string[];
 }
 
 export default function ImportFileModal({
   isOpen,
   onClose,
-  setData,
+  setFile,
   allowedExtensions,
 }: ImportFileModalProps) {
   const toast = useToast();
@@ -51,7 +52,7 @@ export default function ImportFileModal({
 
   useEffect(() => {
     if (pod && filePath) {
-      setData(undefined);
+      setFile(undefined);
 
       const fullFilePath = filePath;
       handleModalClose();
@@ -69,7 +70,10 @@ export default function ImportFileModal({
       fdp.file
         .downloadData(pod.name, fullFilePath)
         .then((data) => {
-          setData(data);
+          setFile({
+            name: basename(fullFilePath),
+            data,
+          });
           toast.closeAll();
         })
         .catch((error: any) => {

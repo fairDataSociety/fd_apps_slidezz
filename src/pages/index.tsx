@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AiFillFileMarkdown } from "react-icons/ai";
 import ImportFile from "../components/ImportFile/ImportFile";
-import type { Data } from "@ethersphere/bee-js";
+import { File } from "../types";
 
 const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
   ssr: false,
@@ -30,22 +30,17 @@ const Home: NextPage = () => {
   const importFileBoxBg = useColorModeValue("latte-crust", "frappe-crust");
 
   useEffect(() => {
-    // if (!fdp.account.wallet) {
-    //   router.push("/login");
-    // }
-    setSlides(`## New Slide
----
-## New Slide 2
----
-## New Slide 3`);
+    if (!fdp.account.wallet) {
+      router.push("/login");
+    }
   }, []);
 
-  // if (!fdp.account.wallet)
-  //   return (
-  //     <Center>
-  //       <Spinner size="xl" />
-  //     </Center>
-  //   );
+  if (!fdp.account.wallet)
+    return (
+      <Center>
+        <Spinner size="xl" />
+      </Center>
+    );
 
   return (
     <HStack h="80vh">
@@ -53,7 +48,7 @@ const Home: NextPage = () => {
 
       <Center w="full" h="full">
         <Center
-          w={{ base: "80%", md: "70%", lg: "60%" }}
+          w={{ base: "65%", md: "70%", lg: "60%" }}
           h={{ base: "30%", md: "50%", lg: "70%" }}
         >
           {slides ? (
@@ -66,8 +61,8 @@ const Home: NextPage = () => {
             />
           ) : (
             <ImportFile
-              setData={(data: Data | undefined) => {
-                if (data) setSlides(data.text());
+              setFile={(file: File | undefined) => {
+                if (file) setSlides(file.data.text());
               }}
               allowedExtensions={["md"]}
             >

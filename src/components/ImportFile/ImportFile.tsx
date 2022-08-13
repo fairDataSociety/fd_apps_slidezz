@@ -1,16 +1,16 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
 import ImportFileModal from "./ImportFileModal";
-import type { Data } from "@ethersphere/bee-js";
+import { File } from "../../types";
 
 interface ImportFileProps {
-  setData: (data: Data | undefined) => void;
+  setFile: (data: File | undefined) => void;
   children: React.ReactNode;
   allowedExtensions?: string[];
 }
 
 export default function ImportFile({
   children,
-  setData,
+  setFile,
   allowedExtensions,
 }: ImportFileProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -19,7 +19,7 @@ export default function ImportFile({
     <>
       <Box onClick={onOpen}>{children}</Box>
       <ImportFileModal
-        setData={setData}
+        setFile={setFile}
         isOpen={isOpen}
         onClose={onClose}
         allowedExtensions={allowedExtensions}

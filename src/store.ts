@@ -1,7 +1,7 @@
 import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
 import { FdpStorage } from "@fairdatasociety/fdp-storage";
-import { SlideShowSettings, StyleSettings } from "../src/types";
+import { File, SlideShowSettings, StyleSettings } from "../src/types";
 import type { Data } from "@ethersphere/bee-js";
 
 const initialSettings: SlideShowSettings = {
@@ -52,3 +52,5 @@ export const fdpAtom = atom(fdp);
 export const slidesAtom = atom<string | undefined>(undefined);
 
 export const slidesLogoAtom = atom<Data | undefined>(undefined);
+
+export const mediaAtom = atom<File[]>([]);
