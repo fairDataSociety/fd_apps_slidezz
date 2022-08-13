@@ -30,17 +30,22 @@ const Home: NextPage = () => {
   const importFileBoxBg = useColorModeValue("latte-crust", "frappe-crust");
 
   useEffect(() => {
-    if (!fdp.account.wallet) {
-      router.push("/login");
-    }
+    // if (!fdp.account.wallet) {
+    //   router.push("/login");
+    // }
+    setSlides(`## New Slide
+---
+## New Slide 2
+---
+## New Slide 3`);
   }, []);
 
-  if (!fdp.account.wallet)
-    return (
-      <Center>
-        <Spinner size="xl" />
-      </Center>
-    );
+  // if (!fdp.account.wallet)
+  //   return (
+  //     <Center>
+  //       <Spinner size="xl" />
+  //     </Center>
+  //   );
 
   return (
     <HStack h="80vh">

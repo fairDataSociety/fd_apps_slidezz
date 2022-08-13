@@ -62,6 +62,7 @@ export default function SlideShow({
           element.addEventListener("click", () => {
             setTarget(element);
           });
+          element.style.cursor = "pointer";
         });
       });
 
@@ -88,9 +89,14 @@ export default function SlideShow({
       setIsFullscreen(fscreen.fullscreenElement !== null);
     });
 
+    window.addEventListener("resize", () => {
+      setTarget(undefined);
+    });
+
     return () => {
       newDeck.destroy();
       fscreen.removeEventListener("fullscreenchange", () => {});
+      window.removeEventListener("resize", () => {});
     };
   }, []);
 
@@ -107,6 +113,8 @@ export default function SlideShow({
 
   return (
     <Box
+      className="slideshow"
+      position="relative"
       borderWidth="1px"
       borderColor={useColorModeValue("latte-overlay0", "frappe-overlay0")}
       borderBottom="none"
@@ -133,9 +141,16 @@ export default function SlideShow({
 
       {target && !isFullscreen ? (
         <Moveable
+          bounds={{
+            left: 0,
+            top: 0,
+            right: document.querySelector(".slideshow")?.clientWidth,
+            bottom: document.querySelector(".slideshow")?.clientHeight,
+          }}
           elementGuidelines={elementGuidelines}
           target={target}
           draggable={true}
+          // resizable={true}
           throttleDrag={0}
           startDragRotate={0}
           throttleDragRotate={0}
@@ -153,18 +168,29 @@ export default function SlideShow({
           snapThreshold={5}
           isDisplaySnapDigit={true}
           snapGap={true}
-          snapDirections={{ top: true, right: true, bottom: true, left: true }}
+          snapDirections={{
+            top: true,
+            right: true,
+            bottom: true,
+            left: true,
+            center: true,
+            middle: true,
+          }}
           elementSnapDirections={{
             top: true,
             right: true,
             bottom: true,
             left: true,
+            center: true,
+            middle: true,
           }}
           snapDigit={0}
           onDragStart={moveableHelper.onDragStart}
           onDrag={moveableHelper.onDrag}
           onScaleStart={moveableHelper.onScaleStart}
           onScale={moveableHelper.onScale}
+          // onResizeStart={moveableHelper.onResizeStart}
+          // onResize={moveableHelper.onResize}
         />
       ) : null}
     </Box>
