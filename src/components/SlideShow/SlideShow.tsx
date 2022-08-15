@@ -154,7 +154,6 @@ export default function SlideShow({
           elementGuidelines={elementGuidelines}
           target={moveableTarget}
           draggable={true}
-          // resizable={true}
           throttleDrag={0}
           startDragRotate={0}
           throttleDragRotate={0}
@@ -193,8 +192,6 @@ export default function SlideShow({
           onDrag={moveableHelper.onDrag}
           onScaleStart={moveableHelper.onScaleStart}
           onScale={moveableHelper.onScale}
-          // onResizeStart={moveableHelper.onResizeStart}
-          // onResize={moveableHelper.onResize}
         />
       ) : null}
     </Box>

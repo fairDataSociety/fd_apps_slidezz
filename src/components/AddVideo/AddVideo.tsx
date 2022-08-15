@@ -9,9 +9,7 @@ import {
   ModalFooter,
   ModalCloseButton,
   useDisclosure,
-  SimpleGrid,
   Box,
-  Tooltip,
   Button,
   VStack,
 } from "@chakra-ui/react";
@@ -26,6 +24,7 @@ import ImportFile from "../ImportFile/ImportFile";
 import { File } from "../../types";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import AddYouTubeEmbedVideo from "./AddYouTubeEmbedVideo";
+import ItemBox from "../ImportFile/ItemBox";
 
 export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -37,6 +36,26 @@ export default function AddVideo() {
   const addVideoToCurrentSlide = (video: File) => {
     const currentSlideIndex = deck.getState().indexh;
     const slide = deck.getSlides()[currentSlideIndex];
+
+    const videoElement = document.createElement("video");
+    const soruceElement = document.createElement("source");
+
+    videoElement.controls = true;
+
+    soruceElement.src = URL.createObjectURL(new Blob([video.data.buffer]));
+
+    videoElement.appendChild(soruceElement);
+
+    videoElement.style.cursor = "pointer";
+
+    videoElement.addEventListener("click", () => {
+      setMoveableTarget(videoElement);
+    });
+
+    slide.appendChild(videoElement);
+    deck.sync();
+    deck.layout();
+    onClose();
   };
 
   return (
@@ -58,26 +77,25 @@ export default function AddVideo() {
                 <AddYouTubeEmbedVideo addVideoOnClose={onClose} />
               </Box>
 
-              <SimpleGrid
+              <VStack
+                p={2}
+                align="stretch"
+                spacing={2}
                 overflowY="scroll"
                 h="400px"
-                columns={{ base: 1, md: 2, lg: 3 }}
-                spacing={10}
               >
                 {videos.map((video) => {
                   return (
-                    <Tooltip label={video.name} hasArrow>
-                      <Box
-                        onClick={() => addVideoToCurrentSlide(video)}
-                        mx="auto"
-                        cursor="pointer"
-                        w="200px"
-                        h="200px"
-                      ></Box>
-                    </Tooltip>
+                    <ItemBox
+                      icon={FaVideo}
+                      text={video.name}
+                      onClick={() => {
+                        addVideoToCurrentSlide(video);
+                      }}
+                    />
                   );
                 })}
-              </SimpleGrid>
+              </VStack>
             </VStack>
           </ModalBody>
           <ModalFooter flexDir="row-reverse">
