@@ -12,6 +12,7 @@ import {
   slideShowSettingsAtom,
   styleSettingsAtom,
   slidesLogoAtom,
+  moveableTargetAtom,
 } from "../../store";
 import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
@@ -34,7 +35,7 @@ export default function SlideShow({
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
   const [slidesLogo] = useAtom(slidesLogoAtom);
-  const [target, setTarget] = useState<HTMLElement>();
+  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
   const [moveableHelper] = useState(() => {
     return new MoveableHelper();
   });
@@ -61,7 +62,7 @@ export default function SlideShow({
       newDeck.getSlides().forEach((slide: any) => {
         slide.children.forEach((element: HTMLElement) => {
           element.addEventListener("click", () => {
-            setTarget(element);
+            setMoveableTarget(element);
           });
           element.style.cursor = "pointer";
         });
@@ -74,15 +75,15 @@ export default function SlideShow({
       ]);
 
       document.querySelector(".backgrounds")!.addEventListener("click", () => {
-        setTarget(undefined);
+        setMoveableTarget(undefined);
       });
 
       newDeck.on("slidechanged", () => {
-        setTarget(undefined);
+        setMoveableTarget(undefined);
       });
 
       newDeck.on("overviewshown", () => {
-        setTarget(undefined);
+        setMoveableTarget(undefined);
       });
     });
 
@@ -91,7 +92,7 @@ export default function SlideShow({
     });
 
     window.addEventListener("resize", () => {
-      setTarget(undefined);
+      setMoveableTarget(undefined);
     });
 
     return () => {
@@ -142,7 +143,7 @@ export default function SlideShow({
         )}
       </Box>
 
-      {target && !isFullscreen ? (
+      {moveableTarget && !isFullscreen ? (
         <Moveable
           bounds={{
             left: 0,
@@ -151,7 +152,7 @@ export default function SlideShow({
             bottom: document.querySelector(".slideshow")?.clientHeight,
           }}
           elementGuidelines={elementGuidelines}
-          target={target}
+          target={moveableTarget}
           draggable={true}
           // resizable={true}
           throttleDrag={0}

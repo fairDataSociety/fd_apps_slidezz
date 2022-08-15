@@ -27,7 +27,7 @@ import { File } from "../../types";
 interface ImportFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setFile: (data: File | undefined) => void;
+  setFile: (file: File | undefined) => void;
   allowedExtensions?: string[];
 }
 

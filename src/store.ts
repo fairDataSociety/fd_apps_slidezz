@@ -3,6 +3,7 @@ import { atom } from "jotai";
 import { FdpStorage } from "@fairdatasociety/fdp-storage";
 import { File, SlideShowSettings, StyleSettings } from "../src/types";
 import type { Data } from "@ethersphere/bee-js";
+import { extname } from "path";
 
 const initialSettings: SlideShowSettings = {
   controls: true,
@@ -51,6 +52,22 @@ export const fdpAtom = atom(fdp);
 
 export const slidesAtom = atom<string | undefined>(undefined);
 
+export const slidesDeckAtom = atom<any>(undefined);
+
 export const slidesLogoAtom = atom<Data | undefined>(undefined);
 
 export const mediaAtom = atom<File[]>([]);
+
+export const imageMediaAtom = atom<File[]>((get) =>
+  get(mediaAtom).filter((file) =>
+    ["jpg", "jpeg", "gif", "png", "svg"].includes(extname(file.name).slice(1))
+  )
+);
+
+export const videoMediaAtom = atom<File[]>((get) =>
+  get(mediaAtom).filter((file) =>
+    ["mp4", "webm", "ogg"].includes(extname(file.name).slice(1))
+  )
+);
+
+export const moveableTargetAtom = atom<HTMLElement | undefined>(undefined);

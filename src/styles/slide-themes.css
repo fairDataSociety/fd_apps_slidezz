@@ -573,9 +573,24 @@ body[data-theme="beige"] .reveal-viewport {
   vertical-align: top;
 }
 
-.reveal img {
-  margin: var(--r-block-margin) 0;
+.reveal .iframe-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  padding-top: 25px;
+  height: 0;
 }
+
+.reveal .iframe-wrapper iframe {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  width: 100%;
+  height: 100%;
+}
+
+/* .reveal img {
+  margin: var(--r-block-margin) 0;
+} */
 
 /*********************************************
   * LINKS

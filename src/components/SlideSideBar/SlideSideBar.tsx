@@ -1,5 +1,6 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import AddImage from "../AddImage/AddImage";
+import AddVideo from "../AddVideo/AddVideo";
 
 export default function SlideSideBar() {
   return (
@@ -13,6 +14,7 @@ export default function SlideSideBar() {
       right={-16}
     >
       <AddImage />
+      <AddVideo />
     </Box>
   );
 }

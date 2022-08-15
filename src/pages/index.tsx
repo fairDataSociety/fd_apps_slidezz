@@ -11,9 +11,9 @@ import {
 } from "@chakra-ui/react";
 import SideBar from "../components/SideBar/SideBar";
 import { useAtom } from "jotai";
-import { fdpAtom, slidesAtom } from "../store";
+import { fdpAtom, slidesAtom, slidesDeckAtom } from "../store";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AiFillFileMarkdown } from "react-icons/ai";
 import ImportFile from "../components/ImportFile/ImportFile";
 import { File } from "../types";
@@ -23,7 +23,7 @@ const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
 });
 
 const Home: NextPage = () => {
-  const [deck, setDeck] = useState<any>();
+  const [deck, setDeck] = useAtom(slidesDeckAtom);
   const [fdp] = useAtom(fdpAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
   const router = useRouter();
