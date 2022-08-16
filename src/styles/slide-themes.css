@@ -588,9 +588,9 @@ body[data-theme="beige"] .reveal-viewport {
   height: 100%;
 }
 
-/* .reveal img {
+.reveal img {
   margin: var(--r-block-margin) 0;
-} */
+}
 
 /*********************************************
   * LINKS
@@ -642,6 +642,10 @@ body[data-theme="beige"] .reveal-viewport {
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
   color: var(--r-link-color);
+}
+
+[contenteditable] {
+  outline: 0px solid transparent;
 }
 
 /*********************************************

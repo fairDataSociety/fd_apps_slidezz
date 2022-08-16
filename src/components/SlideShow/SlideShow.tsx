@@ -1,6 +1,6 @@
 import { Box, Image, useColorModeValue, Textarea } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { LogoPositions } from "../../constants/logo-positions";
 
 //@ts-ignore
@@ -13,11 +13,14 @@ import {
   styleSettingsAtom,
   slidesLogoAtom,
   moveableTargetAtom,
+  editModeAtom,
 } from "../../store";
 import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
+import NewSlide from "../NewSlide/NewSlide";
+import EditMode from "../EditMode/EditMode";
 
 interface SlideShowProps {
   deckName: string;
@@ -32,15 +35,29 @@ export default function SlideShow({
   setDeck,
   slides,
 }: SlideShowProps) {
+  const moveableRef = useRef() as RefObject<Moveable>;
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
   const [slidesLogo] = useAtom(slidesLogoAtom);
+  const [editMode] = useAtom(editModeAtom);
   const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
   const [moveableHelper] = useState(() => {
     return new MoveableHelper();
   });
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  useEffect(() => {
+    document.body.addEventListener("click", (e) => {
+      if (!moveableRef.current?.isInside(e.clientX, e.clientY)) {
+        setMoveableTarget(undefined);
+      }
+    });
+
+    return () => {
+      document.body.removeEventListener("click", () => {});
+    };
+  }, [moveableRef]);
 
   useEffect(() => {
     document.body.setAttribute("data-theme", styleSettings.theme);
@@ -65,6 +82,7 @@ export default function SlideShow({
             setMoveableTarget(element);
           });
           element.style.cursor = "pointer";
+          element.contentEditable = "true";
         });
       });
 
@@ -73,10 +91,6 @@ export default function SlideShow({
         newDeck.getSlidesElement(),
         newDeck.getViewportElement(),
       ]);
-
-      document.querySelector(".backgrounds")!.addEventListener("click", () => {
-        setMoveableTarget(undefined);
-      });
 
       newDeck.on("slidechanged", () => {
         setMoveableTarget(undefined);
@@ -124,6 +138,8 @@ export default function SlideShow({
       h="full"
     >
       <SlideSideBar />
+      <NewSlide />
+      <EditMode />
 
       <Box className={`reveal ${deckName}`}>
         <Box className="slides">
@@ -145,6 +161,7 @@ export default function SlideShow({
 
       {moveableTarget && !isFullscreen ? (
         <Moveable
+          ref={moveableRef}
           bounds={{
             left: 0,
             top: 0,
@@ -192,6 +209,8 @@ export default function SlideShow({
           onDrag={moveableHelper.onDrag}
           onScaleStart={moveableHelper.onScaleStart}
           onScale={moveableHelper.onScale}
+          checkInput={editMode === "TEXT"}
+          passDragArea={editMode === "TEXT"}
         />
       ) : null}
     </Box>

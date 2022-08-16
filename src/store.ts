@@ -71,3 +71,5 @@ export const videoMediaAtom = atom<File[]>((get) =>
 );
 
 export const moveableTargetAtom = atom<HTMLElement | undefined>(undefined);
+
+export const editModeAtom = atom<"MOVE" | "TEXT">("MOVE");
