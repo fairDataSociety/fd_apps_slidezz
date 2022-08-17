@@ -5,12 +5,12 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
   SimpleGrid,
   Center,
+  Tooltip,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { BiPlus } from "react-icons/bi";
@@ -51,12 +51,14 @@ export default function NewSlide() {
 
   return (
     <Box position="absolute" bottom={4} right={-14}>
-      <IconButton
-        onClick={onOpen}
-        rounded="full"
-        aria-label="plus"
-        icon={<BiPlus />}
-      />
+      <Tooltip label="Add new slide" hasArrow placement="right">
+        <IconButton
+          onClick={onOpen}
+          rounded="full"
+          aria-label="plus"
+          icon={<BiPlus />}
+        />
+      </Tooltip>
 
       <Modal size="3xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -66,7 +68,7 @@ export default function NewSlide() {
           <ModalBody>
             <SimpleGrid
               overflowY="scroll"
-              h="400px"
+              h="500px"
               columns={{ base: 1, md: 2 }}
               spacing={5}
             >
@@ -89,8 +91,6 @@ export default function NewSlide() {
               })}
             </SimpleGrid>
           </ModalBody>
-
-          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </Box>

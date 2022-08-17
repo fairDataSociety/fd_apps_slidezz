@@ -1,14 +1,17 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import { slidesAtom } from "../../store";
+import { slidesAtom, slidesLogoAtom } from "../../store";
 import ImportFile from "../ImportFile/ImportFile";
 import PresentationSettings from "../Settings/SlideShowSettings";
 import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 import SideBarItem from "./SideBarItem";
 import { BsMarkdown } from "react-icons/bs";
 import { File } from "../../types";
+import AddImage from "../AddImage/AddImage";
+import { BsImageAlt } from "react-icons/bs";
 
 export default function SideBar() {
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
   const [_, setSlides] = useAtom(slidesAtom);
 
   return (
@@ -22,6 +25,11 @@ export default function SideBar() {
     >
       <PresentationSettings />
       <StyleSettings />
+
+      <AddImage handleAddImage={(image) => setSlidesLogo(image.data)}>
+        <SideBarItem icon={BsImageAlt} label="Logo/Copyright image" />
+      </AddImage>
+
       <ImportFile
         setFile={(file: File | undefined) => {
           if (file) setSlides(file.data.text());
