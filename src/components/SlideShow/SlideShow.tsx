@@ -21,6 +21,7 @@ import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
 import NewSlide from "../NewSlide/NewSlide";
 import EditMode from "../EditMode/EditMode";
+import { addMoveableToElements } from "../../utils";
 
 interface SlideShowProps {
   deckName: string;
@@ -77,13 +78,7 @@ export default function SlideShow({
       newDeck.sync();
 
       newDeck.getSlides().forEach((slide: any) => {
-        slide.children.forEach((element: HTMLElement) => {
-          element.addEventListener("click", () => {
-            setMoveableTarget(element);
-          });
-          element.style.cursor = "pointer";
-          element.contentEditable = "true";
-        });
+        addMoveableToElements(slide.children, setMoveableTarget);
       });
 
       setElementGuidelines([
@@ -170,19 +165,19 @@ export default function SlideShow({
           }}
           elementGuidelines={elementGuidelines}
           target={moveableTarget}
-          draggable={true}
+          draggable={editMode === "MOVE" ? true : false}
           throttleDrag={0}
           startDragRotate={0}
           throttleDragRotate={0}
           zoom={1}
           origin={true}
           padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
-          scalable={true}
+          scalable={editMode === "MOVE" ? true : false}
           keepRatio={false}
           throttleScale={0}
           renderDirections={["nw", "n", "ne", "w", "e", "sw", "s", "se"]}
           edge={false}
-          snappable={true}
+          snappable={editMode === "MOVE" ? true : false}
           verticalGuidelines={[0, 200, 400]}
           horizontalGuidelines={[0, 200, 400]}
           snapThreshold={5}
@@ -209,8 +204,12 @@ export default function SlideShow({
           onDrag={moveableHelper.onDrag}
           onScaleStart={moveableHelper.onScaleStart}
           onScale={moveableHelper.onScale}
-          checkInput={editMode === "TEXT"}
-          passDragArea={editMode === "TEXT"}
+          onClick={(e) => {
+            const target = e.target as HTMLElement;
+            if (editMode === "TEXT") {
+              target.focus();
+            }
+          }}
         />
       ) : null}
     </Box>
