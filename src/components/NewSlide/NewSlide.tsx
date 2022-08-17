@@ -14,13 +14,20 @@ import {
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { BiPlus } from "react-icons/bi";
-import { moveableTargetAtom, slidesDeckAtom } from "../../store";
+import {
+  moveableTargetAtom,
+  slidesDeckAtom,
+  replaceImageElementAtom,
+} from "../../store";
 import { templates } from "../../templates";
 import { addMoveableToElements } from "../../utils";
 
 export default function NewSlide() {
   const [deck] = useAtom(slidesDeckAtom);
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [replaceImageElement, setReplaceImageElement] = useAtom(
+    replaceImageElementAtom
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const addNewSlide = (content: string) => {
@@ -29,7 +36,7 @@ export default function NewSlide() {
 
     const children = sectionElement.children as any;
 
-    addMoveableToElements(children, setMoveableTarget);
+    addMoveableToElements(children, setMoveableTarget, setReplaceImageElement);
 
     const currentSlideIndex = deck.getState().indexh;
     const currentSlide = deck.getCurrentSlide() as HTMLElement;

@@ -3,7 +3,7 @@ import { File } from "../../types";
 import AddImageModal from "./AddImageModal";
 
 interface AddImageProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   handleAddImage: (image: File) => void;
 }
 

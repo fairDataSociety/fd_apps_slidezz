@@ -14,6 +14,7 @@ import {
   slidesLogoAtom,
   moveableTargetAtom,
   editModeAtom,
+  replaceImageElementAtom,
 } from "../../store";
 import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
@@ -22,6 +23,7 @@ import SlideSideBar from "../SlideSideBar/SlideSideBar";
 import NewSlide from "../NewSlide/NewSlide";
 import EditMode from "../EditMode/EditMode";
 import { addMoveableToElements } from "../../utils";
+import { ReplaceImage } from "../ReplaceImage/ReplaceImage";
 
 interface SlideShowProps {
   deckName: string;
@@ -37,6 +39,7 @@ export default function SlideShow({
   slides,
 }: SlideShowProps) {
   const moveableRef = useRef() as RefObject<Moveable>;
+  const [replaceImageElement] = useAtom(replaceImageElementAtom);
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
   const [slidesLogo] = useAtom(slidesLogoAtom);
@@ -135,6 +138,7 @@ export default function SlideShow({
       <SlideSideBar />
       <NewSlide />
       <EditMode />
+      {replaceImageElement && <ReplaceImage />}
 
       <Box className={`reveal ${deckName}`}>
         <Box className="slides">

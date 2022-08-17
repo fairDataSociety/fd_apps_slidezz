@@ -2,7 +2,8 @@ import { File } from "./types";
 
 export function addMoveableToElements(
   elements: HTMLElement[],
-  setMoveableTarget: (target: HTMLElement | undefined) => void
+  setMoveableTarget: (target: HTMLElement | undefined) => void,
+  setReplaceImageElement?: (target: HTMLImageElement | undefined) => void
 ) {
   elements.forEach((element: HTMLElement) => {
     if (element.tagName.toLowerCase() === "div") {
@@ -23,7 +24,13 @@ export function addMoveableToElements(
       element.contentEditable = "true";
     }
 
-    element.addEventListener("click", (e) => {
+    if (element.tagName.toLowerCase() === "img" && setReplaceImageElement) {
+      element.addEventListener("dblclick", () => {
+        setReplaceImageElement(element as HTMLImageElement);
+      });
+    }
+
+    element.addEventListener("click", () => {
       setMoveableTarget(element);
     });
 

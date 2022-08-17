@@ -657,6 +657,13 @@ body[data-theme="beige"] .reveal-viewport {
   text-align: left;
 }
 
+.reveal .sample-image {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+}
+
 /*********************************************
   * PRINT BACKGROUND
   *********************************************/
