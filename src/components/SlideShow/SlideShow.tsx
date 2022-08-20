@@ -20,7 +20,6 @@ import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
-import NewSlide from "../NewSlide/NewSlide";
 import EditMode from "../EditMode/EditMode";
 import { addMoveableToElements } from "../../utils";
 import { ReplaceImage } from "../ReplaceImage/ReplaceImage";
@@ -150,7 +149,6 @@ export default function SlideShow({
       h="full"
     >
       <SlideSideBar />
-      <NewSlide />
       <EditMode />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 

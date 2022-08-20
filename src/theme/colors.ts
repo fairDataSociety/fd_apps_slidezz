@@ -21,6 +21,8 @@ const colors = {
   "frappe-overlay1": "#838ba7",
   "latte-surface2": "#acb0be",
   "frappe-surface2": "#626880",
+  "latte-sky": "#04a5e5",
+  "frappe-sky": "#99d1db",
 
   surface1: {
     "50": "#F1F1F4",

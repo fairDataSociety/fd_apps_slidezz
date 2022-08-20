@@ -1,6 +1,4 @@
 import {
-  Box,
-  IconButton,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -10,7 +8,6 @@ import {
   useDisclosure,
   SimpleGrid,
   Center,
-  Tooltip,
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { BiPlus } from "react-icons/bi";
@@ -21,6 +18,7 @@ import {
 } from "../../store";
 import { templates } from "../../templates";
 import { addMoveableToElements } from "../../utils";
+import SlideSideBarItem from "../SlideSideBar/SlideSideBarItem";
 
 export default function NewSlide() {
   const [deck] = useAtom(slidesDeckAtom);
@@ -57,15 +55,8 @@ export default function NewSlide() {
   };
 
   return (
-    <Box position="absolute" bottom={4} right={-14}>
-      <Tooltip label="Add new slide" hasArrow placement="right">
-        <IconButton
-          onClick={onOpen}
-          rounded="full"
-          aria-label="plus"
-          icon={<BiPlus />}
-        />
-      </Tooltip>
+    <>
+      <SlideSideBarItem onClick={onOpen} icon={BiPlus} label="Add new slide" />
 
       <Modal size="3xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -100,6 +91,6 @@ export default function NewSlide() {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </Box>
+    </>
   );
 }

@@ -673,3 +673,9 @@ body[data-theme="beige"] .reveal-viewport {
     background-color: var(--r-background-color);
   }
 }
+
+@media screen and (max-width: 747px) {
+  .reveal .controls {
+    font-size: 5px;
+  }
+}

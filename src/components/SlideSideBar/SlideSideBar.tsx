@@ -9,6 +9,8 @@ import { moveableTargetAtom, slidesDeckAtom } from "../../store";
 import { AiFillDelete } from "react-icons/ai";
 import AddText from "../AddText/AddText";
 import { RiText } from "react-icons/ri";
+import NewSlide from "../NewSlide/NewSlide";
+import SlideSideBarItem from "./SlideSideBarItem";
 
 export default function SlideSideBar() {
   const [deck] = useAtom(slidesDeckAtom);
@@ -22,10 +24,10 @@ export default function SlideSideBar() {
       borderRadius="lg"
       overflow="hidden"
       top={0}
-      right={-16}
+      right={{ base: -8, md: -16 }}
     >
       <AddText>
-        <SideBarItem icon={RiText} label="Text" />
+        <SlideSideBarItem icon={RiText} label="Text" />
       </AddText>
 
       <AddImage
@@ -33,15 +35,16 @@ export default function SlideSideBar() {
           addImageToCurrentSlide(image, deck, setMoveableTarget)
         }
       >
-        <SideBarItem icon={BsFillImageFill} label="Image" />
+        <SlideSideBarItem icon={BsFillImageFill} label="Image" />
       </AddImage>
       <AddVideo />
 
-      {/* TODO: disable remove button if only one slide was available */}
-      <SideBarItem
+      <SlideSideBarItem
         icon={AiFillDelete}
         label="Remove slide"
         onClick={() => {
+          if (deck.getTotalSlides() <= 1) return;
+
           const slides = deck.getSlidesElement() as HTMLElement;
           const currentSlide = deck.getCurrentSlide() as HTMLElement;
           const currentSlideIndex = deck.getState().indexh;
@@ -52,6 +55,8 @@ export default function SlideSideBar() {
           deck.slide(currentSlideIndex > 1 ? currentSlideIndex : 0);
         }}
       />
+
+      <NewSlide />
     </Box>
   );
 }

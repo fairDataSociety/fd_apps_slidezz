@@ -1,4 +1,3 @@
-import SideBarItem from "../SideBar/SideBarItem";
 import { FaVideo } from "react-icons/fa";
 import {
   Modal,
@@ -25,6 +24,7 @@ import { File } from "../../types";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import AddYouTubeEmbedVideo from "./AddYouTubeEmbedVideo";
 import ItemBox from "../ImportFile/ItemBox";
+import SlideSideBarItem from "../SlideSideBar/SlideSideBarItem";
 
 export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -60,7 +60,7 @@ export default function AddVideo() {
 
   return (
     <>
-      <SideBarItem icon={FaVideo} label="Video" onClick={onOpen} />
+      <SlideSideBarItem icon={FaVideo} label="Video" onClick={onOpen} />
 
       <Modal
         size={{ base: "sm", md: "2xl", lg: "4xl" }}
