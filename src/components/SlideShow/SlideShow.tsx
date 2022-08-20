@@ -24,6 +24,14 @@ import NewSlide from "../NewSlide/NewSlide";
 import EditMode from "../EditMode/EditMode";
 import { addMoveableToElements } from "../../utils";
 import { ReplaceImage } from "../ReplaceImage/ReplaceImage";
+import {
+  MoveableDeleteButton,
+  MoveableDeleteButtonProps,
+} from "../Ables/MoveableDeleteButton";
+import {
+  MoveableDimension,
+  MoveableDimensionProps,
+} from "../Ables/MoveableDimension";
 
 interface SlideShowProps {
   deckName: string;
@@ -144,7 +152,7 @@ export default function SlideShow({
       <SlideSideBar />
       <NewSlide />
       <EditMode />
-      {replaceImageElement && <ReplaceImage />}
+      {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
       <Box className={`reveal ${deckName}`}>
         <Box className="slides">
@@ -165,7 +173,10 @@ export default function SlideShow({
       </Box>
 
       {moveableTarget && !isFullscreen ? (
-        <Moveable
+        <Moveable<MoveableDeleteButtonProps & MoveableDimensionProps>
+          ables={[MoveableDeleteButton, MoveableDimension]}
+          deleteButton={true}
+          dimension={true}
           ref={moveableRef}
           bounds={{
             left: 0,
@@ -175,6 +186,7 @@ export default function SlideShow({
           }}
           elementGuidelines={elementGuidelines}
           target={moveableTarget}
+          setTarget={setMoveableTarget}
           draggable={editMode === "MOVE" ? true : false}
           throttleDrag={0}
           startDragRotate={0}
@@ -182,7 +194,8 @@ export default function SlideShow({
           zoom={1}
           origin={true}
           padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
-          scalable={editMode === "MOVE" ? true : false}
+          // scalable={editMode === "MOVE" ? true : false}
+          resizable={editMode === "MOVE" ? true : false}
           keepRatio={false}
           throttleScale={0}
           renderDirections={["nw", "n", "ne", "w", "e", "sw", "s", "se"]}
@@ -210,6 +223,8 @@ export default function SlideShow({
             middle: true,
           }}
           snapDigit={0}
+          onResizeStart={moveableHelper.onResizeStart}
+          onResize={moveableHelper.onResize}
           onDragStart={moveableHelper.onDragStart}
           onDrag={moveableHelper.onDrag}
           onScaleStart={moveableHelper.onScaleStart}

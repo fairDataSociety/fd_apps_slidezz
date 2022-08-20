@@ -7,6 +7,8 @@ import { addImageToCurrentSlide } from "../../utils";
 import { useAtom } from "jotai";
 import { moveableTargetAtom, slidesDeckAtom } from "../../store";
 import { AiFillDelete } from "react-icons/ai";
+import AddText from "../AddText/AddText";
+import { RiText } from "react-icons/ri";
 
 export default function SlideSideBar() {
   const [deck] = useAtom(slidesDeckAtom);
@@ -22,6 +24,10 @@ export default function SlideSideBar() {
       top={0}
       right={-16}
     >
+      <AddText>
+        <SideBarItem icon={RiText} label="Text" />
+      </AddText>
+
       <AddImage
         handleAddImage={(image) =>
           addImageToCurrentSlide(image, deck, setMoveableTarget)
