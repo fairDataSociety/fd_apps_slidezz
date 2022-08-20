@@ -9,7 +9,8 @@ export function addMoveableToElements(
     if (element.tagName.toLowerCase() === "div") {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
-        setMoveableTarget
+        setMoveableTarget,
+        setReplaceImageElement
       );
     }
 

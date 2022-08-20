@@ -80,7 +80,7 @@ const Home: NextPage = () => {
                   boxShadow: "dark-lg",
                 }}
               >
-                <Text>Select a Markdown file from Fairdrive.</Text>
+                <Text>generate a slideshow from a markdown file.</Text>
                 <Icon fontSize="4xl" as={AiFillFileMarkdown} />
               </Stack>
             </ImportFile>

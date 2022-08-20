@@ -73,7 +73,7 @@ const Login: NextPage = () => {
           <VStack pt={10} gap={5}>
             <VStack gap={1}>
               <Heading fontSize="5xl">Please login</Heading>
-              <Text variant="subtext">to import files from Fairdrive</Text>
+              <Text variant="subtext">to your Fairdrive account</Text>
             </VStack>
 
             <VStack

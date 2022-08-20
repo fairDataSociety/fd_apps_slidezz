@@ -30,7 +30,7 @@ export default function SideBar() {
         <SideBarItem icon={BsImageAlt} label="Logo/Copyright image" />
       </AddImage>
 
-      <ImportFile
+      {/* <ImportFile
         setFile={(file: File | undefined) => {
           if (file) setSlides(file.data.text());
         }}
@@ -40,7 +40,7 @@ export default function SideBar() {
           label="Import markdown file from Fairdrive"
           icon={BsMarkdown}
         />
-      </ImportFile>
+      </ImportFile> */}
     </Box>
   );
 }

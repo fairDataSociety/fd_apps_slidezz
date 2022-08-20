@@ -39,7 +39,9 @@ export default function SlideShow({
   slides,
 }: SlideShowProps) {
   const moveableRef = useRef() as RefObject<Moveable>;
-  const [replaceImageElement] = useAtom(replaceImageElementAtom);
+  const [replaceImageElement, setReplaceImageElement] = useAtom(
+    replaceImageElementAtom
+  );
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
   const [slidesLogo] = useAtom(slidesLogoAtom);
@@ -81,7 +83,11 @@ export default function SlideShow({
       newDeck.sync();
 
       newDeck.getSlides().forEach((slide: any) => {
-        addMoveableToElements(slide.children, setMoveableTarget);
+        addMoveableToElements(
+          slide.children,
+          setMoveableTarget,
+          setReplaceImageElement
+        );
       });
 
       setElementGuidelines([

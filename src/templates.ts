@@ -1,6 +1,9 @@
+import BlankSlide from "./components/Templates/BlankSlide";
+import ImageTitleSlide from "./components/Templates/ImageTitleSlide";
 import TitleImageSlide from "./components/Templates/TitleImageSlide";
 import TitleSlide from "./components/Templates/TitleSlide";
 import TitleSubtitleSlide from "./components/Templates/TitleSubtitleSlide";
+import TwoColumnImageSlide from "./components/Templates/TwoColumnImageSlide";
 import TwoColumnSlide from "./components/Templates/TwoColumnSlide";
 
 interface Template {
@@ -10,6 +13,11 @@ interface Template {
 }
 
 export const templates: Template[] = [
+  {
+    name: "Blank slide",
+    content: "",
+    component: BlankSlide,
+  },
   {
     name: "Title slide",
     content: "<h2>Title text</h2>",
@@ -31,5 +39,16 @@ export const templates: Template[] = [
     name: "Ttile image slide",
     content: `<h3>TITLE TEXT</h3><img class="sample-image" src="/images/sample.png" />`,
     component: TitleImageSlide,
+  },
+  {
+    name: "Image title slide",
+    content: `<img class="sample-image" src="/images/sample.png" /><h3>TITLE TEXT</h3>`,
+    component: ImageTitleSlide,
+  },
+  {
+    name: "Two-column image slide",
+    content: `<div class='two-column'><div class='col'><h2>Left column</h2><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
+    perferendis amet minus minima.</p></div><div class='col'><img class="sample-image" src="/images/sample.png"/></div></div>`,
+    component: TwoColumnImageSlide,
   },
 ];
