@@ -5,6 +5,8 @@ import { File, SlideShowSettings, StyleSettings } from "../src/types";
 import type { Data } from "@ethersphere/bee-js";
 import { extname } from "path";
 
+// Slide show settings
+
 const initialSettings: SlideShowSettings = {
   controls: true,
   progress: true,
@@ -22,6 +24,8 @@ export const slideShowSettingsAtom = atomWithStorage(
   initialSettings
 );
 
+// Style settings
+
 const initialStyles: StyleSettings = {
   theme: "white",
 };
@@ -30,6 +34,8 @@ export const styleSettingsAtom = atomWithStorage(
   "styleSettings",
   initialStyles
 );
+
+// FDP instance
 
 const fdp = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL as string,
@@ -50,11 +56,19 @@ const fdp = new FdpStorage(
 
 export const fdpAtom = atom(fdp);
 
+// Slides
+
 export const slidesAtom = atom<string | undefined>(undefined);
+
+// Slides deck
 
 export const slidesDeckAtom = atom<any>(undefined);
 
+// Slides logo
+
 export const slidesLogoAtom = atom<Data | undefined>(undefined);
+
+// Media
 
 export const mediaAtom = atom<File[]>([]);
 
@@ -70,9 +84,15 @@ export const videoMediaAtom = atom<File[]>((get) =>
   )
 );
 
+// Moveable target
+
 export const moveableTargetAtom = atom<HTMLElement | undefined>(undefined);
 
+// Edit mode
+
 export const editModeAtom = atom<"MOVE" | "TEXT">("MOVE");
+
+// Replace image
 
 export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
   undefined

@@ -19,6 +19,9 @@ export function ReplaceImage() {
     );
     replaceImageElement.alt = image.name;
 
+    replaceImageElement.setAttribute("data-pod", image.podName);
+    replaceImageElement.setAttribute("data-path", image.fullPath);
+
     setReplaceImageElement(undefined);
   };
 

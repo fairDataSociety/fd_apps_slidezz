@@ -16,7 +16,6 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@fairdatasociety/fdp-storage": "^0.4.0",
-    "chakra-ui-steps": "^1.7.4",
     "formik": "^2.2.9",
     "framer-motion": "^7",
     "fscreen": "^1.2.0",

@@ -1,6 +1,5 @@
 import { extendTheme, withDefaultProps } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
-import { StepsStyleConfig as Steps } from "chakra-ui-steps";
 import colors from "./colors";
 
 const theme = extendTheme(
@@ -88,7 +87,6 @@ const theme = extendTheme(
           variant: "primary",
         },
       },
-      Steps,
     },
   },
   withDefaultProps({

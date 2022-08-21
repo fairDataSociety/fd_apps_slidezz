@@ -14,6 +14,7 @@ import {
   IconButton,
   Tooltip,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
@@ -22,30 +23,39 @@ import SelectPath from "../Select/SelectPath";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { AiOutlineInbox } from "react-icons/ai";
-import { File } from "../../types";
+import SetFileNameModal from "./SetFileNameModal";
 
 interface SaveFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  file: File;
+  data: string;
+  extension?: string;
 }
 
 export default function SaveFileModal({
   isOpen,
   onClose,
-  file,
+  data,
+  extension,
 }: SaveFileModalProps) {
   const toast = useToast();
   const [fdp] = useAtom(fdpAtom);
   const [pod, setPod] = useState<Pod>();
   const [path, setPath] = useState<string>("/");
+  const [fileName, setFileName] = useState("");
   const toastBg = useColorModeValue("latte-surface2", "frappe-surface2");
   const tooltipBg = useColorModeValue("latte-overlay1", "frappe-overlay1");
+  const {
+    isOpen: isSetNameOpen,
+    onOpen: onSetNameOpen,
+    onClose: onSetNameClose,
+  } = useDisclosure();
 
   const handleModalClose = () => {
     setPod(undefined);
     setPath("/");
     onClose();
+    onSetNameClose();
   };
 
   const handleSaveFile = () => {
@@ -65,7 +75,7 @@ export default function SaveFileModal({
     });
 
     fdp.file
-      .uploadData(pod.name, fullPath, file.data)
+      .uploadData(pod.name, fullPath, data)
       .then(() => {
         toast.closeAll();
       })
@@ -107,7 +117,7 @@ export default function SaveFileModal({
                 </Tooltip>
                 <Text>Pod: {pod.name}</Text>
               </HStack>
-              <Button onClick={handleSaveFile} size="sm" colorScheme="green">
+              <Button onClick={onSetNameOpen} size="sm" colorScheme="green">
                 Select
               </Button>
             </HStack>
@@ -119,6 +129,14 @@ export default function SaveFileModal({
               <SelectPod setPod={setPod} />
             )}
           </Box>
+          <SetFileNameModal
+            fileName={fileName}
+            setFileName={setFileName}
+            isOpen={isSetNameOpen}
+            onClose={onSetNameClose}
+            handleSaveFile={handleSaveFile}
+            extension={extension}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

@@ -1,19 +1,24 @@
 import { Box, useDisclosure } from "@chakra-ui/react";
 import SaveFileModal from "./SaveFileModal";
-import { File } from "../../types";
 
 interface SaveFileProps {
-  file: File;
+  data: string;
   children: React.ReactNode;
+  extension?: string;
 }
 
-export default function SaveFile({ file, children }: SaveFileProps) {
+export default function SaveFile({ data, children, extension }: SaveFileProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Box onClick={onOpen}>{children}</Box>
-      <SaveFileModal file={file} isOpen={isOpen} onClose={onClose} />
+      <SaveFileModal
+        data={data}
+        extension={extension}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
     </>
   );
 }
