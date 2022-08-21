@@ -50,6 +50,8 @@ export function addImageToCurrentSlide(
   const imageElement = document.createElement("img");
   imageElement.src = URL.createObjectURL(new Blob([image.data.buffer]));
   imageElement.alt = image.name;
+  imageElement.setAttribute("data-pod", image.podName);
+  imageElement.setAttribute("data-path", image.fullPath);
 
   imageElement.style.cursor = "pointer";
 
@@ -60,4 +62,9 @@ export function addImageToCurrentSlide(
   slide.appendChild(imageElement);
   deck.sync();
   deck.layout();
+}
+
+export function getSlidesHTML(deck: any) {
+  const slides = deck.getSlides() as HTMLElement[];
+  return slides.map((slide) => slide.outerHTML).join("\n");
 }

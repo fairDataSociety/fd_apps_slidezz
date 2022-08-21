@@ -23,7 +23,7 @@ import ImportFile from "../ImportFile/ImportFile";
 import { File } from "../../types";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import AddYouTubeEmbedVideo from "./AddYouTubeEmbedVideo";
-import ItemBox from "../ImportFile/ItemBox";
+import ItemBox from "../Select/ItemBox";
 import SlideSideBarItem from "../SlideSideBar/SlideSideBarItem";
 
 export default function AddVideo() {
@@ -45,6 +45,9 @@ export default function AddVideo() {
     soruceElement.src = URL.createObjectURL(new Blob([video.data.buffer]));
 
     videoElement.appendChild(soruceElement);
+
+    videoElement.setAttribute("data-pod", video.podName);
+    videoElement.setAttribute("data-path", video.fullPath);
 
     videoElement.style.cursor = "pointer";
 

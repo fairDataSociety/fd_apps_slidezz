@@ -21,7 +21,7 @@ export default function SelectPod({ setPod }: SelectPodProps) {
     fdp.personalStorage
       .list()
       .then((pods) => {
-        setPods(pods);
+        setPods(pods.getPods());
       })
       .catch((error: any) => {
         toast({

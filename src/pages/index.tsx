@@ -8,13 +8,15 @@ import {
   Text,
   Icon,
   Stack,
+  Box,
 } from "@chakra-ui/react";
 import SideBar from "../components/SideBar/SideBar";
 import { useAtom } from "jotai";
 import { fdpAtom, slidesAtom, slidesDeckAtom } from "../store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { AiFillFileMarkdown } from "react-icons/ai";
+import { AiFillFileMarkdown, AiOutlinePlus } from "react-icons/ai";
+import { MdSlideshow } from "react-icons/md";
 import ImportFile from "../components/ImportFile/ImportFile";
 import { File } from "../types";
 
@@ -44,14 +46,14 @@ const Home: NextPage = () => {
 
   return (
     <HStack h="80vh">
-      <SideBar />
+      {slides && <SideBar />}
 
       <Center w="full" h="full">
-        <Center
-          w={{ base: "65%", md: "70%", lg: "60%" }}
-          h={{ base: "30%", md: "50%", lg: "70%" }}
-        >
-          {slides ? (
+        {slides ? (
+          <Box
+            w={{ base: "65%", md: "70%", lg: "60%" }}
+            h={{ base: "30%", md: "50%", lg: "70%" }}
+          >
             <SlideShow
               key={slides}
               deckName="mainDeck"
@@ -59,33 +61,81 @@ const Home: NextPage = () => {
               setDeck={setDeck}
               slides={slides}
             />
-          ) : (
+          </Box>
+        ) : (
+          <Stack direction={{ base: "column", lg: "row" }}>
             <ImportFile
               setFile={(file: File | undefined) => {
                 if (file) setSlides(file.data.text());
               }}
               allowedExtensions={["md"]}
             >
-              <Stack
-                direction={{ base: "column", md: "row" }}
+              <HStack
                 align="center"
+                justify="space-between"
                 textAlign="center"
                 bg={importFileBoxBg}
-                p={{ base: 3, md: 10 }}
-                w={{ base: "20rem", sm: "30rem" }}
+                p={{ base: 3, md: 6 }}
                 rounded="lg"
                 fontSize="xl"
                 cursor="pointer"
                 _hover={{
                   boxShadow: "dark-lg",
                 }}
+                h="100px"
+                w="300px"
               >
-                <Text>generate a slideshow from a markdown file.</Text>
+                <Text>Generate a slideshow from a markdown file.</Text>
                 <Icon fontSize="4xl" as={AiFillFileMarkdown} />
-              </Stack>
+              </HStack>
             </ImportFile>
-          )}
-        </Center>
+
+            <ImportFile
+              setFile={(file: File | undefined) => {
+                if (file) setSlides(file.data.text());
+              }}
+              allowedExtensions={["md"]}
+            >
+              <HStack
+                justify="space-between"
+                align="center"
+                textAlign="center"
+                bg={importFileBoxBg}
+                p={{ base: 3, md: 6 }}
+                rounded="lg"
+                fontSize="xl"
+                cursor="pointer"
+                _hover={{
+                  boxShadow: "dark-lg",
+                }}
+                h="100px"
+                w="300px"
+              >
+                <Text>Load a slideshow.</Text>
+                <Icon fontSize="4xl" as={MdSlideshow} />
+              </HStack>
+            </ImportFile>
+
+            <HStack
+              justify="space-between"
+              align="center"
+              textAlign="center"
+              bg={importFileBoxBg}
+              p={{ base: 3, md: 6 }}
+              rounded="lg"
+              fontSize="xl"
+              cursor="pointer"
+              _hover={{
+                boxShadow: "dark-lg",
+              }}
+              h="100px"
+              w="300px"
+            >
+              <Text>New slideshow.</Text>
+              <Icon fontSize="4xl" as={AiOutlinePlus} />
+            </HStack>
+          </Stack>
+        )}
       </Center>
     </HStack>
   );

@@ -7,6 +7,8 @@ import { LogoPositions } from "../../constants/logo-positions";
 import Reveal from "reveal.js";
 //@ts-ignore
 import Markdown from "reveal.js/plugin/markdown/markdown";
+//@ts-ignore
+import RevealHighlight from "reveal.js/plugin/highlight/highlight";
 
 import {
   slideShowSettingsAtom,
@@ -21,7 +23,7 @@ import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
 import EditMode from "../EditMode/EditMode";
-import { addMoveableToElements } from "../../utils";
+import { addMoveableToElements, getSlidesHTML } from "../../utils";
 import { ReplaceImage } from "../ReplaceImage/ReplaceImage";
 import {
   MoveableDeleteButton,
@@ -81,7 +83,7 @@ export default function SlideShow({
     const newDeck = Reveal(document.querySelector(`.${deckName}`), {
       embedded: true,
       keyboardCondition: "focused",
-      plugins: [Markdown],
+      plugins: [Markdown, RevealHighlight],
       ...slideShowSettings,
     });
     newDeck.initialize().then(() => {
@@ -111,6 +113,8 @@ export default function SlideShow({
         setMoveableTarget(undefined);
       });
     });
+
+    console.log(getSlidesHTML(newDeck));
 
     fscreen.addEventListener("fullscreenchange", () => {
       setIsFullscreen(fscreen.fullscreenElement !== null);

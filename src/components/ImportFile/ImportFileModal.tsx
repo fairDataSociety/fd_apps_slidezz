@@ -16,12 +16,12 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
-import SelectPod from "./SelectPod";
-import SelectFile from "./SelectFile";
+import SelectPod from "../Select/SelectPod";
+import SelectPath from "../Select/SelectPath";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { AiOutlineInbox } from "react-icons/ai";
-import { basename } from "path";
+import { basename, extname } from "path";
 import { File } from "../../types";
 
 interface ImportFileModalProps {
@@ -71,7 +71,10 @@ export default function ImportFileModal({
         .downloadData(pod.name, fullFilePath)
         .then((data) => {
           setFile({
+            podName: pod.name,
             name: basename(fullFilePath),
+            fullPath: fullFilePath,
+            extension: extname(fullFilePath).slice(1),
             data,
           });
           toast.closeAll();
@@ -117,10 +120,11 @@ export default function ImportFileModal({
           )}
           <Box h="300px">
             {pod ? (
-              <SelectFile
+              <SelectPath
                 pod={pod}
-                setFilePath={setFilePath}
+                setPath={setFilePath}
                 allowedExtensions={allowedExtensions}
+                selectFile={true}
               />
             ) : (
               <SelectPod setPod={setPod} />

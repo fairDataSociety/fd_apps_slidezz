@@ -19,5 +19,8 @@ export interface StyleSettings {
 
 export interface File {
   name: string;
+  podName: string;
+  fullPath: string;
+  extension: string;
   data: Data;
 }

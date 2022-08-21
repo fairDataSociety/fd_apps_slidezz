@@ -16,18 +16,20 @@ import { AiFillFolder, AiOutlineFile } from "react-icons/ai";
 import ItemBox from "./ItemBox";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
-interface SelectFileProps {
+interface SelectPathProps {
   pod: Pod;
-  setFilePath: (filePath: string) => void;
+  setPath: (path: string) => void;
   allowedExtensions?: string[];
+  selectFile?: boolean;
 }
 
-export default function SelectFile({
+export default function SelectPath({
   pod,
-  setFilePath,
+  setPath,
   allowedExtensions,
-}: SelectFileProps) {
-  const [path, setPath] = useState("/");
+  selectFile,
+}: SelectPathProps) {
+  const [tmpPath, setTmpPath] = useState("/");
   const [fdp] = useAtom(fdpAtom);
   const [isLoading, setIsLoading] = useState(false);
   const [items, setItems] = useState<DirectoryItem>();
@@ -38,7 +40,7 @@ export default function SelectFile({
 
     setIsLoading(true);
     fdp.directory
-      .read(pod.name, path)
+      .read(pod.name, tmpPath)
       .then((items) => {
         if (!canceled) setItems(items);
       })
@@ -52,15 +54,15 @@ export default function SelectFile({
     return () => {
       canceled = true;
     };
-  }, [pod, path]);
+  }, [pod, tmpPath]);
 
   return (
     <>
       <HStack mb={3}>
         <IconButton
-          isDisabled={path === "/" || isLoading}
+          isDisabled={tmpPath === "/" || isLoading}
           onClick={() => {
-            const pathArray = path.split("/");
+            const pathArray = tmpPath.split("/");
             let newPath = pathArray.slice(0, pathArray.length - 1).join("/");
             if (newPath === "") newPath = "/";
             setPath(newPath);
@@ -69,7 +71,7 @@ export default function SelectFile({
           aria-label="back"
           icon={<ArrowBackIcon />}
         />
-        <Text>Dir: {path}</Text>
+        <Text>Dir: {tmpPath}</Text>
       </HStack>
       {isLoading ? (
         <Center>
@@ -82,24 +84,32 @@ export default function SelectFile({
               key={dir.name}
               text={dir.name}
               icon={AiFillFolder}
-              onClick={() => setPath(join(path, dir.name))}
+              onClick={() => {
+                const path = join(tmpPath, dir.name);
+                setTmpPath(path);
+                if (!selectFile) setPath(path);
+              }}
             />
           ))}
-          {items?.getFiles().map((file) => {
-            const fileExtension = extname(file.name).slice(1);
+          {selectFile &&
+            items?.getFiles().map((file) => {
+              const fileExtension = extname(file.name).slice(1);
 
-            if (allowedExtensions && !allowedExtensions.includes(fileExtension))
-              return null;
+              if (
+                allowedExtensions &&
+                !allowedExtensions.includes(fileExtension)
+              )
+                return null;
 
-            return (
-              <ItemBox
-                key={file.name}
-                text={file.name}
-                icon={AiOutlineFile}
-                onClick={() => setFilePath(join(path, file.name))}
-              />
-            );
-          })}
+              return (
+                <ItemBox
+                  key={file.name}
+                  text={file.name}
+                  icon={AiOutlineFile}
+                  onClick={() => setPath(join(tmpPath, file.name))}
+                />
+              );
+            })}
         </VStack>
       ) : (
         <Text align="center">No file/folder found.</Text>

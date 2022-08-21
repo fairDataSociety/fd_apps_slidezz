@@ -9,6 +9,9 @@ import { BsMarkdown } from "react-icons/bs";
 import { File } from "../../types";
 import AddImage from "../AddImage/AddImage";
 import { BsImageAlt } from "react-icons/bs";
+import { FaPlay, FaSave } from "react-icons/fa";
+import fscreen from "fscreen";
+import SaveFile from "../SaveFile/SaveFile";
 
 export default function SideBar() {
   const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
@@ -23,12 +26,24 @@ export default function SideBar() {
       my="auto"
       overflow="hidden"
     >
+      <SideBarItem
+        icon={FaPlay}
+        label="Present"
+        onClick={() => {
+          fscreen.requestFullscreen(document.querySelector(".reveal")!);
+        }}
+      />
+
       <PresentationSettings />
       <StyleSettings />
 
       <AddImage handleAddImage={(image) => setSlidesLogo(image.data)}>
         <SideBarItem icon={BsImageAlt} label="Logo/Copyright image" />
       </AddImage>
+
+      <SaveFile file="">
+        <SideBarItem icon={FaSave} label="Save to fairdrive" />
+      </SaveFile>
 
       {/* <ImportFile
         setFile={(file: File | undefined) => {
