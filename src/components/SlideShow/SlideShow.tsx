@@ -23,7 +23,7 @@ import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
 import EditMode from "../EditMode/EditMode";
-import { addMoveableToElements, getSlidesHTML } from "../../utils";
+import { addMoveableToElements } from "../../utils";
 import { ReplaceImage } from "../ReplaceImage/ReplaceImage";
 import {
   MoveableDeleteButton,
@@ -33,12 +33,13 @@ import {
   MoveableDimension,
   MoveableDimensionProps,
 } from "../Ables/MoveableDimension";
+import { Slides } from "../../types";
 
 interface SlideShowProps {
   deckName: string;
   deck: any;
   setDeck: (deck: any) => void;
-  slides: string;
+  slides: Slides;
 }
 
 export default function SlideShow({
@@ -157,7 +158,7 @@ export default function SlideShow({
       <Box className={`reveal ${deckName}`}>
         <Box className="slides">
           <section data-markdown="" data-separator="---">
-            <Textarea data-template defaultValue={slides} />
+            <Textarea data-template defaultValue={slides.data} />
           </section>
         </Box>
         {slidesLogo && (

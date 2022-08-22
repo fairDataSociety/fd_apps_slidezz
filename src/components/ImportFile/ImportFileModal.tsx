@@ -23,6 +23,7 @@ import { fdpAtom } from "../../store";
 import { AiOutlineInbox } from "react-icons/ai";
 import { basename, extname } from "path";
 import { File } from "../../types";
+import LoadingToast from "../Toast/LoadingToast";
 
 interface ImportFileModalProps {
   isOpen: boolean;
@@ -41,7 +42,6 @@ export default function ImportFileModal({
   const [fdp] = useAtom(fdpAtom);
   const [pod, setPod] = useState<Pod>();
   const [filePath, setFilePath] = useState<string>();
-  const toastBg = useColorModeValue("latte-surface2", "frappe-surface2");
   const tooltipBg = useColorModeValue("latte-overlay1", "frappe-overlay1");
 
   const handleModalClose = () => {
@@ -59,12 +59,7 @@ export default function ImportFileModal({
 
       toast({
         duration: null,
-        render: () => (
-          <HStack fontSize="xl" bg={toastBg} p={3}>
-            <Spinner size="sm" />
-            <Text>Loading File</Text>
-          </HStack>
-        ),
+        render: () => <LoadingToast label="Loading File" />,
       });
 
       fdp.file

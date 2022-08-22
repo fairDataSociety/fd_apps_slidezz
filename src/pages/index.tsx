@@ -60,7 +60,7 @@ const Home: NextPage = () => {
             h={{ base: "30%", md: "50%", lg: "70%" }}
           >
             <SlideShow
-              key={slides}
+              key={slides.data}
               deckName="mainDeck"
               deck={deck}
               setDeck={setDeck}
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
           <Stack direction={{ base: "column", lg: "row" }}>
             <ImportFile
               setFile={async (file: File | undefined) => {
-                if (file) setSlides(file.data.text());
+                if (file) setSlides({ data: file.data.text() });
               }}
               allowedExtensions={["md"]}
             >
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
 
             <Box
               onClick={() => {
-                setSlides("## Slide 1");
+                setSlides({ data: "## Slide 1" });
               }}
             >
               <Card>

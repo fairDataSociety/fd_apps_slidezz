@@ -24,3 +24,9 @@ export interface File {
   extension: string;
   data: Data;
 }
+
+export interface Slides {
+  data: string;
+  podName?: string;
+  fullPath?: string;
+}

@@ -1,5 +1,5 @@
 import type { FdpStorage } from "@fairdatasociety/fdp-storage";
-import { File } from "./types";
+import { File, Slides } from "./types";
 
 export function addMoveableToElements(
   elements: HTMLElement[],
@@ -55,11 +55,6 @@ export function addImageToCurrentSlide(
   imageElement.setAttribute("data-path", image.fullPath);
   imageElement.classList.add("fair-data");
 
-  imageElement.style.position = "absolute";
-  imageElement.style.top = "50%";
-  imageElement.style.left = "50%";
-  imageElement.style.transform = "translate(-50%, -50%)";
-
   imageElement.style.cursor = "pointer";
 
   imageElement.addEventListener("click", () => {
@@ -79,7 +74,7 @@ export function getSlidesHTML(deck: any) {
 export async function loadSlideshow(
   file: File | undefined,
   fdp: FdpStorage,
-  setSlides: (slides: string) => void
+  setSlides: (slides: Slides) => void
 ) {
   if (!file) return;
 
@@ -103,5 +98,9 @@ export async function loadSlideshow(
     }
   }
 
-  setSlides(template.innerHTML);
+  setSlides({
+    data: template.innerHTML,
+    podName: file.podName,
+    fullPath: file.fullPath,
+  });
 }

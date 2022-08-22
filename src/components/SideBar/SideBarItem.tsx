@@ -1,16 +1,24 @@
-import { Tooltip, Center, Icon, useColorModeValue } from "@chakra-ui/react";
+import {
+  Tooltip,
+  Center,
+  Icon,
+  useColorModeValue,
+  Spinner,
+} from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
 interface SideBarItemInterface {
-  onClick?: () => void;
+  onClick?: () => Promise<void>;
   icon: IconType;
   label: string;
+  isLoading?: boolean;
 }
 
 export default function SideBarItem({
   onClick,
   icon,
   label,
+  isLoading,
 }: SideBarItemInterface) {
   return (
     <Tooltip
@@ -20,7 +28,9 @@ export default function SideBarItem({
       hasArrow
     >
       <Center
-        onClick={onClick}
+        onClick={async () => {
+          if (!isLoading && onClick) await onClick();
+        }}
         cursor="pointer"
         p={5}
         w="full"
@@ -28,7 +38,7 @@ export default function SideBarItem({
           bg: useColorModeValue("latte-surface2", "frappe-surface2"),
         }}
       >
-        <Icon as={icon} />
+        {isLoading ? <Spinner size="sm" /> : <Icon as={icon} />}
       </Center>
     </Tooltip>
   );

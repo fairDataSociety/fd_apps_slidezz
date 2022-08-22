@@ -8,7 +8,6 @@ import {
   Box,
   useToast,
   HStack,
-  Spinner,
   Text,
   useColorModeValue,
   IconButton,
@@ -25,11 +24,13 @@ import { fdpAtom } from "../../store";
 import { AiOutlineInbox } from "react-icons/ai";
 import SetFileNameModal from "./SetFileNameModal";
 import { join } from "path";
+import LoadingToast from "../Toast/LoadingToast";
 
 interface SaveFileModalProps {
   isOpen: boolean;
   onClose: () => void;
   getData: () => string;
+  onDone?: (podName: string, fullPath: string) => void;
   extension?: string;
 }
 
@@ -37,6 +38,7 @@ export default function SaveFileModal({
   isOpen,
   onClose,
   getData,
+  onDone,
   extension,
 }: SaveFileModalProps) {
   const toast = useToast();
@@ -44,7 +46,6 @@ export default function SaveFileModal({
   const [pod, setPod] = useState<Pod>();
   const [path, setPath] = useState<string>("/");
   const [fileName, setFileName] = useState("");
-  const toastBg = useColorModeValue("latte-surface2", "frappe-surface2");
   const tooltipBg = useColorModeValue("latte-overlay1", "frappe-overlay1");
   const {
     isOpen: isSetNameOpen,
@@ -68,12 +69,7 @@ export default function SaveFileModal({
 
     toast({
       duration: null,
-      render: () => (
-        <HStack fontSize="xl" bg={toastBg} p={3}>
-          <Spinner size="sm" />
-          <Text>Uploading File</Text>
-        </HStack>
-      ),
+      render: () => <LoadingToast label="Uploading File" />,
     });
 
     const file = extension ? `${fileName}.${extension}` : fileName;
@@ -84,6 +80,7 @@ export default function SaveFileModal({
       .uploadData(pod.name, join(fullPath, file), data)
       .then(() => {
         toast.closeAll();
+        onDone && onDone(pod.name, join(fullPath, file));
       })
       .catch((error: any) => {
         toast.closeAll();
