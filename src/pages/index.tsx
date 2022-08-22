@@ -4,7 +4,6 @@ import {
   Center,
   HStack,
   Spinner,
-  useColorModeValue,
   Text,
   Icon,
   Stack,
@@ -19,9 +18,15 @@ import { AiFillFileMarkdown, AiOutlinePlus } from "react-icons/ai";
 import { MdSlideshow } from "react-icons/md";
 import ImportFile from "../components/ImportFile/ImportFile";
 import { File } from "../types";
+import Card from "../components/Card/Card";
 
 const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
   ssr: false,
+  loading: () => (
+    <Center h="full">
+      <Spinner size="xl" />
+    </Center>
+  ),
 });
 
 const Home: NextPage = () => {
@@ -29,7 +34,6 @@ const Home: NextPage = () => {
   const [fdp] = useAtom(fdpAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
   const router = useRouter();
-  const importFileBoxBg = useColorModeValue("latte-crust", "frappe-crust");
 
   useEffect(() => {
     if (!fdp.account.wallet) {
@@ -65,75 +69,65 @@ const Home: NextPage = () => {
         ) : (
           <Stack direction={{ base: "column", lg: "row" }}>
             <ImportFile
-              setFile={(file: File | undefined) => {
+              setFile={async (file: File | undefined) => {
                 if (file) setSlides(file.data.text());
               }}
               allowedExtensions={["md"]}
             >
-              <HStack
-                align="center"
-                justify="space-between"
-                textAlign="center"
-                bg={importFileBoxBg}
-                p={{ base: 3, md: 6 }}
-                rounded="lg"
-                fontSize="xl"
-                cursor="pointer"
-                _hover={{
-                  boxShadow: "dark-lg",
-                }}
-                h="100px"
-                w="300px"
-              >
+              <Card>
                 <Text>Generate a slideshow from a markdown file.</Text>
                 <Icon fontSize="4xl" as={AiFillFileMarkdown} />
-              </HStack>
+              </Card>
             </ImportFile>
 
             <ImportFile
-              setFile={(file: File | undefined) => {
-                if (file) setSlides(file.data.text());
+              setFile={async (file: File | undefined) => {
+                if (file) {
+                  const template = document.createElement("template");
+                  template.innerHTML = file.data.text();
+
+                  const fairData = Array.from(
+                    template.content.querySelectorAll(".fair-data")
+                  );
+
+                  for await (const element of fairData) {
+                    const podName = element.getAttribute("data-pod");
+                    const path = element.getAttribute("data-path");
+
+                    if (podName && path) {
+                      try {
+                        const data = await fdp.file.downloadData(podName, path);
+                        //@ts-ignore
+                        element.src = URL.createObjectURL(
+                          new Blob([data.buffer])
+                        );
+                      } catch (error) {
+                        console.log(error);
+                      }
+                    }
+                  }
+
+                  setSlides(template.innerHTML);
+                }
               }}
-              allowedExtensions={["md"]}
+              allowedExtensions={["html"]}
             >
-              <HStack
-                justify="space-between"
-                align="center"
-                textAlign="center"
-                bg={importFileBoxBg}
-                p={{ base: 3, md: 6 }}
-                rounded="lg"
-                fontSize="xl"
-                cursor="pointer"
-                _hover={{
-                  boxShadow: "dark-lg",
-                }}
-                h="100px"
-                w="300px"
-              >
+              <Card>
                 <Text>Load a slideshow.</Text>
                 <Icon fontSize="4xl" as={MdSlideshow} />
-              </HStack>
+              </Card>
             </ImportFile>
 
-            <HStack
-              justify="space-between"
-              align="center"
-              textAlign="center"
-              bg={importFileBoxBg}
-              p={{ base: 3, md: 6 }}
-              rounded="lg"
-              fontSize="xl"
-              cursor="pointer"
-              _hover={{
-                boxShadow: "dark-lg",
+            <Box
+              onClick={() => {
+                setSlides("## Slide 1");
               }}
-              h="100px"
-              w="300px"
             >
-              <Text>New slideshow.</Text>
-              <Icon fontSize="4xl" as={AiOutlinePlus} />
-            </HStack>
+              <Card>
+                <Text>New slideshow.</Text>
+                <Icon fontSize="4xl" as={AiOutlinePlus} />
+              </Card>
+            </Box>
           </Stack>
         )}
       </Center>

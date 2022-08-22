@@ -27,7 +27,7 @@ import { File } from "../../types";
 interface ImportFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  setFile: (file: File | undefined) => void;
+  setFile: (file: File | undefined) => Promise<void>;
   allowedExtensions?: string[];
 }
 
@@ -76,8 +76,7 @@ export default function ImportFileModal({
             fullPath: fullFilePath,
             extension: extname(fullFilePath).slice(1),
             data,
-          });
-          toast.closeAll();
+          }).then(() => toast.closeAll());
         })
         .catch((error: any) => {
           toast.closeAll();

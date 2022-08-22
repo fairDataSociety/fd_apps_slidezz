@@ -48,6 +48,7 @@ export default function AddVideo() {
 
     videoElement.setAttribute("data-pod", video.podName);
     videoElement.setAttribute("data-path", video.fullPath);
+    videoElement.classList.add("fair-data");
 
     videoElement.style.cursor = "pointer";
 
@@ -103,7 +104,7 @@ export default function AddVideo() {
           </ModalBody>
           <ModalFooter flexDir="row-reverse">
             <ImportFile
-              setFile={(file: File | undefined) => {
+              setFile={async (file: File | undefined) => {
                 if (file) setMedia([...media, file]);
               }}
               allowedExtensions={["mp4", "webm", "ogg"]}

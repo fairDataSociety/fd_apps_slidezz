@@ -3,7 +3,7 @@ import ImportFileModal from "./ImportFileModal";
 import { File } from "../../types";
 
 interface ImportFileProps {
-  setFile: (file: File | undefined) => void;
+  setFile: (file: File | undefined) => Promise<void>;
   children: React.ReactNode;
   allowedExtensions?: string[];
 }

@@ -10,6 +10,7 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 interface SetFileNameModalProps {
@@ -42,7 +43,12 @@ export default function SetFileNameModal({
               onChange={(e) => setFileName(e.target.value)}
               placeholder="File name"
             />
-            {extension && <InputRightAddon children={`.${extension}`} />}
+            {extension && (
+              <InputRightAddon
+                bg={useColorModeValue("gray.200", "gray.800")}
+                children={`.${extension}`}
+              />
+            )}
           </InputGroup>
         </ModalBody>
         <ModalFooter>

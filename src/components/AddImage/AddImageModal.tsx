@@ -54,7 +54,10 @@ export default function AddImageModal({
               return (
                 <Tooltip label={image.name} hasArrow>
                   <Box
-                    onClick={() => handleAddImage(image)}
+                    onClick={() => {
+                      handleAddImage(image);
+                      onClose();
+                    }}
                     mx="auto"
                     cursor="pointer"
                     w="200px"
@@ -72,7 +75,7 @@ export default function AddImageModal({
         </ModalBody>
         <ModalFooter flexDir="row-reverse">
           <ImportFile
-            setFile={(file: File | undefined) => {
+            setFile={async (file: File | undefined) => {
               if (file) setMedia([...media, file]);
             }}
             allowedExtensions={["png", "jpg", "jpeg", "gif", "svg"]}

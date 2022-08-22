@@ -52,6 +52,7 @@ export function addImageToCurrentSlide(
   imageElement.alt = image.name;
   imageElement.setAttribute("data-pod", image.podName);
   imageElement.setAttribute("data-path", image.fullPath);
+  imageElement.classList.add("fair-data");
 
   imageElement.style.cursor = "pointer";
 

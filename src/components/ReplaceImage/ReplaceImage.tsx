@@ -21,6 +21,7 @@ export function ReplaceImage() {
 
     replaceImageElement.setAttribute("data-pod", image.podName);
     replaceImageElement.setAttribute("data-path", image.fullPath);
+    replaceImageElement.classList.add("fair-data");
 
     setReplaceImageElement(undefined);
   };

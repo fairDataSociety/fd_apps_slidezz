@@ -114,8 +114,6 @@ export default function SlideShow({
       });
     });
 
-    console.log(getSlidesHTML(newDeck));
-
     fscreen.addEventListener("fullscreenchange", () => {
       setIsFullscreen(fscreen.fullscreenElement !== null);
     });

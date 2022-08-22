@@ -24,18 +24,19 @@ import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { AiOutlineInbox } from "react-icons/ai";
 import SetFileNameModal from "./SetFileNameModal";
+import { join } from "path";
 
 interface SaveFileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: string;
+  getData: () => string;
   extension?: string;
 }
 
 export default function SaveFileModal({
   isOpen,
   onClose,
-  data,
+  getData,
   extension,
 }: SaveFileModalProps) {
   const toast = useToast();
@@ -54,6 +55,7 @@ export default function SaveFileModal({
   const handleModalClose = () => {
     setPod(undefined);
     setPath("/");
+    setFileName("");
     onClose();
     onSetNameClose();
   };
@@ -74,8 +76,12 @@ export default function SaveFileModal({
       ),
     });
 
+    const file = extension ? `${fileName}.${extension}` : fileName;
+
+    const data = getData();
+
     fdp.file
-      .uploadData(pod.name, fullPath, data)
+      .uploadData(pod.name, join(fullPath, file), data)
       .then(() => {
         toast.closeAll();
       })

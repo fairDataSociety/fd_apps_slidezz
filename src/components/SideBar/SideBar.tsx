@@ -1,21 +1,19 @@
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import { slidesAtom, slidesLogoAtom } from "../../store";
-import ImportFile from "../ImportFile/ImportFile";
+import { slidesDeckAtom, slidesLogoAtom } from "../../store";
 import PresentationSettings from "../Settings/SlideShowSettings";
 import StyleSettings from "../Settings/StyleSettings/StyleSettings";
 import SideBarItem from "./SideBarItem";
-import { BsMarkdown } from "react-icons/bs";
-import { File } from "../../types";
 import AddImage from "../AddImage/AddImage";
 import { BsImageAlt } from "react-icons/bs";
 import { FaPlay, FaSave } from "react-icons/fa";
 import fscreen from "fscreen";
 import SaveFile from "../SaveFile/SaveFile";
+import { getSlidesHTML } from "../../utils";
 
 export default function SideBar() {
   const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
-  const [_, setSlides] = useAtom(slidesAtom);
+  const [deck] = useAtom(slidesDeckAtom);
 
   return (
     <Box
@@ -41,21 +39,11 @@ export default function SideBar() {
         <SideBarItem icon={BsImageAlt} label="Logo/Copyright image" />
       </AddImage>
 
-      <SaveFile file="">
-        <SideBarItem icon={FaSave} label="Save to fairdrive" />
-      </SaveFile>
-
-      {/* <ImportFile
-        setFile={(file: File | undefined) => {
-          if (file) setSlides(file.data.text());
-        }}
-        allowedExtensions={["md"]}
-      >
-        <SideBarItem
-          label="Import markdown file from Fairdrive"
-          icon={BsMarkdown}
-        />
-      </ImportFile> */}
+      {deck && (
+        <SaveFile getData={() => getSlidesHTML(deck)} extension="html">
+          <SideBarItem icon={FaSave} label="Save to fairdrive" />
+        </SaveFile>
+      )}
     </Box>
   );
 }
