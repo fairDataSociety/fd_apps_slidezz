@@ -50,7 +50,6 @@ export default function AddYouTubeEmbedVideo({
     const slide = deck.getSlides()[currentSlideIndex];
 
     const divElement = document.createElement("div");
-
     divElement.classList.add("iframe-wrapper");
 
     const iframeElement = document.createElement("iframe");

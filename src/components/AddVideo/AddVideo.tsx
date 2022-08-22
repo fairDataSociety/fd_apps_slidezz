@@ -52,6 +52,11 @@ export default function AddVideo() {
 
     videoElement.style.cursor = "pointer";
 
+    videoElement.style.position = "absolute";
+    videoElement.style.top = "50%";
+    videoElement.style.left = "50%";
+    videoElement.style.transform = "translate(-50%, -50%)";
+
     videoElement.addEventListener("click", () => {
       setMoveableTarget(videoElement);
     });

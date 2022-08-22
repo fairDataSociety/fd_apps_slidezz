@@ -18,6 +18,11 @@ export default function AddText({ children }: AddTextProps) {
     const textElement = document.createElement("p");
     textElement.innerText = "text";
 
+    textElement.style.position = "absolute";
+    textElement.style.top = "50%";
+    textElement.style.left = "50%";
+    textElement.style.transform = "translate(-50%, -50%)";
+
     slide.appendChild(textElement);
 
     addMoveableToElements([textElement], setMoveableTarget);

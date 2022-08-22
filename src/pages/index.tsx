@@ -19,6 +19,7 @@ import { MdSlideshow } from "react-icons/md";
 import ImportFile from "../components/ImportFile/ImportFile";
 import { File } from "../types";
 import Card from "../components/Card/Card";
+import { loadSlideshow } from "../utils";
 
 const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
   ssr: false,
@@ -82,33 +83,7 @@ const Home: NextPage = () => {
 
             <ImportFile
               setFile={async (file: File | undefined) => {
-                if (file) {
-                  const template = document.createElement("template");
-                  template.innerHTML = file.data.text();
-
-                  const fairData = Array.from(
-                    template.content.querySelectorAll(".fair-data")
-                  );
-
-                  for await (const element of fairData) {
-                    const podName = element.getAttribute("data-pod");
-                    const path = element.getAttribute("data-path");
-
-                    if (podName && path) {
-                      try {
-                        const data = await fdp.file.downloadData(podName, path);
-                        //@ts-ignore
-                        element.src = URL.createObjectURL(
-                          new Blob([data.buffer])
-                        );
-                      } catch (error) {
-                        console.log(error);
-                      }
-                    }
-                  }
-
-                  setSlides(template.innerHTML);
-                }
+                await loadSlideshow(file, fdp, setSlides);
               }}
               allowedExtensions={["html"]}
             >

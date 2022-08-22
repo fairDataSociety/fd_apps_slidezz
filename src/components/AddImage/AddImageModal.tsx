@@ -52,7 +52,7 @@ export default function AddImageModal({
           >
             {images.map((image) => {
               return (
-                <Tooltip label={image.name} hasArrow>
+                <Tooltip key={image.name} label={image.name} hasArrow>
                   <Box
                     onClick={() => {
                       handleAddImage(image);

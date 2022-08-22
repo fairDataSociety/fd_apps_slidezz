@@ -1,7 +1,7 @@
 import { Box, Image, useColorModeValue, Textarea } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import React, { RefObject, useEffect, useRef, useState } from "react";
-import { LogoPositions } from "../../constants/logo-positions";
+import { LogoPositions } from "../../config/logo-positions";
 
 //@ts-ignore
 import Reveal from "reveal.js";

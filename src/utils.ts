@@ -1,3 +1,4 @@
+import type { FdpStorage } from "@fairdatasociety/fdp-storage";
 import { File } from "./types";
 
 export function addMoveableToElements(
@@ -54,6 +55,11 @@ export function addImageToCurrentSlide(
   imageElement.setAttribute("data-path", image.fullPath);
   imageElement.classList.add("fair-data");
 
+  imageElement.style.position = "absolute";
+  imageElement.style.top = "50%";
+  imageElement.style.left = "50%";
+  imageElement.style.transform = "translate(-50%, -50%)";
+
   imageElement.style.cursor = "pointer";
 
   imageElement.addEventListener("click", () => {
@@ -68,4 +74,34 @@ export function addImageToCurrentSlide(
 export function getSlidesHTML(deck: any) {
   const slides = deck.getSlides() as HTMLElement[];
   return slides.map((slide) => slide.outerHTML).join("\n");
+}
+
+export async function loadSlideshow(
+  file: File | undefined,
+  fdp: FdpStorage,
+  setSlides: (slides: string) => void
+) {
+  if (!file) return;
+
+  const template = document.createElement("template");
+  template.innerHTML = file.data.text();
+
+  const fairData = Array.from(template.content.querySelectorAll(".fair-data"));
+
+  for await (const element of fairData) {
+    const podName = element.getAttribute("data-pod");
+    const path = element.getAttribute("data-path");
+
+    if (podName && path) {
+      try {
+        const data = await fdp.file.downloadData(podName, path);
+        //@ts-ignore
+        element.src = URL.createObjectURL(new Blob([data.buffer]));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  setSlides(template.innerHTML);
 }
