@@ -29,4 +29,5 @@ export interface Slides {
   data: string;
   podName?: string;
   fullPath?: string;
+  isShared?: boolean;
 }

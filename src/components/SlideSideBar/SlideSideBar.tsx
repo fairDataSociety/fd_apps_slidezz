@@ -2,15 +2,14 @@ import { Box, useColorModeValue } from "@chakra-ui/react";
 import AddImage from "../AddImage/AddImage";
 import AddVideo from "../AddVideo/AddVideo";
 import { BsFillImageFill } from "react-icons/bs";
-import SideBarItem from "../SideBar/SideBarItem";
 import { addImageToCurrentSlide } from "../../utils";
 import { useAtom } from "jotai";
 import { moveableTargetAtom, slidesDeckAtom } from "../../store";
-import { AiFillDelete } from "react-icons/ai";
 import AddText from "../AddText/AddText";
 import { RiText } from "react-icons/ri";
-import NewSlide from "../NewSlide/NewSlide";
+import NewSlide from "./NewSlide";
 import SlideSideBarItem from "./SlideSideBarItem";
+import RemoveSlide from "./RemoveSlide";
 
 export default function SlideSideBar() {
   const [deck] = useAtom(slidesDeckAtom);
@@ -38,24 +37,7 @@ export default function SlideSideBar() {
         <SlideSideBarItem icon={BsFillImageFill} label="Image" />
       </AddImage>
       <AddVideo />
-
-      <SlideSideBarItem
-        icon={AiFillDelete}
-        label="Remove slide"
-        onClick={() => {
-          if (deck.getTotalSlides() <= 1) return;
-
-          const slides = deck.getSlidesElement() as HTMLElement;
-          const currentSlide = deck.getCurrentSlide() as HTMLElement;
-          const currentSlideIndex = deck.getState().indexh;
-
-          slides.removeChild(currentSlide);
-          deck.sync();
-          deck.layout();
-          deck.slide(currentSlideIndex > 1 ? currentSlideIndex : 0);
-        }}
-      />
-
+      <RemoveSlide />
       <NewSlide />
     </Box>
   );
