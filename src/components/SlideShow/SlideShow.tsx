@@ -23,7 +23,7 @@ import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
 import EditMode from "./EditMode";
-import { addMoveableToElements } from "../../utils";
+import { addMoveableToElements, isHTML } from "../../utils";
 import { ReplaceImage } from "./ReplaceImage";
 import {
   MoveableDeleteButton,
@@ -62,18 +62,26 @@ export default function SlideShow({
   });
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([]);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const slidesRef = useRef() as RefObject<HTMLDivElement>;
 
   useEffect(() => {
-    document.body.addEventListener("click", (e) => {
+    const handleBodyClick = (e: MouseEvent) => {
       if (!moveableRef.current?.isInside(e.clientX, e.clientY)) {
         setMoveableTarget(undefined);
       }
-    });
+    };
+
+    document.body.addEventListener("click", handleBodyClick);
 
     return () => {
-      document.body.removeEventListener("click", () => {});
+      document.body.removeEventListener("click", handleBodyClick);
     };
   }, [moveableRef]);
+
+  useEffect(() => {
+    if (slidesRef.current && isHTML(slides.data))
+      slidesRef.current.innerHTML = slides.data;
+  }, [slidesRef]);
 
   useEffect(() => {
     document.body.setAttribute("data-theme", styleSettings.theme);
@@ -115,18 +123,22 @@ export default function SlideShow({
       });
     });
 
-    fscreen.addEventListener("fullscreenchange", () => {
+    const handleFullScreenChange = () => {
       setIsFullscreen(fscreen.fullscreenElement !== null);
-    });
+    };
 
-    window.addEventListener("resize", () => {
+    fscreen.addEventListener("fullscreenchange", handleFullScreenChange);
+
+    const handleResize = () => {
       setMoveableTarget(undefined);
-    });
+    };
+
+    window.addEventListener("resize", handleResize);
 
     return () => {
       newDeck.destroy();
-      fscreen.removeEventListener("fullscreenchange", () => {});
-      window.removeEventListener("resize", () => {});
+      fscreen.removeEventListener("fullscreenchange", handleFullScreenChange);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -156,10 +168,12 @@ export default function SlideShow({
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
       <Box className={`reveal ${deckName}`}>
-        <Box className="slides">
-          <section data-markdown="" data-separator="---">
-            <Textarea data-template defaultValue={slides.data} />
-          </section>
+        <Box ref={slidesRef} className="slides">
+          {!isHTML(slides.data) && (
+            <section data-markdown="" data-separator="---">
+              <Textarea data-template defaultValue={slides.data} />
+            </section>
+          )}
         </Box>
         {slidesLogo && (
           <Image

@@ -7,7 +7,10 @@ export function addMoveableToElements(
   setReplaceImageElement?: (target: HTMLImageElement | undefined) => void
 ) {
   elements.forEach((element: HTMLElement) => {
-    if (element.tagName.toLowerCase() === "div") {
+    if (
+      element.tagName.toLowerCase() === "div" &&
+      !element.classList.contains("iframe-wrapper")
+    ) {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
         setMoveableTarget,
@@ -101,4 +104,8 @@ export async function loadSlideshow(
   setSlides({
     data: template.innerHTML,
   });
+}
+
+export function isHTML(data: string) {
+  return /<\/?[a-z][\s\S]*>/i.test(data);
 }
