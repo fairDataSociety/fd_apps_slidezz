@@ -86,9 +86,10 @@ const Home: NextPage = () => {
                 await loadSlideshow(file, fdp, setSlides);
               }}
               allowedExtensions={["html"]}
+              initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
             >
               <Card>
-                <Text>Load a slideshow.</Text>
+                <Text>Generate a slideshow from an existing slides.</Text>
                 <Icon fontSize="4xl" as={MdSlideshow} />
               </Card>
             </ImportFile>

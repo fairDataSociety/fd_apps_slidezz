@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { moveableTargetAtom, replaceImageElementAtom } from "../../store";
 import { File } from "../../types";
-import AddImageModal from "../AddImage/AddImageModal";
+import AddImageModal from "../SlideSideBar/AddImage/AddImageModal";
 
 export function ReplaceImage() {
   const [isOpen, setIsOpen] = useState(true);

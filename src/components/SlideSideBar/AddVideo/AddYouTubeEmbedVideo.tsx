@@ -17,7 +17,7 @@ import {
 import { BsLink } from "react-icons/bs";
 import { Formik, Field } from "formik";
 import { useAtom } from "jotai";
-import { moveableTargetAtom, slidesDeckAtom } from "../../store";
+import { moveableTargetAtom, slidesDeckAtom } from "../../../store";
 
 interface AddYouTubeEmbedVideoProps {
   addVideoOnClose: () => void;

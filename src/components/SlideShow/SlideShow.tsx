@@ -22,17 +22,17 @@ import Moveable from "react-moveable";
 import MoveableHelper from "moveable-helper";
 import fscreen from "fscreen";
 import SlideSideBar from "../SlideSideBar/SlideSideBar";
-import EditMode from "../EditMode/EditMode";
+import EditMode from "./EditMode";
 import { addMoveableToElements } from "../../utils";
-import { ReplaceImage } from "../ReplaceImage/ReplaceImage";
+import { ReplaceImage } from "./ReplaceImage";
 import {
   MoveableDeleteButton,
   MoveableDeleteButtonProps,
-} from "../Ables/MoveableDeleteButton";
+} from "./Moveable/Ables/MoveableDeleteButton";
 import {
   MoveableDimension,
   MoveableDimensionProps,
-} from "../Ables/MoveableDimension";
+} from "./Moveable/Ables/MoveableDimension";
 import { Slides } from "../../types";
 
 interface SlideShowProps {

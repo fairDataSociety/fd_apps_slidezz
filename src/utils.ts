@@ -100,7 +100,5 @@ export async function loadSlideshow(
 
   setSlides({
     data: template.innerHTML,
-    podName: file.podName,
-    fullPath: file.fullPath,
   });
 }

@@ -1,10 +1,10 @@
-import BlankSlide from "./components/Templates/BlankSlide";
-import ImageTitleSlide from "./components/Templates/ImageTitleSlide";
-import TitleImageSlide from "./components/Templates/TitleImageSlide";
-import TitleSlide from "./components/Templates/TitleSlide";
-import TitleSubtitleSlide from "./components/Templates/TitleSubtitleSlide";
-import TwoColumnImageSlide from "./components/Templates/TwoColumnImageSlide";
-import TwoColumnSlide from "./components/Templates/TwoColumnSlide";
+import BlankSlide from "./components/SlideSideBar/Templates/BlankSlide";
+import ImageTitleSlide from "./components/SlideSideBar/Templates/ImageTitleSlide";
+import TitleImageSlide from "./components/SlideSideBar/Templates/TitleImageSlide";
+import TitleSlide from "./components/SlideSideBar/Templates/TitleSlide";
+import TitleSubtitleSlide from "./components/SlideSideBar/Templates/TitleSubtitleSlide";
+import TwoColumnImageSlide from "./components/SlideSideBar/Templates/TwoColumnImageSlide";
+import TwoColumnSlide from "./components/SlideSideBar/Templates/TwoColumnSlide";
 
 interface Template {
   name: string;

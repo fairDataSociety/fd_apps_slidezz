@@ -9,7 +9,6 @@ import {
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { useEffect, useState } from "react";
-import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
 import type { DirectoryItem } from "@fairdatasociety/fdp-storage/dist/content-items/directory-item";
 import { join, extname } from "path";
 import { AiFillFolder, AiOutlineFile } from "react-icons/ai";
@@ -17,17 +16,15 @@ import ItemBox from "./ItemBox";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 interface SelectPathProps {
-  pod: Pod;
+  pod: string;
   setPath: (path: string) => void;
   allowedExtensions?: string[];
-  selectFile?: boolean;
 }
 
 export default function SelectPath({
   pod,
   setPath,
   allowedExtensions,
-  selectFile,
 }: SelectPathProps) {
   const [tmpPath, setTmpPath] = useState("/");
   const [fdp] = useAtom(fdpAtom);
@@ -40,7 +37,7 @@ export default function SelectPath({
 
     setIsLoading(true);
     fdp.directory
-      .read(pod.name, tmpPath)
+      .read(pod, tmpPath)
       .then((items) => {
         if (!canceled) setItems(items);
       })
@@ -87,29 +84,24 @@ export default function SelectPath({
               onClick={() => {
                 const path = join(tmpPath, dir.name);
                 setTmpPath(path);
-                if (!selectFile) setPath(path);
               }}
             />
           ))}
-          {selectFile &&
-            items?.getFiles().map((file) => {
-              const fileExtension = extname(file.name).slice(1);
+          {items?.getFiles().map((file) => {
+            const fileExtension = extname(file.name).slice(1);
 
-              if (
-                allowedExtensions &&
-                !allowedExtensions.includes(fileExtension)
-              )
-                return null;
+            if (allowedExtensions && !allowedExtensions.includes(fileExtension))
+              return null;
 
-              return (
-                <ItemBox
-                  key={file.name}
-                  text={file.name}
-                  icon={AiOutlineFile}
-                  onClick={() => setPath(join(tmpPath, file.name))}
-                />
-              );
-            })}
+            return (
+              <ItemBox
+                key={file.name}
+                text={file.name}
+                icon={AiOutlineFile}
+                onClick={() => setPath(join(tmpPath, file.name))}
+              />
+            );
+          })}
         </VStack>
       ) : (
         <Text align="center">No file/folder found.</Text>

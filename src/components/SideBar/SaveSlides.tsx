@@ -1,78 +1,136 @@
-import { useToast } from "@chakra-ui/react";
+import {
+  useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  Input,
+  InputGroup,
+  InputRightAddon,
+  useColorModeValue,
+  useDisclosure,
+  VStack,
+  FormControl,
+  FormLabel,
+  Switch,
+  useBoolean,
+} from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { FaSave } from "react-icons/fa";
 import { fdpAtom, slidesDeckAtom, slidesAtom } from "../../store";
-import { getSlidesHTML } from "../../utils";
-import SaveFile from "../SaveFile/SaveFile";
-import LoadingToast from "../Toast/LoadingToast";
+import { FaSave } from "react-icons/fa";
 import SideBarItem from "./SideBarItem";
+import LoadingToast from "../Toast/LoadingToast";
+import { getSlidesHTML } from "../../utils";
 
 export default function SaveSlides() {
   const [fdp] = useAtom(fdpAtom);
   const [deck] = useAtom(slidesDeckAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [fileName, setFileName] = useState("");
+  const [shareSlides, setShareSlides] = useBoolean(false);
   const toast = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSaveSlides = async () => {
+    if (!slides || !deck) return;
+
+    toast({
+      duration: null,
+      render: () => <LoadingToast label="Saving slides" />,
+    });
+
+    const slidesHTML = getSlidesHTML(deck);
+    const div = document.createElement("div");
+    div.innerHTML = slidesHTML;
+
+    const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
+
+    for (const fairDataElement of fairDataElements) {
+      const podName = fairDataElement.getAttribute("data-pod")!;
+      const path = fairDataElement.getAttribute("data-path")!;
+
+      const shareRef = await fdp.file.share(podName, path);
+
+      fairDataElement.setAttribute("data-shareref", shareRef);
+    }
+
+    const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!;
+    const pods = await fdp.personalStorage.list();
+    const slidesPod = pods.getPods().find((pod) => pod.name === slidesPodName);
+
+    if (!slidesPod) {
+      await fdp.personalStorage.create(slidesPodName);
+    }
+
+    const filePath = `/${fileName}.html`;
+    await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML);
+
+    const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
+
+    setSlides({
+      ...slides,
+      name: fileName,
+      sharedRef: slidesShareRef,
+    });
+    toast.closeAll();
+  };
 
   return (
     <>
-      {deck && slides && !slides.podName ? (
-        <SaveFile
-          onDone={(podName, fullPath) => {
-            setSlides({
-              ...slides,
-              podName,
-              fullPath,
-            });
-          }}
-          getData={() => getSlidesHTML(deck)}
-          extension="html"
-        >
-          <SideBarItem icon={FaSave} label="Save to fairdrive" />
-        </SaveFile>
-      ) : null}
+      <SideBarItem icon={FaSave} onClick={onOpen} label="Save slides" />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Save Slides</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <VStack>
+              <InputGroup>
+                <Input
+                  value={fileName}
+                  onChange={(e) => setFileName(e.target.value)}
+                  placeholder="Slideshow name"
+                />
 
-      {deck && slides && !!slides.podName && !!slides.fullPath ? (
-        <SideBarItem
-          onClick={async () => {
-            if (!slides.podName || !slides.fullPath) return;
-
-            setIsLoading(true);
-
-            toast({
-              duration: null,
-              render: () => <LoadingToast label="Saving File" />,
-            });
-
-            try {
-              await fdp.file.delete(slides.podName, slides.fullPath);
-              await fdp.file.uploadData(
-                slides.podName,
-                slides.fullPath,
-                slides.data
-              );
-
-              toast.closeAll();
-            } catch (error: any) {
-              toast.closeAll();
-
-              toast({
-                title: "Failed to save file",
-                description: error.message,
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-              });
-            }
-
-            setIsLoading(false);
-          }}
-          icon={FaSave}
-          isLoading={isLoading}
-          label="Click to save"
-        />
-      ) : null}
+                <InputRightAddon
+                  bg={useColorModeValue("gray.200", "gray.800")}
+                  children={".html"}
+                />
+              </InputGroup>
+              <FormControl display="flex" alignItems="center">
+                <FormLabel htmlFor="share-slides" mb="0">
+                  Share slides?
+                </FormLabel>
+                <Switch
+                  colorScheme="surface1"
+                  isChecked={shareSlides}
+                  id="share-slides"
+                  onChange={setShareSlides.toggle}
+                />
+              </FormControl>
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              isDisabled={fileName.length === 0}
+              onClick={() => {
+                onClose();
+                handleSaveSlides();
+              }}
+            >
+              Save
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

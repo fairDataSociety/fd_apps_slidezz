@@ -18,13 +18,13 @@ import {
   moveableTargetAtom,
   slidesDeckAtom,
   videoMediaAtom,
-} from "../../store";
-import ImportFile from "../ImportFile/ImportFile";
-import { File } from "../../types";
+} from "../../../store";
+import ImportFile from "../../ImportFile/ImportFile";
+import { File } from "../../../types";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import AddYouTubeEmbedVideo from "./AddYouTubeEmbedVideo";
-import ItemBox from "../Select/ItemBox";
-import SlideSideBarItem from "../SlideSideBar/SlideSideBarItem";
+import ItemBox from "../../ImportFile/ItemBox";
+import SlideSideBarItem from "../SlideSideBarItem";
 
 export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -21,7 +21,7 @@ export default function SideBar() {
       <SideBarItem
         icon={FaPlay}
         label="Present"
-        onClick={async () => {
+        onClick={() => {
           fscreen.requestFullscreen(document.querySelector(".reveal")!);
         }}
       />

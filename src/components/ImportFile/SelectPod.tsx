@@ -7,7 +7,7 @@ import { AiOutlineInbox } from "react-icons/ai";
 import ItemBox from "./ItemBox";
 
 interface SelectPodProps {
-  setPod: (pod: Pod) => void;
+  setPod: (pod: string) => void;
 }
 
 export default function SelectPod({ setPod }: SelectPodProps) {
@@ -49,7 +49,7 @@ export default function SelectPod({ setPod }: SelectPodProps) {
             key={pod.name}
             text={pod.name}
             icon={AiOutlineInbox}
-            onClick={() => setPod(pod)}
+            onClick={() => setPod(pod.name)}
           />
         ))
       ) : (

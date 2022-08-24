@@ -1,4 +1,4 @@
-import AddImage from "../AddImage/AddImage";
+import AddImage from "../SlideSideBar/AddImage/AddImage";
 import { BsImageAlt } from "react-icons/bs";
 import SideBarItem from "./SideBarItem";
 import { useAtom } from "jotai";

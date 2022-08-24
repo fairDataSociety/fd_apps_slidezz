@@ -13,11 +13,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import ImportFile from "../ImportFile/ImportFile";
-import { File } from "../../types";
+import ImportFile from "../../ImportFile/ImportFile";
+import { File } from "../../../types";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 import { useAtom } from "jotai";
-import { imageMediaAtom, mediaAtom } from "../../store";
+import { imageMediaAtom, mediaAtom } from "../../../store";
 
 interface AddImageModalProps {
   isOpen: boolean;

@@ -8,16 +8,14 @@ import {
   Box,
   useToast,
   HStack,
-  Spinner,
   Text,
   useColorModeValue,
   IconButton,
   Tooltip,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
-import SelectPod from "../Select/SelectPod";
-import SelectPath from "../Select/SelectPath";
+import SelectPod from "./SelectPod";
+import SelectPath from "./SelectPath";
 import { useAtom } from "jotai";
 import { fdpAtom } from "../../store";
 import { AiOutlineInbox } from "react-icons/ai";
@@ -30,6 +28,7 @@ interface ImportFileModalProps {
   onClose: () => void;
   setFile: (file: File | undefined) => Promise<void>;
   allowedExtensions?: string[];
+  initialPod?: string;
 }
 
 export default function ImportFileModal({
@@ -37,10 +36,11 @@ export default function ImportFileModal({
   onClose,
   setFile,
   allowedExtensions,
+  initialPod,
 }: ImportFileModalProps) {
   const toast = useToast();
   const [fdp] = useAtom(fdpAtom);
-  const [pod, setPod] = useState<Pod>();
+  const [pod, setPod] = useState<string | undefined>(initialPod);
   const [filePath, setFilePath] = useState<string>();
   const tooltipBg = useColorModeValue("latte-overlay1", "frappe-overlay1");
 
@@ -63,10 +63,10 @@ export default function ImportFileModal({
       });
 
       fdp.file
-        .downloadData(pod.name, fullFilePath)
+        .downloadData(pod, fullFilePath)
         .then((data) => {
           setFile({
-            podName: pod.name,
+            podName: pod,
             name: basename(fullFilePath),
             fullPath: fullFilePath,
             extension: extname(fullFilePath).slice(1),
@@ -101,15 +101,17 @@ export default function ImportFileModal({
         <ModalBody my={2} overflowY="scroll">
           {pod && (
             <HStack mb={3}>
-              <Tooltip bg={tooltipBg} hasArrow label="Select another pod">
-                <IconButton
-                  size="sm"
-                  icon={<AiOutlineInbox />}
-                  aria-label="pod"
-                  onClick={() => setPod(undefined)}
-                />
-              </Tooltip>
-              <Text>Pod: {pod.name}</Text>
+              {!initialPod && (
+                <Tooltip bg={tooltipBg} hasArrow label="Select another pod">
+                  <IconButton
+                    size="sm"
+                    icon={<AiOutlineInbox />}
+                    aria-label="pod"
+                    onClick={() => setPod(undefined)}
+                  />
+                </Tooltip>
+              )}
+              <Text>Pod: {pod}</Text>
             </HStack>
           )}
           <Box h="300px">
@@ -118,7 +120,6 @@ export default function ImportFileModal({
                 pod={pod}
                 setPath={setFilePath}
                 allowedExtensions={allowedExtensions}
-                selectFile={true}
               />
             ) : (
               <SelectPod setPod={setPod} />

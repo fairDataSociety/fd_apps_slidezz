@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { BsShare } from "react-icons/bs";
-import { fdpAtom, slidesAtom } from "../../store";
-import {} from "@fairdatasociety/fdp-storage";
+import { fdpAtom, slidesAtom, slidesDeckAtom } from "../../store";
 import SideBarItem from "./SideBarItem";
 import {
   Modal,
@@ -11,26 +10,24 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button,
-  Center,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
 
 export default function ShareSlides() {
   const [fdp] = useAtom(fdpAtom);
+  const [deck] = useAtom(slidesDeckAtom);
   const [slides] = useAtom(slidesAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleShareSlides = () => {};
-
   return (
     <>
-      {slides && !slides.podName ? (
+      {slides && slides.sharedRef ? (
         <>
-          <SideBarItem
-            onClick={async () => onOpen()}
-            icon={BsShare}
-            label="Share"
-          />
+          <SideBarItem onClick={onOpen} icon={BsShare} label="Share" />
 
           <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -38,13 +35,21 @@ export default function ShareSlides() {
               <ModalHeader>Share slides</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                {slides.isShared ? (
-                  ""
-                ) : (
-                  <Center>
-                    <Button onClick={handleShareSlides}>Share</Button>
-                  </Center>
-                )}
+                <Tabs>
+                  <TabList>
+                    <Tab>Copy Link</Tab>
+                    <Tab>Embed</Tab>
+                  </TabList>
+
+                  <TabPanels>
+                    <TabPanel>
+                      <p>one!</p>
+                    </TabPanel>
+                    <TabPanel>
+                      <p>two!</p>
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
               </ModalBody>
             </ModalContent>
           </Modal>
