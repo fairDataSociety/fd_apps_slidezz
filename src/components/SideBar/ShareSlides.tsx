@@ -15,6 +15,11 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  VStack,
+  Text,
+  Box,
+  Badge,
+  useClipboard,
 } from "@chakra-ui/react";
 
 export default function ShareSlides() {
@@ -22,6 +27,9 @@ export default function ShareSlides() {
   const [deck] = useAtom(slidesDeckAtom);
   const [slides] = useAtom(slidesAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const shareLink = `http://127.0.0.1:3000/shared-slideshow/${slides?.sharedRef}`;
+  const { hasCopied, onCopy } = useClipboard(shareLink);
 
   return (
     <>
@@ -43,7 +51,21 @@ export default function ShareSlides() {
 
                   <TabPanels>
                     <TabPanel>
-                      <p>one!</p>
+                      <VStack align="stretch">
+                        <Text>Link URL</Text>
+                        <Box w="full" border="1px" p={2}>
+                          <Text cursor="text" mb={1}>
+                            {shareLink}
+                          </Text>
+                          <Badge
+                            fontSize="0.8rem"
+                            cursor="pointer"
+                            onClick={onCopy}
+                          >
+                            {hasCopied ? "copied" : "copy"}
+                          </Badge>
+                        </Box>
+                      </VStack>
                     </TabPanel>
                     <TabPanel>
                       <p>two!</p>

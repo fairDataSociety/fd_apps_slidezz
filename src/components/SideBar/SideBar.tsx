@@ -8,7 +8,11 @@ import SaveSlides from "./SaveSlides";
 import AddLogoImage from "./AddLogoImage";
 import ShareSlides from "./ShareSlides";
 
-export default function SideBar() {
+interface SideBarProps {
+  isSlidesReadOnly?: boolean;
+}
+
+export default function SideBar({ isSlidesReadOnly }: SideBarProps) {
   return (
     <Box
       bg={useColorModeValue("latte-crust", "frappe-crust")}
@@ -28,9 +32,14 @@ export default function SideBar() {
 
       <PresentationSettings />
       <StyleSettings />
-      <AddLogoImage />
-      <SaveSlides />
-      <ShareSlides />
+
+      {!isSlidesReadOnly && (
+        <>
+          <AddLogoImage />
+          <SaveSlides />
+          <ShareSlides />
+        </>
+      )}
     </Box>
   );
 }
