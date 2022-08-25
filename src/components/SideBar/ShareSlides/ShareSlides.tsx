@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { BsShare } from "react-icons/bs";
-import { fdpAtom, slidesAtom, slidesDeckAtom } from "../../store";
-import SideBarItem from "./SideBarItem";
+import { slidesAtom } from "../../../store";
+import SideBarItem from "../SideBarItem";
 import {
   Modal,
   ModalOverlay,
@@ -15,21 +15,17 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  VStack,
-  Text,
-  Box,
-  Badge,
-  useClipboard,
 } from "@chakra-ui/react";
+import CopyPanel from "./CopyPanel";
+import EmbedCode from "./EmbedCode";
 
 export default function ShareSlides() {
-  const [fdp] = useAtom(fdpAtom);
-  const [deck] = useAtom(slidesDeckAtom);
   const [slides] = useAtom(slidesAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const shareLink = `http://127.0.0.1:3000/shared-slideshow/${slides?.sharedRef}`;
-  const { hasCopied, onCopy } = useClipboard(shareLink);
+  const shareLink = `${process.env.NEXT_PUBLIC_BASE_URL!}/shared-slideshow/${
+    slides?.sharedRef
+  }`;
 
   return (
     <>
@@ -43,7 +39,7 @@ export default function ShareSlides() {
               <ModalHeader>Share slides</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <Tabs>
+                <Tabs colorScheme="surface1">
                   <TabList>
                     <Tab>Copy Link</Tab>
                     <Tab>Embed</Tab>
@@ -51,24 +47,10 @@ export default function ShareSlides() {
 
                   <TabPanels>
                     <TabPanel>
-                      <VStack align="stretch">
-                        <Text>Link URL</Text>
-                        <Box w="full" border="1px" p={2}>
-                          <Text cursor="text" mb={1}>
-                            {shareLink}
-                          </Text>
-                          <Badge
-                            fontSize="0.8rem"
-                            cursor="pointer"
-                            onClick={onCopy}
-                          >
-                            {hasCopied ? "copied" : "copy"}
-                          </Badge>
-                        </Box>
-                      </VStack>
+                      <CopyPanel label="Copy Link" text={shareLink} />
                     </TabPanel>
                     <TabPanel>
-                      <p>two!</p>
+                      <EmbedCode />
                     </TabPanel>
                   </TabPanels>
                 </Tabs>

@@ -1,7 +1,6 @@
-import { Box, Image, useColorModeValue } from "@chakra-ui/react";
+import { Box, useColorModeValue } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import React, { RefObject, useEffect, useRef, useState } from "react";
-import { LogoPositions } from "../../config/logo-positions";
 
 //@ts-ignore
 import Reveal from "reveal.js";
@@ -10,11 +9,7 @@ import Markdown from "reveal.js/plugin/markdown/markdown";
 //@ts-ignore
 import RevealHighlight from "reveal.js/plugin/highlight/highlight";
 
-import {
-  slideShowSettingsAtom,
-  styleSettingsAtom,
-  slidesLogoAtom,
-} from "../../store";
+import { slideShowSettingsAtom, styleSettingsAtom } from "../../store";
 
 interface SharedSlideShowProps {
   slides: string;
@@ -23,7 +18,6 @@ interface SharedSlideShowProps {
 export default function SharedSlideShow({ slides }: SharedSlideShowProps) {
   const [slideShowSettings] = useAtom(slideShowSettingsAtom);
   const [styleSettings] = useAtom(styleSettingsAtom);
-  const [slidesLogo] = useAtom(slidesLogoAtom);
   const slidesRef = useRef() as RefObject<HTMLDivElement>;
   const [deck, setDeck] = useState<any>();
 
@@ -78,16 +72,6 @@ export default function SharedSlideShow({ slides }: SharedSlideShowProps) {
     >
       <Box className="reveal">
         <Box ref={slidesRef} className="slides"></Box>
-        {slidesLogo && (
-          <Image
-            position="absolute"
-            {...LogoPositions[slideShowSettings.slidesLogoPosition]}
-            h={{ base: "10px", sm: "20px", md: "30px", lg: "50px" }}
-            w={{ base: "10px", sm: "20px", md: "30px", lg: "50px" }}
-            objectFit="cover"
-            src={URL.createObjectURL(new Blob([slidesLogo.buffer]))}
-          />
-        )}
       </Box>
     </Box>
   );

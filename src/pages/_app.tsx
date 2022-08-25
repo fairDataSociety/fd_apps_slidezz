@@ -10,7 +10,6 @@ import "../styles/slide-themes.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <NavBar />
       <Component {...pageProps} />
     </ChakraProvider>
   );

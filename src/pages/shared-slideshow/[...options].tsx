@@ -6,6 +6,8 @@ import { fdpAtom } from "../../store";
 import dynamic from "next/dynamic";
 import { FdpStorage } from "@fairdatasociety/fdp-storage";
 import SideBar from "../../components/SideBar/SideBar";
+import { useRouter } from "next/router";
+import NavBar from "../../components/NavBar/NavBar";
 
 const SharedSlideShow = dynamic(
   () => import("../../components/SharedSlideShow/SharedSlideShow"),
@@ -19,8 +21,21 @@ const SharedSlideShow = dynamic(
   }
 );
 
+const EmbedSlideShow = dynamic(
+  () => import("../../components/EmbedSlideShow/EmbedSlideShow"),
+  {
+    ssr: false,
+    loading: () => (
+      <Center h="full">
+        <Spinner size="xl" />
+      </Center>
+    ),
+  }
+);
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const ref = context.params!.ref as string;
+  const options = context.params!.options as string[];
+  const ref = options[0];
 
   const fdp = new FdpStorage(
     process.env.NEXT_PUBLIC_BEE_URL as string,
@@ -49,8 +64,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const SharedSlideshowPage: NextPage<{ slidesHTML: string }> = ({
   slidesHTML,
 }) => {
+  const router = useRouter();
   const [fdp] = useAtom(fdpAtom);
   const [slides, setSlides] = useState<string | undefined>();
+  const options = router.query.options as string[];
+  const isEmbed = options.length > 1 && options[1] === "embed";
 
   const handleSetSlides = async () => {
     const div = document.createElement("div");
@@ -86,22 +104,34 @@ const SharedSlideshowPage: NextPage<{ slidesHTML: string }> = ({
     handleSetSlides();
   }, []);
 
-  return (
-    <HStack h="80vh">
-      {slides && <SideBar isSlidesReadOnly={true} />}
-      <Center h="full" w="full">
-        {slides ? (
-          <Box
-            w={{ base: "65%", md: "70%", lg: "60%" }}
-            h={{ base: "30%", md: "50%", lg: "70%" }}
-          >
-            <SharedSlideShow slides={slides} />
-          </Box>
-        ) : (
-          <Spinner size="xl" />
-        )}
+  if (isEmbed && slides) return <EmbedSlideShow slides={slides} />;
+
+  if (isEmbed && !slides)
+    return (
+      <Center h="100vh" w="full">
+        <Spinner size="xl" />
       </Center>
-    </HStack>
+    );
+
+  return (
+    <>
+      <NavBar />
+      <HStack h="80vh">
+        {slides && <SideBar isSlidesReadOnly={true} />}
+        <Center h="full" w="full">
+          {slides ? (
+            <Box
+              w={{ base: "65%", md: "70%", lg: "60%" }}
+              h={{ base: "30%", md: "50%", lg: "70%" }}
+            >
+              <SharedSlideShow slides={slides} />
+            </Box>
+          ) : (
+            <Spinner size="xl" />
+          )}
+        </Center>
+      </HStack>
+    </>
   );
 };
 

@@ -20,6 +20,7 @@ import ImportFile from "../components/ImportFile/ImportFile";
 import { File } from "../types";
 import Card from "../components/Card/Card";
 import { loadSlideshow } from "../utils";
+import NavBar from "../components/NavBar/NavBar";
 
 const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
   ssr: false,
@@ -44,70 +45,73 @@ const Home: NextPage = () => {
 
   if (!fdp.account.wallet)
     return (
-      <Center>
+      <Center w="full" h="100vh">
         <Spinner size="xl" />
       </Center>
     );
 
   return (
-    <HStack h="80vh">
-      {slides && <SideBar />}
+    <>
+      <NavBar />
+      <HStack h="80vh">
+        {slides && <SideBar />}
 
-      <Center w="full" h="full">
-        {slides ? (
-          <Box
-            w={{ base: "65%", md: "70%", lg: "60%" }}
-            h={{ base: "30%", md: "50%", lg: "70%" }}
-          >
-            <SlideShow
-              key={slides.data}
-              deckName="mainDeck"
-              deck={deck}
-              setDeck={setDeck}
-              slides={slides}
-            />
-          </Box>
-        ) : (
-          <Stack direction={{ base: "column", lg: "row" }}>
-            <ImportFile
-              setFile={async (file: File | undefined) => {
-                if (file) setSlides({ data: file.data.text() });
-              }}
-              allowedExtensions={["md"]}
-            >
-              <Card>
-                <Text>Generate a slideshow from a markdown file.</Text>
-                <Icon fontSize="4xl" as={AiFillFileMarkdown} />
-              </Card>
-            </ImportFile>
-
-            <ImportFile
-              setFile={async (file: File | undefined) => {
-                await loadSlideshow(file, fdp, setSlides);
-              }}
-              allowedExtensions={["html"]}
-              initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
-            >
-              <Card>
-                <Text>Generate a slideshow from an existing slides.</Text>
-                <Icon fontSize="4xl" as={MdSlideshow} />
-              </Card>
-            </ImportFile>
-
+        <Center w="full" h="full">
+          {slides ? (
             <Box
-              onClick={() => {
-                setSlides({ data: "## Slide 1" });
-              }}
+              w={{ base: "65%", md: "70%", lg: "60%" }}
+              h={{ base: "30%", md: "50%", lg: "70%" }}
             >
-              <Card>
-                <Text>New slideshow.</Text>
-                <Icon fontSize="4xl" as={AiOutlinePlus} />
-              </Card>
+              <SlideShow
+                key={slides.data}
+                deckName="mainDeck"
+                deck={deck}
+                setDeck={setDeck}
+                slides={slides}
+              />
             </Box>
-          </Stack>
-        )}
-      </Center>
-    </HStack>
+          ) : (
+            <Stack direction={{ base: "column", lg: "row" }}>
+              <ImportFile
+                setFile={async (file: File | undefined) => {
+                  if (file) setSlides({ data: file.data.text() });
+                }}
+                allowedExtensions={["md"]}
+              >
+                <Card>
+                  <Text>Generate a slideshow from a markdown file.</Text>
+                  <Icon fontSize="4xl" as={AiFillFileMarkdown} />
+                </Card>
+              </ImportFile>
+
+              <ImportFile
+                setFile={async (file: File | undefined) => {
+                  await loadSlideshow(file, fdp, setSlides);
+                }}
+                allowedExtensions={["html"]}
+                initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
+              >
+                <Card>
+                  <Text>Generate a slideshow from an existing slides.</Text>
+                  <Icon fontSize="4xl" as={MdSlideshow} />
+                </Card>
+              </ImportFile>
+
+              <Box
+                onClick={() => {
+                  setSlides({ data: "## Slide 1" });
+                }}
+              >
+                <Card>
+                  <Text>New slideshow.</Text>
+                  <Icon fontSize="4xl" as={AiOutlinePlus} />
+                </Card>
+              </Box>
+            </Stack>
+          )}
+        </Center>
+      </HStack>
+    </>
   );
 };
 

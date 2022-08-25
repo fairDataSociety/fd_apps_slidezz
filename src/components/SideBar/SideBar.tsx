@@ -6,7 +6,7 @@ import { FaPlay } from "react-icons/fa";
 import fscreen from "fscreen";
 import SaveSlides from "./SaveSlides";
 import AddLogoImage from "./AddLogoImage";
-import ShareSlides from "./ShareSlides";
+import ShareSlides from "./ShareSlides/ShareSlides";
 
 interface SideBarProps {
   isSlidesReadOnly?: boolean;
