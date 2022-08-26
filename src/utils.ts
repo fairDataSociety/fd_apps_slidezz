@@ -9,7 +9,8 @@ export function addMoveableToElements(
   elements.forEach((element: HTMLElement) => {
     if (
       element.tagName.toLowerCase() === "div" &&
-      !element.classList.contains("iframe-wrapper")
+      !element.classList.contains("iframe-wrapper") &&
+      !element.classList.contains("media-container")
     ) {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
@@ -35,6 +36,15 @@ export function addMoveableToElements(
       });
     }
 
+    if (
+      element.classList.contains("media-container") &&
+      setReplaceImageElement
+    ) {
+      element.addEventListener("dblclick", () => {
+        setReplaceImageElement(element.firstChild as HTMLImageElement);
+      });
+    }
+
     element.addEventListener("click", () => {
       setMoveableTarget(element);
     });
@@ -51,22 +61,27 @@ export function addImageToCurrentSlide(
   const currentSlideIndex = deck.getState().indexh;
   const slide = deck.getSlides()[currentSlideIndex];
 
+  const imageContainer = document.createElement("div");
+  imageContainer.classList.add("media-container");
+
   const imageElement = document.createElement("img");
   imageElement.src = URL.createObjectURL(new Blob([image.data.buffer]));
   imageElement.alt = image.name;
   imageElement.setAttribute("data-pod", image.podName);
   imageElement.setAttribute("data-path", image.fullPath);
   imageElement.classList.add("fair-data");
+  imageContainer.style.cursor = "pointer";
 
-  imageElement.style.cursor = "pointer";
+  imageContainer.appendChild(imageElement);
 
-  imageElement.addEventListener("click", () => {
-    setMoveableTarget(imageElement);
+  imageContainer.addEventListener("click", () => {
+    setMoveableTarget(imageContainer);
   });
 
-  slide.appendChild(imageElement);
+  slide.appendChild(imageContainer);
   deck.sync();
   deck.layout();
+  deck.toggleOverview(true);
 }
 
 export function getSlidesHTML(deck: any) {

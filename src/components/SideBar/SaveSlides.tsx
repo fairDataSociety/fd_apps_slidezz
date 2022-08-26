@@ -48,15 +48,17 @@ export default function SaveSlides() {
     const div = document.createElement("div");
     div.innerHTML = slidesHTML;
 
-    const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
+    if (shareSlides) {
+      const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
 
-    for (const fairDataElement of fairDataElements) {
-      const podName = fairDataElement.getAttribute("data-pod")!;
-      const path = fairDataElement.getAttribute("data-path")!;
+      for (const fairDataElement of fairDataElements) {
+        const podName = fairDataElement.getAttribute("data-pod")!;
+        const path = fairDataElement.getAttribute("data-path")!;
 
-      const shareRef = await fdp.file.share(podName, path);
+        const shareRef = await fdp.file.share(podName, path);
 
-      fairDataElement.setAttribute("data-shareref", shareRef);
+        fairDataElement.setAttribute("data-shareref", shareRef);
+      }
     }
 
     const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!;
@@ -70,13 +72,21 @@ export default function SaveSlides() {
     const filePath = `/${fileName}.html`;
     await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML);
 
-    const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
+    if (shareSlides) {
+      const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
 
-    setSlides({
-      ...slides,
-      name: fileName,
-      sharedRef: slidesShareRef,
-    });
+      setSlides({
+        ...slides,
+        name: fileName,
+        sharedRef: slidesShareRef,
+      });
+    } else {
+      setSlides({
+        ...slides,
+        name: fileName,
+      });
+    }
+
     toast.closeAll();
   };
 

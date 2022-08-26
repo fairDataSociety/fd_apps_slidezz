@@ -590,6 +590,24 @@ body[data-theme="beige"] .reveal-viewport {
 
 .reveal img {
   margin: var(--r-block-margin) 0;
+  object-fit: cover;
+}
+
+.reveal .fair-data {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding-top: 10px;
+}
+
+.reveal .media-container {
+  height: 200px;
+  width: 200px;
+}
+
+.reveal .sample-image-container {
+  width: 100%;
+  height: 550px;
 }
 
 /*********************************************
@@ -655,14 +673,6 @@ body[data-theme="beige"] .reveal-viewport {
 .reveal .two-column .col {
   flex: 1;
   text-align: left;
-}
-
-.reveal .sample-image {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 600px;
-  object-fit: cover;
 }
 
 /*********************************************

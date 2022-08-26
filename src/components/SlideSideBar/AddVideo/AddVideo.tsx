@@ -37,6 +37,9 @@ export default function AddVideo() {
     const currentSlideIndex = deck.getState().indexh;
     const slide = deck.getSlides()[currentSlideIndex];
 
+    const videoContainer = document.createElement("div");
+    videoContainer.classList.add("media-container");
+
     const videoElement = document.createElement("video");
     const soruceElement = document.createElement("source");
 
@@ -50,15 +53,18 @@ export default function AddVideo() {
     videoElement.setAttribute("data-path", video.fullPath);
     videoElement.classList.add("fair-data");
 
-    videoElement.style.cursor = "pointer";
+    videoContainer.style.cursor = "pointer";
 
-    videoElement.addEventListener("click", () => {
-      setMoveableTarget(videoElement);
+    videoContainer.addEventListener("click", () => {
+      setMoveableTarget(videoContainer);
     });
 
-    slide.appendChild(videoElement);
+    videoContainer.appendChild(videoElement);
+
+    slide.appendChild(videoContainer);
     deck.sync();
     deck.layout();
+    deck.toggleOverview(true);
     onClose();
   };
 
