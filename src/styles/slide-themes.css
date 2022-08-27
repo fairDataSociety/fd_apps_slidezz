@@ -688,6 +688,9 @@ body[data-theme="beige"] .reveal-viewport {
   text-align: left;
 }
 
+.reveal .slides {
+  pointer-events: auto;
+}
 /*********************************************
   * PRINT BACKGROUND
   *********************************************/

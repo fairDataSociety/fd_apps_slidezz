@@ -3,11 +3,12 @@ import ThemeToggleButton from "./ThemeToggleButton";
 import { IoLogoGithub } from "react-icons/io5";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useAtom } from "jotai";
-import { slidesAtom, slidesDeckAtom } from "../../store";
+import { slidesAtom, slidesDeckAtom, slidesLogoAtom } from "../../store";
 
 export default function NavBar() {
   const [slides, setSlides] = useAtom(slidesAtom);
   const [deck, setDeck] = useAtom(slidesDeckAtom);
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
 
   return (
     <HStack
@@ -35,6 +36,7 @@ export default function NavBar() {
           onClick={() => {
             setSlides(undefined);
             setDeck(undefined);
+            setSlidesLogo(undefined);
           }}
           aria-label="back"
           icon={<ArrowBackIcon />}

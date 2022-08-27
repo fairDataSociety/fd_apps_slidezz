@@ -174,6 +174,68 @@ export default function SlideShow({
               <Textarea data-template defaultValue={slides.data} />
             </section>
           )}
+          {moveableTarget && !isFullscreen ? (
+            <Moveable<MoveableDeleteButtonProps & MoveableDimensionProps>
+              ables={[MoveableDeleteButton, MoveableDimension]}
+              deleteButton={true}
+              dimension={true}
+              ref={moveableRef}
+              bounds={{
+                left: 0,
+                top: 0,
+                right: document.querySelector(".slides")?.clientWidth,
+                bottom: document.querySelector(".slides")?.clientHeight,
+              }}
+              elementGuidelines={elementGuidelines}
+              target={moveableTarget}
+              setTarget={setMoveableTarget}
+              draggable={editMode === "MOVE" ? true : false}
+              throttleDrag={0}
+              startDragRotate={0}
+              throttleDragRotate={0}
+              zoom={1}
+              origin={true}
+              padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
+              resizable={editMode === "MOVE" ? true : false}
+              keepRatio={false}
+              throttleScale={0}
+              renderDirections={["nw", "n", "ne", "w", "e", "sw", "s", "se"]}
+              edge={false}
+              snappable={editMode === "MOVE" ? true : false}
+              verticalGuidelines={[0, 200, 400]}
+              horizontalGuidelines={[0, 200, 400]}
+              snapThreshold={5}
+              isDisplaySnapDigit={true}
+              snapGap={true}
+              snapDirections={{
+                top: true,
+                right: true,
+                bottom: true,
+                left: true,
+                center: true,
+                middle: true,
+              }}
+              elementSnapDirections={{
+                top: true,
+                right: true,
+                bottom: true,
+                left: true,
+                center: true,
+                middle: true,
+              }}
+              snapDigit={0}
+              onResizeStart={moveableHelper.onResizeStart}
+              onResize={moveableHelper.onResize}
+              onDragStart={moveableHelper.onDragStart}
+              onDrag={moveableHelper.onDrag}
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (editMode === "TEXT") {
+                  target.focus();
+                }
+              }}
+            />
+          ) : null}
         </Box>
         {slidesLogo && (
           <Image
@@ -186,72 +248,6 @@ export default function SlideShow({
           />
         )}
       </Box>
-
-      {moveableTarget && !isFullscreen ? (
-        <Moveable<MoveableDeleteButtonProps & MoveableDimensionProps>
-          ables={[MoveableDeleteButton, MoveableDimension]}
-          deleteButton={true}
-          dimension={true}
-          ref={moveableRef}
-          bounds={{
-            left: 0,
-            top: 0,
-            right: document.querySelector(".slideshow")?.clientWidth,
-            bottom: document.querySelector(".slideshow")?.clientHeight,
-          }}
-          elementGuidelines={elementGuidelines}
-          target={moveableTarget}
-          setTarget={setMoveableTarget}
-          draggable={editMode === "MOVE" ? true : false}
-          throttleDrag={0}
-          startDragRotate={0}
-          throttleDragRotate={0}
-          zoom={1}
-          origin={true}
-          padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
-          // scalable={editMode === "MOVE" ? true : false}
-          resizable={editMode === "MOVE" ? true : false}
-          keepRatio={false}
-          throttleScale={0}
-          renderDirections={["nw", "n", "ne", "w", "e", "sw", "s", "se"]}
-          edge={false}
-          snappable={editMode === "MOVE" ? true : false}
-          verticalGuidelines={[0, 200, 400]}
-          horizontalGuidelines={[0, 200, 400]}
-          snapThreshold={5}
-          isDisplaySnapDigit={true}
-          snapGap={true}
-          snapDirections={{
-            top: true,
-            right: true,
-            bottom: true,
-            left: true,
-            center: true,
-            middle: true,
-          }}
-          elementSnapDirections={{
-            top: true,
-            right: true,
-            bottom: true,
-            left: true,
-            center: true,
-            middle: true,
-          }}
-          snapDigit={0}
-          onResizeStart={moveableHelper.onResizeStart}
-          onResize={moveableHelper.onResize}
-          onDragStart={moveableHelper.onDragStart}
-          onDrag={moveableHelper.onDrag}
-          onScaleStart={moveableHelper.onScaleStart}
-          onScale={moveableHelper.onScale}
-          onClick={(e) => {
-            const target = e.target as HTMLElement;
-            if (editMode === "TEXT") {
-              target.focus();
-            }
-          }}
-        />
-      ) : null}
     </Box>
   );
 }
