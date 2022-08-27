@@ -4,7 +4,11 @@ import AddVideo from "./AddVideo/AddVideo";
 import { BsFillImageFill } from "react-icons/bs";
 import { addImageToCurrentSlide } from "../../utils";
 import { useAtom } from "jotai";
-import { moveableTargetAtom, slidesDeckAtom } from "../../store";
+import {
+  moveableTargetAtom,
+  replaceImageElementAtom,
+  slidesDeckAtom,
+} from "../../store";
 import AddText from "./AddText";
 import { RiText } from "react-icons/ri";
 import NewSlide from "./NewSlide";
@@ -13,7 +17,10 @@ import RemoveSlide from "./RemoveSlide";
 
 export default function SlideSideBar() {
   const [deck] = useAtom(slidesDeckAtom);
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [replaceImageElement, setReplaceImageElement] = useAtom(
+    replaceImageElementAtom
+  );
 
   return (
     <Box
@@ -31,7 +38,12 @@ export default function SlideSideBar() {
 
       <AddImage
         handleAddImage={(image) =>
-          addImageToCurrentSlide(image, deck, setMoveableTarget)
+          addImageToCurrentSlide(
+            image,
+            deck,
+            setMoveableTarget,
+            setReplaceImageElement
+          )
         }
       >
         <SlideSideBarItem icon={BsFillImageFill} label="Image" />

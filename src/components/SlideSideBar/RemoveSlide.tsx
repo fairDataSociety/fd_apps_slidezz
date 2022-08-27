@@ -13,6 +13,8 @@ export default function RemoveSlide() {
       onClick={() => {
         if (deck.getTotalSlides() <= 1) return;
 
+        console.log(deck.getTotalSlides());
+
         const slides = deck.getSlidesElement() as HTMLElement;
         const currentSlide = deck.getCurrentSlide() as HTMLElement;
         const currentSlideIndex = deck.getState().indexh;
@@ -20,7 +22,7 @@ export default function RemoveSlide() {
         slides.removeChild(currentSlide);
         deck.sync();
         deck.layout();
-        deck.slide(currentSlideIndex > 1 ? currentSlideIndex : 0);
+        deck.slide(deck.getTotalSlides() > 1 ? currentSlideIndex : 0);
       }}
     />
   );

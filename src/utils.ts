@@ -10,7 +10,8 @@ export function addMoveableToElements(
     if (
       element.tagName.toLowerCase() === "div" &&
       !element.classList.contains("iframe-wrapper") &&
-      !element.classList.contains("media-container")
+      !element.classList.contains("media-container") &&
+      !element.classList.contains("sample-image-container")
     ) {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
@@ -36,10 +37,15 @@ export function addMoveableToElements(
       });
     }
 
+    console.log(element.classList);
+
     if (
-      element.classList.contains("media-container") &&
+      (element.classList.contains("media-container") ||
+        element.classList.contains("sample-image-container")) &&
       setReplaceImageElement
     ) {
+      console.log("here an image");
+
       element.addEventListener("dblclick", () => {
         setReplaceImageElement(element.firstChild as HTMLImageElement);
       });
@@ -56,7 +62,8 @@ export function addMoveableToElements(
 export function addImageToCurrentSlide(
   image: File,
   deck: any,
-  setMoveableTarget: (target: HTMLElement | undefined) => void
+  setMoveableTarget: (target: HTMLElement | undefined) => void,
+  setReplaceImageElement?: (target: HTMLImageElement | undefined) => void
 ) {
   const currentSlideIndex = deck.getState().indexh;
   const slide = deck.getSlides()[currentSlideIndex];
@@ -77,6 +84,12 @@ export function addImageToCurrentSlide(
   imageContainer.addEventListener("click", () => {
     setMoveableTarget(imageContainer);
   });
+
+  if (setReplaceImageElement) {
+    imageContainer.addEventListener("dblclick", () => {
+      setReplaceImageElement(imageElement);
+    });
+  }
 
   slide.appendChild(imageContainer);
   deck.sync();
