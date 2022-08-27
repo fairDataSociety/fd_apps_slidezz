@@ -49,23 +49,27 @@ export default function AddYouTubeEmbedVideo({
     const currentSlideIndex = deck.getState().indexh;
     const slide = deck.getSlides()[currentSlideIndex];
 
-    const divElement = document.createElement("div");
-    divElement.classList.add("iframe-wrapper");
+    const videoContainer = document.createElement("div");
+    videoContainer.classList.add("media-container");
+
+    const iframeWrapper = document.createElement("div");
+    iframeWrapper.classList.add("iframe-wrapper");
 
     const iframeElement = document.createElement("iframe");
     iframeElement.src = `https://www.youtube.com/embed/${youtubeParser(
       values.url
     )}`;
 
-    divElement.style.cursor = "pointer";
+    videoContainer.style.cursor = "pointer";
 
-    divElement.addEventListener("click", () => {
-      setMoveableTarget(divElement);
+    videoContainer.addEventListener("click", () => {
+      setMoveableTarget(videoContainer);
     });
 
-    divElement.append(iframeElement);
+    iframeWrapper.append(iframeElement);
+    videoContainer.append(iframeWrapper);
 
-    slide.appendChild(divElement);
+    slide.appendChild(videoContainer);
     deck.sync();
     deck.layout();
 

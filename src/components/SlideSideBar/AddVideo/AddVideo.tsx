@@ -64,7 +64,6 @@ export default function AddVideo() {
     slide.appendChild(videoContainer);
     deck.sync();
     deck.layout();
-    deck.toggleOverview(true);
     onClose();
   };
 

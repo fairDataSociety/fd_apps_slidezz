@@ -81,7 +81,6 @@ export function addImageToCurrentSlide(
   slide.appendChild(imageContainer);
   deck.sync();
   deck.layout();
-  deck.toggleOverview(true);
 }
 
 export function getSlidesHTML(deck: any) {
