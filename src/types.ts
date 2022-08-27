@@ -25,6 +25,12 @@ export interface File {
   data: Data;
 }
 
+export interface LogoImageFile {
+  podName?: string;
+  fullPath?: string;
+  data: Data;
+}
+
 export interface Slides {
   data: string;
   name?: string;

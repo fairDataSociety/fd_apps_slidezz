@@ -1,7 +1,13 @@
 import { atomWithStorage } from "jotai/utils";
 import { atom } from "jotai";
 import { FdpStorage } from "@fairdatasociety/fdp-storage";
-import { File, Slides, SlideShowSettings, StyleSettings } from "../src/types";
+import {
+  File,
+  LogoImageFile,
+  Slides,
+  SlideShowSettings,
+  StyleSettings,
+} from "../src/types";
 import type { Data } from "@ethersphere/bee-js";
 import { extname } from "path";
 
@@ -66,7 +72,7 @@ export const slidesDeckAtom = atom<any>(undefined);
 
 // Slides logo
 
-export const slidesLogoAtom = atom<Data | undefined>(undefined);
+export const slidesLogoAtom = atom<LogoImageFile | undefined>(undefined);
 
 // Media
 

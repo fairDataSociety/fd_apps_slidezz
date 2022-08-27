@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import SideBar from "../components/SideBar/SideBar";
 import { useAtom } from "jotai";
-import { fdpAtom, slidesAtom, slidesDeckAtom } from "../store";
+import { fdpAtom, slidesAtom, slidesDeckAtom, slidesLogoAtom } from "../store";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { AiFillFileMarkdown, AiOutlinePlus } from "react-icons/ai";
@@ -35,6 +35,7 @@ const Home: NextPage = () => {
   const [deck, setDeck] = useAtom(slidesDeckAtom);
   const [fdp] = useAtom(fdpAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
   const router = useRouter();
 
   useEffect(() => {
@@ -86,7 +87,7 @@ const Home: NextPage = () => {
 
               <ImportFile
                 setFile={async (file: File | undefined) => {
-                  await loadSlideshow(file, fdp, setSlides);
+                  await loadSlideshow(file, fdp, setSlides, setSlidesLogo);
                 }}
                 allowedExtensions={["html"]}
                 initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}

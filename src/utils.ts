@@ -1,5 +1,5 @@
 import type { FdpStorage } from "@fairdatasociety/fdp-storage";
-import { File, Slides } from "./types";
+import { File, LogoImageFile, Slides } from "./types";
 
 export function addMoveableToElements(
   elements: HTMLElement[],
@@ -91,7 +91,8 @@ export function getSlidesHTML(deck: any) {
 export async function loadSlideshow(
   file: File | undefined,
   fdp: FdpStorage,
-  setSlides: (slides: Slides) => void
+  setSlides: (slides: Slides) => void,
+  setSlidesLogo?: (logoFile: LogoImageFile) => void
 ) {
   if (!file) return;
 
@@ -113,6 +114,20 @@ export async function loadSlideshow(
         console.log(error);
       }
     }
+  }
+
+  const logoImageElement = template.querySelector(".logo-image");
+  if (logoImageElement && setSlidesLogo) {
+    const podName = logoImageElement.getAttribute("data-pod")!;
+    const fullPath = logoImageElement.getAttribute("data-path")!;
+    const data = await fdp.file.downloadData(podName, fullPath);
+
+    setSlidesLogo({
+      data,
+      podName,
+      fullPath,
+    });
+    template.removeChild(logoImageElement);
   }
 
   setSlides({

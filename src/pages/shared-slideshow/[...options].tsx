@@ -1,8 +1,8 @@
-import { Box, Center, HStack, Spinner } from "@chakra-ui/react";
+import { Box, Center, Divider, HStack, Spinner } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import type { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { fdpAtom } from "../../store";
+import { fdpAtom, slidesLogoAtom } from "../../store";
 import dynamic from "next/dynamic";
 import { FdpStorage } from "@fairdatasociety/fdp-storage";
 import SideBar from "../../components/SideBar/SideBar";
@@ -66,6 +66,7 @@ const SharedSlideshowPage: NextPage<{ slidesHTML: string }> = ({
 }) => {
   const router = useRouter();
   const [fdp] = useAtom(fdpAtom);
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
   const [slides, setSlides] = useState<string | undefined>();
   const options = router.query.options as string[];
   const isEmbed = options.length > 1 && options[1] === "embed";
@@ -97,6 +98,19 @@ const SharedSlideshowPage: NextPage<{ slidesHTML: string }> = ({
         sourceElement.src = URL.createObjectURL(new Blob([data.buffer]));
       }
     }
+
+    const logoImageElement = div.querySelector(".logo-image");
+    if (logoImageElement && setSlidesLogo) {
+      const shareRef = logoImageElement.getAttribute("data-shareref")!;
+      const data = await fdp.file.downloadShared(shareRef);
+
+      setSlidesLogo({
+        data,
+      });
+
+      div.removeChild(logoImageElement);
+    }
+
     setSlides(div.innerHTML);
   };
 

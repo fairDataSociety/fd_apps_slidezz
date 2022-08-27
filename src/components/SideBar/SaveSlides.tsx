@@ -21,7 +21,12 @@ import {
 } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { useState } from "react";
-import { fdpAtom, slidesDeckAtom, slidesAtom } from "../../store";
+import {
+  fdpAtom,
+  slidesDeckAtom,
+  slidesAtom,
+  slidesLogoAtom,
+} from "../../store";
 import { FaSave } from "react-icons/fa";
 import SideBarItem from "./SideBarItem";
 import LoadingToast from "../Toast/LoadingToast";
@@ -31,6 +36,7 @@ export default function SaveSlides() {
   const [fdp] = useAtom(fdpAtom);
   const [deck] = useAtom(slidesDeckAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
+  const [slidesLogo] = useAtom(slidesLogoAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [fileName, setFileName] = useState("");
   const [shareSlides, setShareSlides] = useBoolean(false);
@@ -47,6 +53,24 @@ export default function SaveSlides() {
     const slidesHTML = getSlidesHTML(deck);
     const div = document.createElement("div");
     div.innerHTML = slidesHTML;
+
+    if (slidesLogo) {
+      const logoElement = document.createElement("div");
+      logoElement.style.display = "none";
+      logoElement.classList.add("logo-image");
+      logoElement.setAttribute("data-pod", slidesLogo.podName!);
+      logoElement.setAttribute("data-path", slidesLogo.fullPath!);
+
+      if (shareSlides) {
+        const ref = await fdp.file.share(
+          slidesLogo.podName!,
+          slidesLogo.fullPath!
+        );
+        logoElement.setAttribute("data-shareref", ref);
+      }
+
+      div.append(logoElement);
+    }
 
     if (shareSlides) {
       const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));

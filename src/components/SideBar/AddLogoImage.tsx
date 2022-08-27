@@ -8,7 +8,15 @@ export default function AddLogoImage() {
   const [_, setSlidesLogo] = useAtom(slidesLogoAtom);
 
   return (
-    <AddImage handleAddImage={(image) => setSlidesLogo(image.data)}>
+    <AddImage
+      handleAddImage={(image) =>
+        setSlidesLogo({
+          data: image.data,
+          podName: image.podName,
+          fullPath: image.fullPath,
+        })
+      }
+    >
       <SideBarItem icon={BsImageAlt} label="Logo/Copyright image" />
     </AddImage>
   );
