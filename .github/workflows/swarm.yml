@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
 
-env: |
+env:
   NEXT_PUBLIC_BEE_URL: http://localhost:1633
   NEXT_PUBLIC_BEE_DEBUG_URL: http://localhost:1635
   NEXT_PUBLIC_RPC_URL: http://localhost:8545
