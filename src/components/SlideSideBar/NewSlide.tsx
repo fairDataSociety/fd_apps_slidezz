@@ -70,9 +70,10 @@ export default function NewSlide() {
               columns={{ base: 1, md: 2 }}
               spacing={5}
             >
-              {templates.map((template) => {
+              {templates.map((template, i) => {
                 return (
                   <Center
+                    key={i}
                     onClick={() => addNewSlide(template.content)}
                     mx="auto"
                     cursor="pointer"

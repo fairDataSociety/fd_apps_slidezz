@@ -1,12 +1,8 @@
-# Fair Drive Apps Slideshow
+# Slidezz
 
 A slideshow dapp that connects to Fairdrive.
 
-
-
 **Slides separator: `---`**
-
-
 
 ## Installation
 

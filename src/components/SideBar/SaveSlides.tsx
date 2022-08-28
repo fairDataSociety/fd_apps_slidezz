@@ -131,10 +131,9 @@ export default function SaveSlides() {
                   placeholder="Slideshow name"
                 />
 
-                <InputRightAddon
-                  bg={useColorModeValue("gray.200", "gray.800")}
-                  children={".html"}
-                />
+                <InputRightAddon bg={useColorModeValue("gray.200", "gray.800")}>
+                  .html
+                </InputRightAddon>
               </InputGroup>
               <FormControl display="flex" alignItems="center">
                 <FormLabel htmlFor="share-slides" mb="0">

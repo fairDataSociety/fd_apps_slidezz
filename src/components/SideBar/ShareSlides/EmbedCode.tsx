@@ -67,8 +67,10 @@ export default function EmbedCode() {
               setStyle(e.target.value);
             }}
           >
-            {Object.keys(slideThemes).map((theme) => (
-              <option value={theme}>{theme}</option>
+            {Object.keys(slideThemes).map((theme, i) => (
+              <option key={i} value={theme}>
+                {theme}
+              </option>
             ))}
           </Select>
         </FormControl>

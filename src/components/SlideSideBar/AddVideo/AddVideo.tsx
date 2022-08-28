@@ -93,9 +93,10 @@ export default function AddVideo() {
                 overflowY="scroll"
                 h="400px"
               >
-                {videos.map((video) => {
+                {videos.map((video, i) => {
                   return (
                     <ItemBox
+                      key={i}
                       icon={FaVideo}
                       text={video.name}
                       onClick={() => {
