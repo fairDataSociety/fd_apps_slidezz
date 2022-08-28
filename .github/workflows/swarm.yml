@@ -32,7 +32,6 @@ jobs:
           bee-url: https://gateway.fairdatasociety.org/proxy/
           dir: ./out
           index-document: index.html
-          deferred: false
 
       - name: update feed
         id: swarm-feed
