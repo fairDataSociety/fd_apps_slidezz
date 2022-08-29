@@ -43,7 +43,7 @@ export default function Document() {
         window._detectedSiteType = detectedSiteType;
     
         const base = document.createElement('base');
-        base.href = "http://127.0.0.1:3000/test/"
+        base.href = wrapUrl('/');
         document.write(base.outerHTML);
           `,
           }}
