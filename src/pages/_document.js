@@ -1,11 +1,13 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
     <Html>
       <Head>
-        <script
+        <Script
           type="text/javascript"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
           const SiteType = {
@@ -41,7 +43,7 @@ export default function Document() {
         window._detectedSiteType = detectedSiteType;
     
         const base = document.createElement('base');
-        base.href = wrapUrl('/');
+        base.href = "http://127.0.0.1:3000/test/"
         document.write(base.outerHTML);
           `,
           }}
