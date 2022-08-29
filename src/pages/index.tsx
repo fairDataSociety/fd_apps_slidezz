@@ -40,7 +40,11 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (!fdp.account.wallet) {
-      router.push("/login");
+      const url =
+        process.env.NEXT_PUBLIC_IS_STATIC === "true"
+          ? `${document.querySelector("base")?.href}/login.html`
+          : "/login";
+      router.push(url);
     }
   }, []);
 

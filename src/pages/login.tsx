@@ -44,7 +44,12 @@ const Login: NextPage = () => {
             await fdp.account.login(values.username, values.password);
 
             toast.closeAll();
-            router.push("/");
+
+            const url =
+              process.env.NEXT_PUBLIC_IS_STATIC === "true"
+                ? `${document.querySelector("base")?.href}/index.html`
+                : "/";
+            router.push(url);
           } catch (error: any) {
             console.log(error);
             toast({
