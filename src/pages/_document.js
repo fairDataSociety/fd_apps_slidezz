@@ -6,6 +6,7 @@ export default function Document() {
     <Html>
       <Head>
         <Script
+          id="set-base-path"
           type="text/javascript"
           strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
