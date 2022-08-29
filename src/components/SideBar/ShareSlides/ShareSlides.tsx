@@ -22,10 +22,9 @@ import EmbedCode from "./EmbedCode";
 export default function ShareSlides() {
   const [slides] = useAtom(slidesAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const baseHref = document.querySelector("base")!.href;
 
-  const shareLink = `${process.env.NEXT_PUBLIC_BASE_URL!}/shared-slideshow/${
-    slides?.sharedRef
-  }`;
+  const shareLink = `${baseHref}/shared-slideshow/${slides?.sharedRef}`;
 
   return (
     <>

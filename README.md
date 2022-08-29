@@ -46,4 +46,3 @@ cp .env.example .env
 - **NEXT_PUBLIC_ENS_REGISTRY** - ENS Registry contract address
 - **NEXT_PUBLIC_PUBLIC_RESOLVER** - Public Resolver contract address
 - **NEXT_PUBLIC_SLIDES_POD** - name of the pod that is used for storing slides
-- **NEXT_PUBLIC_BASE_URL** - Base URL

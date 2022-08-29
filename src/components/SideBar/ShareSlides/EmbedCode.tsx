@@ -21,10 +21,9 @@ export default function EmbedCode() {
   const [width, setWidth] = useState(576);
   const [height, setHeight] = useState(420);
   const [style, setStyle] = useState("white");
+  const baseHref = document.querySelector("base")!.href;
 
-  const embedURL = `${process.env.NEXT_PUBLIC_BASE_URL!}/shared-slideshow/${
-    slides?.sharedRef
-  }/embed?theme=${style}`;
+  const embedURL = `${baseHref}/shared-slideshow/${slides?.sharedRef}/embed?theme=${style}`;
 
   const embedCode = `<iframe src="${embedURL}" width="${width}" height="${height}"></iframe>`;
 
