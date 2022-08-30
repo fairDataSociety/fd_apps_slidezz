@@ -16,12 +16,12 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          NEXT_PUBLIC_BEE_URL: http://localhost:1633
-          NEXT_PUBLIC_BEE_DEBUG_URL: http://localhost:1635
+          NEXT_PUBLIC_BEE_URL: https://gateway.fairdatasociety.org/proxy
+          NEXT_PUBLIC_BEE_DEBUG_URL: https://gateway.fairdatasociety.org/proxy
           NEXT_PUBLIC_RPC_URL: http://localhost:8545
-          NEXT_PUBLIC_FDS_REGISTRAR: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
-          NEXT_PUBLIC_ENS_REGISTRY: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-          NEXT_PUBLIC_PUBLIC_RESOLVER: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9"
+          NEXT_PUBLIC_FDS_REGISTRAR: "0x7b3f4E648e222b225ef5494de06C75a91a365D04"
+          NEXT_PUBLIC_ENS_REGISTRY: "0x21625506951100e1E627b265cFF970110C1efBa4"
+          NEXT_PUBLIC_PUBLIC_RESOLVER: "0xC2c0fAcC987C967870d6C847a9171F9470896499"
           NEXT_PUBLIC_SLIDES_POD: fair-slideshows
           NEXT_PUBLIC_IS_STATIC: true
 
