@@ -1,10 +1,11 @@
 {
-  "name": "fairdrive-apps-slideshow",
+  "name": "slidezz",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next export",
+    "build:static": "next build && next export",
     "start": "next start",
     "lint": "next lint",
     "gen:theme-typings": "chakra-cli tokens ./src/theme",
