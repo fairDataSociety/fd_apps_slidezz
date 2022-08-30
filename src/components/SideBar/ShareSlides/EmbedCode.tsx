@@ -21,10 +21,13 @@ export default function EmbedCode() {
   const [width, setWidth] = useState(576);
   const [height, setHeight] = useState(420);
   const [style, setStyle] = useState("white");
+
   const baseHref = document.querySelector("base")!.href;
-
-  const embedURL = `${baseHref}/shared-slideshow/${slides?.sharedRef}/embed?theme=${style}`;
-
+  const pageName =
+    process.env.NODE_ENV === "production"
+      ? "shared-slideshow.html"
+      : "shared-slideshow";
+  const embedURL = `${baseHref}${pageName}?ref=${slides?.sharedRef}&embed=true&theme=${style}`;
   const embedCode = `<iframe src="${embedURL}" width="${width}" height="${height}"></iframe>`;
 
   return (

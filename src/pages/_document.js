@@ -25,10 +25,10 @@ export default function Document() {
                 type = SiteType.BeeSubfolder;
                 url = window.location.origin + "/" + parts[1] + "/" + parts[2];
                 basePath = "/" + parts[1] + "/" + parts[2];
-            } else if (parts[1] === 'web3') {
+            } else if (parts[1] === 'out') {
                 type = SiteType.BeeSubfolder;
-                url = window.location.origin + "/" + "web3";
-                basePath = "/web3";
+                url = window.location.origin + "/" + "out";
+                basePath = "/out";
             }
     
             return {type, url,basePath};

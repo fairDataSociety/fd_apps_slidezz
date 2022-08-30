@@ -30,9 +30,7 @@ export default function EmbedSlideShow({ slides }: EmbedSlideShowProps) {
 
   useEffect(() => {
     if (query.theme) document.body.setAttribute("data-theme", query.theme);
-  }, []);
 
-  useEffect(() => {
     //@ts-ignore
     const newDeck = Reveal(document.querySelector(`.reveal`), {
       embedded: true,

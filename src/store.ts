@@ -9,7 +9,6 @@ import {
   StyleSettings,
   User,
 } from "../src/types";
-import type { Data } from "@ethersphere/bee-js";
 import { extname } from "path";
 
 // Slide show settings

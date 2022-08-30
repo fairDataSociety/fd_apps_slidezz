@@ -2,14 +2,14 @@ import { Box, Center, HStack, Spinner } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { fdpAtom, slidesLogoAtom } from "../../store";
+import { fdpAtom, slidesLogoAtom } from "../store";
 import dynamic from "next/dynamic";
-import SideBar from "../../components/SideBar/SideBar";
+import SideBar from "../components/SideBar/SideBar";
 import { useRouter } from "next/router";
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 
 const SharedSlideShow = dynamic(
-  () => import("../../components/SharedSlideShow/SharedSlideShow"),
+  () => import("../components/SharedSlideShow/SharedSlideShow"),
   {
     ssr: false,
     loading: () => (
@@ -21,7 +21,7 @@ const SharedSlideShow = dynamic(
 );
 
 const EmbedSlideShow = dynamic(
-  () => import("../../components/EmbedSlideShow/EmbedSlideShow"),
+  () => import("../components/EmbedSlideShow/EmbedSlideShow"),
   {
     ssr: false,
     loading: () => (
@@ -42,9 +42,8 @@ const SharedSlideshowPage: NextPage = () => {
   useEffect(() => {
     if (router.isReady) {
       (async () => {
-        const options = router.query.options as string[];
-        const slidesShareRef = options[0];
-        const isEmbed = options.length > 1 && options[1] === "embed";
+        const slidesShareRef = router.query.ref as string;
+        const isEmbed = typeof router.query.embed === "string";
 
         setIsEmbed(isEmbed);
 

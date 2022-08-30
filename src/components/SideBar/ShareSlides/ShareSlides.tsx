@@ -23,8 +23,11 @@ export default function ShareSlides() {
   const [slides] = useAtom(slidesAtom);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const baseHref = document.querySelector("base")!.href;
-
-  const shareLink = `${baseHref}/shared-slideshow/${slides?.sharedRef}`;
+  const pageName =
+    process.env.NODE_ENV === "production"
+      ? "shared-slideshow.html"
+      : "shared-slideshow";
+  const shareLink = `${baseHref}${pageName}?ref=${slides?.sharedRef}`;
 
   return (
     <>
