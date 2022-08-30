@@ -15,10 +15,11 @@ import {
   FormHelperText,
   Select,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 import { FiSettings } from "react-icons/fi";
 import SideBarItem from "../SideBarItem";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import { useAtom } from "jotai";
 import { slideShowSettingsAtom } from "../../../store";
 import {
@@ -51,7 +52,7 @@ export default function SlideShowSettings() {
           initialValues={slideShowSettings}
         >
           {({ handleSubmit, handleChange, values }) => (
-            <Form onSubmit={handleSubmit}>
+            <Box>
               <DrawerContent bg={settingBg}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Presentation settings</DrawerHeader>
@@ -100,10 +101,10 @@ export default function SlideShowSettings() {
                   <Button variant="outline" mr={3} onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button type="submit">Save</Button>
+                  <Button onClick={() => handleSubmit()}>Save</Button>
                 </DrawerFooter>
               </DrawerContent>
-            </Form>
+            </Box>
           )}
         </Formik>
       </Drawer>

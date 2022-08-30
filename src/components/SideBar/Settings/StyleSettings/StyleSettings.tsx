@@ -10,10 +10,11 @@ import {
   Button,
   VStack,
   useColorModeValue,
+  Box,
 } from "@chakra-ui/react";
 import { HiColorSwatch } from "react-icons/hi";
 import SideBarItem from "../../SideBarItem";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import { useAtom } from "jotai";
 import { styleSettingsAtom } from "../../../../store";
 import SelectColor from "./SelectColor";
@@ -37,7 +38,7 @@ export default function PresentationSettings() {
           initialValues={styleSettings}
         >
           {({ handleSubmit }) => (
-            <Form onSubmit={handleSubmit}>
+            <Box>
               <DrawerContent bg={settingBg}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Style settings</DrawerHeader>
@@ -51,10 +52,10 @@ export default function PresentationSettings() {
                   <Button variant="outline" mr={3} onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button type="submit">Save</Button>
+                  <Button onClick={() => handleSubmit()}>Save</Button>
                 </DrawerFooter>
               </DrawerContent>
-            </Form>
+            </Box>
           )}
         </Formik>
       </Drawer>
