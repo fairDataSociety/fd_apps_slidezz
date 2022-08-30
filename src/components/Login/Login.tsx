@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import {
   VStack,
   Heading,
@@ -15,9 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { Formik, FormikErrors, Field } from "formik";
 import { useAtom } from "jotai";
-import { fdpAtom } from "../store";
+import { fdpAtom, userAtom } from "../../store";
 import { useRouter } from "next/router";
-import NavBar from "../components/NavBar/NavBar";
+import { join } from "path";
+import NavBar from "../NavBar/NavBar";
 
 interface LoginFormValues {
   username: string;
@@ -29,10 +29,11 @@ const LoginFormInitialValues: LoginFormValues = {
   password: "",
 };
 
-const Login: NextPage = () => {
+export default function Login() {
   const router = useRouter();
   const toast = useToast();
   const [fdp] = useAtom(fdpAtom);
+  const [user, setUser] = useAtom(userAtom);
   const loginBoxBg = useColorModeValue("latte-crust", "frappe-crust");
 
   return (
@@ -43,14 +44,10 @@ const Login: NextPage = () => {
         onSubmit={async (values) => {
           try {
             await fdp.account.login(values.username, values.password);
-
             toast.closeAll();
-
-            const url =
-              process.env.NEXT_PUBLIC_IS_STATIC === "true"
-                ? `${document.querySelector("base")?.href}/index.html`
-                : "/";
-            router.push(url);
+            setUser({
+              username: values.username,
+            });
           } catch (error: any) {
             console.log(error);
             toast({
@@ -137,6 +134,4 @@ const Login: NextPage = () => {
       </Formik>
     </>
   );
-};
-
-export default Login;
+}

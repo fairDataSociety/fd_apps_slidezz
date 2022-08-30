@@ -7,6 +7,7 @@ import {
   Slides,
   SlideShowSettings,
   StyleSettings,
+  User,
 } from "../src/types";
 import type { Data } from "@ethersphere/bee-js";
 import { extname } from "path";
@@ -103,3 +104,7 @@ export const editModeAtom = atom<"MOVE" | "TEXT">("MOVE");
 export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
   undefined
 );
+
+// User
+
+export const userAtom = atom<User | undefined>(undefined);

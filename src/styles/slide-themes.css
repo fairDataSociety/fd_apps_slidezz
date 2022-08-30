@@ -689,7 +689,7 @@ body[data-theme="beige"] .reveal-viewport {
 }
 
 .reveal .slides {
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 /*********************************************
   * PRINT BACKGROUND

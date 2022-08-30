@@ -13,7 +13,11 @@ export default function TwoColumnImageSlide() {
         </Text>
       </VStack>
       <Flex align="center" justify="center" flex={1}>
-        <Image w="80%" objectFit="cover" src="/images/sample.png" />
+        <Image
+          w="80%"
+          objectFit="cover"
+          src={`${window._detectedSiteType.basePath}/images/sample.png`}
+        />
       </Flex>
     </Flex>
   );

@@ -11,9 +11,13 @@ import {
 } from "@chakra-ui/react";
 import SideBar from "../components/SideBar/SideBar";
 import { useAtom } from "jotai";
-import { fdpAtom, slidesAtom, slidesDeckAtom, slidesLogoAtom } from "../store";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import {
+  fdpAtom,
+  slidesAtom,
+  slidesDeckAtom,
+  slidesLogoAtom,
+  userAtom,
+} from "../store";
 import { AiFillFileMarkdown, AiOutlinePlus } from "react-icons/ai";
 import { MdSlideshow } from "react-icons/md";
 import ImportFile from "../components/ImportFile/ImportFile";
@@ -21,6 +25,7 @@ import { File } from "../types";
 import Card from "../components/Card/Card";
 import { loadSlideshow } from "../utils";
 import NavBar from "../components/NavBar/NavBar";
+import Login from "../components/Login/Login";
 
 const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
   ssr: false,
@@ -36,24 +41,9 @@ const Home: NextPage = () => {
   const [fdp] = useAtom(fdpAtom);
   const [slides, setSlides] = useAtom(slidesAtom);
   const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
-  const router = useRouter();
+  const [user, setUser] = useAtom(userAtom);
 
-  useEffect(() => {
-    if (!fdp.account.wallet) {
-      const url =
-        process.env.NEXT_PUBLIC_IS_STATIC === "true"
-          ? `${document.querySelector("base")?.href}/login.html`
-          : "/login";
-      router.push(url);
-    }
-  }, []);
-
-  if (!fdp.account.wallet)
-    return (
-      <Center w="full" h="100vh">
-        <Spinner size="xl" />
-      </Center>
-    );
+  if (!user) return <Login />;
 
   return (
     <>

@@ -14,7 +14,7 @@ jobs:
         run: yarn
 
       - name: Build
-        run: yarn build:static
+        run: yarn build
         env:
           NEXT_PUBLIC_BEE_URL: https://gateway.fairdatasociety.org/proxy
           NEXT_PUBLIC_BEE_DEBUG_URL: https://gateway.fairdatasociety.org/proxy
@@ -23,7 +23,6 @@ jobs:
           NEXT_PUBLIC_ENS_REGISTRY: "0x21625506951100e1E627b265cFF970110C1efBa4"
           NEXT_PUBLIC_PUBLIC_RESOLVER: "0xC2c0fAcC987C967870d6C847a9171F9470896499"
           NEXT_PUBLIC_SLIDES_POD: fair-slideshows
-          NEXT_PUBLIC_IS_STATIC: true
 
       - name: Upload
         id: swarm-upload

@@ -19,16 +19,19 @@ export default function Document() {
         function detectSiteType() {
             let type = SiteType.Web2Root;
             let url = '';
+            let basePath = '';
             const parts = window.location.pathname.split('/');
             if (parts.length >= 3 && parts[1] === 'bzz') {
                 type = SiteType.BeeSubfolder;
                 url = window.location.origin + "/" + parts[1] + "/" + parts[2];
+                basePath = "/" + parts[1] + "/" + parts[2];
             } else if (parts[1] === 'web3') {
                 type = SiteType.BeeSubfolder;
                 url = window.location.origin + "/" + "web3";
+                basePath = "/web3";
             }
     
-            return {type, url};
+            return {type, url,basePath};
         }
     
         function wrapUrl(url) {

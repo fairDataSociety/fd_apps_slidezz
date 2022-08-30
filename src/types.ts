@@ -36,3 +36,7 @@ export interface Slides {
   name?: string;
   sharedRef?: string;
 }
+
+export interface User {
+  username: string;
+}
