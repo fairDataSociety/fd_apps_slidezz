@@ -11,6 +11,7 @@ import {
   Link,
   FormErrorMessage,
   useToast,
+  Box,
 } from "@chakra-ui/react";
 import { Formik, Form, FormikErrors, Field } from "formik";
 import { useAtom } from "jotai";
@@ -77,7 +78,7 @@ const Login: NextPage = () => {
         initialValues={LoginFormInitialValues}
       >
         {({ handleSubmit, isValid, isSubmitting, errors, touched }) => (
-          <Form onSubmit={handleSubmit}>
+          <Box>
             <VStack pt={10} gap={5}>
               <VStack gap={1}>
                 <Heading fontSize="5xl">Please login</Heading>
@@ -119,7 +120,7 @@ const Login: NextPage = () => {
                 <Button
                   isLoading={isSubmitting}
                   isDisabled={!isValid}
-                  type="submit"
+                  onClick={() => handleSubmit()}
                 >
                   Login
                 </Button>
@@ -131,7 +132,7 @@ const Login: NextPage = () => {
                 </Text>
               </VStack>
             </VStack>
-          </Form>
+          </Box>
         )}
       </Formik>
     </>
