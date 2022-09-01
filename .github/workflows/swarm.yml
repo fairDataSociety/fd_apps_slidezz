@@ -18,7 +18,7 @@ jobs:
         env:
           NEXT_PUBLIC_BEE_URL: https://gateway.fairdatasociety.org/proxy
           NEXT_PUBLIC_BEE_DEBUG_URL: https://gateway.fairdatasociety.org/proxy
-          NEXT_PUBLIC_RPC_URL: https://goerli.infura.io/v3
+          NEXT_PUBLIC_RPC_URL: https://eth-goerli.g.alchemy.com/v2/qnq2IazRtEC7Tt0MbIQWs6qaC3oa1cQ8
           NEXT_PUBLIC_FDS_REGISTRAR: "0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9"
           NEXT_PUBLIC_ENS_REGISTRY: "0x42B22483e3c8dF794f351939620572d1a3193c12"
           NEXT_PUBLIC_PUBLIC_RESOLVER: "0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14"
