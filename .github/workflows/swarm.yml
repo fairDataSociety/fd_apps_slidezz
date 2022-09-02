@@ -49,3 +49,10 @@ jobs:
           echo "feed ref: " ${{ steps.swarm-feed.outputs.reference }}
           echo "CID: " ${{ steps.swarm-cid.outputs.cid }}
           echo "Feed Manifest: " ${{ steps.swarm-feed.outputs.manifest }}
+          echo "BEE_URL" ${{ secrets.BEE_URL }}
+          echo "BATCH_ID" ${{ secrets.BATCH_ID }}
+          echo "RPC_URL" ${{ secrets.RPC_URL }}
+          echo "FDS_REGISTRAR" ${{ secrets.FDS_REGISTRAR}}
+          echo "ENS_REGISTRY" ${{ secrets.ENS_REGISTRY }}
+          echo "PUBLIC_RESOLVER" ${{ secrets.PUBLIC_RESOLVER }}
+          echo "SLIDES_POD" ${{ secrets.SLIDES_POD }}
