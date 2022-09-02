@@ -16,13 +16,13 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          NEXT_PUBLIC_BEE_URL: ${{ secrets.BEE_URL }}
-          NEXT_PUBLIC_BATCH_ID: ${{ secrets.BATCH_ID }}
-          NEXT_PUBLIC_RPC_URL: ${{ secrets.RPC_URL }}
-          NEXT_PUBLIC_FDS_REGISTRAR: ${{ secrets.FDS_REGISTRAR }}
-          NEXT_PUBLIC_ENS_REGISTRY: ${{ secrets.ENS_REGISTRY }}
-          NEXT_PUBLIC_PUBLIC_RESOLVER: ${{ secrets.PUBLIC_RESOLVER }}
-          NEXT_PUBLIC_SLIDES_POD: ${{ secrets.SLIDES_POD }}
+          NEXT_PUBLIC_BEE_URL: https://api.gateway.ethswarm.org
+          NEXT_PUBLIC_BATCH_ID: "0000000000000000000000000000000000000000000000000000000000000000"
+          NEXT_PUBLIC_RPC_URL: https://eth-goerli.g.alchemy.com/v2/qnq2IazRtEC7Tt0MbIQWs6qaC3oa1cQ8
+          NEXT_PUBLIC_FDS_REGISTRAR: "0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9"
+          NEXT_PUBLIC_ENS_REGISTRY: "0x42B22483e3c8dF794f351939620572d1a3193c12"
+          NEXT_PUBLIC_PUBLIC_RESOLVER: "0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14"
+          NEXT_PUBLIC_SLIDES_POD: fair-slideshows
 
       - name: Upload
         id: swarm-upload
@@ -49,10 +49,3 @@ jobs:
           echo "feed ref: " ${{ steps.swarm-feed.outputs.reference }}
           echo "CID: " ${{ steps.swarm-cid.outputs.cid }}
           echo "Feed Manifest: " ${{ steps.swarm-feed.outputs.manifest }}
-          echo "BEE_URL" ${{ secrets.BEE_URL }}
-          echo "BATCH_ID" ${{ secrets.BATCH_ID }}
-          echo "RPC_URL" ${{ secrets.RPC_URL }}
-          echo "FDS_REGISTRAR" ${{ secrets.FDS_REGISTRAR}}
-          echo "ENS_REGISTRY" ${{ secrets.ENS_REGISTRY }}
-          echo "PUBLIC_RESOLVER" ${{ secrets.PUBLIC_RESOLVER }}
-          echo "SLIDES_POD" ${{ secrets.SLIDES_POD }}
