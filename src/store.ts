@@ -45,7 +45,8 @@ export const styleSettingsAtom = atomWithStorage(
 
 const fdp = new FdpStorage(
   process.env.NEXT_PUBLIC_BEE_URL as string,
-  process.env.NEXT_PUBLIC_BEE_DEBUG_URL as string,
+  //@ts-ignore
+  process.env.NEXT_PUBLIC_BATCH_ID as string,
   {
     ensOptions: {
       performChecks: true,

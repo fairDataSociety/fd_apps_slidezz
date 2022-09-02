@@ -39,8 +39,8 @@ you can copy the `.env.example` file:
 cp .env.example .env
 ```
 
-- **NEXT_PUBLIC_BEE_URL** - Address of a bee node
-- **NEXT_PUBLIC_BEE_DEBUG_URL** - Address of bee debug API
+- **NEXT_PUBLIC_BEE_URL** - Address of a Bee node
+- **NEXT_PUBLIC_BATCH_ID** - Batch ID from your Bee node
 - **NEXT_PUBLIC_RPC_URL** - Address of RPC provider
 - **NEXT_PUBLIC_FDS_REGISTRAR** - FDS registrar contract address
 - **NEXT_PUBLIC_ENS_REGISTRY** - ENS Registry contract address
