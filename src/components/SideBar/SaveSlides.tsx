@@ -45,73 +45,86 @@ export default function SaveSlides() {
   const handleSaveSlides = async () => {
     if (!slides || !deck) return;
 
-    toast({
-      duration: null,
-      render: () => <LoadingToast label="Saving slides" />,
-    });
+    try {
+      toast({
+        duration: null,
+        render: () => <LoadingToast label="Saving slides" />,
+      });
 
-    const slidesHTML = getSlidesHTML(deck);
-    const div = document.createElement("div");
-    div.innerHTML = slidesHTML;
+      const slidesHTML = getSlidesHTML(deck);
+      const div = document.createElement("div");
+      div.innerHTML = slidesHTML;
 
-    if (slidesLogo) {
-      const logoElement = document.createElement("div");
-      logoElement.style.display = "none";
-      logoElement.classList.add("logo-image");
-      logoElement.setAttribute("data-pod", slidesLogo.podName!);
-      logoElement.setAttribute("data-path", slidesLogo.fullPath!);
+      if (slidesLogo) {
+        const logoElement = document.createElement("div");
+        logoElement.style.display = "none";
+        logoElement.classList.add("logo-image");
+        logoElement.setAttribute("data-pod", slidesLogo.podName!);
+        logoElement.setAttribute("data-path", slidesLogo.fullPath!);
+
+        if (shareSlides) {
+          const ref = await fdp.file.share(
+            slidesLogo.podName!,
+            slidesLogo.fullPath!
+          );
+          logoElement.setAttribute("data-shareref", ref);
+        }
+
+        div.append(logoElement);
+      }
 
       if (shareSlides) {
-        const ref = await fdp.file.share(
-          slidesLogo.podName!,
-          slidesLogo.fullPath!
-        );
-        logoElement.setAttribute("data-shareref", ref);
+        const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
+
+        for (const fairDataElement of fairDataElements) {
+          const podName = fairDataElement.getAttribute("data-pod")!;
+          const path = fairDataElement.getAttribute("data-path")!;
+
+          const shareRef = await fdp.file.share(podName, path);
+
+          fairDataElement.setAttribute("data-shareref", shareRef);
+        }
       }
 
-      div.append(logoElement);
-    }
+      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!;
+      const pods = await fdp.personalStorage.list();
+      const slidesPod = pods
+        .getPods()
+        .find((pod) => pod.name === slidesPodName);
 
-    if (shareSlides) {
-      const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
-
-      for (const fairDataElement of fairDataElements) {
-        const podName = fairDataElement.getAttribute("data-pod")!;
-        const path = fairDataElement.getAttribute("data-path")!;
-
-        const shareRef = await fdp.file.share(podName, path);
-
-        fairDataElement.setAttribute("data-shareref", shareRef);
+      if (!slidesPod) {
+        await fdp.personalStorage.create(slidesPodName);
       }
-    }
 
-    const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!;
-    const pods = await fdp.personalStorage.list();
-    const slidesPod = pods.getPods().find((pod) => pod.name === slidesPodName);
+      const filePath = `/${fileName}.html`;
+      await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML);
 
-    if (!slidesPod) {
-      await fdp.personalStorage.create(slidesPodName);
-    }
+      if (shareSlides) {
+        const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
 
-    const filePath = `/${fileName}.html`;
-    await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML);
+        setSlides({
+          ...slides,
+          name: fileName,
+          sharedRef: slidesShareRef,
+        });
+      } else {
+        setSlides({
+          ...slides,
+          name: fileName,
+        });
+      }
+      toast.closeAll();
+    } catch (error: any) {
+      toast.closeAll();
 
-    if (shareSlides) {
-      const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
-
-      setSlides({
-        ...slides,
-        name: fileName,
-        sharedRef: slidesShareRef,
+      toast({
+        title: "Failed to upload file",
+        description: error.message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
       });
-    } else {
-      setSlides({
-        ...slides,
-        name: fileName,
-      });
     }
-
-    toast.closeAll();
   };
 
   return (
