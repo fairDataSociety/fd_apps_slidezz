@@ -16,9 +16,9 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          NEXT_PUBLIC_BEE_URL: https://api.gateway.ethswarm.org
+          NEXT_PUBLIC_BEE_URL: https://bee-1.dev.fairdatasociety.org
           NEXT_PUBLIC_BATCH_ID: "0000000000000000000000000000000000000000000000000000000000000000"
-          NEXT_PUBLIC_RPC_URL: https://eth-goerli.g.alchemy.com/v2/qnq2IazRtEC7Tt0MbIQWs6qaC3oa1cQ8
+          NEXT_PUBLIC_RPC_URL: https://xdai.dev.fairdatasociety.org
           NEXT_PUBLIC_FDS_REGISTRAR: "0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9"
           NEXT_PUBLIC_ENS_REGISTRY: "0x42B22483e3c8dF794f351939620572d1a3193c12"
           NEXT_PUBLIC_PUBLIC_RESOLVER: "0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14"
@@ -28,7 +28,7 @@ jobs:
         id: swarm-upload
         uses: ethersphere/swarm-actions/upload-dir@latest
         with:
-          bee-url: https://gateway.fairdatasociety.org/proxy/
+          bee-url: https://gateway.dev.fairdatasociety.org/proxy/
           dir: ./out
           index-document: index.html
           retry: 200
@@ -38,7 +38,7 @@ jobs:
         id: swarm-feed
         uses: ethersphere/swarm-actions/write-feed@latest
         with:
-          bee-url: https://gateway.fairdatasociety.org/proxy/
+          bee-url: https://gateway.dev.fairdatasociety.org/proxy/
           reference: ${{ steps.swarm-upload.outputs.reference }}
           topic: slidezz
           signer: ${{ secrets.SIGNER }}
