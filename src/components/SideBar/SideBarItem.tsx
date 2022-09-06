@@ -28,7 +28,7 @@ export default function SideBarItem({
           bg: useColorModeValue("latte-surface2", "frappe-surface2"),
         }}
       >
-        <Icon as={icon} />
+        <Icon pointerEvents="none" as={icon} />
       </Center>
     </Tooltip>
   );

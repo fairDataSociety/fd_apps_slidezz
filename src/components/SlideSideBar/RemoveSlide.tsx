@@ -13,8 +13,6 @@ export default function RemoveSlide() {
       onClick={() => {
         if (deck.getTotalSlides() <= 1) return;
 
-        console.log(deck.getTotalSlides());
-
         const slides = deck.getSlidesElement() as HTMLElement;
         const currentSlide = deck.getCurrentSlide() as HTMLElement;
         const currentSlideIndex = deck.getState().indexh;

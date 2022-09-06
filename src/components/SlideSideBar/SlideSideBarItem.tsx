@@ -28,7 +28,7 @@ export default function SlideSideBarItem({
           bg: useColorModeValue("latte-surface2", "frappe-surface2"),
         }}
       >
-        <Icon as={icon} />
+        <Icon as={icon} pointerEvents="none" />
       </Center>
     </Tooltip>
   );

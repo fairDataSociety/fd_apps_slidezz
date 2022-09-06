@@ -37,15 +37,11 @@ export function addMoveableToElements(
       });
     }
 
-    console.log(element.classList);
-
     if (
       (element.classList.contains("media-container") ||
         element.classList.contains("sample-image-container")) &&
       setReplaceImageElement
     ) {
-      console.log("here an image");
-
       element.addEventListener("dblclick", () => {
         setReplaceImageElement(element.firstChild as HTMLImageElement);
       });

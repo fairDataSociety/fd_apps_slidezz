@@ -34,6 +34,7 @@ import {
   MoveableDimensionProps,
 } from "./Moveable/Ables/MoveableDimension";
 import { Slides } from "../../types";
+import FontTab from "./FontTab";
 
 interface SlideShowProps {
   deckName: string;
@@ -66,7 +67,13 @@ export default function SlideShow({
 
   useEffect(() => {
     const handleBodyClick = (e: MouseEvent) => {
-      if (!moveableRef.current?.isInside(e.clientX, e.clientY)) {
+      const revealElement = document.querySelector(".reveal")!;
+      const target = e.target as HTMLElement;
+
+      if (
+        !moveableRef.current?.isInside(e.clientX, e.clientY) &&
+        revealElement.contains(target)
+      ) {
         setMoveableTarget(undefined);
       }
     };
@@ -129,16 +136,9 @@ export default function SlideShow({
 
     fscreen.addEventListener("fullscreenchange", handleFullScreenChange);
 
-    const handleResize = () => {
-      setMoveableTarget(undefined);
-    };
-
-    window.addEventListener("resize", handleResize);
-
     return () => {
       newDeck.destroy();
       fscreen.removeEventListener("fullscreenchange", handleFullScreenChange);
-      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -165,6 +165,7 @@ export default function SlideShow({
     >
       <SlideSideBar />
       <EditMode />
+      <FontTab />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
       <Box className={`reveal ${deckName}`}>

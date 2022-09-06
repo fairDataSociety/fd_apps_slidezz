@@ -87,7 +87,7 @@ const Home: NextPage = () => {
                 initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
               >
                 <Card>
-                  <Text>Generate a slideshow from an existing slides.</Text>
+                  <Text>Generate a slideshow from an existing slideshow.</Text>
                   <Icon fontSize="4xl" as={MdSlideshow} />
                 </Card>
               </ImportFile>
