@@ -45,6 +45,11 @@ export default function SaveSlides() {
   const handleSaveSlides = async () => {
     if (!slides || !deck) return;
 
+    const fileNameTmp = fileName;
+    const shareSlidesTmp = shareSlides;
+
+    handleOnClose();
+
     try {
       toast({
         duration: null,
@@ -62,7 +67,7 @@ export default function SaveSlides() {
         logoElement.setAttribute("data-pod", slidesLogo.podName!);
         logoElement.setAttribute("data-path", slidesLogo.fullPath!);
 
-        if (shareSlides) {
+        if (shareSlidesTmp) {
           const ref = await fdp.file.share(
             slidesLogo.podName!,
             slidesLogo.fullPath!
@@ -73,7 +78,7 @@ export default function SaveSlides() {
         div.append(logoElement);
       }
 
-      if (shareSlides) {
+      if (shareSlidesTmp) {
         const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
 
         for (const fairDataElement of fairDataElements) {
@@ -96,26 +101,27 @@ export default function SaveSlides() {
         await fdp.personalStorage.create(slidesPodName);
       }
 
-      const filePath = `/${fileName}.html`;
+      const filePath = `/${fileNameTmp}.html`;
       await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML);
 
-      if (shareSlides) {
+      if (shareSlidesTmp) {
         const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
 
         setSlides({
           ...slides,
-          name: fileName,
+          name: fileNameTmp,
           sharedRef: slidesShareRef,
         });
       } else {
         setSlides({
           ...slides,
-          name: fileName,
+          name: fileNameTmp,
         });
       }
       toast.closeAll();
     } catch (error: any) {
       toast.closeAll();
+      console.log(error);
 
       toast({
         title: "Failed to upload file",
@@ -127,10 +133,16 @@ export default function SaveSlides() {
     }
   };
 
+  const handleOnClose = () => {
+    setFileName("");
+    setShareSlides.off();
+    onClose();
+  };
+
   return (
     <>
       <SideBarItem icon={FaSave} onClick={onOpen} label="Save slides" />
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={handleOnClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Save Slides</ModalHeader>
@@ -167,10 +179,7 @@ export default function SaveSlides() {
             </Button>
             <Button
               isDisabled={fileName.length === 0}
-              onClick={() => {
-                onClose();
-                handleSaveSlides();
-              }}
+              onClick={handleSaveSlides}
             >
               Save
             </Button>

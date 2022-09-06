@@ -600,6 +600,13 @@ body[data-theme="beige"] .reveal-viewport {
   padding-top: 10px;
 }
 
+.reveal .sample-data {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding-top: 10px;
+}
+
 .reveal .media-container {
   position: absolute;
   top: 50%;

@@ -37,18 +37,18 @@ export const templates: Template[] = [
   },
   {
     name: "Ttile image slide",
-    content: `<h3>TITLE TEXT</h3><div></div><div class="sample-image-container"><img class="fair-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div>`,
+    content: `<h3>TITLE TEXT</h3><div></div><div class="sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div>`,
     component: TitleImageSlide,
   },
   {
     name: "Image title slide",
-    content: `<div class="sample-image-container"><img class="fair-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div><h3>TITLE TEXT</h3>`,
+    content: `<div class="sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div><h3>TITLE TEXT</h3>`,
     component: ImageTitleSlide,
   },
   {
     name: "Two-column image slide",
     content: `<div class='two-column'><div class='col'><h2>Left column</h2><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
-    perferendis amet minus minima.</p></div><div class='col'><div class="sample-image-container"><img class="fair-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div></div></div>`,
+    perferendis amet minus minima.</p></div><div class='col'><div class="sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div></div></div>`,
     component: TwoColumnImageSlide,
   },
 ];
