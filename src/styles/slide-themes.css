@@ -200,8 +200,8 @@ body[data-theme="macchiato"] {
 }
 
 .reveal-viewport {
-  background: var(--r-background-color);
-  background-color: var(--r-background-color);
+  background: var(--r-background-color) !important;
+  background-color: var(--r-background-color) !important;
 }
 
 body[data-theme="sky"] .reveal-viewport {
@@ -240,7 +240,7 @@ body[data-theme="sky"] .reveal-viewport {
     #add9e4 100%
   );
   background: radial-gradient(center, circle cover, #f7fbfc 0%, #add9e4 100%);
-  background-color: var(--r-background-color);
+  background-color: var(--r-background-color) !important;
 }
 
 html body[data-theme="serif"] .reveal a {
@@ -293,7 +293,7 @@ body[data-theme="league"] .reveal-viewport {
     #1c1e20 100%
   );
   background: radial-gradient(center, circle cover, #555a5f 0%, #1c1e20 100%);
-  background-color: var(--r-background-color);
+  background-color: var(--r-background-color) !important;
 }
 
 body[data-theme="beige"] .reveal-viewport {
@@ -322,7 +322,7 @@ body[data-theme="beige"] .reveal-viewport {
   background: -o-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
   background: -ms-radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
   background: radial-gradient(center, circle cover, white 0%, #f7f2d3 100%);
-  background-color: var(--r-background-color);
+  background-color: var(--r-background-color) !important;
 }
 
 .reveal {
@@ -333,14 +333,14 @@ body[data-theme="beige"] .reveal-viewport {
 }
 
 .reveal ::selection {
-  color: var(--r-selection-color);
-  background: var(--r-selection-background-color);
+  color: var(--r-selection-color) !important;
+  background: var(--r-selection-background-color) !important;
   text-shadow: none;
 }
 
 .reveal ::-moz-selection {
-  color: var(--r-selection-color);
-  background: var(--r-selection-background-color);
+  color: var(--r-selection-color) !important;
+  background: var(--r-selection-background-color) !important;
   text-shadow: none;
 }
 
@@ -634,27 +634,27 @@ body[data-theme="beige"] .reveal-viewport {
   * LINKS
   *********************************************/
 .reveal a {
-  color: var(--r-link-color);
+  color: var(--r-link-color) !important;
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
 .reveal a:hover {
-  color: var(--r-link-color-hover);
+  color: var(--r-link-color-hover) !important;
   text-shadow: none;
   border: none;
 }
 
 .reveal .roll span:after {
   color: #fff;
-  background: var(--r-link-color-dark);
+  background: var(--r-link-color-dark) !important;
 }
 
 /*********************************************
   * Frame helper
   *********************************************/
 .reveal .r-frame {
-  border: 4px solid var(--r-main-color);
+  border: 4px solid var(--r-main-color) !important;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -663,7 +663,7 @@ body[data-theme="beige"] .reveal-viewport {
 }
 
 .reveal a:hover .r-frame {
-  border-color: var(--r-link-color);
+  border-color: var(--r-link-color) !important;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
 }
 
@@ -671,7 +671,7 @@ body[data-theme="beige"] .reveal-viewport {
   * NAVIGATION CONTROLS
   *********************************************/
 .reveal .controls {
-  color: var(--r-link-color);
+  color: var(--r-link-color) !important;
 }
 
 /*********************************************
@@ -679,7 +679,7 @@ body[data-theme="beige"] .reveal-viewport {
   *********************************************/
 .reveal .progress {
   background: rgba(0, 0, 0, 0.2);
-  color: var(--r-link-color);
+  color: var(--r-link-color) !important;
 }
 
 [contenteditable] {
@@ -703,7 +703,7 @@ body[data-theme="beige"] .reveal-viewport {
   *********************************************/
 @media print {
   .backgrounds {
-    background-color: var(--r-background-color);
+    background-color: var(--r-background-color) !important;
   }
 }
 
