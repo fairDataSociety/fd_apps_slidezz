@@ -22,6 +22,7 @@ export default function AddText({ children }: AddTextProps) {
     slide.appendChild(textElement);
 
     addMoveableToElements([textElement], setMoveableTarget);
+    setMoveableTarget(textElement);
   };
 
   return <Box onClick={handleAddText}>{children}</Box>;

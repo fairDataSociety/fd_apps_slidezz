@@ -90,6 +90,7 @@ export function addImageToCurrentSlide(
   slide.appendChild(imageContainer);
   deck.sync();
   deck.layout();
+  setMoveableTarget(imageContainer);
 }
 
 export function getSlidesHTML(deck: any) {

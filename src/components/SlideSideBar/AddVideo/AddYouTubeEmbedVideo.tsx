@@ -75,6 +75,7 @@ export default function AddYouTubeEmbedVideo({
 
     onClose();
     addVideoOnClose();
+    setMoveableTarget(videoContainer);
   };
 
   return (

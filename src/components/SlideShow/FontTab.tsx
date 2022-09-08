@@ -27,6 +27,7 @@ export default function FontTab() {
   const [textAlign, setTextAlign] = useState("");
   const [textDecoration, setTextDecoration] = useState("");
   const [fontStyle, setFontStyle] = useState("");
+  const [fontWeight, setFontWeight] = useState("");
 
   useEffect(() => {
     if (moveableTarget) {
@@ -34,6 +35,7 @@ export default function FontTab() {
       setTextDecoration(moveableTarget.style.textDecoration);
       setFontStyle(moveableTarget.style.fontStyle);
       setFontSize(moveableTarget.style.fontSize.replace(/px/, ""));
+      setFontWeight(moveableTarget.style.fontWeight);
     }
   }, [moveableTarget]);
 
@@ -144,6 +146,30 @@ export default function FontTab() {
                   <option selected value=""></option>
                   <option value="normal">normal</option>
                   <option value="italic">italic</option>
+                </Select>
+              </FormControl>
+
+              <FormControl>
+                <FormLabel fontSize={{ base: "xs", md: "md" }}>
+                  font-weight
+                </FormLabel>
+                <Select
+                  value={fontWeight}
+                  onChange={(e) => {
+                    if (moveableTarget && e.target.value !== "") {
+                      const newValue = e.target.value;
+                      moveableTarget.style.fontWeight = newValue;
+                      setFontWeight(newValue);
+                    }
+                  }}
+                  size="sm"
+                >
+                  <option selected value=""></option>
+                  <option value="200">200</option>
+                  <option value="300">300</option>
+                  <option value="400">400</option>
+                  <option value="600">600</option>
+                  <option value="700">700</option>
                 </Select>
               </FormControl>
             </SimpleGrid>

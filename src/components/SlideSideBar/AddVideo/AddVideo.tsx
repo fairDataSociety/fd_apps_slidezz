@@ -65,6 +65,7 @@ export default function AddVideo() {
     deck.sync();
     deck.layout();
     onClose();
+    setMoveableTarget(videoContainer);
   };
 
   return (
