@@ -1,4 +1,4 @@
-import { Flex, Heading, Text, VStack, Image, Box } from "@chakra-ui/react";
+import { Flex, Heading, Text, VStack, Image, Box } from '@chakra-ui/react'
 
 export default function TwoColumnImageSlide() {
   return (
@@ -20,5 +20,5 @@ export default function TwoColumnImageSlide() {
         />
       </Flex>
     </Flex>
-  );
+  )
 }

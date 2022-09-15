@@ -1,31 +1,31 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
-import AddImage from "./AddImage/AddImage";
-import AddVideo from "./AddVideo/AddVideo";
-import { BsFillImageFill } from "react-icons/bs";
-import { addImageToCurrentSlide } from "../../utils";
-import { useAtom } from "jotai";
+import { Box, useColorModeValue } from '@chakra-ui/react'
+import AddImage from './AddImage/AddImage'
+import AddVideo from './AddVideo/AddVideo'
+import { BsFillImageFill } from 'react-icons/bs'
+import { addImageToCurrentSlide } from '../../utils'
+import { useAtom } from 'jotai'
 import {
   moveableTargetAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
-} from "../../store";
-import AddText from "./AddText";
-import { RiText } from "react-icons/ri";
-import NewSlide from "./NewSlide";
-import SlideSideBarItem from "./SlideSideBarItem";
-import RemoveSlide from "./RemoveSlide";
+} from '../../store'
+import AddText from './AddText'
+import { RiText } from 'react-icons/ri'
+import NewSlide from './NewSlide'
+import SlideSideBarItem from './SlideSideBarItem'
+import RemoveSlide from './RemoveSlide'
 
 export default function SlideSideBar() {
-  const [deck] = useAtom(slidesDeckAtom);
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [deck] = useAtom(slidesDeckAtom)
+  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
-  );
+  )
 
   return (
     <Box
-      bg={useColorModeValue("latte-crust", "frappe-crust")}
-      fontSize={{ base: "xs", md: "md" }}
+      bg={useColorModeValue('latte-crust', 'frappe-crust')}
+      fontSize={{ base: 'xs', md: 'md' }}
       position="absolute"
       borderRadius="lg"
       overflow="hidden"
@@ -52,5 +52,5 @@ export default function SlideSideBar() {
       <RemoveSlide />
       <NewSlide />
     </Box>
-  );
+  )
 }

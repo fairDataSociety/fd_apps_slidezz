@@ -1,43 +1,41 @@
-import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
-import { moveableTargetAtom, replaceImageElementAtom } from "../../store";
-import { File } from "../../types";
-import AddImageModal from "../SlideSideBar/AddImage/AddImageModal";
+import { useAtom } from 'jotai'
+import { useEffect, useState } from 'react'
+import { moveableTargetAtom, replaceImageElementAtom } from '../../store'
+import { File } from '../../types'
+import AddImageModal from '../SlideSideBar/AddImage/AddImageModal'
 
 export function ReplaceImage() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [isOpen, setIsOpen] = useState(true)
+  const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
-  );
+  )
 
   const handleReplaceImage = (image: File) => {
-    if (!replaceImageElement) return;
+    if (!replaceImageElement) return
 
-    replaceImageElement.src = URL.createObjectURL(
-      new Blob([image.data.buffer])
-    );
-    replaceImageElement.alt = image.name;
+    replaceImageElement.src = URL.createObjectURL(new Blob([image.data.buffer]))
+    replaceImageElement.alt = image.name
 
-    replaceImageElement.setAttribute("data-pod", image.podName);
-    replaceImageElement.setAttribute("data-path", image.fullPath);
-    replaceImageElement.classList.add("fair-data");
+    replaceImageElement.setAttribute('data-pod', image.podName)
+    replaceImageElement.setAttribute('data-path', image.fullPath)
+    replaceImageElement.classList.add('fair-data')
 
-    setReplaceImageElement(undefined);
-  };
+    setReplaceImageElement(undefined)
+  }
 
   useEffect(() => {
-    setMoveableTarget(undefined);
-  }, []);
+    setMoveableTarget(undefined)
+  }, [])
 
   return (
     <AddImageModal
       handleAddImage={(image) => handleReplaceImage(image)}
       isOpen={isOpen}
       onClose={() => {
-        setReplaceImageElement(undefined);
-        setIsOpen(false);
+        setReplaceImageElement(undefined)
+        setIsOpen(false)
       }}
     />
-  );
+  )
 }

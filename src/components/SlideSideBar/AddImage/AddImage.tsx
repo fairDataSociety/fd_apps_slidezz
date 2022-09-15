@@ -1,14 +1,14 @@
-import { useDisclosure, Box } from "@chakra-ui/react";
-import { File } from "../../../types";
-import AddImageModal from "./AddImageModal";
+import { useDisclosure, Box } from '@chakra-ui/react'
+import { File } from '../../../types'
+import AddImageModal from './AddImageModal'
 
 interface AddImageProps {
-  children?: React.ReactNode;
-  handleAddImage: (image: File) => void;
+  children?: React.ReactNode
+  handleAddImage: (image: File) => void
 }
 
 export default function AddImage({ children, handleAddImage }: AddImageProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -19,5 +19,5 @@ export default function AddImage({ children, handleAddImage }: AddImageProps) {
         handleAddImage={handleAddImage}
       />
     </>
-  );
+  )
 }

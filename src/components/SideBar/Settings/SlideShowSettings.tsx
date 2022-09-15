@@ -16,23 +16,23 @@ import {
   Select,
   useColorModeValue,
   Box,
-} from "@chakra-ui/react";
-import { FiSettings } from "react-icons/fi";
-import SideBarItem from "../SideBarItem";
-import { Formik } from "formik";
-import { useAtom } from "jotai";
-import { slideShowSettingsAtom } from "../../../store";
+} from '@chakra-ui/react'
+import { FiSettings } from 'react-icons/fi'
+import SideBarItem from '../SideBarItem'
+import { Formik } from 'formik'
+import { useAtom } from 'jotai'
+import { slideShowSettingsAtom } from '../../../store'
 import {
   checkBoxSettings,
   selectSettings,
-} from "../../../config/slide-settings";
+} from '../../../config/slide-settings'
 
 export default function SlideShowSettings() {
   const [slideShowSettings, setSlideShowSettings] = useAtom(
     slideShowSettingsAtom
-  );
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const settingBg = useColorModeValue("latte-crust", "frappe-crust");
+  )
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const settingBg = useColorModeValue('latte-crust', 'frappe-crust')
 
   return (
     <>
@@ -46,8 +46,8 @@ export default function SlideShowSettings() {
         <DrawerOverlay />
         <Formik
           onSubmit={(values) => {
-            setSlideShowSettings(values);
-            onClose();
+            setSlideShowSettings(values)
+            onClose()
           }}
           initialValues={slideShowSettings}
         >
@@ -71,7 +71,7 @@ export default function SlideShowSettings() {
                           </Checkbox>
                           <FormHelperText>{item.description}</FormHelperText>
                         </FormControl>
-                      );
+                      )
                     })}
 
                     {selectSettings.map((item, i) => {
@@ -92,7 +92,7 @@ export default function SlideShowSettings() {
                           </Select>
                           <FormHelperText>{item.description}</FormHelperText>
                         </FormControl>
-                      );
+                      )
                     })}
                   </VStack>
                 </DrawerBody>
@@ -109,5 +109,5 @@ export default function SlideShowSettings() {
         </Formik>
       </Drawer>
     </>
-  );
+  )
 }

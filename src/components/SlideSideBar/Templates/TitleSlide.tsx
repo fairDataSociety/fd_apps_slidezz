@@ -1,4 +1,4 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading } from '@chakra-ui/react'
 
 export default function TitleSlide() {
   return (
@@ -7,5 +7,5 @@ export default function TitleSlide() {
         TITLE TEXT
       </Heading>
     </Box>
-  );
+  )
 }

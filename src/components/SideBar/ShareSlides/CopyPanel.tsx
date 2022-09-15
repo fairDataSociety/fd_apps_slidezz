@@ -6,16 +6,16 @@ import {
   IconButton,
   Tooltip,
   Textarea,
-} from "@chakra-ui/react";
-import { BiCopy } from "react-icons/bi";
+} from '@chakra-ui/react'
+import { BiCopy } from 'react-icons/bi'
 
 interface CopyPanelProps {
-  label: string;
-  text: string;
+  label: string
+  text: string
 }
 
 export default function CopyPanel({ label, text }: CopyPanelProps) {
-  const { hasCopied, onCopy } = useClipboard(text);
+  const { hasCopied, onCopy } = useClipboard(text)
 
   return (
     <Box>
@@ -36,7 +36,7 @@ export default function CopyPanel({ label, text }: CopyPanelProps) {
           closeOnClick={false}
           placement="right"
           hasArrow
-          label={hasCopied ? "Copied" : "Copy to clipboard"}
+          label={hasCopied ? 'Copied' : 'Copy to clipboard'}
         >
           <IconButton
             size="sm"
@@ -48,5 +48,5 @@ export default function CopyPanel({ label, text }: CopyPanelProps) {
         </Tooltip>
       </HStack>
     </Box>
-  );
+  )
 }

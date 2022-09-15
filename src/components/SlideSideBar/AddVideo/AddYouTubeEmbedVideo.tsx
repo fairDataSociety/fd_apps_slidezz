@@ -13,70 +13,70 @@ import {
   FormControl,
   FormErrorMessage,
   Input,
-} from "@chakra-ui/react";
-import { BsLink } from "react-icons/bs";
-import { Formik, Field } from "formik";
-import { useAtom } from "jotai";
-import { moveableTargetAtom, slidesDeckAtom } from "../../../store";
+} from '@chakra-ui/react'
+import { BsLink } from 'react-icons/bs'
+import { Formik, Field } from 'formik'
+import { useAtom } from 'jotai'
+import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
 
 interface AddYouTubeEmbedVideoProps {
-  addVideoOnClose: () => void;
+  addVideoOnClose: () => void
 }
 
 interface FormValues {
-  url: string;
+  url: string
 }
 
 const initialValues: FormValues = {
-  url: "",
-};
+  url: '',
+}
 
 function youtubeParser(url: string) {
-  var regExp =
-    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-  var match = url.match(regExp);
-  return match && match[7].length == 11 ? match[7] : false;
+  const regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+  const match = url.match(regExp)
+  return match && match[7].length == 11 ? match[7] : false
 }
 
 export default function AddYouTubeEmbedVideo({
   addVideoOnClose,
 }: AddYouTubeEmbedVideoProps) {
-  const [deck] = useAtom(slidesDeckAtom);
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [deck] = useAtom(slidesDeckAtom)
+  const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const addVideoToCurrentSlide = (values: FormValues) => {
-    const currentSlideIndex = deck.getState().indexh;
-    const slide = deck.getSlides()[currentSlideIndex];
+    const currentSlideIndex = deck.getState().indexh
+    const slide = deck.getSlides()[currentSlideIndex]
 
-    const videoContainer = document.createElement("div");
-    videoContainer.classList.add("media-container");
+    const videoContainer = document.createElement('div')
+    videoContainer.classList.add('media-container')
 
-    const iframeWrapper = document.createElement("div");
-    iframeWrapper.classList.add("iframe-wrapper");
+    const iframeWrapper = document.createElement('div')
+    iframeWrapper.classList.add('iframe-wrapper')
 
-    const iframeElement = document.createElement("iframe");
+    const iframeElement = document.createElement('iframe')
     iframeElement.src = `https://www.youtube.com/embed/${youtubeParser(
       values.url
-    )}`;
+    )}`
 
-    videoContainer.style.cursor = "pointer";
+    videoContainer.style.cursor = 'pointer'
 
-    videoContainer.addEventListener("click", () => {
-      setMoveableTarget(videoContainer);
-    });
+    videoContainer.addEventListener('click', () => {
+      setMoveableTarget(videoContainer)
+    })
 
-    iframeWrapper.append(iframeElement);
-    videoContainer.append(iframeWrapper);
+    iframeWrapper.append(iframeElement)
+    videoContainer.append(iframeWrapper)
 
-    slide.appendChild(videoContainer);
-    deck.sync();
-    deck.layout();
+    slide.appendChild(videoContainer)
+    deck.sync()
+    deck.layout()
 
-    onClose();
-    addVideoOnClose();
-    setMoveableTarget(videoContainer);
-  };
+    onClose()
+    addVideoOnClose()
+    setMoveableTarget(videoContainer)
+  }
 
   return (
     <>
@@ -103,15 +103,15 @@ export default function AddYouTubeEmbedVideo({
                     name="url"
                     placeHolder="https://..."
                     validate={(value: string) => {
-                      let error: string | undefined;
+                      let error: string | undefined
 
                       if (!value) {
-                        error = "Required";
+                        error = 'Required'
                       } else if (youtubeParser(value) === false) {
-                        error = "Invalid Youtube URL";
+                        error = 'Invalid Youtube URL'
                       }
 
-                      return error;
+                      return error
                     }}
                   />
                   <FormErrorMessage>{errors.url}</FormErrorMessage>
@@ -130,5 +130,5 @@ export default function AddYouTubeEmbedVideo({
         </Formik>
       </Modal>
     </>
-  );
+  )
 }

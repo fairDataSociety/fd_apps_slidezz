@@ -8,51 +8,51 @@ import {
   useDisclosure,
   SimpleGrid,
   Center,
-} from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import { BiPlus } from "react-icons/bi";
+} from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import { BiPlus } from 'react-icons/bi'
 import {
   moveableTargetAtom,
   slidesDeckAtom,
   replaceImageElementAtom,
-} from "../../store";
-import { templates } from "../../templates";
-import { addMoveableToElements } from "../../utils";
-import SlideSideBarItem from "./SlideSideBarItem";
+} from '../../store'
+import { templates } from '../../templates'
+import { addMoveableToElements } from '../../utils'
+import SlideSideBarItem from './SlideSideBarItem'
 
 export default function NewSlide() {
-  const [deck] = useAtom(slidesDeckAtom);
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [deck] = useAtom(slidesDeckAtom)
+  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
-  );
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  )
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const addNewSlide = (content: string) => {
-    const sectionElement = document.createElement("section");
-    sectionElement.innerHTML = content;
+    const sectionElement = document.createElement('section')
+    sectionElement.innerHTML = content
 
-    const children = sectionElement.children as any;
+    const children = sectionElement.children as any
 
-    addMoveableToElements(children, setMoveableTarget, setReplaceImageElement);
+    addMoveableToElements(children, setMoveableTarget, setReplaceImageElement)
 
-    const currentSlideIndex = deck.getState().indexh;
-    const currentSlide = deck.getCurrentSlide() as HTMLElement;
-    const slidesLen = deck.getTotalSlides();
-    const slides = deck.getSlidesElement() as HTMLElement;
+    const currentSlideIndex = deck.getState().indexh
+    const currentSlide = deck.getCurrentSlide() as HTMLElement
+    const slidesLen = deck.getTotalSlides()
+    const slides = deck.getSlidesElement() as HTMLElement
 
     //append to the end
     if (currentSlideIndex === slidesLen - 1) {
-      slides.appendChild(sectionElement);
+      slides.appendChild(sectionElement)
     } else {
-      slides.insertBefore(sectionElement, currentSlide.nextSibling);
+      slides.insertBefore(sectionElement, currentSlide.nextSibling)
     }
 
-    deck.sync();
-    deck.layout();
-    deck.next();
-    onClose();
-  };
+    deck.sync()
+    deck.layout()
+    deck.next()
+    onClose()
+  }
 
   return (
     <>
@@ -81,17 +81,17 @@ export default function NewSlide() {
                     h="200px"
                     border="solid 1px #ccc"
                     _hover={{
-                      borderColor: "#000",
+                      borderColor: '#000',
                     }}
                   >
                     <template.component />
                   </Center>
-                );
+                )
               })}
             </SimpleGrid>
           </ModalBody>
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }

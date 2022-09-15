@@ -1,4 +1,4 @@
-import { FaVideo } from "react-icons/fa";
+import { FaVideo } from 'react-icons/fa'
 import {
   Modal,
   ModalOverlay,
@@ -11,69 +11,69 @@ import {
   Box,
   Button,
   VStack,
-} from "@chakra-ui/react";
-import { useAtom } from "jotai";
+} from '@chakra-ui/react'
+import { useAtom } from 'jotai'
 import {
   mediaAtom,
   moveableTargetAtom,
   slidesDeckAtom,
   videoMediaAtom,
-} from "../../../store";
-import ImportFile from "../../ImportFile/ImportFile";
-import { File } from "../../../types";
-import { PlusSquareIcon } from "@chakra-ui/icons";
-import AddYouTubeEmbedVideo from "./AddYouTubeEmbedVideo";
-import ItemBox from "../../ImportFile/ItemBox";
-import SlideSideBarItem from "../SlideSideBarItem";
+} from '../../../store'
+import ImportFile from '../../ImportFile/ImportFile'
+import { File } from '../../../types'
+import { PlusSquareIcon } from '@chakra-ui/icons'
+import AddYouTubeEmbedVideo from './AddYouTubeEmbedVideo'
+import ItemBox from '../../ImportFile/ItemBox'
+import SlideSideBarItem from '../SlideSideBarItem'
 
 export default function AddVideo() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [media, setMedia] = useAtom(mediaAtom);
-  const [videos] = useAtom(videoMediaAtom);
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom);
-  const [deck] = useAtom(slidesDeckAtom);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [media, setMedia] = useAtom(mediaAtom)
+  const [videos] = useAtom(videoMediaAtom)
+  const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [deck] = useAtom(slidesDeckAtom)
 
   const addVideoToCurrentSlide = (video: File) => {
-    const currentSlideIndex = deck.getState().indexh;
-    const slide = deck.getSlides()[currentSlideIndex];
+    const currentSlideIndex = deck.getState().indexh
+    const slide = deck.getSlides()[currentSlideIndex]
 
-    const videoContainer = document.createElement("div");
-    videoContainer.classList.add("media-container");
+    const videoContainer = document.createElement('div')
+    videoContainer.classList.add('media-container')
 
-    const videoElement = document.createElement("video");
-    const soruceElement = document.createElement("source");
+    const videoElement = document.createElement('video')
+    const soruceElement = document.createElement('source')
 
-    videoElement.controls = true;
+    videoElement.controls = true
 
-    soruceElement.src = URL.createObjectURL(new Blob([video.data.buffer]));
+    soruceElement.src = URL.createObjectURL(new Blob([video.data.buffer]))
 
-    videoElement.appendChild(soruceElement);
+    videoElement.appendChild(soruceElement)
 
-    videoElement.setAttribute("data-pod", video.podName);
-    videoElement.setAttribute("data-path", video.fullPath);
-    videoElement.classList.add("fair-data");
+    videoElement.setAttribute('data-pod', video.podName)
+    videoElement.setAttribute('data-path', video.fullPath)
+    videoElement.classList.add('fair-data')
 
-    videoContainer.style.cursor = "pointer";
+    videoContainer.style.cursor = 'pointer'
 
-    videoContainer.addEventListener("click", () => {
-      setMoveableTarget(videoContainer);
-    });
+    videoContainer.addEventListener('click', () => {
+      setMoveableTarget(videoContainer)
+    })
 
-    videoContainer.appendChild(videoElement);
+    videoContainer.appendChild(videoElement)
 
-    slide.appendChild(videoContainer);
-    deck.sync();
-    deck.layout();
-    onClose();
-    setMoveableTarget(videoContainer);
-  };
+    slide.appendChild(videoContainer)
+    deck.sync()
+    deck.layout()
+    onClose()
+    setMoveableTarget(videoContainer)
+  }
 
   return (
     <>
       <SlideSideBarItem icon={FaVideo} label="Video" onClick={onOpen} />
 
       <Modal
-        size={{ base: "sm", md: "2xl", lg: "4xl" }}
+        size={{ base: 'sm', md: '2xl', lg: '4xl' }}
         isOpen={isOpen}
         onClose={onClose}
       >
@@ -101,10 +101,10 @@ export default function AddVideo() {
                       icon={FaVideo}
                       text={video.name}
                       onClick={() => {
-                        addVideoToCurrentSlide(video);
+                        addVideoToCurrentSlide(video)
                       }}
                     />
-                  );
+                  )
                 })}
               </VStack>
             </VStack>
@@ -112,9 +112,9 @@ export default function AddVideo() {
           <ModalFooter flexDir="row-reverse">
             <ImportFile
               setFile={async (file: File | undefined) => {
-                if (file) setMedia([...media, file]);
+                if (file) setMedia([...media, file])
               }}
-              allowedExtensions={["mp4", "webm", "ogg"]}
+              allowedExtensions={['mp4', 'webm', 'ogg']}
             >
               <Button leftIcon={<PlusSquareIcon />}>
                 Import from Fairdrive
@@ -124,5 +124,5 @@ export default function AddVideo() {
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }

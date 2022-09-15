@@ -1,15 +1,15 @@
-import { Box, Center, HStack, Spinner } from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import type { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { fdpAtom, slidesLogoAtom } from "../store";
-import dynamic from "next/dynamic";
-import SideBar from "../components/SideBar/SideBar";
-import { useRouter } from "next/router";
-import NavBar from "../components/NavBar/NavBar";
+import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import type { NextPage } from 'next'
+import { useEffect, useState } from 'react'
+import { fdpAtom, slidesLogoAtom } from '../store'
+import dynamic from 'next/dynamic'
+import SideBar from '../components/SideBar/SideBar'
+import { useRouter } from 'next/router'
+import NavBar from '../components/NavBar/NavBar'
 
 const SharedSlideShow = dynamic(
-  () => import("../components/SharedSlideShow/SharedSlideShow"),
+  () => import('../components/SharedSlideShow/SharedSlideShow'),
   {
     ssr: false,
     loading: () => (
@@ -18,10 +18,10 @@ const SharedSlideShow = dynamic(
       </Center>
     ),
   }
-);
+)
 
 const EmbedSlideShow = dynamic(
-  () => import("../components/EmbedSlideShow/EmbedSlideShow"),
+  () => import('../components/EmbedSlideShow/EmbedSlideShow'),
   {
     ssr: false,
     loading: () => (
@@ -30,79 +30,79 @@ const EmbedSlideShow = dynamic(
       </Center>
     ),
   }
-);
+)
 
 const SharedSlideshowPage: NextPage = () => {
-  const router = useRouter();
-  const [fdp] = useAtom(fdpAtom);
-  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
-  const [slides, setSlides] = useState<string | undefined>();
-  const [isEmbed, setIsEmbed] = useState(false);
+  const router = useRouter()
+  const [fdp] = useAtom(fdpAtom)
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const [slides, setSlides] = useState<string | undefined>()
+  const [isEmbed, setIsEmbed] = useState(false)
 
   useEffect(() => {
     if (router.isReady) {
-      (async () => {
-        const slidesShareRef = router.query.ref as string;
-        const isEmbed = typeof router.query.embed === "string";
+      ;(async () => {
+        const slidesShareRef = router.query.ref as string
+        const isEmbed = typeof router.query.embed === 'string'
 
-        setIsEmbed(isEmbed);
+        setIsEmbed(isEmbed)
 
         const slidesHTML = (
           await fdp.file.downloadShared(slidesShareRef)
-        ).text();
+        ).text()
 
-        const div = document.createElement("div");
-        div.innerHTML = slidesHTML;
+        const div = document.createElement('div')
+        div.innerHTML = slidesHTML
 
         const moveableElements = Array.from(
           div.querySelectorAll('[style*="cursor: pointer"]')
-        ) as HTMLElement[];
+        ) as HTMLElement[]
 
         moveableElements.forEach((element) => {
-          element.style.cursor = "auto";
-          element.contentEditable = "false";
-        });
+          element.style.cursor = 'auto'
+          element.contentEditable = 'false'
+        })
 
-        const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
+        const fairDataElements = Array.from(div.querySelectorAll('.fair-data'))
 
         for (const fairDataElement of fairDataElements) {
-          const shareRef = fairDataElement.getAttribute("data-shareref")!;
-          const data = await fdp.file.downloadShared(shareRef);
-          if (fairDataElement.tagName.toLowerCase() === "img") {
+          const shareRef = fairDataElement.getAttribute('data-shareref')!
+          const data = await fdp.file.downloadShared(shareRef)
+          if (fairDataElement.tagName.toLowerCase() === 'img') {
             //@ts-ignore
-            fairDataElement.src = URL.createObjectURL(new Blob([data.buffer]));
+            fairDataElement.src = URL.createObjectURL(new Blob([data.buffer]))
           } else {
             // video element
-            const sourceElement = fairDataElement.querySelector("source")!;
-            sourceElement.src = URL.createObjectURL(new Blob([data.buffer]));
+            const sourceElement = fairDataElement.querySelector('source')!
+            sourceElement.src = URL.createObjectURL(new Blob([data.buffer]))
           }
         }
 
-        const logoImageElement = div.querySelector(".logo-image");
+        const logoImageElement = div.querySelector('.logo-image')
         if (logoImageElement && setSlidesLogo) {
-          const shareRef = logoImageElement.getAttribute("data-shareref")!;
-          const data = await fdp.file.downloadShared(shareRef);
+          const shareRef = logoImageElement.getAttribute('data-shareref')!
+          const data = await fdp.file.downloadShared(shareRef)
 
           setSlidesLogo({
             data,
-          });
+          })
 
-          div.removeChild(logoImageElement);
+          div.removeChild(logoImageElement)
         }
 
-        setSlides(div.innerHTML);
-      })();
+        setSlides(div.innerHTML)
+      })()
     }
-  }, [router.isReady]);
+  }, [router.isReady])
 
   if (!slides)
     return (
       <Center h="100vh" w="full">
         <Spinner size="xl" />
       </Center>
-    );
+    )
 
-  if (isEmbed) return <EmbedSlideShow slides={slides} />;
+  if (isEmbed) return <EmbedSlideShow slides={slides} />
 
   return (
     <>
@@ -111,15 +111,15 @@ const SharedSlideshowPage: NextPage = () => {
         <SideBar isSlidesReadOnly={true} />
         <Center h="full" w="full">
           <Box
-            w={{ base: "65%", md: "70%", lg: "60%" }}
-            h={{ base: "30%", md: "50%", lg: "70%" }}
+            w={{ base: '65%', md: '70%', lg: '60%' }}
+            h={{ base: '30%', md: '50%', lg: '70%' }}
           >
             <SharedSlideShow slides={slides} />
           </Box>
         </Center>
       </HStack>
     </>
-  );
-};
+  )
+}
 
-export default SharedSlideshowPage;
+export default SharedSlideshowPage

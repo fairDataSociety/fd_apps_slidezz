@@ -11,18 +11,18 @@ import {
   VStack,
   useColorModeValue,
   Box,
-} from "@chakra-ui/react";
-import { HiColorSwatch } from "react-icons/hi";
-import SideBarItem from "../../SideBarItem";
-import { Formik } from "formik";
-import { useAtom } from "jotai";
-import { styleSettingsAtom } from "../../../../store";
-import SelectColor from "./SelectColor";
+} from '@chakra-ui/react'
+import { HiColorSwatch } from 'react-icons/hi'
+import SideBarItem from '../../SideBarItem'
+import { Formik } from 'formik'
+import { useAtom } from 'jotai'
+import { styleSettingsAtom } from '../../../../store'
+import SelectColor from './SelectColor'
 
 export default function PresentationSettings() {
-  const [styleSettings, setStyleSettings] = useAtom(styleSettingsAtom);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const settingBg = useColorModeValue("latte-crust", "frappe-crust");
+  const [styleSettings, setStyleSettings] = useAtom(styleSettingsAtom)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const settingBg = useColorModeValue('latte-crust', 'frappe-crust')
 
   return (
     <>
@@ -32,8 +32,8 @@ export default function PresentationSettings() {
         <DrawerOverlay />
         <Formik
           onSubmit={(values) => {
-            setStyleSettings(values);
-            onClose();
+            setStyleSettings(values)
+            onClose()
           }}
           initialValues={styleSettings}
         >
@@ -60,5 +60,5 @@ export default function PresentationSettings() {
         </Formik>
       </Drawer>
     </>
-  );
+  )
 }

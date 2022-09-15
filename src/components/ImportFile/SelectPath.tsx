@@ -5,20 +5,20 @@ import {
   Text,
   HStack,
   IconButton,
-} from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import { fdpAtom } from "../../store";
-import { useEffect, useState } from "react";
-import type { DirectoryItem } from "@fairdatasociety/fdp-storage/dist/content-items/directory-item";
-import { join, extname } from "path";
-import { AiFillFolder, AiOutlineFile } from "react-icons/ai";
-import ItemBox from "./ItemBox";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+} from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import { fdpAtom } from '../../store'
+import { useEffect, useState } from 'react'
+import type { DirectoryItem } from '@fairdatasociety/fdp-storage/dist/content-items/directory-item'
+import { join, extname } from 'path'
+import { AiFillFolder, AiOutlineFile } from 'react-icons/ai'
+import ItemBox from './ItemBox'
+import { ArrowBackIcon } from '@chakra-ui/icons'
 
 interface SelectPathProps {
-  pod: string;
-  setPath: (path: string) => void;
-  allowedExtensions?: string[];
+  pod: string
+  setPath: (path: string) => void
+  allowedExtensions?: string[]
 }
 
 export default function SelectPath({
@@ -26,43 +26,43 @@ export default function SelectPath({
   setPath,
   allowedExtensions,
 }: SelectPathProps) {
-  const [tmpPath, setTmpPath] = useState("/");
-  const [fdp] = useAtom(fdpAtom);
-  const [isLoading, setIsLoading] = useState(false);
-  const [items, setItems] = useState<DirectoryItem>();
-  const isItemsAvailable = !!items && items.content.length > 0;
+  const [tmpPath, setTmpPath] = useState('/')
+  const [fdp] = useAtom(fdpAtom)
+  const [isLoading, setIsLoading] = useState(false)
+  const [items, setItems] = useState<DirectoryItem>()
+  const isItemsAvailable = !!items && items.content.length > 0
 
   useEffect(() => {
-    let canceled = false;
+    let canceled = false
 
-    setIsLoading(true);
+    setIsLoading(true)
     fdp.directory
       .read(pod, tmpPath)
       .then((items) => {
-        if (!canceled) setItems(items);
+        if (!canceled) setItems(items)
       })
       .catch(() => {
-        if (!canceled) setItems(undefined);
+        if (!canceled) setItems(undefined)
       })
       .finally(() => {
-        setIsLoading(false);
-      });
+        setIsLoading(false)
+      })
 
     return () => {
-      canceled = true;
-    };
-  }, [pod, tmpPath]);
+      canceled = true
+    }
+  }, [pod, tmpPath])
 
   return (
     <>
       <HStack mb={3}>
         <IconButton
-          isDisabled={tmpPath === "/" || isLoading}
+          isDisabled={tmpPath === '/' || isLoading}
           onClick={() => {
-            const pathArray = tmpPath.split("/");
-            let newPath = pathArray.slice(0, pathArray.length - 1).join("/");
-            if (newPath === "") newPath = "/";
-            setPath(newPath);
+            const pathArray = tmpPath.split('/')
+            let newPath = pathArray.slice(0, pathArray.length - 1).join('/')
+            if (newPath === '') newPath = '/'
+            setPath(newPath)
           }}
           size="sm"
           aria-label="back"
@@ -82,16 +82,16 @@ export default function SelectPath({
               text={dir.name}
               icon={AiFillFolder}
               onClick={() => {
-                const path = join(tmpPath, dir.name);
-                setTmpPath(path);
+                const path = join(tmpPath, dir.name)
+                setTmpPath(path)
               }}
             />
           ))}
           {items?.getFiles().map((file) => {
-            const fileExtension = extname(file.name).slice(1);
+            const fileExtension = extname(file.name).slice(1)
 
             if (allowedExtensions && !allowedExtensions.includes(fileExtension))
-              return null;
+              return null
 
             return (
               <ItemBox
@@ -100,12 +100,12 @@ export default function SelectPath({
                 icon={AiOutlineFile}
                 onClick={() => setPath(join(tmpPath, file.name))}
               />
-            );
+            )
           })}
         </VStack>
       ) : (
         <Text align="center">No file/folder found.</Text>
       )}
     </>
-  );
+  )
 }

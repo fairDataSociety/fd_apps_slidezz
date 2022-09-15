@@ -1,11 +1,11 @@
-import { MoveableManagerInterface, Renderer } from "react-moveable";
+import { MoveableManagerInterface, Renderer } from 'react-moveable'
 
 export interface MoveableDeleteButtonProps {
-  deleteButton?: boolean;
-  setTarget?: (target: HTMLElement | undefined) => void;
+  deleteButton?: boolean
+  setTarget?: (target: HTMLElement | undefined) => void
 }
 export const MoveableDeleteButton = {
-  name: "deleteButton",
+  name: 'deleteButton',
   props: {
     deleteButton: Boolean,
   },
@@ -14,11 +14,11 @@ export const MoveableDeleteButton = {
     moveable: MoveableManagerInterface<MoveableDeleteButtonProps>,
     React: Renderer
   ) {
-    const rect = moveable.getRect();
-    const { pos2 } = moveable.state;
+    const rect = moveable.getRect()
+    const { pos2 } = moveable.state
 
     const DeleteButton = moveable.useCSS(
-      "div",
+      'div',
       `
         {
             position: absolute;
@@ -49,22 +49,22 @@ export const MoveableDeleteButton = {
             transform: translate(-50%, -50%) rotate(-45deg);
         }
         `
-    );
+    )
     return (
       <DeleteButton
-        className={"moveable-delete-button"}
+        className={'moveable-delete-button'}
         onClick={() => {
-          const target = moveable.props.target;
-          const setTarget = moveable.props.setTarget;
+          const target = moveable.props.target
+          const setTarget = moveable.props.setTarget
           if (target && setTarget) {
-            target.parentElement?.removeChild(target);
-            setTarget(undefined);
+            target.parentElement?.removeChild(target)
+            setTarget(undefined)
           }
         }}
         style={{
           transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(10px)`,
         }}
       />
-    );
+    )
   },
-} as const;
+} as const

@@ -1,7 +1,7 @@
-import { useAtom } from "jotai";
-import { BsShare } from "react-icons/bs";
-import { slidesAtom } from "../../../store";
-import SideBarItem from "../SideBarItem";
+import { useAtom } from 'jotai'
+import { BsShare } from 'react-icons/bs'
+import { slidesAtom } from '../../../store'
+import SideBarItem from '../SideBarItem'
 import {
   Modal,
   ModalOverlay,
@@ -15,19 +15,19 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-} from "@chakra-ui/react";
-import CopyPanel from "./CopyPanel";
-import EmbedCode from "./EmbedCode";
+} from '@chakra-ui/react'
+import CopyPanel from './CopyPanel'
+import EmbedCode from './EmbedCode'
 
 export default function ShareSlides() {
-  const [slides] = useAtom(slidesAtom);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const baseHref = document.querySelector("base")!.href;
+  const [slides] = useAtom(slidesAtom)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const baseHref = document.querySelector('base')!.href
   const pageName =
-    process.env.NODE_ENV === "production"
-      ? "shared-slideshow.html"
-      : "shared-slideshow";
-  const shareLink = `${baseHref}${pageName}?ref=${slides?.sharedRef}`;
+    process.env.NODE_ENV === 'production'
+      ? 'shared-slideshow.html'
+      : 'shared-slideshow'
+  const shareLink = `${baseHref}${pageName}?ref=${slides?.sharedRef}`
 
   return (
     <>
@@ -62,5 +62,5 @@ export default function ShareSlides() {
         </>
       ) : null}
     </>
-  );
+  )
 }

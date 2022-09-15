@@ -1,13 +1,13 @@
-import { ComponentStyleConfig } from "@chakra-ui/react";
-import { mode } from "@chakra-ui/theme-tools";
+import { ComponentStyleConfig } from '@chakra-ui/react'
+import { mode } from '@chakra-ui/theme-tools'
 
 const Tooltip: ComponentStyleConfig = {
   baseStyle: (props: any) => ({
-    bg: mode("latte-overlay1", "frappe-overlay1")(props),
+    bg: mode('latte-overlay1', 'frappe-overlay1')(props),
     arrow: {
-      bg: "red",
+      bg: 'red',
     },
   }),
-};
+}
 
-export default Tooltip;
+export default Tooltip

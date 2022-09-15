@@ -1,26 +1,26 @@
 export const LogoPositions: Record<
-  "top-left" | "top-right" | "bottom-left" | "bottom-right",
+  'top-left' | 'top-right' | 'bottom-left' | 'bottom-right',
   {
-    top?: number;
-    bottom?: number;
-    left?: number;
-    right?: number;
+    top?: number
+    bottom?: number
+    left?: number
+    right?: number
   }
 > = {
-  "top-left": {
+  'top-left': {
     top: -2,
     left: 2,
   },
-  "top-right": {
+  'top-right': {
     top: -2,
     right: 2,
   },
-  "bottom-left": {
+  'bottom-left': {
     bottom: -2,
     left: 2,
   },
-  "bottom-right": {
+  'bottom-right': {
     bottom: -2,
     right: 2,
   },
-};
+}

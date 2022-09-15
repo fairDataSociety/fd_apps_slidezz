@@ -1,12 +1,12 @@
-import { Box, useDisclosure } from "@chakra-ui/react";
-import ImportFileModal from "./ImportFileModal";
-import { File } from "../../types";
+import { Box, useDisclosure } from '@chakra-ui/react'
+import ImportFileModal from './ImportFileModal'
+import { File } from '../../types'
 
 interface ImportFileProps {
-  setFile: (file: File | undefined) => Promise<void>;
-  children: React.ReactNode;
-  allowedExtensions?: string[];
-  initialPod?: string;
+  setFile: (file: File | undefined) => Promise<void>
+  children: React.ReactNode
+  allowedExtensions?: string[]
+  initialPod?: string
 }
 
 export default function ImportFile({
@@ -15,7 +15,7 @@ export default function ImportFile({
   allowedExtensions,
   initialPod,
 }: ImportFileProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <>
@@ -28,5 +28,5 @@ export default function ImportFile({
         initialPod={initialPod}
       />
     </>
-  );
+  )
 }

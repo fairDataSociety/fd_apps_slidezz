@@ -1,5 +1,5 @@
-import type { FdpStorage } from "@fairdatasociety/fdp-storage";
-import { File, LogoImageFile, Slides } from "./types";
+import type { FdpStorage } from '@fairdatasociety/fdp-storage'
+import { File, LogoImageFile, Slides } from './types'
 
 export function addMoveableToElements(
   elements: HTMLElement[],
@@ -8,51 +8,51 @@ export function addMoveableToElements(
 ) {
   elements.forEach((element: HTMLElement) => {
     if (
-      element.tagName.toLowerCase() === "div" &&
-      !element.classList.contains("iframe-wrapper") &&
-      !element.classList.contains("media-container") &&
-      !element.classList.contains("sample-image-container")
+      element.tagName.toLowerCase() === 'div' &&
+      !element.classList.contains('iframe-wrapper') &&
+      !element.classList.contains('media-container') &&
+      !element.classList.contains('sample-image-container')
     ) {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
         setMoveableTarget,
         setReplaceImageElement
-      );
+      )
     }
 
     if (
-      ["h1", "h2", "h3", "h4", "h5", "h6", "p"].includes(
+      ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(
         element.tagName.toLowerCase()
       )
     ) {
-      element.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-      });
-      element.contentEditable = "true";
+      element.addEventListener('mousedown', (e) => {
+        e.preventDefault()
+      })
+      element.contentEditable = 'true'
     }
 
-    if (element.tagName.toLowerCase() === "img" && setReplaceImageElement) {
-      element.addEventListener("dblclick", () => {
-        setReplaceImageElement(element as HTMLImageElement);
-      });
+    if (element.tagName.toLowerCase() === 'img' && setReplaceImageElement) {
+      element.addEventListener('dblclick', () => {
+        setReplaceImageElement(element as HTMLImageElement)
+      })
     }
 
     if (
-      (element.classList.contains("media-container") ||
-        element.classList.contains("sample-image-container")) &&
+      (element.classList.contains('media-container') ||
+        element.classList.contains('sample-image-container')) &&
       setReplaceImageElement
     ) {
-      element.addEventListener("dblclick", () => {
-        setReplaceImageElement(element.firstChild as HTMLImageElement);
-      });
+      element.addEventListener('dblclick', () => {
+        setReplaceImageElement(element.firstChild as HTMLImageElement)
+      })
     }
 
-    element.addEventListener("click", () => {
-      setMoveableTarget(element);
-    });
+    element.addEventListener('click', () => {
+      setMoveableTarget(element)
+    })
 
-    element.style.cursor = "pointer";
-  });
+    element.style.cursor = 'pointer'
+  })
 }
 
 export function addImageToCurrentSlide(
@@ -61,41 +61,41 @@ export function addImageToCurrentSlide(
   setMoveableTarget: (target: HTMLElement | undefined) => void,
   setReplaceImageElement?: (target: HTMLImageElement | undefined) => void
 ) {
-  const currentSlideIndex = deck.getState().indexh;
-  const slide = deck.getSlides()[currentSlideIndex];
+  const currentSlideIndex = deck.getState().indexh
+  const slide = deck.getSlides()[currentSlideIndex]
 
-  const imageContainer = document.createElement("div");
-  imageContainer.classList.add("media-container");
+  const imageContainer = document.createElement('div')
+  imageContainer.classList.add('media-container')
 
-  const imageElement = document.createElement("img");
-  imageElement.src = URL.createObjectURL(new Blob([image.data.buffer]));
-  imageElement.alt = image.name;
-  imageElement.setAttribute("data-pod", image.podName);
-  imageElement.setAttribute("data-path", image.fullPath);
-  imageElement.classList.add("fair-data");
-  imageContainer.style.cursor = "pointer";
+  const imageElement = document.createElement('img')
+  imageElement.src = URL.createObjectURL(new Blob([image.data.buffer]))
+  imageElement.alt = image.name
+  imageElement.setAttribute('data-pod', image.podName)
+  imageElement.setAttribute('data-path', image.fullPath)
+  imageElement.classList.add('fair-data')
+  imageContainer.style.cursor = 'pointer'
 
-  imageContainer.appendChild(imageElement);
+  imageContainer.appendChild(imageElement)
 
-  imageContainer.addEventListener("click", () => {
-    setMoveableTarget(imageContainer);
-  });
+  imageContainer.addEventListener('click', () => {
+    setMoveableTarget(imageContainer)
+  })
 
   if (setReplaceImageElement) {
-    imageContainer.addEventListener("dblclick", () => {
-      setReplaceImageElement(imageElement);
-    });
+    imageContainer.addEventListener('dblclick', () => {
+      setReplaceImageElement(imageElement)
+    })
   }
 
-  slide.appendChild(imageContainer);
-  deck.sync();
-  deck.layout();
-  setMoveableTarget(imageContainer);
+  slide.appendChild(imageContainer)
+  deck.sync()
+  deck.layout()
+  setMoveableTarget(imageContainer)
 }
 
 export function getSlidesHTML(deck: any) {
-  const slides = deck.getSlides() as HTMLElement[];
-  return slides.map((slide) => slide.outerHTML).join("\n");
+  const slides = deck.getSlides() as HTMLElement[]
+  return slides.map((slide) => slide.outerHTML).join('\n')
 }
 
 export async function loadSlideshow(
@@ -104,47 +104,47 @@ export async function loadSlideshow(
   setSlides: (slides: Slides) => void,
   setSlidesLogo?: (logoFile: LogoImageFile) => void
 ) {
-  if (!file) return;
+  if (!file) return
 
-  const template = document.createElement("template");
-  template.innerHTML = file.data.text();
+  const template = document.createElement('template')
+  template.innerHTML = file.data.text()
 
-  const fairData = Array.from(template.content.querySelectorAll(".fair-data"));
+  const fairData = Array.from(template.content.querySelectorAll('.fair-data'))
 
   for await (const element of fairData) {
-    const podName = element.getAttribute("data-pod");
-    const path = element.getAttribute("data-path");
+    const podName = element.getAttribute('data-pod')
+    const path = element.getAttribute('data-path')
 
     if (podName && path) {
       try {
-        const data = await fdp.file.downloadData(podName, path);
+        const data = await fdp.file.downloadData(podName, path)
         //@ts-ignore
-        element.src = URL.createObjectURL(new Blob([data.buffer]));
+        element.src = URL.createObjectURL(new Blob([data.buffer]))
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
 
-  const logoImageElement = template.querySelector(".logo-image");
+  const logoImageElement = template.querySelector('.logo-image')
   if (logoImageElement && setSlidesLogo) {
-    const podName = logoImageElement.getAttribute("data-pod")!;
-    const fullPath = logoImageElement.getAttribute("data-path")!;
-    const data = await fdp.file.downloadData(podName, fullPath);
+    const podName = logoImageElement.getAttribute('data-pod')!
+    const fullPath = logoImageElement.getAttribute('data-path')!
+    const data = await fdp.file.downloadData(podName, fullPath)
 
     setSlidesLogo({
       data,
       podName,
       fullPath,
-    });
-    template.removeChild(logoImageElement);
+    })
+    template.removeChild(logoImageElement)
   }
 
   setSlides({
     data: template.innerHTML,
-  });
+  })
 }
 
 export function isHTML(data: string) {
-  return /<\/?[a-z][\s\S]*>/i.test(data);
+  return /<\/?[a-z][\s\S]*>/i.test(data)
 }

@@ -1,20 +1,20 @@
-import { HStack, Link, IconButton } from "@chakra-ui/react";
-import ThemeToggleButton from "./ThemeToggleButton";
-import { IoLogoGithub } from "react-icons/io5";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import { useAtom } from "jotai";
+import { HStack, Link, IconButton } from '@chakra-ui/react'
+import ThemeToggleButton from './ThemeToggleButton'
+import { IoLogoGithub } from 'react-icons/io5'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import { useAtom } from 'jotai'
 import {
   moveableTargetAtom,
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
-} from "../../store";
+} from '../../store'
 
 export default function NavBar() {
-  const [slides, setSlides] = useAtom(slidesAtom);
-  const [deck, setDeck] = useAtom(slidesDeckAtom);
-  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom);
+  const [slides, setSlides] = useAtom(slidesAtom)
+  const [deck, setDeck] = useAtom(slidesDeckAtom)
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
 
   return (
     <HStack
@@ -40,15 +40,15 @@ export default function NavBar() {
       {slides && (
         <IconButton
           onClick={() => {
-            setSlides(undefined);
-            setDeck(undefined);
-            setSlidesLogo(undefined);
-            setMoveableTarget(undefined);
+            setSlides(undefined)
+            setDeck(undefined)
+            setSlidesLogo(undefined)
+            setMoveableTarget(undefined)
           }}
           aria-label="back"
           icon={<ArrowBackIcon />}
         />
       )}
     </HStack>
-  );
+  )
 }

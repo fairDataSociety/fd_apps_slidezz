@@ -15,29 +15,29 @@ import {
   NumberDecrementStepper,
   Select,
   SimpleGrid,
-} from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
-import { RiFontSize } from "react-icons/ri";
-import { moveableTargetAtom } from "../../store";
+} from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import { useEffect, useState } from 'react'
+import { RiFontSize } from 'react-icons/ri'
+import { moveableTargetAtom } from '../../store'
 
 export default function FontTab() {
-  const [moveableTarget] = useAtom(moveableTargetAtom);
-  const [fontSize, setFontSize] = useState("");
-  const [textAlign, setTextAlign] = useState("");
-  const [textDecoration, setTextDecoration] = useState("");
-  const [fontStyle, setFontStyle] = useState("");
-  const [fontWeight, setFontWeight] = useState("");
+  const [moveableTarget] = useAtom(moveableTargetAtom)
+  const [fontSize, setFontSize] = useState('')
+  const [textAlign, setTextAlign] = useState('')
+  const [textDecoration, setTextDecoration] = useState('')
+  const [fontStyle, setFontStyle] = useState('')
+  const [fontWeight, setFontWeight] = useState('')
 
   useEffect(() => {
     if (moveableTarget) {
-      setTextAlign(moveableTarget.style.textAlign);
-      setTextDecoration(moveableTarget.style.textDecoration);
-      setFontStyle(moveableTarget.style.fontStyle);
-      setFontSize(moveableTarget.style.fontSize.replace(/px/, ""));
-      setFontWeight(moveableTarget.style.fontWeight);
+      setTextAlign(moveableTarget.style.textAlign)
+      setTextDecoration(moveableTarget.style.textDecoration)
+      setFontStyle(moveableTarget.style.fontStyle)
+      setFontSize(moveableTarget.style.fontSize.replace(/px/, ''))
+      setFontWeight(moveableTarget.style.fontWeight)
     }
-  }, [moveableTarget]);
+  }, [moveableTarget])
 
   return (
     <Box className="test" position="absolute" top={-9} right={0}>
@@ -46,7 +46,7 @@ export default function FontTab() {
           <IconButton
             isDisabled={
               !moveableTarget ||
-              !["h1", "h2", "h3", "h4", "h5", "h5", "p"].includes(
+              !['h1', 'h2', 'h3', 'h4', 'h5', 'h5', 'p'].includes(
                 moveableTarget.tagName.toLowerCase()
               )
             }
@@ -56,20 +56,20 @@ export default function FontTab() {
             icon={<RiFontSize />}
           />
         </PopoverTrigger>
-        <PopoverContent w={{ base: "15rem", md: "20rem" }}>
+        <PopoverContent w={{ base: '15rem', md: '20rem' }}>
           <PopoverArrow />
           <PopoverBody>
             <SimpleGrid columns={2} spacing={2}>
               <FormControl>
-                <FormLabel fontSize={{ base: "xs", md: "md" }}>
+                <FormLabel fontSize={{ base: 'xs', md: 'md' }}>
                   font-size
                 </FormLabel>
                 <NumberInput
                   value={fontSize}
                   onChange={(valueString) => {
                     if (moveableTarget) {
-                      moveableTarget.style.fontSize = valueString + "px";
-                      setFontSize(valueString);
+                      moveableTarget.style.fontSize = valueString + 'px'
+                      setFontSize(valueString)
                     }
                   }}
                   size="sm"
@@ -84,16 +84,16 @@ export default function FontTab() {
               </FormControl>
 
               <FormControl>
-                <FormLabel fontSize={{ base: "xs", md: "md" }}>
+                <FormLabel fontSize={{ base: 'xs', md: 'md' }}>
                   text-align
                 </FormLabel>
                 <Select
                   value={textAlign}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== "") {
-                      const newValue = e.target.value;
-                      moveableTarget.style.textAlign = newValue;
-                      setTextAlign(newValue);
+                    if (moveableTarget && e.target.value !== '') {
+                      const newValue = e.target.value
+                      moveableTarget.style.textAlign = newValue
+                      setTextAlign(newValue)
                     }
                   }}
                   size="sm"
@@ -106,16 +106,16 @@ export default function FontTab() {
               </FormControl>
 
               <FormControl>
-                <FormLabel fontSize={{ base: "xs", md: "md" }}>
+                <FormLabel fontSize={{ base: 'xs', md: 'md' }}>
                   text-decoration
                 </FormLabel>
                 <Select
                   value={textDecoration}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== "") {
-                      const newValue = e.target.value;
-                      moveableTarget.style.textDecoration = newValue;
-                      setTextDecoration(newValue);
+                    if (moveableTarget && e.target.value !== '') {
+                      const newValue = e.target.value
+                      moveableTarget.style.textDecoration = newValue
+                      setTextDecoration(newValue)
                     }
                   }}
                   size="sm"
@@ -129,16 +129,16 @@ export default function FontTab() {
               </FormControl>
 
               <FormControl>
-                <FormLabel fontSize={{ base: "xs", md: "md" }}>
+                <FormLabel fontSize={{ base: 'xs', md: 'md' }}>
                   font-style
                 </FormLabel>
                 <Select
                   value={fontStyle}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== "") {
-                      const newValue = e.target.value;
-                      moveableTarget.style.fontStyle = newValue;
-                      setFontStyle(newValue);
+                    if (moveableTarget && e.target.value !== '') {
+                      const newValue = e.target.value
+                      moveableTarget.style.fontStyle = newValue
+                      setFontStyle(newValue)
                     }
                   }}
                   size="sm"
@@ -150,16 +150,16 @@ export default function FontTab() {
               </FormControl>
 
               <FormControl>
-                <FormLabel fontSize={{ base: "xs", md: "md" }}>
+                <FormLabel fontSize={{ base: 'xs', md: 'md' }}>
                   font-weight
                 </FormLabel>
                 <Select
                   value={fontWeight}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== "") {
-                      const newValue = e.target.value;
-                      moveableTarget.style.fontWeight = newValue;
-                      setFontWeight(newValue);
+                    if (moveableTarget && e.target.value !== '') {
+                      const newValue = e.target.value
+                      moveableTarget.style.fontWeight = newValue
+                      setFontWeight(newValue)
                     }
                   }}
                   size="sm"
@@ -177,5 +177,5 @@ export default function FontTab() {
         </PopoverContent>
       </Popover>
     </Box>
-  );
+  )
 }

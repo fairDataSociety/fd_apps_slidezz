@@ -18,126 +18,124 @@ import {
   FormLabel,
   Switch,
   useBoolean,
-} from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import { useState } from "react";
+} from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import { useState } from 'react'
 import {
   fdpAtom,
   slidesDeckAtom,
   slidesAtom,
   slidesLogoAtom,
-} from "../../store";
-import { FaSave } from "react-icons/fa";
-import SideBarItem from "./SideBarItem";
-import LoadingToast from "../Toast/LoadingToast";
-import { getSlidesHTML } from "../../utils";
+} from '../../store'
+import { FaSave } from 'react-icons/fa'
+import SideBarItem from './SideBarItem'
+import LoadingToast from '../Toast/LoadingToast'
+import { getSlidesHTML } from '../../utils'
 
 export default function SaveSlides() {
-  const [fdp] = useAtom(fdpAtom);
-  const [deck] = useAtom(slidesDeckAtom);
-  const [slides, setSlides] = useAtom(slidesAtom);
-  const [slidesLogo] = useAtom(slidesLogoAtom);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [fileName, setFileName] = useState("");
-  const [shareSlides, setShareSlides] = useBoolean(false);
-  const toast = useToast();
+  const [fdp] = useAtom(fdpAtom)
+  const [deck] = useAtom(slidesDeckAtom)
+  const [slides, setSlides] = useAtom(slidesAtom)
+  const [slidesLogo] = useAtom(slidesLogoAtom)
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [fileName, setFileName] = useState('')
+  const [shareSlides, setShareSlides] = useBoolean(false)
+  const toast = useToast()
 
   const handleSaveSlides = async () => {
-    if (!slides || !deck) return;
+    if (!slides || !deck) return
 
-    const fileNameTmp = fileName;
-    const shareSlidesTmp = shareSlides;
+    const fileNameTmp = fileName
+    const shareSlidesTmp = shareSlides
 
-    handleOnClose();
+    handleOnClose()
 
     try {
       toast({
         duration: null,
         render: () => <LoadingToast label="Saving slides" />,
-      });
+      })
 
-      const slidesHTML = getSlidesHTML(deck);
-      const div = document.createElement("div");
-      div.innerHTML = slidesHTML;
+      const slidesHTML = getSlidesHTML(deck)
+      const div = document.createElement('div')
+      div.innerHTML = slidesHTML
 
       if (slidesLogo) {
-        const logoElement = document.createElement("div");
-        logoElement.style.display = "none";
-        logoElement.classList.add("logo-image");
-        logoElement.setAttribute("data-pod", slidesLogo.podName!);
-        logoElement.setAttribute("data-path", slidesLogo.fullPath!);
+        const logoElement = document.createElement('div')
+        logoElement.style.display = 'none'
+        logoElement.classList.add('logo-image')
+        logoElement.setAttribute('data-pod', slidesLogo.podName!)
+        logoElement.setAttribute('data-path', slidesLogo.fullPath!)
 
         if (shareSlidesTmp) {
           const ref = await fdp.file.share(
             slidesLogo.podName!,
             slidesLogo.fullPath!
-          );
-          logoElement.setAttribute("data-shareref", ref);
+          )
+          logoElement.setAttribute('data-shareref', ref)
         }
 
-        div.append(logoElement);
+        div.append(logoElement)
       }
 
       if (shareSlidesTmp) {
-        const fairDataElements = Array.from(div.querySelectorAll(".fair-data"));
+        const fairDataElements = Array.from(div.querySelectorAll('.fair-data'))
 
         for (const fairDataElement of fairDataElements) {
-          const podName = fairDataElement.getAttribute("data-pod")!;
-          const path = fairDataElement.getAttribute("data-path")!;
+          const podName = fairDataElement.getAttribute('data-pod')!
+          const path = fairDataElement.getAttribute('data-path')!
 
-          const shareRef = await fdp.file.share(podName, path);
+          const shareRef = await fdp.file.share(podName, path)
 
-          fairDataElement.setAttribute("data-shareref", shareRef);
+          fairDataElement.setAttribute('data-shareref', shareRef)
         }
       }
 
-      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!;
-      const pods = await fdp.personalStorage.list();
-      const slidesPod = pods
-        .getPods()
-        .find((pod) => pod.name === slidesPodName);
+      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
+      const pods = await fdp.personalStorage.list()
+      const slidesPod = pods.getPods().find((pod) => pod.name === slidesPodName)
 
       if (!slidesPod) {
-        await fdp.personalStorage.create(slidesPodName);
+        await fdp.personalStorage.create(slidesPodName)
       }
 
-      const filePath = `/${fileNameTmp}.html`;
-      await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML);
+      const filePath = `/${fileNameTmp}.html`
+      await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML)
 
       if (shareSlidesTmp) {
-        const slidesShareRef = await fdp.file.share(slidesPodName, filePath);
+        const slidesShareRef = await fdp.file.share(slidesPodName, filePath)
 
         setSlides({
           ...slides,
           name: fileNameTmp,
           sharedRef: slidesShareRef,
-        });
+        })
       } else {
         setSlides({
           ...slides,
           name: fileNameTmp,
-        });
+        })
       }
-      toast.closeAll();
+      toast.closeAll()
     } catch (error: any) {
-      toast.closeAll();
-      console.log(error);
+      toast.closeAll()
+      console.log(error)
 
       toast({
-        title: "Failed to upload file",
+        title: 'Failed to upload file',
         description: error.message,
-        status: "error",
+        status: 'error',
         duration: 9000,
         isClosable: true,
-      });
+      })
     }
-  };
+  }
 
   const handleOnClose = () => {
-    setFileName("");
-    setShareSlides.off();
-    onClose();
-  };
+    setFileName('')
+    setShareSlides.off()
+    onClose()
+  }
 
   return (
     <>
@@ -156,7 +154,7 @@ export default function SaveSlides() {
                   placeholder="Slideshow name"
                 />
 
-                <InputRightAddon bg={useColorModeValue("gray.200", "gray.800")}>
+                <InputRightAddon bg={useColorModeValue('gray.200', 'gray.800')}>
                   .html
                 </InputRightAddon>
               </InputGroup>
@@ -187,5 +185,5 @@ export default function SaveSlides() {
         </ModalContent>
       </Modal>
     </>
-  );
+  )
 }

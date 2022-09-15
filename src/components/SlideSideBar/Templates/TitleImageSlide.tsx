@@ -1,4 +1,4 @@
-import { Heading, Image, VStack } from "@chakra-ui/react";
+import { Heading, Image, VStack } from '@chakra-ui/react'
 
 export default function TitleImageSlide() {
   return (
@@ -13,5 +13,5 @@ export default function TitleImageSlide() {
         src={`${window._detectedSiteType.basePath}/images/sample.png`}
       />
     </VStack>
-  );
+  )
 }

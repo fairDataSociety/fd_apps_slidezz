@@ -1,11 +1,11 @@
-import { SimpleGrid, Box, Heading, Icon } from "@chakra-ui/react";
-import { useFormikContext } from "formik";
-import { StyleSettings } from "../../../../types";
-import { slideThemes } from "../../../../config/slide-themes";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { SimpleGrid, Box, Heading, Icon } from '@chakra-ui/react'
+import { useFormikContext } from 'formik'
+import { StyleSettings } from '../../../../types'
+import { slideThemes } from '../../../../config/slide-themes'
+import { AiFillCheckCircle } from 'react-icons/ai'
 
 export default function SelectColor() {
-  const { setFieldValue, values } = useFormikContext<StyleSettings>();
+  const { setFieldValue, values } = useFormikContext<StyleSettings>()
 
   return (
     <Box>
@@ -18,7 +18,7 @@ export default function SelectColor() {
             <Box
               key={key}
               onClick={() => {
-                setFieldValue("theme", key);
+                setFieldValue('theme', key)
               }}
               cursor="pointer"
               border="1px"
@@ -27,8 +27,8 @@ export default function SelectColor() {
               position="relative"
               transition="all 0.2s"
               _hover={{
-                boxShadow: "lg",
-                transform: "scale(1.1)",
+                boxShadow: 'lg',
+                transform: 'scale(1.1)',
               }}
             >
               {values.theme === key && (
@@ -66,9 +66,9 @@ export default function SelectColor() {
                 transform="translate(-50%, -50%)"
               ></Box>
             </Box>
-          );
+          )
         })}
       </SimpleGrid>
     </Box>
-  );
+  )
 }

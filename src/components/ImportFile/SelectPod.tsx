@@ -1,41 +1,41 @@
-import { Spinner, VStack, Center, Text, useToast } from "@chakra-ui/react";
-import { useAtom } from "jotai";
-import { fdpAtom } from "../../store";
-import { useEffect, useState } from "react";
-import { Pod } from "@fairdatasociety/fdp-storage/dist/pod/types";
-import { AiOutlineInbox } from "react-icons/ai";
-import ItemBox from "./ItemBox";
+import { Spinner, VStack, Center, Text, useToast } from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import { fdpAtom } from '../../store'
+import { useEffect, useState } from 'react'
+import { Pod } from '@fairdatasociety/fdp-storage/dist/pod/types'
+import { AiOutlineInbox } from 'react-icons/ai'
+import ItemBox from './ItemBox'
 
 interface SelectPodProps {
-  setPod: (pod: string) => void;
+  setPod: (pod: string) => void
 }
 
 export default function SelectPod({ setPod }: SelectPodProps) {
-  const toast = useToast();
-  const [fdp] = useAtom(fdpAtom);
-  const [pods, setPods] = useState<Pod[]>();
-  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast()
+  const [fdp] = useAtom(fdpAtom)
+  const [pods, setPods] = useState<Pod[]>()
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoading(true)
     fdp.personalStorage
       .list()
       .then((pods) => {
-        setPods(pods.getPods());
+        setPods(pods.getPods())
       })
       .catch((error: any) => {
         toast({
-          title: "Failed to load pods",
+          title: 'Failed to load pods',
           description: error.message,
-          status: "error",
+          status: 'error',
           duration: 9000,
           isClosable: true,
-        });
+        })
       })
       .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+        setIsLoading(false)
+      })
+  }, [])
 
   return (
     <VStack align="stretch" gap={2}>
@@ -57,5 +57,5 @@ export default function SelectPod({ setPod }: SelectPodProps) {
       )}
       )
     </VStack>
-  );
+  )
 }

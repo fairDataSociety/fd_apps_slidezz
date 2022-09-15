@@ -11,18 +11,18 @@ import {
   Image,
   Tooltip,
   Button,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 
-import ImportFile from "../../ImportFile/ImportFile";
-import { File } from "../../../types";
-import { PlusSquareIcon } from "@chakra-ui/icons";
-import { useAtom } from "jotai";
-import { imageMediaAtom, mediaAtom } from "../../../store";
+import ImportFile from '../../ImportFile/ImportFile'
+import { File } from '../../../types'
+import { PlusSquareIcon } from '@chakra-ui/icons'
+import { useAtom } from 'jotai'
+import { imageMediaAtom, mediaAtom } from '../../../store'
 
 interface AddImageModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  handleAddImage: (image: File) => void;
+  isOpen: boolean
+  onClose: () => void
+  handleAddImage: (image: File) => void
 }
 
 export default function AddImageModal({
@@ -30,12 +30,12 @@ export default function AddImageModal({
   onClose,
   handleAddImage,
 }: AddImageModalProps) {
-  const [media, setMedia] = useAtom(mediaAtom);
-  const [images] = useAtom(imageMediaAtom);
+  const [media, setMedia] = useAtom(mediaAtom)
+  const [images] = useAtom(imageMediaAtom)
 
   return (
     <Modal
-      size={{ base: "sm", md: "2xl", lg: "4xl" }}
+      size={{ base: 'sm', md: '2xl', lg: '4xl' }}
       isOpen={isOpen}
       onClose={onClose}
     >
@@ -55,8 +55,8 @@ export default function AddImageModal({
                 <Tooltip key={image.name} label={image.name} hasArrow>
                   <Box
                     onClick={() => {
-                      handleAddImage(image);
-                      onClose();
+                      handleAddImage(image)
+                      onClose()
                     }}
                     mx="auto"
                     cursor="pointer"
@@ -69,21 +69,21 @@ export default function AddImageModal({
                     />
                   </Box>
                 </Tooltip>
-              );
+              )
             })}
           </SimpleGrid>
         </ModalBody>
         <ModalFooter flexDir="row-reverse">
           <ImportFile
             setFile={async (file: File | undefined) => {
-              if (file) setMedia([...media, file]);
+              if (file) setMedia([...media, file])
             }}
-            allowedExtensions={["png", "jpg", "jpeg", "gif", "svg"]}
+            allowedExtensions={['png', 'jpg', 'jpeg', 'gif', 'svg']}
           >
             <Button leftIcon={<PlusSquareIcon />}>Import from Fairdrive</Button>
           </ImportFile>
         </ModalFooter>
       </ModalContent>
     </Modal>
-  );
+  )
 }

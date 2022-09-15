@@ -1,10 +1,10 @@
-import { Tooltip, Center, Icon, useColorModeValue } from "@chakra-ui/react";
-import { IconType } from "react-icons";
+import { Tooltip, Center, Icon, useColorModeValue } from '@chakra-ui/react'
+import { IconType } from 'react-icons'
 
 interface SlideSideBarItemInterface {
-  onClick?: () => void;
-  icon: IconType;
-  label: string;
+  onClick?: () => void
+  icon: IconType
+  label: string
 }
 
 export default function SlideSideBarItem({
@@ -14,7 +14,7 @@ export default function SlideSideBarItem({
 }: SlideSideBarItemInterface) {
   return (
     <Tooltip
-      bg={useColorModeValue("latte-overlay1", "frappe-overlay1")}
+      bg={useColorModeValue('latte-overlay1', 'frappe-overlay1')}
       label={label}
       placement="right"
       hasArrow
@@ -25,11 +25,11 @@ export default function SlideSideBarItem({
         p={{ base: 2, md: 5 }}
         w="full"
         _hover={{
-          bg: useColorModeValue("latte-surface2", "frappe-surface2"),
+          bg: useColorModeValue('latte-surface2', 'frappe-surface2'),
         }}
       >
         <Icon as={icon} pointerEvents="none" />
       </Center>
     </Tooltip>
-  );
+  )
 }

@@ -1,42 +1,42 @@
-import { slideThemes } from "./config/slide-themes";
-import type { Data } from "@ethersphere/bee-js";
+import { slideThemes } from './config/slide-themes'
+import type { Data } from '@ethersphere/bee-js'
 
 export interface SlideShowSettings {
-  controls: boolean;
-  progress: boolean;
-  history: boolean;
-  center: boolean;
-  loop: boolean;
-  slideNumber: boolean;
-  controlsLayout: "edges" | "bottom-right";
-  controlsBackArrows: "faded" | "hidden" | "visible";
-  slidesLogoPosition: "top-left" | "top-right" | "bottom-left" | "bottom-right";
+  controls: boolean
+  progress: boolean
+  history: boolean
+  center: boolean
+  loop: boolean
+  slideNumber: boolean
+  controlsLayout: 'edges' | 'bottom-right'
+  controlsBackArrows: 'faded' | 'hidden' | 'visible'
+  slidesLogoPosition: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 }
 
 export interface StyleSettings {
-  theme: keyof typeof slideThemes;
+  theme: keyof typeof slideThemes
 }
 
 export interface File {
-  name: string;
-  podName: string;
-  fullPath: string;
-  extension: string;
-  data: Data;
+  name: string
+  podName: string
+  fullPath: string
+  extension: string
+  data: Data
 }
 
 export interface LogoImageFile {
-  podName?: string;
-  fullPath?: string;
-  data: Data;
+  podName?: string
+  fullPath?: string
+  data: Data
 }
 
 export interface Slides {
-  data: string;
-  name?: string;
-  sharedRef?: string;
+  data: string
+  name?: string
+  sharedRef?: string
 }
 
 export interface User {
-  username: string;
+  username: string
 }

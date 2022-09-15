@@ -1,4 +1,4 @@
-import { Heading, Image, VStack } from "@chakra-ui/react";
+import { Heading, Image, VStack } from '@chakra-ui/react'
 
 export default function ImageTitleSlide() {
   return (
@@ -13,5 +13,5 @@ export default function ImageTitleSlide() {
         TITLE TEXT
       </Heading>
     </VStack>
-  );
+  )
 }

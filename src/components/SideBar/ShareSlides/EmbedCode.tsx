@@ -1,7 +1,7 @@
-import { useAtom } from "jotai";
-import { useState } from "react";
-import { slidesAtom } from "../../../store";
-import CopyPanel from "./CopyPanel";
+import { useAtom } from 'jotai'
+import { useState } from 'react'
+import { slidesAtom } from '../../../store'
+import CopyPanel from './CopyPanel'
 import {
   FormControl,
   FormLabel,
@@ -13,22 +13,22 @@ import {
   HStack,
   VStack,
   Select,
-} from "@chakra-ui/react";
-import { slideThemes } from "../../../config/slide-themes";
+} from '@chakra-ui/react'
+import { slideThemes } from '../../../config/slide-themes'
 
 export default function EmbedCode() {
-  const [slides] = useAtom(slidesAtom);
-  const [width, setWidth] = useState(576);
-  const [height, setHeight] = useState(420);
-  const [style, setStyle] = useState("white");
+  const [slides] = useAtom(slidesAtom)
+  const [width, setWidth] = useState(576)
+  const [height, setHeight] = useState(420)
+  const [style, setStyle] = useState('white')
 
-  const baseHref = document.querySelector("base")!.href;
+  const baseHref = document.querySelector('base')!.href
   const pageName =
-    process.env.NODE_ENV === "production"
-      ? "shared-slideshow.html"
-      : "shared-slideshow";
-  const embedURL = `${baseHref}${pageName}?ref=${slides?.sharedRef}&embed=true&theme=${style}`;
-  const embedCode = `<iframe src="${embedURL}" width="${width}" height="${height}"></iframe>`;
+    process.env.NODE_ENV === 'production'
+      ? 'shared-slideshow.html'
+      : 'shared-slideshow'
+  const embedURL = `${baseHref}${pageName}?ref=${slides?.sharedRef}&embed=true&theme=${style}`
+  const embedCode = `<iframe src="${embedURL}" width="${width}" height="${height}"></iframe>`
 
   return (
     <VStack align="stretch">
@@ -66,7 +66,7 @@ export default function EmbedCode() {
           <FormLabel>Style:</FormLabel>
           <Select
             onChange={(e) => {
-              setStyle(e.target.value);
+              setStyle(e.target.value)
             }}
           >
             {Object.keys(slideThemes).map((theme, i) => (
@@ -80,5 +80,5 @@ export default function EmbedCode() {
 
       <CopyPanel label="Embed Code" text={embedCode} />
     </VStack>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import type { NextPage } from "next";
-import dynamic from "next/dynamic";
+import type { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import {
   Center,
   HStack,
@@ -8,42 +8,42 @@ import {
   Icon,
   Stack,
   Box,
-} from "@chakra-ui/react";
-import SideBar from "../components/SideBar/SideBar";
-import { useAtom } from "jotai";
+} from '@chakra-ui/react'
+import SideBar from '../components/SideBar/SideBar'
+import { useAtom } from 'jotai'
 import {
   fdpAtom,
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
   userAtom,
-} from "../store";
-import { AiFillFileMarkdown, AiOutlinePlus } from "react-icons/ai";
-import { MdSlideshow } from "react-icons/md";
-import ImportFile from "../components/ImportFile/ImportFile";
-import { File } from "../types";
-import Card from "../components/Card/Card";
-import { loadSlideshow } from "../utils";
-import NavBar from "../components/NavBar/NavBar";
-import Login from "../components/Login/Login";
+} from '../store'
+import { AiFillFileMarkdown, AiOutlinePlus } from 'react-icons/ai'
+import { MdSlideshow } from 'react-icons/md'
+import ImportFile from '../components/ImportFile/ImportFile'
+import { File } from '../types'
+import Card from '../components/Card/Card'
+import { loadSlideshow } from '../utils'
+import NavBar from '../components/NavBar/NavBar'
+import Login from '../components/Login/Login'
 
-const SlideShow = dynamic(() => import("../components/SlideShow/SlideShow"), {
+const SlideShow = dynamic(() => import('../components/SlideShow/SlideShow'), {
   ssr: false,
   loading: () => (
     <Center h="full">
       <Spinner size="xl" />
     </Center>
   ),
-});
+})
 
 const Home: NextPage = () => {
-  const [deck, setDeck] = useAtom(slidesDeckAtom);
-  const [fdp] = useAtom(fdpAtom);
-  const [slides, setSlides] = useAtom(slidesAtom);
-  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom);
-  const [user, setUser] = useAtom(userAtom);
+  const [deck, setDeck] = useAtom(slidesDeckAtom)
+  const [fdp] = useAtom(fdpAtom)
+  const [slides, setSlides] = useAtom(slidesAtom)
+  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const [user, setUser] = useAtom(userAtom)
 
-  if (!user) return <Login />;
+  if (!user) return <Login />
 
   return (
     <>
@@ -54,8 +54,8 @@ const Home: NextPage = () => {
         <Center w="full" h="full">
           {slides ? (
             <Box
-              w={{ base: "65%", md: "70%", lg: "60%" }}
-              h={{ base: "30%", md: "50%", lg: "70%" }}
+              w={{ base: '65%', md: '70%', lg: '60%' }}
+              h={{ base: '30%', md: '50%', lg: '70%' }}
             >
               <SlideShow
                 key={slides.data}
@@ -66,12 +66,12 @@ const Home: NextPage = () => {
               />
             </Box>
           ) : (
-            <Stack direction={{ base: "column", lg: "row" }}>
+            <Stack direction={{ base: 'column', lg: 'row' }}>
               <ImportFile
                 setFile={async (file: File | undefined) => {
-                  if (file) setSlides({ data: file.data.text() });
+                  if (file) setSlides({ data: file.data.text() })
                 }}
-                allowedExtensions={["md"]}
+                allowedExtensions={['md']}
               >
                 <Card>
                   <Text>Generate a slideshow from a markdown file.</Text>
@@ -81,9 +81,9 @@ const Home: NextPage = () => {
 
               <ImportFile
                 setFile={async (file: File | undefined) => {
-                  await loadSlideshow(file, fdp, setSlides, setSlidesLogo);
+                  await loadSlideshow(file, fdp, setSlides, setSlidesLogo)
                 }}
-                allowedExtensions={["html"]}
+                allowedExtensions={['html']}
                 initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
               >
                 <Card>
@@ -94,7 +94,7 @@ const Home: NextPage = () => {
 
               <Box
                 onClick={() => {
-                  setSlides({ data: "## Slide 1" });
+                  setSlides({ data: '## Slide 1' })
                 }}
               >
                 <Card>
@@ -107,7 +107,7 @@ const Home: NextPage = () => {
         </Center>
       </HStack>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

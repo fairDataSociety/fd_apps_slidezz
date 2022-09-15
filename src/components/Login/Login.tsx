@@ -11,30 +11,30 @@ import {
   FormErrorMessage,
   useToast,
   Box,
-} from "@chakra-ui/react";
-import { Formik, FormikErrors, Field } from "formik";
-import { useAtom } from "jotai";
-import { fdpAtom, userAtom } from "../../store";
-import { useRouter } from "next/router";
-import { join } from "path";
-import NavBar from "../NavBar/NavBar";
+} from '@chakra-ui/react'
+import { Formik, FormikErrors, Field } from 'formik'
+import { useAtom } from 'jotai'
+import { fdpAtom, userAtom } from '../../store'
+import { useRouter } from 'next/router'
+import { join } from 'path'
+import NavBar from '../NavBar/NavBar'
 
 interface LoginFormValues {
-  username: string;
-  password: string;
+  username: string
+  password: string
 }
 
 const LoginFormInitialValues: LoginFormValues = {
-  username: "",
-  password: "",
-};
+  username: '',
+  password: '',
+}
 
 export default function Login() {
-  const router = useRouter();
-  const toast = useToast();
-  const [fdp] = useAtom(fdpAtom);
-  const [user, setUser] = useAtom(userAtom);
-  const loginBoxBg = useColorModeValue("latte-crust", "frappe-crust");
+  const router = useRouter()
+  const toast = useToast()
+  const [fdp] = useAtom(fdpAtom)
+  const [user, setUser] = useAtom(userAtom)
+  const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
 
   return (
     <>
@@ -43,34 +43,34 @@ export default function Login() {
         validateOnMount
         onSubmit={async (values) => {
           try {
-            await fdp.account.login(values.username, values.password);
-            toast.closeAll();
+            await fdp.account.login(values.username, values.password)
+            toast.closeAll()
             setUser({
               username: values.username,
-            });
+            })
           } catch (error: any) {
-            console.log(error);
+            console.log(error)
             toast({
-              title: "Login failed",
+              title: 'Login failed',
               description: error.message,
-              status: "error",
+              status: 'error',
               duration: 9000,
               isClosable: true,
-            });
+            })
           }
         }}
         validate={(values) => {
-          const errors: FormikErrors<LoginFormValues> = {};
+          const errors: FormikErrors<LoginFormValues> = {}
 
-          if (values.username === "") {
-            errors.username = "username is required";
+          if (values.username === '') {
+            errors.username = 'username is required'
           }
 
-          if (values.password === "") {
-            errors.password = "password is required";
+          if (values.password === '') {
+            errors.password = 'password is required'
           }
 
-          return errors;
+          return errors
         }}
         initialValues={LoginFormInitialValues}
       >
@@ -89,7 +89,7 @@ export default function Login() {
                 boxShadow="lg"
                 align="stretch"
                 gap={3}
-                w={["xs", "sm", "md", "lg"]}
+                w={['xs', 'sm', 'md', 'lg']}
               >
                 <FormControl
                   isRequired
@@ -122,8 +122,11 @@ export default function Login() {
                   Login
                 </Button>
                 <Text align="center" variant="subtext">
-                  Don&apos;t have an account?{" "}
-                  <Link href="https://create.dev.fairdatasociety.org" isExternal>
+                  Don&apos;t have an account?{' '}
+                  <Link
+                    href="https://create.dev.fairdatasociety.org"
+                    isExternal
+                  >
                     Register
                   </Link>
                 </Text>
@@ -133,5 +136,5 @@ export default function Login() {
         )}
       </Formik>
     </>
-  );
+  )
 }

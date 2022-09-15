@@ -48,7 +48,7 @@ section.has-light-background h6 {
   --r-selection-color: #fff;
 }
 
-body[data-theme="black"] {
+body[data-theme='black'] {
   --r-background-color: #191919;
   --r-main-color: #fff;
   --r-heading-color: #fff;
@@ -59,7 +59,7 @@ body[data-theme="black"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="beige"] {
+body[data-theme='beige'] {
   --r-background-color: #f7f3de;
   --r-main-color: #333;
   --r-heading-color: #333;
@@ -75,7 +75,7 @@ body[data-theme="beige"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="blood"] {
+body[data-theme='blood'] {
   --r-background-color: #222;
   --r-main-color: #eee;
   --r-heading-color: #eee;
@@ -92,7 +92,7 @@ body[data-theme="blood"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="league"] {
+body[data-theme='league'] {
   --r-background-color: #2b2b2b;
   --r-main-color: #eee;
   --r-heading-color: #eee;
@@ -109,7 +109,7 @@ body[data-theme="league"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="moon"] {
+body[data-theme='moon'] {
   --r-background-color: #002b36;
   --r-main-color: #93a1a1;
   --r-heading-color: #eee8d5;
@@ -120,7 +120,7 @@ body[data-theme="moon"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="night"] {
+body[data-theme='night'] {
   --r-background-color: #111;
   --r-main-color: #eee;
   --r-heading-color: #eee;
@@ -131,7 +131,7 @@ body[data-theme="night"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="serif"] {
+body[data-theme='serif'] {
   --r-background-color: #f0f1eb;
   --r-main-color: #000;
   --r-heading-color: #383d3d;
@@ -142,7 +142,7 @@ body[data-theme="serif"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="simple"] {
+body[data-theme='simple'] {
   --r-background-color: #fff;
   --r-main-color: #000;
   --r-heading-color: #000;
@@ -153,7 +153,7 @@ body[data-theme="simple"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="sky"] {
+body[data-theme='sky'] {
   --r-background-color: #f7fbfc;
   --r-main-color: #333;
   --r-heading-color: #333;
@@ -164,7 +164,7 @@ body[data-theme="sky"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="solarized"] {
+body[data-theme='solarized'] {
   --r-background-color: #fdf6e3;
   --r-main-color: #657b83;
   --r-heading-color: #586e75;
@@ -175,7 +175,7 @@ body[data-theme="solarized"] {
   --r-selection-color: #fff;
 }
 
-body[data-theme="latte"] {
+body[data-theme='latte'] {
   --r-background-color: #eff1f5;
   --r-main-color: #4c4f69;
   --r-heading-color: #5c5f77;
@@ -186,7 +186,7 @@ body[data-theme="latte"] {
   --r-selection-color: #4c4f69;
 }
 
-body[data-theme="macchiato"] {
+body[data-theme='macchiato'] {
   --r-background-color: #24273a;
   --r-main-color: #cad3f5;
   --r-heading-color: #b8c0e0;
@@ -202,7 +202,7 @@ body[data-theme="macchiato"] {
   background-color: var(--r-background-color) !important;
 }
 
-body[data-theme="sky"] .reveal-viewport {
+body[data-theme='sky'] .reveal-viewport {
   background: #add9e4;
   background: -moz-radial-gradient(
     center,
@@ -241,21 +241,21 @@ body[data-theme="sky"] .reveal-viewport {
   background-color: var(--r-background-color) !important;
 }
 
-html body[data-theme="serif"] .reveal a {
+html body[data-theme='serif'] .reveal a {
   line-height: 1.3em;
 }
 
-html body[data-theme="moon"] * {
+html body[data-theme='moon'] * {
   color-profile: sRGB;
   rendering-intent: auto;
 }
 
-html body[data-theme="solarized"] * {
+html body[data-theme='solarized'] * {
   color-profile: sRGB;
   rendering-intent: auto;
 }
 
-body[data-theme="league"] .reveal-viewport {
+body[data-theme='league'] .reveal-viewport {
   background: #1c1e20;
   background: -moz-radial-gradient(
     center,
@@ -294,7 +294,7 @@ body[data-theme="league"] .reveal-viewport {
   background-color: var(--r-background-color) !important;
 }
 
-body[data-theme="beige"] .reveal-viewport {
+body[data-theme='beige'] .reveal-viewport {
   background: #f7f2d3;
   background: -moz-radial-gradient(
     center,
@@ -535,13 +535,13 @@ body[data-theme="beige"] .reveal-viewport {
   border-bottom: 1px solid;
 }
 
-.reveal table th[align="center"],
-.reveal table td[align="center"] {
+.reveal table th[align='center'],
+.reveal table td[align='center'] {
   text-align: center;
 }
 
-.reveal table th[align="right"],
-.reveal table td[align="right"] {
+.reveal table th[align='right'],
+.reveal table td[align='right'] {
   text-align: right;
 }
 
