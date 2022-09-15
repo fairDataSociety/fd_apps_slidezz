@@ -1,0 +1,5 @@
+export { addImageToCurrentSlide } from './addImageToCurrentSlide'
+export { addMoveableToElements } from './addMoveableToElements'
+export { getSlidesHTML } from './getSlidesHTML'
+export { loadSlideshow } from './loadSlideshow'
+export { isHTML } from './isHTML'

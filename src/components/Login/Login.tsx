@@ -30,7 +30,6 @@ const LoginFormInitialValues: LoginFormValues = {
 }
 
 export default function Login() {
-  const router = useRouter()
   const toast = useToast()
   const [fdp] = useAtom(fdpAtom)
   const [user, setUser] = useAtom(userAtom)

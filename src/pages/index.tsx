@@ -4,10 +4,16 @@ import {
   Center,
   HStack,
   Spinner,
-  Text,
-  Icon,
-  Stack,
   Box,
+  Heading,
+  Button,
+  VStack,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuGroup,
+  MenuDivider,
 } from '@chakra-ui/react'
 import SideBar from '../components/SideBar/SideBar'
 import { useAtom } from 'jotai'
@@ -18,11 +24,10 @@ import {
   slidesLogoAtom,
   userAtom,
 } from '../store'
-import { AiFillFileMarkdown, AiOutlinePlus } from 'react-icons/ai'
+import { AiOutlineFileMarkdown } from 'react-icons/ai'
 import { MdSlideshow } from 'react-icons/md'
 import ImportFile from '../components/ImportFile/ImportFile'
 import { File } from '../types'
-import Card from '../components/Card/Card'
 import { loadSlideshow } from '../utils'
 import NavBar from '../components/NavBar/NavBar'
 import Login from '../components/Login/Login'
@@ -41,7 +46,7 @@ const Home: NextPage = () => {
   const [fdp] = useAtom(fdpAtom)
   const [slides, setSlides] = useAtom(slidesAtom)
   const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom)
-  const [user, setUser] = useAtom(userAtom)
+  const [user] = useAtom(userAtom)
 
   if (!user) return <Login />
 
@@ -66,43 +71,50 @@ const Home: NextPage = () => {
               />
             </Box>
           ) : (
-            <Stack direction={{ base: 'column', lg: 'row' }}>
-              <ImportFile
-                setFile={async (file: File | undefined) => {
-                  if (file) setSlides({ data: file.data.text() })
-                }}
-                allowedExtensions={['md']}
-              >
-                <Card>
-                  <Text>Generate a slideshow from a markdown file.</Text>
-                  <Icon fontSize="4xl" as={AiFillFileMarkdown} />
-                </Card>
-              </ImportFile>
+            <VStack
+              h="30rem"
+              gap={10}
+              justify={{ base: 'center', md: 'flex-start' }}
+            >
+              <Heading fontSize={{ base: '2rem', sm: '3rem', md: '5rem' }}>
+                Make a slideshow
+              </Heading>
+              <Menu>
+                <MenuButton as={Button}>New Slideshow</MenuButton>
+                <MenuList>
+                  <MenuItem
+                    onClick={() => {
+                      setSlides({ data: '## Slide 1' })
+                    }}
+                  >
+                    Blank Slideshow
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuGroup title="Select a Slideshow Template">
+                    <ImportFile
+                      setFile={async (file: File | undefined) => {
+                        if (file) setSlides({ data: file.data.text() })
+                      }}
+                      allowedExtensions={['md']}
+                    >
+                      <MenuItem icon={<AiOutlineFileMarkdown />}>
+                        Select a Markdown File
+                      </MenuItem>
+                    </ImportFile>
 
-              <ImportFile
-                setFile={async (file: File | undefined) => {
-                  await loadSlideshow(file, fdp, setSlides, setSlidesLogo)
-                }}
-                allowedExtensions={['html']}
-                initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
-              >
-                <Card>
-                  <Text>Generate a slideshow from an existing slideshow.</Text>
-                  <Icon fontSize="4xl" as={MdSlideshow} />
-                </Card>
-              </ImportFile>
-
-              <Box
-                onClick={() => {
-                  setSlides({ data: '## Slide 1' })
-                }}
-              >
-                <Card>
-                  <Text>New slideshow.</Text>
-                  <Icon fontSize="4xl" as={AiOutlinePlus} />
-                </Card>
-              </Box>
-            </Stack>
+                    <ImportFile
+                      setFile={async (file: File | undefined) => {
+                        await loadSlideshow(file, fdp, setSlides, setSlidesLogo)
+                      }}
+                      allowedExtensions={['html']}
+                      initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}
+                    >
+                      <MenuItem icon={<MdSlideshow />}>My Slideshows</MenuItem>
+                    </ImportFile>
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
+            </VStack>
           )}
         </Center>
       </HStack>
