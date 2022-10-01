@@ -97,7 +97,12 @@ const Home: NextPage = () => {
 
                     <ImportFile
                       setFile={async (file: File | undefined) => {
-                        await loadSlideshow(file, setSlides, setSlidesLogo)
+                        await loadSlideshow(
+                          user,
+                          file,
+                          setSlides,
+                          setSlidesLogo
+                        )
                       }}
                       allowedExtensions={['html']}
                       initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}

@@ -1,7 +1,9 @@
 import { downloadFile } from '../api/fs'
-import { File, LogoImageFile, Slides } from '../types'
+import { openPod } from '../api/pod'
+import { File, LogoImageFile, Slides, User } from '../types'
 
 export async function loadSlideshow(
+  user: User,
   file: File | undefined,
   setSlides: (slides: Slides) => void,
   setSlidesLogo?: (logoFile: LogoImageFile) => void
@@ -19,6 +21,10 @@ export async function loadSlideshow(
 
     if (podName && path) {
       try {
+        try {
+          await openPod(podName, user.password)
+        } catch (error) {}
+
         const data = await downloadFile({ pod_name: podName, file_path: path })
         //@ts-ignore
         element.src = URL.createObjectURL(data)
@@ -28,10 +34,14 @@ export async function loadSlideshow(
     }
   }
 
-  const logoImageElement = template.querySelector('.logo-image')
+  const logoImageElement = template.content.querySelector('.logo-image')
+
   if (logoImageElement && setSlidesLogo) {
     const podName = logoImageElement.getAttribute('data-pod')!
     const fullPath = logoImageElement.getAttribute('data-path')!
+    try {
+      await openPod(podName, user.password)
+    } catch (error) {}
     const data = await downloadFile({ pod_name: podName, file_path: fullPath })
 
     setSlidesLogo({
@@ -39,7 +49,7 @@ export async function loadSlideshow(
       podName,
       fullPath,
     })
-    template.removeChild(logoImageElement)
+    template.content.removeChild(logoImageElement)
   }
 
   setSlides({

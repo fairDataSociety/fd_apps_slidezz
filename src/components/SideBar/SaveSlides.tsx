@@ -61,6 +61,7 @@ export default function SaveSlides() {
         logoElement.style.display = 'none'
         logoElement.classList.add('logo-image')
         logoElement.setAttribute('data-pod', slidesLogo.podName!)
+        logoElement.setAttribute('data-path', slidesLogo.fullPath!)
 
         div.append(logoElement)
       }
