@@ -17,13 +17,7 @@ import {
 } from '@chakra-ui/react'
 import SideBar from '../components/SideBar/SideBar'
 import { useAtom } from 'jotai'
-import {
-  fdpAtom,
-  slidesAtom,
-  slidesDeckAtom,
-  slidesLogoAtom,
-  userAtom,
-} from '../store'
+import { slidesAtom, slidesDeckAtom, slidesLogoAtom, userAtom } from '../store'
 import { AiOutlineFileMarkdown } from 'react-icons/ai'
 import { MdSlideshow } from 'react-icons/md'
 import ImportFile from '../components/ImportFile/ImportFile'
@@ -43,7 +37,6 @@ const SlideShow = dynamic(() => import('../components/SlideShow/SlideShow'), {
 
 const Home: NextPage = () => {
   const [deck, setDeck] = useAtom(slidesDeckAtom)
-  const [fdp] = useAtom(fdpAtom)
   const [slides, setSlides] = useAtom(slidesAtom)
   const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom)
   const [user] = useAtom(userAtom)
@@ -93,7 +86,7 @@ const Home: NextPage = () => {
                   <MenuGroup title="Select a Slideshow Template">
                     <ImportFile
                       setFile={async (file: File | undefined) => {
-                        if (file) setSlides({ data: file.data.text() })
+                        if (file) setSlides({ data: await file.data.text() })
                       }}
                       allowedExtensions={['md']}
                     >
@@ -104,7 +97,7 @@ const Home: NextPage = () => {
 
                     <ImportFile
                       setFile={async (file: File | undefined) => {
-                        await loadSlideshow(file, fdp, setSlides, setSlidesLogo)
+                        await loadSlideshow(file, setSlides, setSlidesLogo)
                       }}
                       allowedExtensions={['html']}
                       initialPod={process.env.NEXT_PUBLIC_SLIDES_POD}

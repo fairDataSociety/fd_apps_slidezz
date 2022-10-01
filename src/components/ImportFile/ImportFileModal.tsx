@@ -16,12 +16,11 @@ import {
 import { useEffect, useState } from 'react'
 import SelectPod from './SelectPod'
 import SelectPath from './SelectPath'
-import { useAtom } from 'jotai'
-import { fdpAtom } from '../../store'
 import { AiOutlineInbox } from 'react-icons/ai'
 import { basename, extname } from 'path'
 import { File } from '../../types'
 import LoadingToast from '../Toast/LoadingToast'
+import { downloadFile } from '../../api/fs'
 
 interface ImportFileModalProps {
   isOpen: boolean
@@ -39,7 +38,6 @@ export default function ImportFileModal({
   initialPod,
 }: ImportFileModalProps) {
   const toast = useToast()
-  const [fdp] = useAtom(fdpAtom)
   const [pod, setPod] = useState<string | undefined>(initialPod)
   const [filePath, setFilePath] = useState<string>()
   const tooltipBg = useColorModeValue('latte-overlay1', 'frappe-overlay1')
@@ -62,8 +60,7 @@ export default function ImportFileModal({
         render: () => <LoadingToast label="Loading File" />,
       })
 
-      fdp.file
-        .downloadData(pod, fullFilePath)
+      downloadFile({ pod_name: pod, file_path: fullFilePath })
         .then((data) => {
           setFile({
             podName: pod,
@@ -78,7 +75,7 @@ export default function ImportFileModal({
 
           toast({
             title: 'Failed to load file',
-            description: error.message,
+            description: error.response.data.message,
             status: 'error',
             duration: 9000,
             isClosable: true,

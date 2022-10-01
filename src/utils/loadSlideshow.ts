@@ -1,16 +1,15 @@
-import { FdpStorage } from '@fairdatasociety/fdp-storage'
+import { downloadFile } from '../api/fs'
 import { File, LogoImageFile, Slides } from '../types'
 
 export async function loadSlideshow(
   file: File | undefined,
-  fdp: FdpStorage,
   setSlides: (slides: Slides) => void,
   setSlidesLogo?: (logoFile: LogoImageFile) => void
 ) {
   if (!file) return
 
   const template = document.createElement('template')
-  template.innerHTML = file.data.text()
+  template.innerHTML = await file.data.text()
 
   const fairData = Array.from(template.content.querySelectorAll('.fair-data'))
 
@@ -20,9 +19,9 @@ export async function loadSlideshow(
 
     if (podName && path) {
       try {
-        const data = await fdp.file.downloadData(podName, path)
+        const data = await downloadFile({ pod_name: podName, file_path: path })
         //@ts-ignore
-        element.src = URL.createObjectURL(new Blob([data.buffer]))
+        element.src = URL.createObjectURL(data)
       } catch (error) {
         console.log(error)
       }
@@ -33,7 +32,7 @@ export async function loadSlideshow(
   if (logoImageElement && setSlidesLogo) {
     const podName = logoImageElement.getAttribute('data-pod')!
     const fullPath = logoImageElement.getAttribute('data-path')!
-    const data = await fdp.file.downloadData(podName, fullPath)
+    const data = await downloadFile({ pod_name: podName, file_path: fullPath })
 
     setSlidesLogo({
       data,

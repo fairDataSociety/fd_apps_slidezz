@@ -14,7 +14,7 @@ export function ReplaceImage() {
   const handleReplaceImage = (image: File) => {
     if (!replaceImageElement) return
 
-    replaceImageElement.src = URL.createObjectURL(new Blob([image.data.buffer]))
+    replaceImageElement.src = URL.createObjectURL(image.data)
     replaceImageElement.alt = image.name
 
     replaceImageElement.setAttribute('data-pod', image.podName)

@@ -6,14 +6,15 @@ import {
   HStack,
   IconButton,
 } from '@chakra-ui/react'
-import { useAtom } from 'jotai'
-import { fdpAtom } from '../../store'
 import { useEffect, useState } from 'react'
-import type { DirectoryItem } from '@fairdatasociety/fdp-storage/dist/content-items/directory-item'
 import { join, extname } from 'path'
 import { AiFillFolder, AiOutlineFile } from 'react-icons/ai'
 import ItemBox from './ItemBox'
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import { getFilesAndDirs, GetFilesResponse } from '../../api/fs'
+import { useAtom } from 'jotai'
+import { userAtom } from '../../store'
+import { openPod } from '../../api/pod'
 
 interface SelectPathProps {
   pod: string
@@ -27,31 +28,45 @@ export default function SelectPath({
   allowedExtensions,
 }: SelectPathProps) {
   const [tmpPath, setTmpPath] = useState('/')
-  const [fdp] = useAtom(fdpAtom)
+  const [user] = useAtom(userAtom)
   const [isLoading, setIsLoading] = useState(false)
-  const [items, setItems] = useState<DirectoryItem>()
-  const isItemsAvailable = !!items && items.content.length > 0
+  const [items, setItems] = useState<GetFilesResponse>()
+  const [isPodOpen, setIsPodOpen] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      openPod(pod, user.password).finally(() => {
+        setIsPodOpen(true)
+      })
+    }
+  }, [user])
+
+  const isItemsAvailable =
+    items &&
+    ((items.dirs && items.dirs.length > 0) ||
+      (items.files && items.files.length > 0))
 
   useEffect(() => {
     let canceled = false
-
     setIsLoading(true)
-    fdp.directory
-      .read(pod, tmpPath)
-      .then((items) => {
-        if (!canceled) setItems(items)
-      })
-      .catch(() => {
-        if (!canceled) setItems(undefined)
-      })
-      .finally(() => {
-        setIsLoading(false)
-      })
+
+    if (isPodOpen) {
+      getFilesAndDirs(pod, tmpPath)
+        .then((items) => {
+          if (!canceled) setItems(items)
+        })
+        .catch(() => {
+          if (!canceled) setItems(undefined)
+        })
+        .finally(() => {
+          setIsLoading(false)
+        })
+    }
 
     return () => {
       canceled = true
     }
-  }, [pod, tmpPath])
+  }, [pod, tmpPath, user, isPodOpen])
 
   return (
     <>
@@ -62,7 +77,7 @@ export default function SelectPath({
             const pathArray = tmpPath.split('/')
             let newPath = pathArray.slice(0, pathArray.length - 1).join('/')
             if (newPath === '') newPath = '/'
-            setPath(newPath)
+            setTmpPath(newPath)
           }}
           size="sm"
           aria-label="back"
@@ -76,32 +91,39 @@ export default function SelectPath({
         </Center>
       ) : isItemsAvailable ? (
         <VStack align="stretch" gap={2}>
-          {items?.getDirectories().map((dir) => (
-            <ItemBox
-              key={dir.name}
-              text={dir.name}
-              icon={AiFillFolder}
-              onClick={() => {
-                const path = join(tmpPath, dir.name)
-                setTmpPath(path)
-              }}
-            />
-          ))}
-          {items?.getFiles().map((file) => {
-            const fileExtension = extname(file.name).slice(1)
-
-            if (allowedExtensions && !allowedExtensions.includes(fileExtension))
-              return null
-
-            return (
+          {items &&
+            items.dirs &&
+            items.dirs.map((dir, i) => (
               <ItemBox
-                key={file.name}
-                text={file.name}
-                icon={AiOutlineFile}
-                onClick={() => setPath(join(tmpPath, file.name))}
+                key={i}
+                text={dir.name}
+                icon={AiFillFolder}
+                onClick={() => {
+                  const path = join(tmpPath, dir.name)
+                  setTmpPath(path)
+                }}
               />
-            )
-          })}
+            ))}
+          {items &&
+            items.files &&
+            items.files.map((file, i) => {
+              const fileExtension = extname(file.name).slice(1)
+
+              if (
+                allowedExtensions &&
+                !allowedExtensions.includes(fileExtension)
+              )
+                return null
+
+              return (
+                <ItemBox
+                  key={i}
+                  text={file.name}
+                  icon={AiOutlineFile}
+                  onClick={() => setPath(join(tmpPath, file.name))}
+                />
+              )
+            })}
         </VStack>
       ) : (
         <Text align="center">No file/folder found.</Text>

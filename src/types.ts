@@ -1,5 +1,4 @@
 import { slideThemes } from './config/slide-themes'
-import type { Data } from '@ethersphere/bee-js'
 
 export interface SlideShowSettings {
   controls: boolean
@@ -22,13 +21,13 @@ export interface File {
   podName: string
   fullPath: string
   extension: string
-  data: Data
+  data: Blob
 }
 
 export interface LogoImageFile {
   podName?: string
   fullPath?: string
-  data: Data
+  data: Blob
 }
 
 export interface Slides {
@@ -39,4 +38,5 @@ export interface Slides {
 
 export interface User {
   username: string
+  password: string
 }

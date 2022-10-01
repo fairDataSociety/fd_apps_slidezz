@@ -13,7 +13,7 @@ export function addImageToCurrentSlide(
   imageContainer.classList.add('media-container')
 
   const imageElement = document.createElement('img')
-  imageElement.src = URL.createObjectURL(new Blob([image.data.buffer]))
+  imageElement.src = URL.createObjectURL(image.data)
   imageElement.alt = image.name
   imageElement.setAttribute('data-pod', image.podName)
   imageElement.setAttribute('data-path', image.fullPath)

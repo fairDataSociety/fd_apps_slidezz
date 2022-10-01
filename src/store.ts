@@ -1,6 +1,5 @@
 import { atomWithStorage } from 'jotai/utils'
 import { atom } from 'jotai'
-import { FdpStorage } from '@fairdatasociety/fdp-storage'
 import {
   File,
   LogoImageFile,
@@ -37,28 +36,6 @@ const initialStyles: StyleSettings = {
 }
 
 export const styleSettingsAtom = atomWithStorage('styleSettings', initialStyles)
-
-// FDP instance
-
-const fdp = new FdpStorage(
-  process.env.NEXT_PUBLIC_BEE_URL as string,
-  //@ts-ignore
-  process.env.NEXT_PUBLIC_BATCH_ID as string,
-  {
-    ensOptions: {
-      performChecks: true,
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL as string,
-      contractAddresses: {
-        fdsRegistrar: process.env.NEXT_PUBLIC_FDS_REGISTRAR as string,
-        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY as string,
-        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER as string,
-      },
-    },
-    ensDomain: 'fds',
-  }
-)
-
-export const fdpAtom = atom(fdp)
 
 // Slides
 

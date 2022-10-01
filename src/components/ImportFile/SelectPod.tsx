@@ -1,10 +1,8 @@
 import { Spinner, VStack, Center, Text, useToast } from '@chakra-ui/react'
-import { useAtom } from 'jotai'
-import { fdpAtom } from '../../store'
 import { useEffect, useState } from 'react'
-import { Pod } from '@fairdatasociety/fdp-storage/dist/pod/types'
 import { AiOutlineInbox } from 'react-icons/ai'
 import ItemBox from './ItemBox'
+import { getPods } from '../../api/pod'
 
 interface SelectPodProps {
   setPod: (pod: string) => void
@@ -12,21 +10,19 @@ interface SelectPodProps {
 
 export default function SelectPod({ setPod }: SelectPodProps) {
   const toast = useToast()
-  const [fdp] = useAtom(fdpAtom)
-  const [pods, setPods] = useState<Pod[]>()
+  const [pods, setPods] = useState<string[]>()
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
-    fdp.personalStorage
-      .list()
+    getPods()
       .then((pods) => {
-        setPods(pods.getPods())
+        setPods(pods.pod_name)
       })
       .catch((error: any) => {
         toast({
           title: 'Failed to load pods',
-          description: error.message,
+          description: error.response.data.message,
           status: 'error',
           duration: 9000,
           isClosable: true,
@@ -44,12 +40,14 @@ export default function SelectPod({ setPod }: SelectPodProps) {
           <Spinner />
         </Center>
       ) : pods && pods.length > 0 ? (
-        pods.map((pod) => (
+        pods.map((pod, i) => (
           <ItemBox
-            key={pod.name}
-            text={pod.name}
+            key={i}
+            text={pod}
             icon={AiOutlineInbox}
-            onClick={() => setPod(pod.name)}
+            onClick={() => {
+              setPod(pod)
+            }}
           />
         ))
       ) : (

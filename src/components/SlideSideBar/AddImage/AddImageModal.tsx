@@ -65,7 +65,7 @@ export default function AddImageModal({
                   >
                     <Image
                       objectFit="cover"
-                      src={URL.createObjectURL(new Blob([image.data.buffer]))}
+                      src={URL.createObjectURL(image.data)}
                     />
                   </Box>
                 </Tooltip>

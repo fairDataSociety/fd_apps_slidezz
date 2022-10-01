@@ -14,10 +14,9 @@ import {
 } from '@chakra-ui/react'
 import { Formik, FormikErrors, Field } from 'formik'
 import { useAtom } from 'jotai'
-import { fdpAtom, userAtom } from '../../store'
-import { useRouter } from 'next/router'
-import { join } from 'path'
+import { userAtom } from '../../store'
 import NavBar from '../NavBar/NavBar'
+import { login } from '../../api/user'
 
 interface LoginFormValues {
   username: string
@@ -31,7 +30,6 @@ const LoginFormInitialValues: LoginFormValues = {
 
 export default function Login() {
   const toast = useToast()
-  const [fdp] = useAtom(fdpAtom)
   const [user, setUser] = useAtom(userAtom)
   const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
 
@@ -42,16 +40,20 @@ export default function Login() {
         validateOnMount
         onSubmit={async (values) => {
           try {
-            await fdp.account.login(values.username, values.password)
+            await login({
+              user_name: values.username,
+              password: values.password,
+            })
             toast.closeAll()
             setUser({
               username: values.username,
+              password: values.password,
             })
           } catch (error: any) {
             console.log(error)
             toast({
               title: 'Login failed',
-              description: error.message,
+              description: error.response.data.message,
               status: 'error',
               duration: 9000,
               isClosable: true,

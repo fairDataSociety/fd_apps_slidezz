@@ -45,7 +45,7 @@ export default function AddVideo() {
 
     videoElement.controls = true
 
-    soruceElement.src = URL.createObjectURL(new Blob([video.data.buffer]))
+    soruceElement.src = URL.createObjectURL(video.data)
 
     videoElement.appendChild(soruceElement)
 

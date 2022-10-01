@@ -14,39 +14,35 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
-  FormControl,
-  FormLabel,
-  Switch,
-  useBoolean,
 } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
 import {
-  fdpAtom,
   slidesDeckAtom,
   slidesAtom,
   slidesLogoAtom,
+  userAtom,
 } from '../../store'
 import { FaSave } from 'react-icons/fa'
 import SideBarItem from './SideBarItem'
 import LoadingToast from '../Toast/LoadingToast'
 import { getSlidesHTML } from '../../utils'
+import { createPod, getPods, openPod } from '../../api/pod'
+import { uploadFile } from '../../api/fs'
 
 export default function SaveSlides() {
-  const [fdp] = useAtom(fdpAtom)
   const [deck] = useAtom(slidesDeckAtom)
   const [slides, setSlides] = useAtom(slidesAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
+  const [user] = useAtom(userAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [fileName, setFileName] = useState('')
-  const [shareSlides, setShareSlides] = useBoolean(false)
   const toast = useToast()
 
   const handleSaveSlides = async () => {
-    if (!slides || !deck) return
+    if (!slides || !deck || !user) return
 
     const fileNameTmp = fileName
-    const shareSlidesTmp = shareSlides
 
     handleOnClose()
 
@@ -65,57 +61,32 @@ export default function SaveSlides() {
         logoElement.style.display = 'none'
         logoElement.classList.add('logo-image')
         logoElement.setAttribute('data-pod', slidesLogo.podName!)
-        logoElement.setAttribute('data-path', slidesLogo.fullPath!)
-
-        if (shareSlidesTmp) {
-          const ref = await fdp.file.share(
-            slidesLogo.podName!,
-            slidesLogo.fullPath!
-          )
-          logoElement.setAttribute('data-shareref', ref)
-        }
 
         div.append(logoElement)
       }
 
-      if (shareSlidesTmp) {
-        const fairDataElements = Array.from(div.querySelectorAll('.fair-data'))
-
-        for (const fairDataElement of fairDataElements) {
-          const podName = fairDataElement.getAttribute('data-pod')!
-          const path = fairDataElement.getAttribute('data-path')!
-
-          const shareRef = await fdp.file.share(podName, path)
-
-          fairDataElement.setAttribute('data-shareref', shareRef)
-        }
-      }
-
       const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
-      const pods = await fdp.personalStorage.list()
-      const slidesPod = pods.getPods().find((pod) => pod.name === slidesPodName)
+      const pods = await getPods()
+      const slidesPod = pods.pod_name.find((pod) => pod === slidesPodName)
 
       if (!slidesPod) {
-        await fdp.personalStorage.create(slidesPodName)
+        await createPod(slidesPodName, user.password)
       }
 
-      const filePath = `/${fileNameTmp}.html`
-      await fdp.file.uploadData(slidesPodName, filePath, div.innerHTML)
+      try {
+        await openPod(slidesPodName, user.password)
+      } catch (error) {}
 
-      if (shareSlidesTmp) {
-        const slidesShareRef = await fdp.file.share(slidesPodName, filePath)
+      const filePath = '/'
+      const file = new File([div.innerHTML], `${fileNameTmp}.html`)
 
-        setSlides({
-          ...slides,
-          name: fileNameTmp,
-          sharedRef: slidesShareRef,
-        })
-      } else {
-        setSlides({
-          ...slides,
-          name: fileNameTmp,
-        })
-      }
+      await uploadFile({ pod_name: slidesPodName, dir_path: filePath, file })
+
+      setSlides({
+        ...slides,
+        name: fileNameTmp,
+      })
+
       toast.closeAll()
     } catch (error: any) {
       toast.closeAll()
@@ -123,7 +94,7 @@ export default function SaveSlides() {
 
       toast({
         title: 'Failed to upload file',
-        description: error.message,
+        description: error.response.data.message,
         status: 'error',
         duration: 9000,
         isClosable: true,
@@ -133,7 +104,6 @@ export default function SaveSlides() {
 
   const handleOnClose = () => {
     setFileName('')
-    setShareSlides.off()
     onClose()
   }
 
@@ -158,17 +128,6 @@ export default function SaveSlides() {
                   .html
                 </InputRightAddon>
               </InputGroup>
-              <FormControl display="flex" alignItems="center">
-                <FormLabel htmlFor="share-slides" mb="0">
-                  Share slides?
-                </FormLabel>
-                <Switch
-                  colorScheme="surface1"
-                  isChecked={shareSlides}
-                  id="share-slides"
-                  onChange={setShareSlides.toggle}
-                />
-              </FormControl>
             </VStack>
           </ModalBody>
           <ModalFooter>

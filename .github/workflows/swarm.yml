@@ -16,12 +16,7 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          NEXT_PUBLIC_BEE_URL: https://bee-1.dev.fairdatasociety.org
-          NEXT_PUBLIC_BATCH_ID: '0000000000000000000000000000000000000000000000000000000000000000'
-          NEXT_PUBLIC_RPC_URL: https://xdai.dev.fairdatasociety.org
-          NEXT_PUBLIC_FDS_REGISTRAR: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
-          NEXT_PUBLIC_ENS_REGISTRY: '0x42B22483e3c8dF794f351939620572d1a3193c12'
-          NEXT_PUBLIC_PUBLIC_RESOLVER: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'
+          NEXT_PUBLIC_FAIROSHOST: https://fairos.fairdatasociety.org/v1/
           NEXT_PUBLIC_SLIDES_POD: fair-slideshows
 
       - name: Upload
