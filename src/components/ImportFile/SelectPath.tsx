@@ -62,7 +62,7 @@ export default function SelectPath({
             const pathArray = tmpPath.split('/')
             let newPath = pathArray.slice(0, pathArray.length - 1).join('/')
             if (newPath === '') newPath = '/'
-            setPath(newPath)
+            setTmpPath(newPath)
           }}
           size="sm"
           aria-label="back"
