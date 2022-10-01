@@ -29,7 +29,7 @@ export async function loadSlideshow(
     }
   }
 
-  const logoImageElement = template.querySelector('.logo-image')
+  const logoImageElement = template.content.querySelector('.logo-image')
   if (logoImageElement && setSlidesLogo) {
     const podName = logoImageElement.getAttribute('data-pod')!
     const fullPath = logoImageElement.getAttribute('data-path')!
@@ -40,7 +40,7 @@ export async function loadSlideshow(
       podName,
       fullPath,
     })
-    template.removeChild(logoImageElement)
+    template.content.removeChild(logoImageElement)
   }
 
   setSlides({
