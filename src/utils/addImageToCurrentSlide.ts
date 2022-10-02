@@ -22,14 +22,8 @@ export function addImageToCurrentSlide(
 
   imageContainer.appendChild(imageElement)
 
-  imageContainer.addEventListener('click', () => {
+  imageContainer.onclick = () => {
     setMoveableTarget(imageContainer)
-  })
-
-  if (setReplaceImageElement) {
-    imageContainer.addEventListener('dblclick', () => {
-      setReplaceImageElement(imageElement)
-    })
   }
 
   slide.appendChild(imageContainer)

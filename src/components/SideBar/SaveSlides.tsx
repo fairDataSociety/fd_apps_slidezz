@@ -74,9 +74,7 @@ export default function SaveSlides() {
         await createPod(slidesPodName, user.password)
       }
 
-      try {
-        await openPod(slidesPodName, user.password)
-      } catch (error) {}
+      await openPod(slidesPodName, user.password)
 
       const filePath = '/'
       const file = new File([div.innerHTML], `${fileNameTmp}.html`)

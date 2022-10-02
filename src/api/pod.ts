@@ -13,10 +13,14 @@ export async function openPod(
   pod_name: string,
   password: string
 ): Promise<void> {
-  return await axios.post('pod/open', {
-    pod_name,
-    password,
-  })
+  await axios.post(
+    'pod/open',
+    {
+      pod_name,
+      password,
+    },
+    { validateStatus: (status) => [200, 500].includes(status) }
+  )
 }
 
 export async function createPod(

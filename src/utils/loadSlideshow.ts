@@ -21,9 +21,7 @@ export async function loadSlideshow(
 
     if (podName && path) {
       try {
-        try {
-          await openPod(podName, user.password)
-        } catch (error) {}
+        await openPod(podName, user.password)
 
         const data = await downloadFile({ pod_name: podName, file_path: path })
         //@ts-ignore
@@ -39,9 +37,9 @@ export async function loadSlideshow(
   if (logoImageElement && setSlidesLogo) {
     const podName = logoImageElement.getAttribute('data-pod')!
     const fullPath = logoImageElement.getAttribute('data-path')!
-    try {
-      await openPod(podName, user.password)
-    } catch (error) {}
+
+    await openPod(podName, user.password)
+
     const data = await downloadFile({ pod_name: podName, file_path: fullPath })
 
     setSlidesLogo({
