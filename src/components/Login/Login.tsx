@@ -124,10 +124,7 @@ export default function Login() {
                 </Button>
                 <Text align="center" variant="subtext">
                   Don&apos;t have an account?{' '}
-                  <Link
-                    href="https://create.dev.fairdatasociety.org"
-                    isExternal
-                  >
+                  <Link href="https://fairdrive.vercel.app/register" isExternal>
                     Register
                   </Link>
                 </Text>
