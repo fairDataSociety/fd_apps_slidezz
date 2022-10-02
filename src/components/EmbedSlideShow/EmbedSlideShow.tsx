@@ -37,6 +37,7 @@ export default function EmbedSlideShow({ slides }: EmbedSlideShowProps) {
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
       ...query,
+      center: false,
     })
 
     newDeck.initialize().then(() => {
@@ -55,6 +56,7 @@ export default function EmbedSlideShow({ slides }: EmbedSlideShowProps) {
         <Box ref={slidesRef} className="slides"></Box>
         {slidesLogo && (
           <Image
+            alt="logo"
             position="absolute"
             {...LogoPositions[slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}

@@ -5,7 +5,6 @@ export interface SlideShowSettings {
   controls: boolean
   progress: boolean
   history: boolean
-  center: boolean
   loop: boolean
   slideNumber: boolean
   controlsLayout: 'edges' | 'bottom-right'

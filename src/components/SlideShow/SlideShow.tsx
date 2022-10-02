@@ -35,6 +35,10 @@ import {
 } from './Moveable/Ables/MoveableDimension'
 import { Slides } from '../../types'
 import FontTab from './FontTab'
+import {
+  MoveableReplaceImage,
+  MoveableReplaceImageProps,
+} from './Moveable/Ables/MoveableReplaceImage'
 
 interface SlideShowProps {
   deckName: string
@@ -49,7 +53,13 @@ export default function SlideShow({
   setDeck,
   slides,
 }: SlideShowProps) {
-  const moveableRef = useRef() as RefObject<Moveable>
+  const moveableRef = useRef() as RefObject<
+    Moveable<
+      MoveableDeleteButtonProps &
+        MoveableDimensionProps &
+        MoveableReplaceImageProps
+    >
+  >
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )
@@ -101,6 +111,7 @@ export default function SlideShow({
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
       ...slideShowSettings,
+      center: false,
     })
     newDeck.initialize().then(() => {
       setDeck(newDeck)
@@ -108,11 +119,7 @@ export default function SlideShow({
       newDeck.sync()
 
       newDeck.getSlides().forEach((slide: any) => {
-        addMoveableToElements(
-          slide.children,
-          setMoveableTarget,
-          setReplaceImageElement
-        )
+        addMoveableToElements(slide.children, setMoveableTarget)
       })
 
       setElementGuidelines([
@@ -176,8 +183,17 @@ export default function SlideShow({
             </section>
           )}
           {moveableTarget && !isFullscreen ? (
-            <Moveable<MoveableDeleteButtonProps & MoveableDimensionProps>
-              ables={[MoveableDeleteButton, MoveableDimension]}
+            <Moveable<
+              MoveableDeleteButtonProps &
+                MoveableDimensionProps &
+                MoveableReplaceImageProps
+            >
+              ables={[
+                MoveableDeleteButton,
+                MoveableDimension,
+                MoveableReplaceImage,
+              ]}
+              replaceImage={true}
               deleteButton={true}
               dimension={true}
               ref={moveableRef}
@@ -190,6 +206,7 @@ export default function SlideShow({
               elementGuidelines={elementGuidelines}
               target={moveableTarget}
               setTarget={setMoveableTarget}
+              setReplaceImageElement={setReplaceImageElement}
               draggable={editMode === 'MOVE' ? true : false}
               throttleDrag={0}
               startDragRotate={0}
@@ -240,6 +257,7 @@ export default function SlideShow({
         </Box>
         {slidesLogo && (
           <Image
+            alt="logo"
             position="absolute"
             {...LogoPositions[slideShowSettings.slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}

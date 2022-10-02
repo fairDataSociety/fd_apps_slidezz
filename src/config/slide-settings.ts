@@ -1,5 +1,5 @@
 interface CheckBoxSettings {
-  name: 'controls' | 'progress' | 'history' | 'center' | 'loop' | 'slideNumber'
+  name: 'controls' | 'progress' | 'history' | 'loop' | 'slideNumber'
   label: string
   description: string
 }
@@ -19,11 +19,6 @@ export const checkBoxSettings: CheckBoxSettings[] = [
     name: 'history',
     label: 'History',
     description: 'Push each slide change to the browser history',
-  },
-  {
-    name: 'center',
-    label: 'Center',
-    description: 'Vertical centering of slides',
   },
   {
     name: 'loop',

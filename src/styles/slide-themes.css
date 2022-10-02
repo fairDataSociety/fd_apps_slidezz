@@ -596,17 +596,16 @@ body[data-theme='beige'] .reveal-viewport {
 }
 
 .reveal .sample-data {
+  padding: 10px;
   width: 100%;
   height: 100%;
   margin: auto;
-  padding-top: 10px;
 }
 
 .reveal .media-container {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  /* transform: translate(-50%, -50%); */
+  top: 30%;
+  left: 30%;
   padding: 10px;
   height: 400px;
   width: 400px;
@@ -707,4 +706,16 @@ body[data-theme='beige'] .reveal-viewport {
   .reveal .controls {
     font-size: 5px;
   }
+}
+
+.present {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  pointer-events: none !important;
+}
+
+.present * {
+  pointer-events: auto !important;
 }
