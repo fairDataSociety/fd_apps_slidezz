@@ -16,7 +16,6 @@ const initialSettings: SlideShowSettings = {
   controls: true,
   progress: true,
   history: true,
-  center: true,
   loop: true,
   slideNumber: false,
   controlsLayout: 'bottom-right',

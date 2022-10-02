@@ -1,7 +1,6 @@
 export function addMoveableToElements(
   elements: HTMLElement[],
-  setMoveableTarget: (target: HTMLElement | undefined) => void,
-  setReplaceImageElement?: (target: HTMLImageElement | undefined) => void
+  setMoveableTarget: (target: HTMLElement | undefined) => void
 ) {
   elements.forEach((element: HTMLElement) => {
     if (
@@ -12,8 +11,7 @@ export function addMoveableToElements(
     ) {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
-        setMoveableTarget,
-        setReplaceImageElement
+        setMoveableTarget
       )
     }
 
@@ -26,22 +24,6 @@ export function addMoveableToElements(
         e.preventDefault()
       })
       element.contentEditable = 'true'
-    }
-
-    if (element.tagName.toLowerCase() === 'img' && setReplaceImageElement) {
-      element.addEventListener('dblclick', () => {
-        setReplaceImageElement(element as HTMLImageElement)
-      })
-    }
-
-    if (
-      (element.classList.contains('media-container') ||
-        element.classList.contains('sample-image-container')) &&
-      setReplaceImageElement
-    ) {
-      element.addEventListener('dblclick', () => {
-        setReplaceImageElement(element.firstChild as HTMLImageElement)
-      })
     }
 
     element.addEventListener('click', () => {

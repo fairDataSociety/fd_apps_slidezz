@@ -111,6 +111,7 @@ export default function SlideShow({
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
       ...slideShowSettings,
+      center: false,
     })
     newDeck.initialize().then(() => {
       setDeck(newDeck)
@@ -118,11 +119,7 @@ export default function SlideShow({
       newDeck.sync()
 
       newDeck.getSlides().forEach((slide: any) => {
-        addMoveableToElements(
-          slide.children,
-          setMoveableTarget,
-          setReplaceImageElement
-        )
+        addMoveableToElements(slide.children, setMoveableTarget)
       })
 
       setElementGuidelines([

@@ -42,6 +42,7 @@ export default function SharedSlideShow({ slides }: SharedSlideShowProps) {
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
       ...slideShowSettings,
+      center: false,
     })
 
     newDeck.initialize().then(() => {
@@ -80,6 +81,7 @@ export default function SharedSlideShow({ slides }: SharedSlideShowProps) {
         <Box ref={slidesRef} className="slides"></Box>
         {slidesLogo && (
           <Image
+            alt="logo"
             position="absolute"
             {...LogoPositions[slideShowSettings.slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}

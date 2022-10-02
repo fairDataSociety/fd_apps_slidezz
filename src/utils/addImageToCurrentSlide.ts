@@ -3,8 +3,7 @@ import { File } from '../types'
 export function addImageToCurrentSlide(
   image: File,
   deck: any,
-  setMoveableTarget: (target: HTMLElement | undefined) => void,
-  setReplaceImageElement?: (target: HTMLImageElement | undefined) => void
+  setMoveableTarget: (target: HTMLElement | undefined) => void
 ) {
   const currentSlideIndex = deck.getState().indexh
   const slide = deck.getSlides()[currentSlideIndex]
