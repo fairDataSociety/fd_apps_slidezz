@@ -48,10 +48,10 @@ export default function MySlideShows() {
     )
 
   return (
-    <Wrap spacing="40px">
+    <Wrap justify="space-between" spacing="40px">
       {mySlideShows.map((slideShow) => {
         return (
-          <WrapItem key={slideShow.name}>
+          <WrapItem alignSelf="center" key={slideShow.name}>
             <VStack
               w="350px"
               gap={3}

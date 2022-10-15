@@ -37,7 +37,9 @@ export default function SlideShowTemplates() {
   return (
     <Container maxW="container.xl">
       <VStack gap={4} align="flex-start">
-        <Heading>Select a presentation template</Heading>
+        <Heading fontSize={{ base: '2xl', md: '4xl' }}>
+          Select a presentation template
+        </Heading>
         <Divider />
         <Tabs w="full" isFitted variant="solid-rounded" colorScheme="surface1">
           <TabList mb={5}>
@@ -48,7 +50,7 @@ export default function SlideShowTemplates() {
 
           <TabPanels>
             <TabPanel>
-              <Wrap spacing="30px">
+              <Wrap justify="space-between" spacing="30px">
                 <WrapItem>
                   <PreviewSlideShow
                     deckName="blank-slide"

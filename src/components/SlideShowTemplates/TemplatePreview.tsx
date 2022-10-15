@@ -129,6 +129,9 @@ const SlideShow = ({ slides, deckName }: SlideShowProps) => {
         progress: isFullscreen ? true : false,
         controls: isFullscreen ? true : false,
       })
+      if (!isFullscreen) {
+        deck.slide(0)
+      }
     }
   }, [isFullscreen, deck])
 

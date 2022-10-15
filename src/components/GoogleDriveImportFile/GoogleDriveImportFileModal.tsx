@@ -47,7 +47,7 @@ export default function GoogleDriveImportFileModal({
           'https://www.googleapis.com/drive/v3/files',
           {
             params: {
-              q: `mimeType='md'`,
+              q: `mimeType='text/markdown'`,
             },
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -55,7 +55,6 @@ export default function GoogleDriveImportFileModal({
           }
         )
         setFiles(res.data.files)
-        console.log(res)
       } catch (error) {
         console.log(error)
       }
@@ -97,6 +96,8 @@ export default function GoogleDriveImportFileModal({
                           render: () => <LoadingToast label="Loading File" />,
                         })
 
+                        onClose()
+
                         try {
                           const res = await axios.get(
                             `https://www.googleapis.com/drive/v3/files/${file.id}`,
@@ -110,11 +111,9 @@ export default function GoogleDriveImportFileModal({
                             }
                           )
 
-                          console.log(res)
-
                           loadSlideshow(
                             user,
-                            { data: new Blob(res.data) },
+                            { data: new Blob([res.data]) },
                             setSlides
                           )
                         } catch (error) {
