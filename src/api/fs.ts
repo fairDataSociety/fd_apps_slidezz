@@ -8,7 +8,7 @@ interface Dir {
   access_time: string
 }
 
-interface File {
+export interface File {
   name: string
   content_type: string
   size: string

@@ -1,5 +1,7 @@
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+
 import theme from '../theme'
 
 import '@fontsource/source-sans-pro/200.css'
@@ -14,9 +16,13 @@ import '../styles/slide-themes.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <GoogleOAuthProvider
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID!}
+    >
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </GoogleOAuthProvider>
   )
 }
 
