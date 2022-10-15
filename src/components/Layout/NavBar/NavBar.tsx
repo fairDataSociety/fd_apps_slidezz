@@ -1,4 +1,10 @@
-import { HStack, Link, IconButton } from '@chakra-ui/react'
+import {
+  HStack,
+  Link,
+  IconButton,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import ThemeToggleButton from './ThemeToggleButton'
 import { IoLogoGithub } from 'react-icons/io5'
 import { ArrowBackIcon } from '@chakra-ui/icons'
@@ -8,7 +14,7 @@ import {
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
-} from '../../store'
+} from '../../../store'
 
 export default function NavBar() {
   const [slides, setSlides] = useAtom(slidesAtom)
@@ -37,18 +43,30 @@ export default function NavBar() {
         <ThemeToggleButton />
       </HStack>
 
-      {slides && (
-        <IconButton
-          onClick={() => {
-            setSlides(undefined)
-            setDeck(undefined)
-            setSlidesLogo(undefined)
-            setMoveableTarget(undefined)
-          }}
-          aria-label="back"
-          icon={<ArrowBackIcon />}
-        />
-      )}
+      <HStack gap={2}>
+        {slides && (
+          <IconButton
+            onClick={() => {
+              setSlides(undefined)
+              setDeck(undefined)
+              setSlidesLogo(undefined)
+              setMoveableTarget(undefined)
+            }}
+            aria-label="back"
+            icon={<ArrowBackIcon />}
+          />
+        )}
+
+        <Text fontSize="2xl" fontWeight="bold">
+          Slide
+          <Text
+            as="span"
+            color={useColorModeValue('latte-rosewater', 'frappe-rosewater')}
+          >
+            zz
+          </Text>
+        </Text>
+      </HStack>
     </HStack>
   )
 }

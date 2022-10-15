@@ -15,8 +15,8 @@ import {
 import { Formik, FormikErrors, Field } from 'formik'
 import { useAtom } from 'jotai'
 import { userAtom } from '../../store'
-import NavBar from '../NavBar/NavBar'
 import { login } from '../../api/user'
+import Layout from '../Layout/Layout'
 
 interface LoginFormValues {
   username: string
@@ -34,8 +34,7 @@ export default function Login() {
   const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
 
   return (
-    <>
-      <NavBar />
+    <Layout>
       <Formik
         validateOnMount
         onSubmit={async (values) => {
@@ -133,6 +132,6 @@ export default function Login() {
           </Box>
         )}
       </Formik>
-    </>
+    </Layout>
   )
 }

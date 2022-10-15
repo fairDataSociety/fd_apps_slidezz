@@ -7,6 +7,7 @@
 // import SideBar from '../components/SideBar/SideBar'
 // import { useRouter } from 'next/router'
 // import NavBar from '../components/NavBar/NavBar'
+// import Layout from "../components/Layout/Layout"
 
 const SharedSlideshowPage = () => {
   return <></>
@@ -111,8 +112,7 @@ export default SharedSlideshowPage
 //   if (isEmbed) return <EmbedSlideShow slides={slides} />
 
 //   return (
-//     <>
-//       <NavBar />
+//     <Layout>
 //       <HStack h="80vh">
 //         <SideBar isSlidesReadOnly={true} />
 //         <Center h="full" w="full">
@@ -124,7 +124,7 @@ export default SharedSlideshowPage
 //           </Box>
 //         </Center>
 //       </HStack>
-//     </>
+//     </Layout>
 //   )
 // }
 

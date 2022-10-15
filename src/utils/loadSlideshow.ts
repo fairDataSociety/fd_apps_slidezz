@@ -4,7 +4,7 @@ import { File, LogoImageFile, Slides, User } from '../types'
 
 export async function loadSlideshow(
   user: User,
-  file: File | undefined,
+  file: { data: Blob } | undefined,
   setSlides: (slides: Slides) => void,
   setSlidesLogo?: (logoFile: LogoImageFile) => void
 ) {
