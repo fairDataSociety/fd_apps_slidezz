@@ -22,7 +22,7 @@ const HomePage: NextPage = () => {
   const [slides] = useAtom(slidesAtom)
   const [user] = useAtom(userAtom)
 
-  if (!user) return <Login />
+  // if (!user) return <Login />
 
   return (
     <Layout>

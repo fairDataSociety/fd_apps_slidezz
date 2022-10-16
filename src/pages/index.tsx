@@ -30,7 +30,8 @@ const Home: NextPage = () => {
         >
           <VStack pt={5} align="flex-start" gap={4}>
             <Heading fontSize={{ base: '4xl', md: '6xl' }}>
-              <AnimatedText>Make</AnimatedText>{' '}
+              <AnimatedText>Make</AnimatedText>
+              <br />
               <AnimatedText delay={0.7}>slideshows</AnimatedText>
             </Heading>
 

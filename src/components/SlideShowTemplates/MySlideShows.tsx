@@ -1,6 +1,5 @@
 import {
   VStack,
-  Box,
   useColorModeValue,
   Spinner,
   Center,

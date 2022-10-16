@@ -14,11 +14,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import { AiOutlineFileMarkdown } from 'react-icons/ai'
-import { slidesAtom, userAtom } from '../../store'
-import { loadSlideshow } from '../../utils'
+import { AiOutlineFile } from 'react-icons/ai'
 import ItemBox from '../ImportFile/ItemBox'
 import LoadingToast from '../Toast/LoadingToast'
 
@@ -26,18 +23,22 @@ interface GoogleDriveImportFileModalProps {
   isOpen: boolean
   onClose: () => void
   accessToken: string
+  mimeType?: string
+  callback: (data: any) => void
+  downloadFile?: boolean
 }
 
 export default function GoogleDriveImportFileModal({
   isOpen,
   onClose,
   accessToken,
+  mimeType,
+  callback,
+  downloadFile,
 }: GoogleDriveImportFileModalProps) {
   const toast = useToast()
   const [files, setFiles] = useState<{ id: string; name: string }[]>()
   const [isLoading, setIsLoading] = useState(false)
-  const [user] = useAtom(userAtom)
-  const [slides, setSlides] = useAtom(slidesAtom)
 
   useEffect(() => {
     ;(async () => {
@@ -46,9 +47,11 @@ export default function GoogleDriveImportFileModal({
         const res = await axios.get(
           'https://www.googleapis.com/drive/v3/files',
           {
-            params: {
-              q: `mimeType='text/markdown'`,
-            },
+            params: mimeType
+              ? {
+                  q: `mimeType='${mimeType}'`,
+                }
+              : undefined,
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -81,16 +84,14 @@ export default function GoogleDriveImportFileModal({
               </Center>
             ) : files ? (
               <VStack gap={2} align="stretch">
-                {files.length === 0 && <Text>No Markdown file found.</Text>}
+                {files.length === 0 && <Text>No {mimeType} file found.</Text>}
                 {files.map((file) => {
                   return (
                     <ItemBox
                       key={file.id}
                       text={file.name}
-                      icon={AiOutlineFileMarkdown}
+                      icon={AiOutlineFile}
                       onClick={async () => {
-                        if (!user) return
-
                         toast({
                           duration: null,
                           render: () => <LoadingToast label="Loading File" />,
@@ -103,7 +104,7 @@ export default function GoogleDriveImportFileModal({
                             `https://www.googleapis.com/drive/v3/files/${file.id}`,
                             {
                               params: {
-                                alt: 'media',
+                                alt: downloadFile ? 'media' : undefined,
                               },
                               headers: {
                                 Authorization: `Bearer ${accessToken}`,
@@ -111,11 +112,7 @@ export default function GoogleDriveImportFileModal({
                             }
                           )
 
-                          loadSlideshow(
-                            user,
-                            { data: new Blob([res.data]) },
-                            setSlides
-                          )
+                          callback(res.data)
                         } catch (error) {
                           console.log(error)
                         }

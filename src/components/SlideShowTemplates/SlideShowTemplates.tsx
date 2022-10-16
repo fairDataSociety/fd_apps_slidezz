@@ -8,24 +8,22 @@ import {
   TabPanels,
   Tab,
   TabPanel,
-  Center,
-  Spinner,
   Wrap,
   WrapItem,
-  Box,
-  HStack,
-  Text,
-  useColorModeValue,
+  Center,
 } from '@chakra-ui/react'
 import FairdriveIcon from '../Icons/FairdriveIcon'
-
 import dynamic from 'next/dynamic'
 import ImportFile from '../ImportFile/ImportFile'
 import MySlideShows from './MySlideShows'
 import { File } from '../../types'
 import { useAtom } from 'jotai'
-import { slidesAtom } from '../../store'
+import { slidesAtom, userAtom } from '../../store'
 import GoogleDriveImportFile from '../GoogleDriveImportFile/GoogleDriveImportFile'
+import GoogleSlidesImport from '../GoogleSlidesImport/GoogleSlidesImport'
+import GoogledriveIcon from '../Icons/GoogledriveIcon'
+import { loadSlideshow } from '../../utils'
+import ImportFileCard from '../Card/ImportFileCard'
 
 const PreviewSlideShow = dynamic(() => import('./TemplatePreview'), {
   ssr: false,
@@ -33,6 +31,7 @@ const PreviewSlideShow = dynamic(() => import('./TemplatePreview'), {
 
 export default function SlideShowTemplates() {
   const [slides, setSlides] = useAtom(slidesAtom)
+  const [user] = useAtom(userAtom)
 
   return (
     <Container maxW="container.xl">
@@ -46,6 +45,7 @@ export default function SlideShowTemplates() {
             <Tab>Templates</Tab>
             <Tab>My Slideshows</Tab>
             <Tab>Markdown</Tab>
+            <Tab>Google slides</Tab>
           </TabList>
 
           <TabPanels>
@@ -71,36 +71,32 @@ export default function SlideShowTemplates() {
                   }}
                   allowedExtensions={['md']}
                 >
-                  <HStack
-                    justify="space-between"
-                    w="md"
-                    cursor="pointer"
-                    gap={2}
-                    border="solid"
-                    borderWidth={1}
-                    p={6}
-                    rounded="lg"
-                    borderColor={useColorModeValue(
-                      'latte-overlay0',
-                      'frappe-overlay0'
-                    )}
-                    _hover={{
-                      boxShadow: 'lg',
-                    }}
-                  >
-                    <FairdriveIcon flex={1} />
-                    <Box flex={2}>
-                      <Text fontSize="lg" fontWeight="bold">
-                        Fairdrive
-                      </Text>
-                      <Text variant="subtext">
-                        Select a Markdown File from Fairdrive
-                      </Text>
-                    </Box>
-                  </HStack>
+                  <ImportFileCard
+                    title="Fairdrive"
+                    description="Select a Markdown File from Fairdrive"
+                    Icon={FairdriveIcon}
+                  />
                 </ImportFile>
-                <GoogleDriveImportFile />
+                <GoogleDriveImportFile
+                  mimeType="text/markdown"
+                  callback={(data) => {
+                    if (!user) return
+                    loadSlideshow(user, { data: new Blob([data]) }, setSlides)
+                  }}
+                  downloadFile={true}
+                >
+                  <ImportFileCard
+                    title="Google Drive"
+                    description="Select a Markdown File from Google Drive"
+                    Icon={GoogledriveIcon}
+                  />
+                </GoogleDriveImportFile>
               </VStack>
+            </TabPanel>
+            <TabPanel>
+              <Center>
+                <GoogleSlidesImport />
+              </Center>
             </TabPanel>
           </TabPanels>
         </Tabs>

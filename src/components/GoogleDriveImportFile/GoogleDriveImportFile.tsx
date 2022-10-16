@@ -1,16 +1,21 @@
-import {
-  Box,
-  HStack,
-  Text,
-  useColorModeValue,
-  useDisclosure,
-} from '@chakra-ui/react'
+import { Box, useDisclosure } from '@chakra-ui/react'
 import { useGoogleLogin } from '@react-oauth/google'
 import { useState } from 'react'
-import GoogledriveIcon from '../Icons/GoogledriveIcon'
 import GoogleDriveImportFileModal from './GoogleDriveImportFileModal'
 
-export default function GoogleDriveImportFile() {
+interface GoogleDriveImportFileProps {
+  children: React.ReactNode
+  mimeType?: string
+  callback: (data: any) => void
+  downloadFile?: boolean
+}
+
+export default function GoogleDriveImportFile({
+  children,
+  mimeType,
+  callback,
+  downloadFile,
+}: GoogleDriveImportFileProps) {
   const [accessToken, setAccessToken] = useState<string>()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const googleDriveLogin = useGoogleLogin({
@@ -24,36 +29,16 @@ export default function GoogleDriveImportFile() {
 
   return (
     <>
-      <HStack
-        onClick={() => googleDriveLogin()}
-        justify="space-between"
-        w="md"
-        cursor="pointer"
-        gap={2}
-        border="solid"
-        borderWidth={1}
-        p={6}
-        rounded="lg"
-        borderColor={useColorModeValue('latte-overlay0', 'frappe-overlay0')}
-        _hover={{
-          boxShadow: 'lg',
-        }}
-      >
-        <GoogledriveIcon flex={1} />
-        <Box flex={2}>
-          <Text fontSize="lg" fontWeight="bold">
-            Google Drive
-          </Text>
-          <Text variant="subtext">
-            Select a Markdown File from Google Drive
-          </Text>
-        </Box>
-      </HStack>
+      <Box onClick={() => googleDriveLogin()}>{children}</Box>
+
       {accessToken && (
         <GoogleDriveImportFileModal
           isOpen={isOpen}
           onClose={onClose}
           accessToken={accessToken}
+          mimeType={mimeType}
+          callback={callback}
+          downloadFile={downloadFile}
         />
       )}
     </>
