@@ -1,10 +1,10 @@
-import BlankSlide from './components/SlideSideBar/Templates/BlankSlide'
-import ImageTitleSlide from './components/SlideSideBar/Templates/ImageTitleSlide'
-import TitleImageSlide from './components/SlideSideBar/Templates/TitleImageSlide'
-import TitleSlide from './components/SlideSideBar/Templates/TitleSlide'
-import TitleSubtitleSlide from './components/SlideSideBar/Templates/TitleSubtitleSlide'
-import TwoColumnImageSlide from './components/SlideSideBar/Templates/TwoColumnImageSlide'
-import TwoColumnSlide from './components/SlideSideBar/Templates/TwoColumnSlide'
+import BlankSlide from './components/Editor/SlideSidebar/SlideTemplates/BlankSlide'
+import ImageTitleSlide from './components/Editor/SlideSidebar/SlideTemplates/ImageTitleSlide'
+import TitleImageSlide from './components/Editor/SlideSidebar/SlideTemplates/TitleImageSlide'
+import TitleSlide from './components/Editor/SlideSidebar/SlideTemplates/TitleSlide'
+import TitleSubtitleSlide from './components/Editor/SlideSidebar/SlideTemplates/TitleSubtitleSlide'
+import TwoColumnImageSlide from './components/Editor/SlideSidebar/SlideTemplates/TwoColumnImageSlide'
+import TwoColumnSlide from './components/Editor/SlideSidebar/SlideTemplates/TwoColumnSlide'
 
 interface Template {
   name: string

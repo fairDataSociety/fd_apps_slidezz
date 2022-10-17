@@ -30,53 +30,57 @@ const LoginFormInitialValues: LoginFormValues = {
 
 export default function Login() {
   const toast = useToast()
-  const [user, setUser] = useAtom(userAtom)
+  const setUser = useAtom(userAtom)[1]
   const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
+
+  const handleLogin = async (values: LoginFormValues) => {
+    try {
+      await login({
+        user_name: values.username,
+        password: values.password,
+      })
+      toast.closeAll()
+      setUser({
+        username: values.username,
+        password: values.password,
+      })
+    } catch (error: any) {
+      console.log(error)
+      toast({
+        title: 'Login failed',
+        description: error.response.data.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
+  const handleValidation = (values: LoginFormValues) => {
+    const errors: FormikErrors<LoginFormValues> = {}
+
+    if (values.username === '') {
+      errors.username = 'username is required'
+    }
+
+    if (values.password === '') {
+      errors.password = 'password is required'
+    }
+
+    return errors
+  }
 
   return (
     <Layout>
       <Formik
         validateOnMount
-        onSubmit={async (values) => {
-          try {
-            await login({
-              user_name: values.username,
-              password: values.password,
-            })
-            toast.closeAll()
-            setUser({
-              username: values.username,
-              password: values.password,
-            })
-          } catch (error: any) {
-            console.log(error)
-            toast({
-              title: 'Login failed',
-              description: error.response.data.message,
-              status: 'error',
-              duration: 9000,
-              isClosable: true,
-            })
-          }
-        }}
-        validate={(values) => {
-          const errors: FormikErrors<LoginFormValues> = {}
-
-          if (values.username === '') {
-            errors.username = 'username is required'
-          }
-
-          if (values.password === '') {
-            errors.password = 'password is required'
-          }
-
-          return errors
-        }}
+        onSubmit={handleLogin}
+        validate={handleValidation}
         initialValues={LoginFormInitialValues}
       >
         {({ handleSubmit, isValid, isSubmitting, errors, touched }) => (
-          <Box>
-            <VStack pt={10} gap={5}>
+          <Box mt={10}>
+            <VStack gap={5}>
               <VStack gap={1}>
                 <Heading fontSize="5xl">Please login</Heading>
                 <Text variant="subtext">to your Fairdrive account</Text>

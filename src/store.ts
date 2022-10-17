@@ -81,3 +81,7 @@ export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
 // User
 
 export const userAtom = atom<User | undefined>(undefined)
+
+// Google Access token
+
+export const googleAccessTokenAtom = atom('')

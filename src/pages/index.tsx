@@ -26,7 +26,7 @@ const Home: NextPage = () => {
           direction={{ base: 'column', lg: 'row' }}
           align="flex-start"
           justify="center"
-          gap={5}
+          gap={8}
         >
           <VStack pt={5} align="flex-start" gap={4}>
             <Heading fontSize={{ base: '4xl', md: '6xl' }}>
@@ -40,35 +40,21 @@ const Home: NextPage = () => {
             </Text>
 
             <NextLink href="/slideshow">
-              <Button>Start presenting</Button>
+              <Button size={{ base: 'sm', sm: 'md' }}>Start presenting</Button>
             </NextLink>
           </VStack>
 
           <Box
-            w={{ base: 'full', md: '90%' }}
+            alignSelf="center"
+            w={{ base: '100%', sm: '80%', md: '90%' }}
             bg={useColorModeValue('latte-crust', 'frappe-crust')}
             rounded="md"
             boxShadow="lg"
           >
             <HStack p={2}>
-              <Box
-                w="0.5rem"
-                h="0.5rem"
-                rounded="full"
-                bg={useColorModeValue('latte-subtext0', 'frappe-subtext0')}
-              ></Box>
-              <Box
-                w="0.5rem"
-                h="0.5rem"
-                rounded="full"
-                bg={useColorModeValue('latte-subtext0', 'frappe-subtext0')}
-              ></Box>
-              <Box
-                w="0.5rem"
-                h="0.5rem"
-                rounded="full"
-                bg={useColorModeValue('latte-subtext0', 'frappe-subtext0')}
-              ></Box>
+              <Circle />
+              <Circle />
+              <Circle />
             </HStack>
 
             <Box w="full" px={2} py={2}>
@@ -121,6 +107,17 @@ const AnimatedText = ({
         background={useColorModeValue('latte-rosewater', 'frappe-rosewater')}
       />
     </Text>
+  )
+}
+
+const Circle = () => {
+  return (
+    <Box
+      w="0.5rem"
+      h="0.5rem"
+      rounded="full"
+      bg={useColorModeValue('latte-subtext0', 'frappe-subtext0')}
+    ></Box>
   )
 }
 

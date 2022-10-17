@@ -14,15 +14,16 @@ import {
   Text,
 } from '@chakra-ui/react'
 import axios from 'axios'
+import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
-import ItemBox from '../ImportFile/ItemBox'
+import { googleAccessTokenAtom } from '../../store'
+import ItemBox from '../FairDriveImportFile/ItemBox'
 import LoadingToast from '../Toast/LoadingToast'
 
 interface GoogleDriveImportFileModalProps {
   isOpen: boolean
   onClose: () => void
-  accessToken: string
   mimeType?: string
   callback: (data: any) => void
   downloadFile?: boolean
@@ -31,7 +32,6 @@ interface GoogleDriveImportFileModalProps {
 export default function GoogleDriveImportFileModal({
   isOpen,
   onClose,
-  accessToken,
   mimeType,
   callback,
   downloadFile,
@@ -39,6 +39,7 @@ export default function GoogleDriveImportFileModal({
   const toast = useToast()
   const [files, setFiles] = useState<{ id: string; name: string }[]>()
   const [isLoading, setIsLoading] = useState(false)
+  const [googleAccessToken] = useAtom(googleAccessTokenAtom)
 
   useEffect(() => {
     ;(async () => {
@@ -53,7 +54,7 @@ export default function GoogleDriveImportFileModal({
                 }
               : undefined,
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${googleAccessToken}`,
             },
           }
         )
@@ -63,7 +64,7 @@ export default function GoogleDriveImportFileModal({
       }
       setIsLoading(false)
     })()
-  }, [accessToken])
+  }, [googleAccessToken])
 
   return (
     <Modal
@@ -107,11 +108,10 @@ export default function GoogleDriveImportFileModal({
                                 alt: downloadFile ? 'media' : undefined,
                               },
                               headers: {
-                                Authorization: `Bearer ${accessToken}`,
+                                Authorization: `Bearer ${googleAccessToken}`,
                               },
                             }
                           )
-
                           callback(res.data)
                         } catch (error) {
                           console.log(error)
