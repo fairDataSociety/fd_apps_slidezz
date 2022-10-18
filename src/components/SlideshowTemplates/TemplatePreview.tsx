@@ -49,7 +49,7 @@ export default function TemplatePreview({
       position="relative"
     >
       <Box w="full" h="250px">
-        <SlideShow deckName={deckName} slides={slides} />
+        <Slideshow deckName={deckName} slides={slides} />
       </Box>
       <HStack justify="space-between" mt={2}>
         <Text fontWeight="bold">{title}</Text>
@@ -81,12 +81,12 @@ export default function TemplatePreview({
   )
 }
 
-interface SlideShowProps {
+interface SlideshowProps {
   slides: string
   deckName: string
 }
 
-const SlideShow = ({ slides, deckName }: SlideShowProps) => {
+const Slideshow = ({ slides, deckName }: SlideshowProps) => {
   const [deck, setDeck] = useState<any>()
   const slidesRef = useRef() as RefObject<HTMLDivElement>
   const [isFullscreen, setIsFullscreen] = useState(false)

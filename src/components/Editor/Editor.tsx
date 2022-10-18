@@ -4,7 +4,7 @@ import SideBar from './Sidebar/Sidebar'
 import { useAtom } from 'jotai'
 import { slidesAtom } from '../../store'
 
-const SlideShow = dynamic(() => import('./Slides'), {
+const Slides = dynamic(() => import('./Slides'), {
   ssr: false,
   loading: () => (
     <Center h="full">
@@ -26,7 +26,7 @@ export default function Editor() {
           w={{ base: '65%', md: '70%', lg: '60%' }}
           h={{ base: '30%', md: '50%', lg: '70%' }}
         >
-          <SlideShow key={slides.data} deckName="mainDeck" slides={slides} />
+          <Slides key={slides.data} deckName="mainDeck" slides={slides} />
         </Box>
       </Center>
     </HStack>

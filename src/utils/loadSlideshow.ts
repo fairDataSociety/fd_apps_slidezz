@@ -1,6 +1,6 @@
 import { downloadFile } from '../api/fs'
 import { openPod } from '../api/pod'
-import { File, LogoImageFile, Slides, User } from '../types'
+import { LogoImageFile, Slides, User } from '../types'
 
 export async function loadSlideshow(
   user: User,

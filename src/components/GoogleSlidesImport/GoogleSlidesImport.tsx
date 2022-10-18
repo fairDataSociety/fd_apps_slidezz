@@ -1,19 +1,21 @@
 import axios from 'axios'
 import { useAtom } from 'jotai'
-import { googleAccessTokenAtom } from '../../store'
+import { googleAccessTokenAtom, slidesAtom } from '../../store'
+import { parseGoogleSlides } from '../../utils/parseGoogleSlides'
 import ImportFileCard from '../Card/ImportFileCard'
 import GoogleDriveImportFile from '../GoogleDriveImportFile/GoogleDriveImportFile'
 import GoogleslidesIcon from '../Icons/GoolgeslidesIcon'
 
 export default function GoogleSlidesImport() {
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
+  const setSlides = useAtom(slidesAtom)[1]
 
   return (
     <GoogleDriveImportFile
       mimeType="application/vnd.google-apps.presentation"
       callback={(data: { id: string; name: string }) => {
         ;(async () => {
-          const res = await axios.get(
+          const { data: googleSlidesHTML } = await axios.get(
             `https://docs.google.com/presentation/d/${data.id}/export/html?id=${data.id}`,
             {
               headers: {
@@ -21,10 +23,20 @@ export default function GoogleSlidesImport() {
               },
             }
           )
+          const { data: googleSlidesJSON } = await axios.get(
+            `https://slides.googleapis.com/v1/presentations/${data.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${googleAccessToken}`,
+              },
+            }
+          )
+          const revealSlides = parseGoogleSlides(
+            googleSlidesHTML,
+            googleSlidesJSON
+          )
 
-          const html = res.data
-
-          console.log(html)
+          setSlides({ data: revealSlides })
         })()
       }}
     >

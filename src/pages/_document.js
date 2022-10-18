@@ -43,7 +43,6 @@ export default function Document() {
         }
     
         const detectedSiteType = detectSiteType();
-        console.log('Site info', detectedSiteType);
         window._detectedSiteType = detectedSiteType;
     
         const base = document.createElement('base');

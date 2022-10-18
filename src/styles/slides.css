@@ -719,3 +719,32 @@ body[data-theme='beige'] .reveal-viewport {
 .present * {
   pointer-events: auto !important;
 }
+
+/***
+  Google Slides
+***/
+
+.google-slide p {
+  width: 100% !important;
+  margin: 0 !important;
+  word-wrap: break-word !important;
+}
+
+.google-slide ul,
+.google-slide ol {
+  margin: 0 !important;
+}
+
+.google-slide .shape {
+  position: absolute !important;
+  word-wrap: break-word !important;
+  display: flex;
+}
+
+.google-slide .table {
+  position: absolute !important;
+}
+
+.google-slide .table td {
+  padding: 0 !important;
+}

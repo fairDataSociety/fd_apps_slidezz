@@ -12,7 +12,7 @@ import '@fontsource/source-sans-pro/700.css'
 
 import 'reveal.js/dist/reveal.css'
 import 'reveal.js/plugin/highlight/zenburn.css'
-import '../styles/slide-themes.css'
+import '../styles/slides.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

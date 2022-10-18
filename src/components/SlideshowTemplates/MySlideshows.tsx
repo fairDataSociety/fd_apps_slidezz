@@ -13,7 +13,7 @@ import {
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { downloadFile, getFilesAndDirs } from '../../api/fs'
-import { File } from '../../api/fs'
+import { File as FairOSFile } from '../../api/fs'
 import { openPod } from '../../api/pod'
 import { slidesAtom, userAtom } from '../../store'
 import { loadSlideshow } from '../../utils'
@@ -22,24 +22,33 @@ import { BiSlideshow } from 'react-icons/bi'
 
 export default function MySlideshows() {
   const toast = useToast()
-  const [mySlideShows, setMySlideShows] = useState<File[]>()
+  const [mySlideshows, setMySlideshows] = useState<FairOSFile[]>()
   const [user] = useAtom(userAtom)
-  const [slides, setSlides] = useAtom(slidesAtom)
+  const setSlides = useAtom(slidesAtom)[1]
   const borderColor = useColorModeValue('latte-overlay0', 'frappe-overlay0')
 
-  useEffect(() => {
-    ;(async () => {
-      await openPod(process.env.NEXT_PUBLIC_SLIDES_POD!, user!.password)
+  const handleSetMyslideshows = async () => {
+    if (!user) return
 
-      const mySlideShows = await getFilesAndDirs(
+    try {
+      await openPod(process.env.NEXT_PUBLIC_SLIDES_POD!, user.password)
+
+      const mySlideshows = await getFilesAndDirs(
         process.env.NEXT_PUBLIC_SLIDES_POD!,
         '/'
       )
-      setMySlideShows(mySlideShows.files)
-    })()
+      setMySlideshows(mySlideshows.files)
+    } catch (error) {
+      console.log(error)
+      setMySlideshows([])
+    }
+  }
+
+  useEffect(() => {
+    handleSetMyslideshows()
   }, [])
 
-  if (!mySlideShows)
+  if (!mySlideshows)
     return (
       <Center>
         <Spinner />
@@ -48,9 +57,9 @@ export default function MySlideshows() {
 
   return (
     <Wrap justify="space-between" spacing="40px">
-      {mySlideShows.map((slideShow) => {
+      {mySlideshows.map((slideshow) => {
         return (
-          <WrapItem alignSelf="center" key={slideShow.name}>
+          <WrapItem alignSelf="center" key={slideshow.name}>
             <VStack
               w="350px"
               gap={3}
@@ -71,16 +80,15 @@ export default function MySlideshows() {
                     duration: null,
                     render: () => <LoadingToast label="Loading File" />,
                   })
-
-                  const slideShowData = await downloadFile({
+                  const slideshowFile = await downloadFile({
                     pod_name: process.env.NEXT_PUBLIC_SLIDES_POD!,
-                    file_path: `/${slideShow.name}`,
+                    file_path: `/${slideshow.name}`,
                   })
-
-                  await loadSlideshow(user!, { data: slideShowData }, setSlides)
-                } catch (err) {
-                  console.log(err)
+                  await loadSlideshow(user, { data: slideshowFile }, setSlides)
+                } catch (error) {
+                  console.log(error)
                 }
+
                 toast.closeAll()
               }}
             >
@@ -89,7 +97,7 @@ export default function MySlideshows() {
               <Divider />
 
               <Text alignSelf="flex-start" pl={2}>
-                {slideShow.name}
+                {slideshow.name}
               </Text>
             </VStack>
           </WrapItem>
