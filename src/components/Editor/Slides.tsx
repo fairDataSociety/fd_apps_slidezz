@@ -107,8 +107,8 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       plugins: [Markdown, RevealHighlight],
       ...slideShowSettings,
       center: false,
-      width: 1920,
-      height: 1080,
+      width: slides.width || 960,
+      height: slides.height || 700,
     })
     newDeck.initialize().then(() => {
       setDeck(newDeck)

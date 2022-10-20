@@ -31,6 +31,8 @@ export interface LogoImageFile {
 
 export interface Slides {
   data: string
+  height?: number
+  width?: number
   name?: string
   sharedRef?: string
 }

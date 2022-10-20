@@ -613,7 +613,7 @@ body[data-theme='beige'] .reveal-viewport {
 
 .reveal .sample-image-container {
   width: 100%;
-  height: 500px;
+  height: 85%;
 }
 
 .reveal .fair-text {
@@ -739,6 +739,7 @@ body[data-theme='beige'] .reveal-viewport {
   position: absolute !important;
   word-wrap: break-word !important;
   display: flex;
+  flex-direction: column;
 }
 
 .google-slide .table {

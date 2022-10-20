@@ -31,12 +31,16 @@ export default function GoogleSlidesImport() {
               },
             }
           )
-          const revealSlides = parseGoogleSlides(
+          const { revealSlides, slidesHeight, slidesWidth } = parseGoogleSlides(
             googleSlidesHTML,
             googleSlidesJSON
           )
 
-          setSlides({ data: revealSlides })
+          setSlides({
+            data: revealSlides,
+            height: slidesHeight,
+            width: slidesWidth,
+          })
         })()
       }}
     >
