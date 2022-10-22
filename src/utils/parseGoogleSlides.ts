@@ -1,33 +1,60 @@
 interface GoogleSlidesPageElement {
   objectId: string
-  shape: {
+  shape?: {
     shapeType: string
     shapeProperties: {
       contentAlignment?: string
     }
-    text?: object
-    placeholder: {
+    text?: {
+      textElements: {
+        paragraphMarker?: {
+          style: GoogleSlidesTextStyle
+        }
+      }[]
+    }
+    placeholder?: {
       parentObjectId: string
     }
+  }
+  elementGroup?: {
+    children: GoogleSlidesPageElement[]
+  }
+}
+
+interface GoogleSlidesTextStyle {
+  lineSpacing?: number
+  spaceAbove?: {
+    magnitude?: number
+    unit: 'PT'
+  }
+  spaceBelow?: {
+    magnitude?: number
+    unit: 'PT'
+  }
+}
+
+interface GoogleSlidesLayout {
+  objectId: string
+  pageElements: GoogleSlidesPageElement[]
+}
+
+interface GoogleSlidesMaster {
+  objectId: string
+  pageElements: GoogleSlidesPageElement[]
+}
+
+interface GoogleSlidesSlide {
+  pageElements: GoogleSlidesPageElement[]
+  slideProperties: {
+    layoutObjectId: string
+    masterObjectId: string
   }
 }
 
 interface GoogleSlides {
-  slides: {
-    pageElements: GoogleSlidesPageElement[]
-    slideProperties: {
-      layoutObjectId: string
-      masterObjectId: string
-    }
-  }[]
-  layouts: {
-    objectId: string
-    pageElements: GoogleSlidesPageElement[]
-  }[]
-  masters: {
-    objectId: string
-    pageElements: GoogleSlidesPageElement[]
-  }[]
+  slides: GoogleSlidesSlide[]
+  layouts: GoogleSlidesLayout[]
+  masters: GoogleSlidesMaster[]
 }
 
 export function parseGoogleSlides(
@@ -57,27 +84,6 @@ export function parseGoogleSlides(
   const slidesWidth = Number(firstSection.style.width.slice(0, -2))
 
   for (const [i, slide] of slides.entries()) {
-    const slideLayoutId =
-      googleSlidesJSON.slides[i].slideProperties.layoutObjectId
-    const slideMasterId =
-      googleSlidesJSON.slides[i].slideProperties.masterObjectId
-
-    const slideLayout = googleSlidesJSON.layouts.find(
-      (layout) => layout.objectId === slideLayoutId
-    )!
-
-    const slideMaster = googleSlidesJSON.masters.find(
-      (master) => master.objectId === slideMasterId
-    )!
-
-    // Get TEXT_BOX shapes inside slide
-    const textShapes = googleSlidesJSON.slides[i].pageElements.filter(
-      (pageElement) =>
-        pageElement.shape &&
-        pageElement.shape.shapeType === 'TEXT_BOX' &&
-        pageElement.shape.text
-    )
-
     const slideSection = slide.querySelector('section') as HTMLElement
     const revealSection = document.createElement('section')
 
@@ -93,72 +99,194 @@ export function parseGoogleSlides(
       slideSection.querySelectorAll('.shape')
     ) as HTMLElement[]
 
-    let textShapesIndex = 0
+    // Parse Slide texts
+    parseTexts(googleSlidesJSON, i, slideShapes)
 
-    for (const shape of slideShapes) {
-      let texts = Array.from(shape.querySelectorAll('p')) as HTMLElement[]
-      texts = texts.filter((text) => {
-        const isZeroWidthSpace = (str: string) => {
-          return str.charCodeAt(0) === 8203 && isNaN(str.charCodeAt(1))
-        }
-        if (isZeroWidthSpace(text.innerHTML)) {
-          const lineBreak = document.createElement('br')
-          text.replaceWith(lineBreak)
-          return false
-        }
-        return true
-      })
+    const slideTables = Array.from(slideSection.querySelectorAll('.table'))
 
-      // Set shape alignment If shape is a TEXT_BOX
-      if (texts.length > 0) {
-        let alignment =
-          textShapes[textShapesIndex].shape.shapeProperties.contentAlignment
+    slideShapes.forEach((shape) => revealSection.appendChild(shape))
+    slideTables.forEach((table) => revealSection.appendChild(table))
 
-        // Check out the layout
-        if (!alignment) {
-          const layoutObject = slideLayout.pageElements.find(
-            (pageElement) =>
-              textShapes[textShapesIndex].shape.placeholder.parentObjectId ===
-              pageElement.objectId
-          )
-          if (layoutObject) {
-            alignment = layoutObject.shape.shapeProperties.contentAlignment
-            if (!alignment) {
-              // Check out the master
-              const masterObject = slideMaster.pageElements.find(
-                (pageElement) =>
-                  layoutObject.shape.placeholder.parentObjectId ===
-                  pageElement.objectId
-              )
-              if (masterObject) {
-                alignment = masterObject.shape.shapeProperties.contentAlignment
-              }
-            }
+    revealSlides.content.appendChild(revealSection)
+  }
+
+  return { revealSlides: revealSlides.innerHTML, slidesHeight, slidesWidth }
+}
+
+function parseTexts(
+  googleSlidesJSON: GoogleSlides,
+  slideIndex: number,
+  slideShapes: HTMLElement[]
+) {
+  const slideLayoutId =
+    googleSlidesJSON.slides[slideIndex].slideProperties.layoutObjectId
+  const slideMasterId =
+    googleSlidesJSON.slides[slideIndex].slideProperties.masterObjectId
+
+  const slideLayout = googleSlidesJSON.layouts.find(
+    (layout) => layout.objectId === slideLayoutId
+  ) as GoogleSlidesLayout
+
+  const slideMaster = googleSlidesJSON.masters.find(
+    (master) => master.objectId === slideMasterId
+  ) as GoogleSlidesMaster
+
+  // Get TEXT_BOX shapes inside slide
+  const textShapes = googleSlidesJSON.slides[slideIndex].pageElements.reduce(
+    (textShapes, pageElement) => {
+      const findTextShapes = (pageElements: GoogleSlidesPageElement[]) => {
+        for (const pageElement of pageElements) {
+          if (
+            pageElement.shape &&
+            pageElement.shape.shapeType === 'TEXT_BOX' &&
+            pageElement.shape.text
+          ) {
+            textShapes.push(pageElement)
+          }
+
+          if (pageElement.elementGroup) {
+            findTextShapes(pageElement.elementGroup.children)
           }
         }
-
-        if (alignment) {
-          shape.style.justifyContent = alignment.includes('TOP')
-            ? 'flex-start'
-            : alignment.includes('BOTTOM')
-            ? 'flex-end'
-            : 'center'
-        }
-
-        textShapesIndex += 1
       }
-      // Change font-size type from 'pt' to 'px'
+
+      findTextShapes([pageElement])
+      return textShapes
+    },
+    [] as GoogleSlidesPageElement[]
+  )
+
+  let textShapesIndex = 0
+
+  for (const shape of slideShapes) {
+    let texts = Array.from(shape.querySelectorAll('p,ul')) as HTMLElement[]
+    texts = texts.filter((text) => {
+      const isZeroWidthSpace = (str: string) => {
+        return str.charCodeAt(0) === 8203 && isNaN(str.charCodeAt(1))
+      }
+      if (isZeroWidthSpace(text.innerHTML)) {
+        const lineBreak = document.createElement('br')
+        text.replaceWith(lineBreak)
+        return false
+      }
+      return true
+    })
+
+    if (texts.length === 0) continue
+
+    const shapeObject = textShapes[textShapesIndex]
+
+    const layoutObject = slideLayout.pageElements.find(
+      (pageElement) =>
+        textShapes[textShapesIndex].shape?.placeholder?.parentObjectId ===
+        pageElement.objectId
+    )
+
+    const masterObject = slideMaster.pageElements.find(
+      (pageElement) =>
+        layoutObject?.shape?.placeholder?.parentObjectId ===
+        pageElement.objectId
+    )
+
+    /////////// Set Alignment
+
+    const alignment =
+      shapeObject.shape?.shapeProperties.contentAlignment ||
+      layoutObject?.shape?.shapeProperties.contentAlignment ||
+      masterObject?.shape?.shapeProperties.contentAlignment
+
+    if (alignment) {
+      shape.style.justifyContent = alignment.includes('TOP')
+        ? 'flex-start'
+        : alignment.includes('BOTTOM')
+        ? 'flex-end'
+        : 'center'
+    }
+
+    // Change font-size type from 'pt' to 'px'
+    const ptToPx = (texts: HTMLElement[]) => {
+      if (texts.length === 0) return
       for (const text of texts) {
         if (text.style.fontSize && text.style.fontSize.endsWith('pt')) {
           text.style.fontSize = `${
             (Number(text.style.fontSize.slice(0, -2)) * 4) / 3
           }px`
         }
+        ptToPx(Array.from(text.querySelectorAll('span,li')))
       }
-      revealSection.appendChild(shape)
     }
-    revealSlides.content.appendChild(revealSection)
-  }
+    ptToPx(texts)
 
-  return { revealSlides: revealSlides.innerHTML, slidesHeight, slidesWidth }
+    /////////// Set Line Height
+    const paragraphsStyles = shapeObject.shape?.text!.textElements.reduce(
+      (paragraphsStyles, textElement) => {
+        if (textElement.paragraphMarker)
+          paragraphsStyles.push(textElement.paragraphMarker.style)
+
+        return paragraphsStyles
+      },
+      [] as GoogleSlidesTextStyle[]
+    )
+
+    let parentSpaceAbove: number | undefined
+    let parentSpaceBelow: number | undefined
+    let parentLineSpacing: number | undefined
+
+    let textElements =
+      layoutObject && layoutObject.shape
+        ? [...layoutObject.shape.text!.textElements]
+        : []
+
+    textElements =
+      masterObject && masterObject.shape
+        ? [...textElements, ...masterObject.shape.text!.textElements]
+        : textElements
+
+    // Set line height for the shape
+    for (const textElement of textElements) {
+      const spaceAbove = textElement.paragraphMarker?.style.spaceAbove
+      const spaceBelow = textElement.paragraphMarker?.style.spaceBelow
+
+      if (!parentLineSpacing)
+        parentLineSpacing = textElement.paragraphMarker?.style.lineSpacing
+
+      if (!parentSpaceAbove && spaceAbove)
+        parentSpaceAbove = spaceAbove.magnitude ? spaceAbove.magnitude : 0
+
+      if (!parentSpaceBelow && spaceBelow)
+        parentSpaceBelow = spaceBelow.magnitude ? spaceBelow?.magnitude : 0
+
+      if (parentLineSpacing && parentSpaceAbove && parentSpaceBelow) break
+    }
+
+    if (parentLineSpacing) {
+      shape.style.lineHeight = `${parentLineSpacing / 100}`
+    }
+
+    // Set line height for all paragraphs inside the shape
+    for (const [i, text] of texts.entries()) {
+      const lineSpacing = paragraphsStyles && paragraphsStyles[i].lineSpacing
+      if (lineSpacing) text.style.lineHeight = `${lineSpacing / 100}`
+
+      const spaceBelow = paragraphsStyles && paragraphsStyles[i].spaceBelow
+      if (spaceBelow) {
+        text.style.paddingBottom = spaceBelow.magnitude
+          ? `${(spaceBelow.magnitude * 4) / 3}px`
+          : '0px'
+      } else if (parentSpaceBelow) {
+        text.style.paddingBottom = `${(parentSpaceBelow * 4) / 3}px`
+      }
+
+      const spaceAbove = paragraphsStyles && paragraphsStyles[i].spaceAbove
+      if (spaceAbove) {
+        text.style.paddingTop = spaceAbove.magnitude
+          ? `${(spaceAbove.magnitude * 4) / 3}px`
+          : '0px'
+      } else if (parentSpaceAbove) {
+        text.style.paddingTop = `${(parentSpaceAbove * 4) / 3}px`
+      }
+    }
+
+    textShapesIndex += 1
+  }
 }

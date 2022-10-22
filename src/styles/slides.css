@@ -749,3 +749,17 @@ body[data-theme='beige'] .reveal-viewport {
 .google-slide .table td {
   padding: 0 !important;
 }
+
+.google-slide a {
+  color: inherit !important;
+}
+
+.google-slide ul li {
+  list-style-position: inside;
+  text-indent: -2em;
+  padding-left: 3em;
+}
+
+.google-slide ul li::before {
+  padding-right: 1em;
+}
