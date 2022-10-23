@@ -18,9 +18,9 @@ import {
 
 export default function NavBar() {
   const [slides, setSlides] = useAtom(slidesAtom)
-  const [deck, setDeck] = useAtom(slidesDeckAtom)
-  const [slidesLogo, setSlidesLogo] = useAtom(slidesLogoAtom)
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const setDeck = useAtom(slidesDeckAtom)[1]
+  const setSlidesLogo = useAtom(slidesLogoAtom)[1]
+  const setMoveableTarget = useAtom(moveableTargetAtom)[1]
 
   return (
     <HStack

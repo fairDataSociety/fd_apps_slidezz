@@ -58,12 +58,9 @@ export default function SaveSlides() {
 
       if (slidesLogo) {
         const logoElement = document.createElement('div')
-        logoElement.style.display = 'none'
         logoElement.classList.add('logo-image')
-        logoElement.setAttribute('data-pod', slidesLogo.podName!)
-        logoElement.setAttribute('data-path', slidesLogo.fullPath!)
-
-        div.append(logoElement)
+        logoElement.setAttribute('data-base64', slidesLogo.data)
+        div.appendChild(logoElement)
       }
 
       const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!

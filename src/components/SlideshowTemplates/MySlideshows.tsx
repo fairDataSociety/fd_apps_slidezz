@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 import { downloadFile, getFilesAndDirs } from '../../api/fs'
 import { File as FairOSFile } from '../../api/fs'
 import { openPod } from '../../api/pod'
-import { slidesAtom, userAtom } from '../../store'
+import { slidesAtom, slidesLogoAtom, userAtom } from '../../store'
 import { loadSlideshow } from '../../utils'
 import LoadingToast from '../Toast/LoadingToast'
 import { BiSlideshow } from 'react-icons/bi'
@@ -25,6 +25,7 @@ export default function MySlideshows() {
   const [mySlideshows, setMySlideshows] = useState<FairOSFile[]>()
   const [user] = useAtom(userAtom)
   const setSlides = useAtom(slidesAtom)[1]
+  const setSlidesLogo = useAtom(slidesLogoAtom)[1]
   const borderColor = useColorModeValue('latte-overlay0', 'frappe-overlay0')
 
   const handleSetMyslideshows = async () => {
@@ -84,7 +85,11 @@ export default function MySlideshows() {
                     pod_name: process.env.NEXT_PUBLIC_SLIDES_POD!,
                     file_path: `/${slideshow.name}`,
                   })
-                  await loadSlideshow(user, { data: slideshowFile }, setSlides)
+                  await loadSlideshow(
+                    { data: slideshowFile },
+                    setSlides,
+                    setSlidesLogo
+                  )
                 } catch (error) {
                   console.log(error)
                 }

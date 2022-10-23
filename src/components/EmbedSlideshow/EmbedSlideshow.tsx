@@ -62,7 +62,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}
             w={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}
             objectFit="cover"
-            src={URL.createObjectURL(slidesLogo.data)}
+            src={slidesLogo.data}
           />
         )}
       </Box>

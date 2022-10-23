@@ -81,7 +81,7 @@ export default function SlideshowTemplates() {
                   mimeType="text/markdown"
                   callback={(data) => {
                     if (!user) return
-                    loadSlideshow(user, { data: new Blob([data]) }, setSlides)
+                    loadSlideshow({ data: new Blob([data]) }, setSlides)
                   }}
                   downloadFile={true}
                 >

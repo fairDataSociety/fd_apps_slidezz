@@ -23,12 +23,6 @@ export interface File {
   data: Blob
 }
 
-export interface LogoImageFile {
-  podName?: string
-  fullPath?: string
-  data: Blob
-}
-
 export interface Slides {
   data: string
   height?: number

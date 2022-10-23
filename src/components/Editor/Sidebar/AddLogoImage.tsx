@@ -3,17 +3,16 @@ import { BsImageAlt } from 'react-icons/bs'
 import SideBarItem from './SidebarItem'
 import { useAtom } from 'jotai'
 import { slidesLogoAtom } from '../../../store'
+import blobToBase64 from '../../../utils/blobToBase64'
 
 export default function AddLogoImage() {
-  const [_, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const setSlidesLogo = useAtom(slidesLogoAtom)[1]
 
   return (
     <AddImage
-      handleAddImage={(image) =>
+      handleAddImage={async (image) =>
         setSlidesLogo({
-          data: image.data,
-          podName: image.podName,
-          fullPath: image.fullPath,
+          data: await blobToBase64(image.data),
         })
       }
     >
