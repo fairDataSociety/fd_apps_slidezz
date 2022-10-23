@@ -1,6 +1,7 @@
 import { File } from '../types'
+import blobToBase64 from './blobToBase64'
 
-export function addImageToCurrentSlide(
+export async function addImageToCurrentSlide(
   image: File,
   deck: any,
   setMoveableTarget: (target: HTMLElement | undefined) => void
@@ -12,10 +13,8 @@ export function addImageToCurrentSlide(
   imageContainer.classList.add('media-container')
 
   const imageElement = document.createElement('img')
-  imageElement.src = URL.createObjectURL(image.data)
+  imageElement.src = await blobToBase64(image.data)
   imageElement.alt = image.name
-  imageElement.setAttribute('data-pod', image.podName)
-  imageElement.setAttribute('data-path', image.fullPath)
   imageElement.classList.add('fair-data')
   imageContainer.style.cursor = 'pointer'
 

@@ -30,8 +30,8 @@ export default function SlideSidebar() {
       </AddText>
 
       <AddImage
-        handleAddImage={(image) =>
-          addImageToCurrentSlide(image, deck, setMoveableTarget)
+        handleAddImage={async (image) =>
+          await addImageToCurrentSlide(image, deck, setMoveableTarget)
         }
       >
         <SlideSideBarItem icon={BsFillImageFill} label="Image" />

@@ -70,21 +70,6 @@ export default SharedSlideshowPage
 //           element.contentEditable = 'false'
 //         })
 
-//         const fairDataElements = Array.from(div.querySelectorAll('.fair-data'))
-
-//         for (const fairDataElement of fairDataElements) {
-//           const shareRef = fairDataElement.getAttribute('data-shareref')!
-//           const data = await fdp.file.downloadShared(shareRef)
-//           if (fairDataElement.tagName.toLowerCase() === 'img') {
-//             //@ts-ignore
-//             fairDataElement.src = URL.createObjectURL(new Blob([data.buffer]))
-//           } else {
-//             // video element
-//             const sourceElement = fairDataElement.querySelector('source')!
-//             sourceElement.src = URL.createObjectURL(new Blob([data.buffer]))
-//           }
-//         }
-
 //         const logoImageElement = div.querySelector('.logo-image')
 //         if (logoImageElement && setSlidesLogo) {
 //           const shareRef = logoImageElement.getAttribute('data-shareref')!

@@ -2,6 +2,7 @@ import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { moveableTargetAtom, replaceImageElementAtom } from '../../store'
 import { File } from '../../types'
+import blobToBase64 from '../../utils/blobToBase64'
 import AddImageModal from './SlideSidebar/AddImage/AddImageModal'
 
 export function ReplaceImage() {
@@ -11,14 +12,11 @@ export function ReplaceImage() {
     replaceImageElementAtom
   )
 
-  const handleReplaceImage = (image: File) => {
+  const handleReplaceImage = async (image: File) => {
     if (!replaceImageElement) return
 
-    replaceImageElement.src = URL.createObjectURL(image.data)
+    replaceImageElement.src = await blobToBase64(image.data)
     replaceImageElement.alt = image.name
-
-    replaceImageElement.setAttribute('data-pod', image.podName)
-    replaceImageElement.setAttribute('data-path', image.fullPath)
     replaceImageElement.classList.add('fair-data')
 
     setReplaceImageElement(undefined)

@@ -10,7 +10,7 @@ const SlideShow: NextPage = () => {
   const [user] = useAtom(userAtom)
   const [slides] = useAtom(slidesAtom)
 
-  // if (!user) return <Login />
+  if (!user) return <Login />
 
   return <Layout>{slides ? <Editor /> : <SlideshowTemplates />}</Layout>
 }

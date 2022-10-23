@@ -13,25 +13,6 @@ export async function loadSlideshow(
   const template = document.createElement('template')
   template.innerHTML = await file.data.text()
 
-  const fairData = Array.from(template.content.querySelectorAll('.fair-data'))
-
-  for await (const element of fairData) {
-    const podName = element.getAttribute('data-pod')
-    const path = element.getAttribute('data-path')
-
-    if (podName && path) {
-      try {
-        await openPod(podName, user.password)
-
-        const data = await downloadFile({ pod_name: podName, file_path: path })
-        //@ts-ignore
-        element.src = URL.createObjectURL(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
   const logoImageElement = template.content.querySelector('.logo-image')
 
   if (logoImageElement && setSlidesLogo) {

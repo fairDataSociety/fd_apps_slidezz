@@ -25,6 +25,7 @@ import { PlusSquareIcon } from '@chakra-ui/icons'
 import AddYouTubeEmbedVideo from './AddYouTubeEmbedVideo'
 import ItemBox from '../../../FairDriveImportFile/ItemBox'
 import SlideSideBarItem from '../SlideSidebarItem'
+import blobToBase64 from '../../../../utils/blobToBase64'
 
 export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,7 +34,7 @@ export default function AddVideo() {
   const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
   const [deck] = useAtom(slidesDeckAtom)
 
-  const addVideoToCurrentSlide = (video: File) => {
+  const addVideoToCurrentSlide = async (video: File) => {
     const currentSlideIndex = deck.getState().indexh
     const slide = deck.getSlides()[currentSlideIndex]
 
@@ -45,12 +46,10 @@ export default function AddVideo() {
 
     videoElement.controls = true
 
-    soruceElement.src = URL.createObjectURL(video.data)
+    soruceElement.src = await blobToBase64(video.data)
 
     videoElement.appendChild(soruceElement)
 
-    videoElement.setAttribute('data-pod', video.podName)
-    videoElement.setAttribute('data-path', video.fullPath)
     videoElement.classList.add('fair-data')
 
     videoContainer.style.cursor = 'pointer'
