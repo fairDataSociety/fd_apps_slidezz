@@ -11,10 +11,10 @@ import { join, extname } from 'path'
 import { AiFillFolder, AiOutlineFile } from 'react-icons/ai'
 import ItemBox from './ItemBox'
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import { getFilesAndDirs, GetFilesResponse } from '../../api/fs'
 import { useAtom } from 'jotai'
-import { userAtom } from '../../store'
-import { openPod } from '../../api/pod'
+import { fdpAtom, userAtom } from '../../store'
+import { openPod } from '../../api/fairos/pod'
+import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
 
 interface SelectPathProps {
   pod: string
@@ -30,16 +30,20 @@ export default function SelectPath({
   const [tmpPath, setTmpPath] = useState('/')
   const [user] = useAtom(userAtom)
   const [isLoading, setIsLoading] = useState(false)
-  const [items, setItems] = useState<GetFilesResponse>()
+  const [items, setItems] = useState<DirectoryItem>()
+  const [fdp] = useAtom(fdpAtom)
   const [isPodOpen, setIsPodOpen] = useState(false)
 
   useEffect(() => {
-    if (user) {
+    if (user && !fdp) {
       openPod(pod, user.password).finally(() => {
         setIsPodOpen(true)
       })
     }
-  }, [user])
+    if (fdp) {
+      setIsPodOpen(true)
+    }
+  }, [user, fdp])
 
   const isItemsAvailable =
     items &&
@@ -51,7 +55,7 @@ export default function SelectPath({
     setIsLoading(true)
 
     if (isPodOpen) {
-      getFilesAndDirs(pod, tmpPath)
+      fairDriveLs(pod, tmpPath, fdp)
         .then((items) => {
           if (!canceled) setItems(items)
         })

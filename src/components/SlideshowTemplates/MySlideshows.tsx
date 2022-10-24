@@ -12,18 +12,19 @@ import {
 } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import { downloadFile, getFilesAndDirs } from '../../api/fs'
-import { File as FairOSFile } from '../../api/fs'
-import { openPod } from '../../api/pod'
-import { slidesAtom, slidesLogoAtom, userAtom } from '../../store'
+import { openPod } from '../../api/fairos/pod'
+import { fdpAtom, slidesAtom, slidesLogoAtom, userAtom } from '../../store'
 import { loadSlideshow } from '../../utils'
 import LoadingToast from '../Toast/LoadingToast'
 import { BiSlideshow } from 'react-icons/bi'
+import { fairDriveDownloadFile } from '../../utils/fairdrive'
+import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
 
 export default function MySlideshows() {
   const toast = useToast()
-  const [mySlideshows, setMySlideshows] = useState<FairOSFile[]>()
+  const [mySlideshows, setMySlideshows] = useState<DirectoryItem['files']>()
   const [user] = useAtom(userAtom)
+  const [fdp] = useAtom(fdpAtom)
   const setSlides = useAtom(slidesAtom)[1]
   const setSlidesLogo = useAtom(slidesLogoAtom)[1]
   const borderColor = useColorModeValue('latte-overlay0', 'frappe-overlay0')
@@ -32,11 +33,14 @@ export default function MySlideshows() {
     if (!user) return
 
     try {
-      await openPod(process.env.NEXT_PUBLIC_SLIDES_POD!, user.password)
+      if (!fdp) {
+        await openPod(process.env.NEXT_PUBLIC_SLIDES_POD!, user.password)
+      }
 
-      const mySlideshows = await getFilesAndDirs(
+      const mySlideshows = await fairDriveLs(
         process.env.NEXT_PUBLIC_SLIDES_POD!,
-        '/'
+        '/',
+        fdp
       )
       setMySlideshows(mySlideshows.files)
     } catch (error) {
@@ -81,10 +85,12 @@ export default function MySlideshows() {
                     duration: null,
                     render: () => <LoadingToast label="Loading File" />,
                   })
-                  const slideshowFile = await downloadFile({
-                    pod_name: process.env.NEXT_PUBLIC_SLIDES_POD!,
-                    file_path: `/${slideshow.name}`,
-                  })
+
+                  const slideshowFile = await fairDriveDownloadFile(
+                    process.env.NEXT_PUBLIC_SLIDES_POD!,
+                    `/${slideshow.name}`,
+                    fdp
+                  )
                   await loadSlideshow(
                     { data: slideshowFile },
                     setSlides,

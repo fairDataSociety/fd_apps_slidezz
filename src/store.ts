@@ -12,23 +12,25 @@ import { extname } from 'path'
 
 // FDP instance
 
-const fdp = new FdpStorage(
-  process.env.NEXT_PUBLIC_BEE_URL as string,
-  //@ts-ignore
-  process.env.NEXT_PUBLIC_BATCH_ID as string,
-  {
-    ensOptions: {
-      performChecks: true,
-      rpcUrl: process.env.NEXT_PUBLIC_RPC_URL as string,
-      contractAddresses: {
-        fdsRegistrar: process.env.NEXT_PUBLIC_FDS_REGISTRAR as string,
-        ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY as string,
-        publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER as string,
-      },
-    },
-    ensDomain: 'fds',
-  }
-)
+const fdp = !process.env.NEXT_PUBLIC_IS_FAIROS
+  ? new FdpStorage(
+      process.env.NEXT_PUBLIC_BEE_URL as string,
+      //@ts-ignore
+      process.env.NEXT_PUBLIC_BATCH_ID as string,
+      {
+        ensOptions: {
+          performChecks: true,
+          rpcUrl: process.env.NEXT_PUBLIC_RPC_URL as string,
+          contractAddresses: {
+            fdsRegistrar: process.env.NEXT_PUBLIC_FDS_REGISTRAR as string,
+            ensRegistry: process.env.NEXT_PUBLIC_ENS_REGISTRY as string,
+            publicResolver: process.env.NEXT_PUBLIC_PUBLIC_RESOLVER as string,
+          },
+        },
+        ensDomain: 'fds',
+      }
+    )
+  : undefined
 
 export const fdpAtom = atom(fdp)
 

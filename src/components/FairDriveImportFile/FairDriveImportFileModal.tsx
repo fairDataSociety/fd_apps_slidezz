@@ -20,7 +20,9 @@ import { AiOutlineInbox } from 'react-icons/ai'
 import { basename, extname } from 'path'
 import { File } from '../../types'
 import LoadingToast from '../Toast/LoadingToast'
-import { downloadFile } from '../../api/fs'
+import { fairDriveDownloadFile } from '../../utils/fairdrive'
+import { useAtom } from 'jotai'
+import { fdpAtom } from '../../store'
 
 interface FairDriveImportFileModalProps {
   isOpen: boolean
@@ -40,6 +42,7 @@ export default function FairDriveImportFileModal({
   const toast = useToast()
   const [pod, setPod] = useState<string | undefined>(initialPod)
   const [filePath, setFilePath] = useState<string>()
+  const [fdp] = useAtom(fdpAtom)
   const tooltipBg = useColorModeValue('latte-overlay1', 'frappe-overlay1')
 
   const handleModalClose = () => {
@@ -60,7 +63,7 @@ export default function FairDriveImportFileModal({
         render: () => <LoadingToast label="Loading File" />,
       })
 
-      downloadFile({ pod_name: pod, file_path: fullFilePath })
+      fairDriveDownloadFile(pod, fullFilePath, fdp)
         .then((data) => {
           setFile({
             podName: pod,

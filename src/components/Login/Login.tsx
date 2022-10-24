@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 import { Formik, FormikErrors, Field } from 'formik'
 import { useAtom } from 'jotai'
-import { userAtom } from '../../store'
-import { login } from '../../api/user'
+import { fdpAtom, userAtom } from '../../store'
+import { fairDriveLogin } from '../../utils/fairdrive'
 import Layout from '../Layout/Layout'
 
 interface LoginFormValues {
@@ -30,15 +30,13 @@ const LoginFormInitialValues: LoginFormValues = {
 
 export default function Login() {
   const toast = useToast()
+  const [fdp] = useAtom(fdpAtom)
   const setUser = useAtom(userAtom)[1]
   const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
 
   const handleLogin = async (values: LoginFormValues) => {
     try {
-      await login({
-        user_name: values.username,
-        password: values.password,
-      })
+      await fairDriveLogin(values.username, values.password, fdp)
       toast.closeAll()
       setUser({
         username: values.username,

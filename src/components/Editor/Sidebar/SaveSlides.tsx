@@ -22,13 +22,17 @@ import {
   slidesAtom,
   slidesLogoAtom,
   userAtom,
+  fdpAtom,
 } from '../../../store'
 import { FaSave } from 'react-icons/fa'
 import SideBarItem from './SidebarItem'
 import LoadingToast from '../../Toast/LoadingToast'
 import { getSlidesHTML } from '../../../utils'
-import { createPod, getPods, openPod } from '../../../api/pod'
-import { uploadFile } from '../../../api/fs'
+import { createPod, getPods, openPod } from '../../../api/fairos/pod'
+import {
+  fairDriveCreatePod,
+  fairDriveUploadFile,
+} from '../../../utils/fairdrive'
 
 export default function SaveSlides() {
   const [deck] = useAtom(slidesDeckAtom)
@@ -37,6 +41,7 @@ export default function SaveSlides() {
   const [user] = useAtom(userAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [fileName, setFileName] = useState('')
+  const [fdp] = useAtom(fdpAtom)
   const toast = useToast()
 
   const handleSaveSlides = async () => {
@@ -68,15 +73,21 @@ export default function SaveSlides() {
       const slidesPod = pods.pod_name.find((pod) => pod === slidesPodName)
 
       if (!slidesPod) {
-        await createPod(slidesPodName, user.password)
+        await fairDriveCreatePod(
+          {
+            podName: slidesPodName,
+            password: user.password,
+          },
+          fdp
+        )
       }
 
-      await openPod(slidesPodName, user.password)
+      if (!fdp) {
+        await openPod(slidesPodName, user.password)
+      }
 
-      const filePath = '/'
-      const file = new File([div.innerHTML], `${fileNameTmp}.html`)
-
-      await uploadFile({ pod_name: slidesPodName, dir_path: filePath, file })
+      const filePath = `/${fileNameTmp}.html`
+      await fairDriveUploadFile(slidesPodName, filePath, div.innerHTML)
 
       setSlides({
         ...slides,

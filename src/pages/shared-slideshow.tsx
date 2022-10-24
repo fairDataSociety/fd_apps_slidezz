@@ -40,7 +40,7 @@ const SharedSlideshowPage: NextPage = () => {
   const [isEmbed, setIsEmbed] = useState(false)
 
   useEffect(() => {
-    if (router.isReady) {
+    if (router.isReady && fdp) {
       ;(async () => {
         const slidesShareRef = router.query.ref as string
         const isEmbed = typeof router.query.embed === 'string'
@@ -75,7 +75,9 @@ const SharedSlideshowPage: NextPage = () => {
         setSlides(div.innerHTML)
       })()
     }
-  }, [router.isReady])
+  }, [router.isReady, fdp])
+
+  if (!fdp) return <p>only available on fdp-storage</p>
 
   if (!slides)
     return (
