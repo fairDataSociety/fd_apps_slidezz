@@ -59,6 +59,6 @@ For fdp-storage:
 
   For fair-os:
 
-- **NEXT_PUBLIC_IS_FAIROS** - Set only if you want to connect to fair-os
+- **NEXT_PUBLIC_IS_FAIROS** - Set only it if you want to connect to fair-os
 
 - **NEXT_PUBLIC_FAIROSHOST** - Fair-OS host

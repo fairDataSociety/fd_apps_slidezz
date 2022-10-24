@@ -24,16 +24,22 @@ export async function fairDriveLs(
   }
   const directoryItem = await getFilesAndDirs(pod, path)
 
+  console.log({ directoryItem })
+
   return {
-    dirs: directoryItem.dirs.map((dir) => {
-      return {
-        name: dir.name,
-      }
-    }),
-    files: directoryItem.files.map((file) => {
-      return {
-        name: file.name,
-      }
-    }),
+    dirs: directoryItem.dirs
+      ? directoryItem.dirs.map((dir) => {
+          return {
+            name: dir.name,
+          }
+        })
+      : [],
+    files: directoryItem.files
+      ? directoryItem.files.map((file) => {
+          return {
+            name: file.name,
+          }
+        })
+      : [],
   }
 }

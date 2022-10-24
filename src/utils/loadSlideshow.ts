@@ -20,7 +20,13 @@ export async function loadSlideshow(
     template.content.removeChild(logoImageElement)
   }
 
+  const firstSection = template.content.querySelector('section')
+  const width = firstSection?.getAttribute('data-width')
+  const height = firstSection?.getAttribute('data-height')
+
   setSlides({
     data: template.innerHTML,
+    width: width ? Number(width) : undefined,
+    height: height ? Number(height) : undefined,
   })
 }

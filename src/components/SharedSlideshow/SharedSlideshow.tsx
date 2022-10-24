@@ -82,6 +82,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
         {slidesLogo && (
           <Image
             alt="logo"
+            zIndex={100}
             position="absolute"
             {...LogoPositions[slideShowSettings.slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}

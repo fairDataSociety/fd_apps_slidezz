@@ -19,8 +19,8 @@ export interface File {
 }
 
 export interface GetFilesResponse {
-  dirs: Dir[]
-  files: File[]
+  dirs?: Dir[]
+  files?: File[]
 }
 
 interface DownloadFileData {

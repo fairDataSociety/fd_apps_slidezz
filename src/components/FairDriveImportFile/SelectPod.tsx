@@ -22,7 +22,7 @@ export default function SelectPod({ setPod }: SelectPodProps) {
       .catch((error: any) => {
         toast({
           title: 'Failed to load pods',
-          description: error.response.data.message,
+          description: error.message,
           status: 'error',
           duration: 9000,
           isClosable: true,

@@ -14,6 +14,10 @@ import {
   useColorModeValue,
   useDisclosure,
   VStack,
+  FormLabel,
+  Switch,
+  FormControl,
+  useBoolean,
 } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { useState } from 'react'
@@ -28,9 +32,10 @@ import { FaSave } from 'react-icons/fa'
 import SideBarItem from './SidebarItem'
 import LoadingToast from '../../Toast/LoadingToast'
 import { getSlidesHTML } from '../../../utils'
-import { createPod, getPods, openPod } from '../../../api/fairos/pod'
+import { openPod } from '../../../api/fairos/pod'
 import {
   fairDriveCreatePod,
+  fairDrivePods,
   fairDriveUploadFile,
 } from '../../../utils/fairdrive'
 
@@ -41,6 +46,7 @@ export default function SaveSlides() {
   const [user] = useAtom(userAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [fileName, setFileName] = useState('')
+  const [shareSlides, setShareSlides] = useBoolean(false)
   const [fdp] = useAtom(fdpAtom)
   const toast = useToast()
 
@@ -48,6 +54,7 @@ export default function SaveSlides() {
     if (!slides || !deck || !user) return
 
     const fileNameTmp = fileName
+    const shareSlidesTmp = shareSlides
 
     handleOnClose()
 
@@ -69,8 +76,8 @@ export default function SaveSlides() {
       }
 
       const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
-      const pods = await getPods()
-      const slidesPod = pods.pod_name.find((pod) => pod === slidesPodName)
+      const pods = await fairDrivePods()
+      const slidesPod = pods.find((pod) => pod === slidesPodName)
 
       if (!slidesPod) {
         await fairDriveCreatePod(
@@ -89,9 +96,15 @@ export default function SaveSlides() {
       const filePath = `/${fileNameTmp}.html`
       await fairDriveUploadFile(slidesPodName, filePath, div.innerHTML)
 
+      let slidesShareRef: string | undefined = undefined
+      if (shareSlidesTmp && fdp) {
+        slidesShareRef = await fdp.file.share(slidesPodName, filePath)
+      }
+
       setSlides({
         ...slides,
         name: fileNameTmp,
+        sharedRef: slidesShareRef,
       })
 
       toast.closeAll()
@@ -101,7 +114,7 @@ export default function SaveSlides() {
 
       toast({
         title: 'Failed to upload file',
-        description: error.response.data.message,
+        description: error.message,
         status: 'error',
         duration: 9000,
         isClosable: true,
@@ -135,6 +148,19 @@ export default function SaveSlides() {
                   .html
                 </InputRightAddon>
               </InputGroup>
+              {fdp && (
+                <FormControl display="flex" alignItems="center">
+                  <FormLabel htmlFor="share-slides" mb="0">
+                    Share slides?
+                  </FormLabel>
+                  <Switch
+                    colorScheme="surface1"
+                    isChecked={shareSlides}
+                    id="share-slides"
+                    onChange={setShareSlides.toggle}
+                  />
+                </FormControl>
+              )}
             </VStack>
           </ModalBody>
           <ModalFooter>

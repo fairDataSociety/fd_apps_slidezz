@@ -8,7 +8,8 @@ import {
 
 export function parseGoogleSlides(
   slidesImages: string[],
-  googleSlides: GoogleSlides
+  googleSlides: GoogleSlides,
+  pageSize: { width: number; height: number }
 ) {
   const revealSlides = document.createElement('template')
 
@@ -28,6 +29,9 @@ export function parseGoogleSlides(
         revealSection.append(video)
       }
     }
+
+    revealSection.setAttribute('data-width', String(pageSize.width))
+    revealSection.setAttribute('data-height', String(pageSize.height))
 
     revealSlides.content.appendChild(revealSection)
   }

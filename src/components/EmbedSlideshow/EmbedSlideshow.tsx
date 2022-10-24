@@ -57,6 +57,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
         {slidesLogo && (
           <Image
             alt="logo"
+            zIndex={100}
             position="absolute"
             {...LogoPositions[slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}

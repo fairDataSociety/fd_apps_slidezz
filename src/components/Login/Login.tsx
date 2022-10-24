@@ -46,7 +46,7 @@ export default function Login() {
       console.log(error)
       toast({
         title: 'Login failed',
-        description: error.response.data.message,
+        description: error.message,
         status: 'error',
         duration: 9000,
         isClosable: true,

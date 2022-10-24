@@ -78,7 +78,7 @@ export default function FairDriveImportFileModal({
 
           toast({
             title: 'Failed to load file',
-            description: error.response.data.message,
+            description: error.message,
             status: 'error',
             duration: 9000,
             isClosable: true,

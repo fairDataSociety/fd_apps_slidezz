@@ -51,7 +51,11 @@ export default function GoogleSlidesImport() {
             slideImages.push(slideImage)
           }
 
-          const revealSlides = parseGoogleSlides(slideImages, googleSlides)
+          const revealSlides = parseGoogleSlides(
+            slideImages,
+            googleSlides,
+            pageSize
+          )
 
           setSlides({
             data: revealSlides,
