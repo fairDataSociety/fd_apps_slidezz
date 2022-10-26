@@ -10,7 +10,10 @@ import {
   TabPanel,
   Wrap,
   WrapItem,
-  Center,
+  ListItem,
+  OrderedList,
+  Box,
+  Image,
 } from '@chakra-ui/react'
 import FairdriveIcon from '../Icons/FairdriveIcon'
 import dynamic from 'next/dynamic'
@@ -94,9 +97,25 @@ export default function SlideshowTemplates() {
               </VStack>
             </TabPanel>
             <TabPanel>
-              <Center>
+              <VStack gap={4}>
                 <GoogleSlidesImport />
-              </Center>
+                <Divider />
+                <Heading textAlign="center">
+                  High-resolution Google slides
+                </Heading>
+                <OrderedList spacing={2}>
+                  <ListItem>{`In your slides file, Go to menu option File > Page Setup`}</ListItem>
+                  <ListItem>{`In the popup box that appears, choose "custom" size from the dropdown`}</ListItem>
+                  <ListItem>{`Set the new size to larger than the current settings, making sure to preserve the aspect ratio (for example, this sets up a slide image with 16:9 aspect ratio but twice the width and height)`}</ListItem>
+                  <Box>
+                    <Image
+                      alt="page setup"
+                      src={`${window._detectedSiteType.basePath}/images/page-setup.png`}
+                    />
+                  </Box>
+                  <ListItem>{`Click "Apply"`}</ListItem>
+                </OrderedList>
+              </VStack>
             </TabPanel>
           </TabPanels>
         </Tabs>

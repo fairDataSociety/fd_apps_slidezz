@@ -2,6 +2,10 @@
 
 A slideshow dapp that connects to Fairdrive.
 
+Fair-OS version: https://slidezz.bzz.link
+
+FDP-Storage version: https://slidezz.link.dev.fairdatasociety.org
+
 **Slides separator: `---`**
 
 ## Installation
