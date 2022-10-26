@@ -1,0 +1,43 @@
+import { Box, useDisclosure } from '@chakra-ui/react'
+import { useGoogleLogin } from '@react-oauth/google'
+import { useAtom } from 'jotai'
+import { googleAccessTokenAtom } from '../../store'
+import GoogleDriveImportFileModal from './GoogleDriveImportFileModal'
+
+interface GoogleDriveImportFileProps {
+  children: React.ReactNode
+  mimeType?: string
+  callback: (data: any) => void
+  downloadFile?: boolean
+}
+
+export default function GoogleDriveImportFile({
+  children,
+  mimeType,
+  callback,
+  downloadFile,
+}: GoogleDriveImportFileProps) {
+  const setGoogleAccessToken = useAtom(googleAccessTokenAtom)[1]
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const googleDriveLogin = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      setGoogleAccessToken(tokenResponse.access_token)
+      onOpen()
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+    scope: 'https://www.googleapis.com/auth/drive.readonly',
+  })
+
+  return (
+    <>
+      <Box onClick={() => googleDriveLogin()}>{children}</Box>
+      <GoogleDriveImportFileModal
+        isOpen={isOpen}
+        onClose={onClose}
+        mimeType={mimeType}
+        callback={callback}
+        downloadFile={downloadFile}
+      />
+    </>
+  )
+}

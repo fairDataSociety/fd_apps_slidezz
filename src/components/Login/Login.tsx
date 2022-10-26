@@ -15,9 +15,8 @@ import {
 import { Formik, FormikErrors, Field } from 'formik'
 import { useAtom } from 'jotai'
 import { fdpAtom, userAtom } from '../../store'
-import { useRouter } from 'next/router'
-import { join } from 'path'
-import NavBar from '../NavBar/NavBar'
+import { fairDriveLogin } from '../../utils/fairdrive'
+import Layout from '../Layout/Layout'
 
 interface LoginFormValues {
   username: string
@@ -32,50 +31,54 @@ const LoginFormInitialValues: LoginFormValues = {
 export default function Login() {
   const toast = useToast()
   const [fdp] = useAtom(fdpAtom)
-  const [user, setUser] = useAtom(userAtom)
+  const setUser = useAtom(userAtom)[1]
   const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
 
+  const handleLogin = async (values: LoginFormValues) => {
+    try {
+      await fairDriveLogin(values.username, values.password, fdp)
+      toast.closeAll()
+      setUser({
+        username: values.username,
+        password: values.password,
+      })
+    } catch (error: any) {
+      console.log(error)
+      toast({
+        title: 'Login failed',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
+  const handleValidation = (values: LoginFormValues) => {
+    const errors: FormikErrors<LoginFormValues> = {}
+
+    if (values.username === '') {
+      errors.username = 'username is required'
+    }
+
+    if (values.password === '') {
+      errors.password = 'password is required'
+    }
+
+    return errors
+  }
+
   return (
-    <>
-      <NavBar />
+    <Layout>
       <Formik
         validateOnMount
-        onSubmit={async (values) => {
-          try {
-            await fdp.account.login(values.username, values.password)
-            toast.closeAll()
-            setUser({
-              username: values.username,
-            })
-          } catch (error: any) {
-            console.log(error)
-            toast({
-              title: 'Login failed',
-              description: error.message,
-              status: 'error',
-              duration: 9000,
-              isClosable: true,
-            })
-          }
-        }}
-        validate={(values) => {
-          const errors: FormikErrors<LoginFormValues> = {}
-
-          if (values.username === '') {
-            errors.username = 'username is required'
-          }
-
-          if (values.password === '') {
-            errors.password = 'password is required'
-          }
-
-          return errors
-        }}
+        onSubmit={handleLogin}
+        validate={handleValidation}
         initialValues={LoginFormInitialValues}
       >
         {({ handleSubmit, isValid, isSubmitting, errors, touched }) => (
-          <Box>
-            <VStack pt={10} gap={5}>
+          <Box mt={10}>
+            <VStack gap={5}>
               <VStack gap={1}>
                 <Heading fontSize="5xl">Please login</Heading>
                 <Text variant="subtext">to your Fairdrive account</Text>
@@ -122,10 +125,7 @@ export default function Login() {
                 </Button>
                 <Text align="center" variant="subtext">
                   Don&apos;t have an account?{' '}
-                  <Link
-                    href="https://create.dev.fairdatasociety.org"
-                    isExternal
-                  >
+                  <Link href="https://fairdrive.vercel.app/register" isExternal>
                     Register
                   </Link>
                 </Text>
@@ -134,6 +134,6 @@ export default function Login() {
           </Box>
         )}
       </Formik>
-    </>
+    </Layout>
   )
 }

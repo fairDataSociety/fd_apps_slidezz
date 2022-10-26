@@ -12,12 +12,15 @@
     "postinstall": "yarn gen:theme-typings && yarn patch-package"
   },
   "dependencies": {
+    "@catppuccin/palette": "^0.1.5",
     "@chakra-ui/icons": "^2.0.8",
     "@chakra-ui/react": "^2.2.8",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@fairdatasociety/fdp-storage": "^0.5.1",
     "@fontsource/source-sans-pro": "^4.5.11",
+    "@react-oauth/google": "^0.2.8",
+    "axios": "^0.27.2",
     "formik": "^2.2.9",
     "framer-motion": "^7",
     "fscreen": "^1.2.0",

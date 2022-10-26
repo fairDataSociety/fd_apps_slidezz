@@ -1,49 +1,32 @@
-import { FdpStorage } from '@fairdatasociety/fdp-storage'
-import { File, LogoImageFile, Slides } from '../types'
+import { Slides } from '../types'
 
 export async function loadSlideshow(
-  file: File | undefined,
-  fdp: FdpStorage,
+  file: { data: Blob } | undefined,
   setSlides: (slides: Slides) => void,
-  setSlidesLogo?: (logoFile: LogoImageFile) => void
+  setSlidesLogo?: (logoFile: { data: string }) => void
 ) {
   if (!file) return
 
   const template = document.createElement('template')
-  template.innerHTML = file.data.text()
-
-  const fairData = Array.from(template.content.querySelectorAll('.fair-data'))
-
-  for await (const element of fairData) {
-    const podName = element.getAttribute('data-pod')
-    const path = element.getAttribute('data-path')
-
-    if (podName && path) {
-      try {
-        const data = await fdp.file.downloadData(podName, path)
-        //@ts-ignore
-        element.src = URL.createObjectURL(new Blob([data.buffer]))
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
+  template.innerHTML = await file.data.text()
 
   const logoImageElement = template.content.querySelector('.logo-image')
-  if (logoImageElement && setSlidesLogo) {
-    const podName = logoImageElement.getAttribute('data-pod')!
-    const fullPath = logoImageElement.getAttribute('data-path')!
-    const data = await fdp.file.downloadData(podName, fullPath)
 
+  if (logoImageElement && setSlidesLogo) {
+    const data = logoImageElement.getAttribute('data-base64') as string
     setSlidesLogo({
       data,
-      podName,
-      fullPath,
     })
     template.content.removeChild(logoImageElement)
   }
 
+  const firstSection = template.content.querySelector('section')
+  const width = firstSection?.getAttribute('data-width')
+  const height = firstSection?.getAttribute('data-height')
+
   setSlides({
     data: template.innerHTML,
+    width: width ? Number(width) : undefined,
+    height: height ? Number(height) : undefined,
   })
 }
