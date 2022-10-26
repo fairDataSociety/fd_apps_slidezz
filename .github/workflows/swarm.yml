@@ -2,10 +2,10 @@ name: push to swarm
 
 on:
   push:
-    branches: [fair-os]
+    branches: [main]
 
 jobs:
-  build:
+  build-fdp-storage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,6 +16,52 @@ jobs:
       - name: Build
         run: yarn build
         env:
+          NEXT_PUBLIC_BEE_URL: https://bee-1.dev.fairdatasociety.org
+          NEXT_PUBLIC_BATCH_ID: '0000000000000000000000000000000000000000000000000000000000000000'
+          NEXT_PUBLIC_RPC_URL: https://xdai.dev.fairdatasociety.org
+          NEXT_PUBLIC_FDS_REGISTRAR: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
+          NEXT_PUBLIC_ENS_REGISTRY: '0x42B22483e3c8dF794f351939620572d1a3193c12'
+          NEXT_PUBLIC_PUBLIC_RESOLVER: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'
+          NEXT_PUBLIC_SLIDES_POD: fair-slideshows
+
+      - name: Upload
+        id: swarm-upload
+        uses: ethersphere/swarm-actions/upload-dir@latest
+        with:
+          bee-url: https://gateway.dev.fairdatasociety.org/proxy/
+          dir: ./out
+          index-document: index.html
+          retry: 200
+          timeout: 600000
+
+      - name: update feed
+        id: swarm-feed
+        uses: ethersphere/swarm-actions/write-feed@latest
+        with:
+          bee-url: https://gateway.dev.fairdatasociety.org/proxy/
+          reference: ${{ steps.swarm-upload.outputs.reference }}
+          topic: slidezz
+          signer: ${{ secrets.SIGNER }}
+
+      - name: print references
+        run: |
+          echo "upload ref: " ${{ steps.swarm-upload.outputs.reference }}
+          echo "feed ref: " ${{ steps.swarm-feed.outputs.reference }}
+          echo "CID: " ${{ steps.swarm-cid.outputs.cid }}
+          echo "Feed Manifest: " ${{ steps.swarm-feed.outputs.manifest }}
+
+  build-fair-os:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+        env:
+          NEXT_PUBLIC_IS_FAIROS: true
           NEXT_PUBLIC_FAIROSHOST: https://fairos.fairdatasociety.org/v1/
           NEXT_PUBLIC_SLIDES_POD: fair-slideshows
           NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID: '807307426460-i0oup96j8lpg90k69fue2lf2tl3t7j0m.apps.googleusercontent.com'

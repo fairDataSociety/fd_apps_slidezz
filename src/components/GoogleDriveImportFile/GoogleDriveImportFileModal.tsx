@@ -95,6 +95,7 @@ export default function GoogleDriveImportFileModal({
                       onClick={async () => {
                         toast({
                           duration: null,
+                          position: 'top-left',
                           render: () => <LoadingToast label="Loading File" />,
                         })
 

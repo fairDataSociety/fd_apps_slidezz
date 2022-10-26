@@ -61,6 +61,7 @@ export default function SaveSlides() {
     try {
       toast({
         duration: null,
+        position: 'top-left',
         render: () => <LoadingToast label="Saving slides" />,
       })
 

@@ -83,6 +83,7 @@ export default function MySlideshows() {
                 try {
                   toast({
                     duration: null,
+                    position: 'top-left',
                     render: () => <LoadingToast label="Loading File" />,
                   })
 

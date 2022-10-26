@@ -60,6 +60,7 @@ export default function FairDriveImportFileModal({
 
       toast({
         duration: null,
+        position: 'top-left',
         render: () => <LoadingToast label="Loading File" />,
       })
 
