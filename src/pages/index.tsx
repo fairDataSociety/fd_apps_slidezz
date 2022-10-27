@@ -64,7 +64,7 @@ const Home: NextPage = () => {
                 mx="auto"
                 h="full"
                 objectFit="contain"
-                src="/images/app-screenshot.png"
+                src={`${window._detectedSiteType.basePath}/images/app-screenshot.png`}
               />
             </Box>
           </Box>
