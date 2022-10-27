@@ -4,9 +4,6 @@ import {
   Text,
   Stack,
   VStack,
-  Box,
-  HStack,
-  Image,
   useColorModeValue,
   Container,
   Button,
@@ -16,6 +13,9 @@ import Layout from '../components/Layout/Layout'
 import NextLink from 'next/link'
 import { isValidMotionProp, motion } from 'framer-motion'
 import React from 'react'
+import dynamic from 'next/dynamic'
+
+const AppUI = dynamic(() => import('../components/AppUI/AppUI'), { ssr: false })
 
 const Home: NextPage = () => {
   return (
@@ -44,30 +44,7 @@ const Home: NextPage = () => {
             </NextLink>
           </VStack>
 
-          <Box
-            alignSelf="center"
-            w={{ base: '100%', sm: '80%', md: '90%' }}
-            bg={useColorModeValue('latte-crust', 'frappe-crust')}
-            rounded="md"
-            boxShadow="lg"
-          >
-            <HStack p={2}>
-              <Circle />
-              <Circle />
-              <Circle />
-            </HStack>
-
-            <Box w="full" px={2} py={2}>
-              <Image
-                alt="app screenshot"
-                w="98%"
-                mx="auto"
-                h="full"
-                objectFit="contain"
-                src={`${window._detectedSiteType.basePath}/images/app-screenshot.png`}
-              />
-            </Box>
-          </Box>
+          <AppUI />
         </Stack>
       </Container>
     </Layout>
@@ -107,17 +84,6 @@ const AnimatedText = ({
         background={useColorModeValue('latte-rosewater', 'frappe-rosewater')}
       />
     </Text>
-  )
-}
-
-const Circle = () => {
-  return (
-    <Box
-      w="0.5rem"
-      h="0.5rem"
-      rounded="full"
-      bg={useColorModeValue('latte-subtext0', 'frappe-subtext0')}
-    ></Box>
   )
 }
 
