@@ -5,9 +5,9 @@ import { useToast } from '@chakra-ui/react'
 
 import { googleAccessTokenAtom, slidesAtom } from '../../store'
 import { GoogleSlides } from '../../types/google-slides'
-import { parseGoogleSlides } from '../../utils/parseGoogleSlides'
+import { parseGoogleSlides } from '../../utils'
 import ImportFileCard from '../Card/ImportFileCard'
-import GoogleDriveImportFile from '../GoogleDriveImportFile/GoogleDriveImportFile'
+import GoogleDriveImportFile from '../GoogleDriveImportFile'
 import GoogleslidesIcon from '../Icons/GoolgeslidesIcon'
 import LoadingToast from '../Toast/LoadingToast'
 

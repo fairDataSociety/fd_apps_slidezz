@@ -6,33 +6,27 @@ import { useEffect, useState } from 'react'
 
 import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 
-import SideBar from '../components/Editor/Sidebar/Sidebar'
-import Layout from '../components/Layout/Layout'
+import SideBar from '../components/Editor/Sidebar'
+import Layout from '../components/Layout'
 import { fdpAtom, slidesLogoAtom } from '../store'
 
-const SharedSlideshow = dynamic(
-  () => import('../components/SharedSlideshow/SharedSlideshow'),
-  {
-    ssr: false,
-    loading: () => (
-      <Center h="full">
-        <Spinner size="xl" />
-      </Center>
-    ),
-  }
-)
+const SharedSlideshow = dynamic(() => import('../components/SharedSlideshow'), {
+  ssr: false,
+  loading: () => (
+    <Center h="full">
+      <Spinner size="xl" />
+    </Center>
+  ),
+})
 
-const EmbedSlideshow = dynamic(
-  () => import('../components/EmbedSlideshow/EmbedSlideshow'),
-  {
-    ssr: false,
-    loading: () => (
-      <Center h="full">
-        <Spinner size="xl" />
-      </Center>
-    ),
-  }
-)
+const EmbedSlideshow = dynamic(() => import('../components/EmbedSlideshow'), {
+  ssr: false,
+  loading: () => (
+    <Center h="full">
+      <Spinner size="xl" />
+    </Center>
+  ),
+})
 
 const SharedSlideshowPage: NextPage = () => {
   const router = useRouter()

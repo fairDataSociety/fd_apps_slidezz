@@ -18,7 +18,7 @@ import {
 
 import { imageMediaAtom, mediaAtom } from '../../../../store'
 import { File } from '../../../../types'
-import ImportFile from '../../../FairDriveImportFile/FairDriveImportFile'
+import ImportFile from '../../../FairDriveImportFile'
 
 interface AddImageModalProps {
   isOpen: boolean

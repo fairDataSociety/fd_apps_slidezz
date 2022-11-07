@@ -39,7 +39,7 @@ import {
   MoveableReplaceImageProps,
 } from './Moveable/Ables/MoveableReplaceImage'
 import { ReplaceImage } from './ReplaceImage'
-import SlideSideBar from './SlideSidebar/SlideSidebar'
+import SlideSideBar from './SlideSidebar'
 
 interface SlidesProps {
   deckName: string

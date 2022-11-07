@@ -18,7 +18,7 @@ import {
 
 import { fdpAtom, userAtom } from '../../store'
 import { fairDriveLogin } from '../../utils/fairdrive'
-import Layout from '../Layout/Layout'
+import Layout from '../Layout'
 
 interface LoginFormValues {
   username: string

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { moveableTargetAtom, replaceImageElementAtom } from '../../store'
 import { File } from '../../types'
-import blobToBase64 from '../../utils/blobToBase64'
+import { blobToBase64 } from '../../utils'
 import AddImageModal from './SlideSidebar/AddImage/AddImageModal'
 
 export function ReplaceImage() {

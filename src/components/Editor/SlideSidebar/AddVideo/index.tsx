@@ -23,8 +23,8 @@ import {
   videoMediaAtom,
 } from '../../../../store'
 import { File } from '../../../../types'
-import blobToBase64 from '../../../../utils/blobToBase64'
-import ImportFile from '../../../FairDriveImportFile/FairDriveImportFile'
+import { blobToBase64 } from '../../../../utils'
+import ImportFile from '../../../FairDriveImportFile'
 import ItemBox from '../../../FairDriveImportFile/ItemBox'
 import SlideSideBarItem from '../SlideSidebarItem'
 import AddYouTubeEmbedVideo from './AddYouTubeEmbedVideo'

@@ -15,9 +15,9 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
-import Layout from '../components/Layout/Layout'
+import Layout from '../components/Layout'
 
-const AppUI = dynamic(() => import('../components/AppUI/AppUI'), { ssr: false })
+const AppUI = dynamic(() => import('../components/AppUI'), { ssr: false })
 
 const Home: NextPage = () => {
   return (

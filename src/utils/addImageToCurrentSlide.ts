@@ -1,5 +1,5 @@
 import { File } from '../types'
-import blobToBase64 from './blobToBase64'
+import { blobToBase64 } from './blobToBase64'
 
 export async function addImageToCurrentSlide(
   image: File,

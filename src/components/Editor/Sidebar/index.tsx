@@ -3,11 +3,11 @@ import { FaPlay } from 'react-icons/fa'
 
 import { Box, useColorModeValue } from '@chakra-ui/react'
 
-import AddLogoImage from './AddLogoImage'
+import LogoImage from './LogoImage'
 import SaveSlides from './SaveSlides'
 import PresentationSettings from './Settings/SlideShowSettings'
-import StyleSettings from './Settings/StyleSettings/StyleSettings'
-import ShareSlides from './ShareSlides/ShareSlides'
+import StyleSettings from './Settings/StyleSettings'
+import ShareSlides from './ShareSlides'
 import SideBarItem from './SidebarItem'
 
 interface SidebarProps {
@@ -37,7 +37,7 @@ export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
 
       {!isSlidesReadOnly && (
         <>
-          <AddLogoImage />
+          <LogoImage />
           <SaveSlides />
           <ShareSlides />
         </>
