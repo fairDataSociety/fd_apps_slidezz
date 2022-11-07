@@ -1,4 +1,4 @@
-import { HStack, Text, Spinner, useColorModeValue, Box } from '@chakra-ui/react'
+import { Box, HStack, Spinner, Text, useColorModeValue } from '@chakra-ui/react'
 
 interface LoadingToastProps {
   label: string

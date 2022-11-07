@@ -1,20 +1,20 @@
-import { Box, Image, useColorModeValue } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
-
 //@ts-ignore
 import Reveal from 'reveal.js'
 //@ts-ignore
-import Markdown from 'reveal.js/plugin/markdown/markdown'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
+//@ts-ignore
+import Markdown from 'reveal.js/plugin/markdown/markdown'
 
+import { Box, Image, useColorModeValue } from '@chakra-ui/react'
+
+import { LogoPositions } from '../../config/logo-positions'
 import {
   slideShowSettingsAtom,
   slidesLogoAtom,
   styleSettingsAtom,
 } from '../../store'
-import { LogoPositions } from '../../config/logo-positions'
 
 interface SharedSlideshowProps {
   slides: string

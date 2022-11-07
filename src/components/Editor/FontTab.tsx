@@ -1,24 +1,26 @@
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
-  PopoverArrow,
-  IconButton,
-  Box,
-  FormControl,
-  FormLabel,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Select,
-  SimpleGrid,
-} from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { RiFontSize } from 'react-icons/ri'
+
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  IconButton,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Select,
+  SimpleGrid,
+} from '@chakra-ui/react'
+
 import { moveableTargetAtom } from '../../store'
 
 export default function FontTab() {

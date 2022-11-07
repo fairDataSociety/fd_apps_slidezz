@@ -1,7 +1,9 @@
-import { HStack, IconButton } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { FaMousePointer } from 'react-icons/fa'
 import { RiText } from 'react-icons/ri'
+
+import { HStack, IconButton } from '@chakra-ui/react'
+
 import { editModeAtom } from '../../store'
 
 export default function EditMode() {

@@ -1,20 +1,22 @@
+import { useAtom } from 'jotai'
+import { extname, join } from 'path'
+import { useEffect, useState } from 'react'
+import { AiFillFolder, AiOutlineFile } from 'react-icons/ai'
+
+import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
-  Spinner,
-  VStack,
   Center,
-  Text,
   HStack,
   IconButton,
+  Spinner,
+  Text,
+  VStack,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import { join, extname } from 'path'
-import { AiFillFolder, AiOutlineFile } from 'react-icons/ai'
-import ItemBox from './ItemBox'
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import { useAtom } from 'jotai'
-import { fdpAtom, userAtom } from '../../store'
+
 import { openPod } from '../../api/fairos/pod'
+import { fdpAtom, userAtom } from '../../store'
 import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
+import ItemBox from './ItemBox'
 
 interface SelectPathProps {
   pod: string

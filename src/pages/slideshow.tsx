@@ -1,10 +1,11 @@
-import type { NextPage } from 'next'
 import { useAtom } from 'jotai'
-import { slidesAtom, userAtom } from '../store'
-import Login from '../components/Login/Login'
-import Layout from '../components/Layout/Layout'
-import SlideshowTemplates from '../components/SlideshowTemplates/SlideshowTemplates'
+import type { NextPage } from 'next'
+
 import Editor from '../components/Editor/Editor'
+import Layout from '../components/Layout/Layout'
+import Login from '../components/Login/Login'
+import SlideshowTemplates from '../components/SlideshowTemplates/SlideshowTemplates'
+import { slidesAtom, userAtom } from '../store'
 
 const SlideShow: NextPage = () => {
   const [user] = useAtom(userAtom)

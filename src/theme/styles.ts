@@ -1,5 +1,6 @@
-import colors from './colors'
 import { mode } from '@chakra-ui/theme-tools'
+
+import colors from './colors'
 
 export const globalStyles = {
   colors,

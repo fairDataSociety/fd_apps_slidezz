@@ -1,14 +1,15 @@
-import { atomWithStorage } from 'jotai/utils'
+import { FdpStorage } from '@fairdatasociety/fdp-storage'
 import { atom } from 'jotai'
+import { atomWithStorage } from 'jotai/utils'
+import { extname } from 'path'
+
 import {
   File,
-  Slides,
   SlideShowSettings,
+  Slides,
   StyleSettings,
   User,
 } from '../src/types'
-import { FdpStorage } from '@fairdatasociety/fdp-storage'
-import { extname } from 'path'
 
 // FDP instance
 

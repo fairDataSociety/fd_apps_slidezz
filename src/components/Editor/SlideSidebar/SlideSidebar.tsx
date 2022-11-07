@@ -1,15 +1,17 @@
-import { Box, useColorModeValue } from '@chakra-ui/react'
-import AddImage from './AddImage/AddImage'
-import AddVideo from './AddVideo/AddVideo'
-import { BsFillImageFill } from 'react-icons/bs'
-import { addImageToCurrentSlide } from '../../../utils'
 import { useAtom } from 'jotai'
-import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
-import AddText from './AddText'
+import { BsFillImageFill } from 'react-icons/bs'
 import { RiText } from 'react-icons/ri'
+
+import { Box, useColorModeValue } from '@chakra-ui/react'
+
+import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
+import { addImageToCurrentSlide } from '../../../utils'
+import AddImage from './AddImage/AddImage'
+import AddText from './AddText'
+import AddVideo from './AddVideo/AddVideo'
 import NewSlide from './NewSlide'
-import SlideSideBarItem from './SlideSidebarItem'
 import RemoveSlide from './RemoveSlide'
+import SlideSideBarItem from './SlideSidebarItem'
 
 export default function SlideSidebar() {
   const [deck] = useAtom(slidesDeckAtom)

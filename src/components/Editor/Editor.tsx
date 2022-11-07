@@ -1,8 +1,10 @@
-import dynamic from 'next/dynamic'
-import { Center, HStack, Spinner, Box } from '@chakra-ui/react'
-import SideBar from './Sidebar/Sidebar'
 import { useAtom } from 'jotai'
+import dynamic from 'next/dynamic'
+
+import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
+
 import { slidesAtom } from '../../store'
+import SideBar from './Sidebar/Sidebar'
 
 const Slides = dynamic(() => import('./Slides'), {
   ssr: false,

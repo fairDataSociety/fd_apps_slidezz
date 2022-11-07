@@ -1,12 +1,14 @@
+import fscreen from 'fscreen'
+import { FaPlay } from 'react-icons/fa'
+
 import { Box, useColorModeValue } from '@chakra-ui/react'
+
+import AddLogoImage from './AddLogoImage'
+import SaveSlides from './SaveSlides'
 import PresentationSettings from './Settings/SlideShowSettings'
 import StyleSettings from './Settings/StyleSettings/StyleSettings'
-import SideBarItem from './SidebarItem'
-import { FaPlay } from 'react-icons/fa'
-import fscreen from 'fscreen'
-import SaveSlides from './SaveSlides'
-import AddLogoImage from './AddLogoImage'
 import ShareSlides from './ShareSlides/ShareSlides'
+import SideBarItem from './SidebarItem'
 
 interface SidebarProps {
   isSlidesReadOnly?: boolean

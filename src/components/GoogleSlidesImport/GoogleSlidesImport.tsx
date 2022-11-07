@@ -1,6 +1,8 @@
-import { useToast } from '@chakra-ui/react'
 import axios from 'axios'
 import { useAtom } from 'jotai'
+
+import { useToast } from '@chakra-ui/react'
+
 import { googleAccessTokenAtom, slidesAtom } from '../../store'
 import { GoogleSlides } from '../../types/google-slides'
 import { parseGoogleSlides } from '../../utils/parseGoogleSlides'

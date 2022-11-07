@@ -1,6 +1,7 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
-import { uploadFile } from '../../api/fairos/fs'
 import { parse } from 'path'
+
+import { uploadFile } from '../../api/fairos/fs'
 
 export async function fairDriveUploadFile(
   podName: string,

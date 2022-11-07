@@ -1,6 +1,7 @@
 import { Box, useDisclosure } from '@chakra-ui/react'
-import ImportFileModal from './FairDriveImportFileModal'
+
 import { File } from '../../types'
+import ImportFileModal from './FairDriveImportFileModal'
 
 interface FairDriveImportFileProps {
   setFile: (file: File | undefined) => Promise<void>

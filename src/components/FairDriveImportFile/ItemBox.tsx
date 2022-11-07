@@ -1,5 +1,6 @@
-import { Box, HStack, Icon, useColorModeValue, Text } from '@chakra-ui/react'
 import { IconType } from 'react-icons'
+
+import { Box, HStack, Icon, Text, useColorModeValue } from '@chakra-ui/react'
 
 interface ItemBoxProps {
   text: string

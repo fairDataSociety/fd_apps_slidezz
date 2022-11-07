@@ -1,16 +1,18 @@
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  SimpleGrid,
-  Center,
-} from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { BiPlus } from 'react-icons/bi'
+
+import {
+  Center,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  useDisclosure,
+} from '@chakra-ui/react'
+
 import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
 import { templates } from '../../../templates'
 import { addMoveableToElements } from '../../../utils'

@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@chakra-ui/cli": "^2.1.6",
+    "@trivago/prettier-plugin-sort-imports": "^3.4.0",
     "@types/fscreen": "^1.0.1",
     "@types/node": "18.7.8",
     "@types/react": "18.0.17",

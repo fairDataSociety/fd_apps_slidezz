@@ -1,22 +1,24 @@
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  useColorModeValue,
-  Center,
-  Spinner,
-  VStack,
-  Box,
-  useToast,
-  Text,
-} from '@chakra-ui/react'
 import axios from 'axios'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
+
+import {
+  Box,
+  Center,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  Text,
+  VStack,
+  useColorModeValue,
+  useToast,
+} from '@chakra-ui/react'
+
 import { googleAccessTokenAtom } from '../../store'
 import ItemBox from '../FairDriveImportFile/ItemBox'
 import LoadingToast from '../Toast/LoadingToast'

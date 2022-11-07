@@ -1,6 +1,8 @@
-import { Box } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
-import { slidesDeckAtom, moveableTargetAtom } from '../../../store'
+
+import { Box } from '@chakra-ui/react'
+
+import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
 import { addMoveableToElements } from '../../../utils'
 
 interface AddTextProps {

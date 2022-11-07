@@ -1,31 +1,33 @@
+import { Formik } from 'formik'
+import { useAtom } from 'jotai'
+import { FiSettings } from 'react-icons/fi'
+
 import {
-  useDisclosure,
+  Box,
+  Button,
+  Checkbox,
   Drawer,
   DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Button,
-  Checkbox,
-  VStack,
   FormControl,
-  FormLabel,
   FormHelperText,
+  FormLabel,
   Select,
+  VStack,
   useColorModeValue,
-  Box,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { FiSettings } from 'react-icons/fi'
-import SideBarItem from '../SidebarItem'
-import { Formik } from 'formik'
-import { useAtom } from 'jotai'
-import { slideShowSettingsAtom } from '../../../../store'
+
 import {
   checkBoxSettings,
   selectSettings,
 } from '../../../../config/slide-settings'
+import { slideShowSettingsAtom } from '../../../../store'
+import SideBarItem from '../SidebarItem'
 
 export default function SlideShowSettings() {
   const [slideShowSettings, setSlideShowSettings] = useAtom(

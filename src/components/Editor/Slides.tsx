@@ -1,31 +1,31 @@
-import { Box, Image, useColorModeValue, Textarea } from '@chakra-ui/react'
+import fscreen from 'fscreen'
 import { useAtom } from 'jotai'
+import MoveableHelper from 'moveable-helper'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
-import { LogoPositions } from '../../config/logo-positions'
-
+import Moveable from 'react-moveable'
 //@ts-ignore
 import Reveal from 'reveal.js'
 //@ts-ignore
-import Markdown from 'reveal.js/plugin/markdown/markdown'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
+//@ts-ignore
+import Markdown from 'reveal.js/plugin/markdown/markdown'
 
+import { Box, Image, Textarea, useColorModeValue } from '@chakra-ui/react'
+
+import { LogoPositions } from '../../config/logo-positions'
 import {
-  slideShowSettingsAtom,
-  styleSettingsAtom,
-  slidesLogoAtom,
-  moveableTargetAtom,
   editModeAtom,
+  moveableTargetAtom,
   replaceImageElementAtom,
+  slideShowSettingsAtom,
   slidesDeckAtom,
+  slidesLogoAtom,
+  styleSettingsAtom,
 } from '../../store'
-import Moveable from 'react-moveable'
-import MoveableHelper from 'moveable-helper'
-import fscreen from 'fscreen'
-import SlideSideBar from './SlideSidebar/SlideSidebar'
-import EditMode from './EditMode'
+import { Slides as SlidesType } from '../../types'
 import { addMoveableToElements, isHTML } from '../../utils'
-import { ReplaceImage } from './ReplaceImage'
+import EditMode from './EditMode'
+import FontTab from './FontTab'
 import {
   MoveableDeleteButton,
   MoveableDeleteButtonProps,
@@ -34,12 +34,12 @@ import {
   MoveableDimension,
   MoveableDimensionProps,
 } from './Moveable/Ables/MoveableDimension'
-import { Slides as SlidesType } from '../../types'
-import FontTab from './FontTab'
 import {
   MoveableReplaceImage,
   MoveableReplaceImageProps,
 } from './Moveable/Ables/MoveableReplaceImage'
+import { ReplaceImage } from './ReplaceImage'
+import SlideSideBar from './SlideSidebar/SlideSidebar'
 
 interface SlidesProps {
   deckName: string

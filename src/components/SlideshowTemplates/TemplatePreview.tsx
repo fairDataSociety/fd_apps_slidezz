@@ -1,3 +1,15 @@
+import fscreen from 'fscreen'
+import { useAtom } from 'jotai'
+import { RefObject, useEffect, useRef, useState } from 'react'
+import { FiEye } from 'react-icons/fi'
+//@ts-ignore
+import Reveal from 'reveal.js'
+//@ts-ignore
+import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
+//@ts-ignore
+import Markdown from 'reveal.js/plugin/markdown/markdown'
+
+import { ChevronRightIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
@@ -8,20 +20,9 @@ import {
   Tooltip,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { RefObject, useEffect, useRef, useState } from 'react'
-import { isHTML } from '../../utils'
-import { FiEye } from 'react-icons/fi'
-import { ChevronRightIcon } from '@chakra-ui/icons'
-import fscreen from 'fscreen'
 
-//@ts-ignore
-import Reveal from 'reveal.js'
-//@ts-ignore
-import Markdown from 'reveal.js/plugin/markdown/markdown'
-//@ts-ignore
-import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-import { useAtom } from 'jotai'
 import { slidesAtom } from '../../store'
+import { isHTML } from '../../utils'
 
 interface TemplatePreviewProps {
   deckName: string

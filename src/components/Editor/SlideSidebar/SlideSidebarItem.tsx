@@ -1,5 +1,6 @@
-import { Tooltip, Center, Icon, useColorModeValue } from '@chakra-ui/react'
 import { IconType } from 'react-icons'
+
+import { Center, Icon, Tooltip, useColorModeValue } from '@chakra-ui/react'
 
 interface SlideSidebarItemProps {
   onClick?: () => void

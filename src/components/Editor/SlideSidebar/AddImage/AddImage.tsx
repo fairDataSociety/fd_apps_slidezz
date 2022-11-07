@@ -1,4 +1,5 @@
-import { useDisclosure, Box } from '@chakra-ui/react'
+import { Box, useDisclosure } from '@chakra-ui/react'
+
 import { File } from '../../../../types'
 import AddImageModal from './AddImageModal'
 

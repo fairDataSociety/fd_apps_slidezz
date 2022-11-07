@@ -1,22 +1,24 @@
+import { Formik } from 'formik'
+import { useAtom } from 'jotai'
+import { HiColorSwatch } from 'react-icons/hi'
+
 import {
-  useDisclosure,
+  Box,
+  Button,
   Drawer,
   DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  Button,
   VStack,
   useColorModeValue,
-  Box,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { HiColorSwatch } from 'react-icons/hi'
-import SideBarItem from '../../SidebarItem'
-import { Formik } from 'formik'
-import { useAtom } from 'jotai'
+
 import { styleSettingsAtom } from '../../../../../store'
+import SideBarItem from '../../SidebarItem'
 import SelectColor from './SelectColor'
 
 export default function PresentationSettings() {

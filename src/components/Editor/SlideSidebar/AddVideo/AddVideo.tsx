@@ -1,31 +1,33 @@
+import { useAtom } from 'jotai'
 import { FaVideo } from 'react-icons/fa'
+
+import { PlusSquareIcon } from '@chakra-ui/icons'
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-  useDisclosure,
   Box,
   Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { useAtom } from 'jotai'
+
 import {
   mediaAtom,
   moveableTargetAtom,
   slidesDeckAtom,
   videoMediaAtom,
 } from '../../../../store'
-import ImportFile from '../../../FairDriveImportFile/FairDriveImportFile'
 import { File } from '../../../../types'
-import { PlusSquareIcon } from '@chakra-ui/icons'
-import AddYouTubeEmbedVideo from './AddYouTubeEmbedVideo'
+import blobToBase64 from '../../../../utils/blobToBase64'
+import ImportFile from '../../../FairDriveImportFile/FairDriveImportFile'
 import ItemBox from '../../../FairDriveImportFile/ItemBox'
 import SlideSideBarItem from '../SlideSidebarItem'
-import blobToBase64 from '../../../../utils/blobToBase64'
+import AddYouTubeEmbedVideo from './AddYouTubeEmbedVideo'
 
 export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure()

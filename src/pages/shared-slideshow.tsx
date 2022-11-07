@@ -1,12 +1,14 @@
-import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react'
-import { fdpAtom, slidesLogoAtom } from '../store'
 import dynamic from 'next/dynamic'
-import SideBar from '../components/Editor/Sidebar/Sidebar'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+
+import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
+
+import SideBar from '../components/Editor/Sidebar/Sidebar'
 import Layout from '../components/Layout/Layout'
+import { fdpAtom, slidesLogoAtom } from '../store'
 
 const SharedSlideshow = dynamic(
   () => import('../components/SharedSlideshow/SharedSlideshow'),

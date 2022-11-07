@@ -1,21 +1,23 @@
 import { useAtom } from 'jotai'
 import { BsShare } from 'react-icons/bs'
-import { slidesAtom } from '../../../../store'
-import SideBarItem from '../SidebarItem'
+
 import {
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
-  Tabs,
-  TabList,
-  TabPanels,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Tab,
+  TabList,
   TabPanel,
+  TabPanels,
+  Tabs,
+  useDisclosure,
 } from '@chakra-ui/react'
+
+import { slidesAtom } from '../../../../store'
+import SideBarItem from '../SidebarItem'
 import CopyPanel from './CopyPanel'
 import EmbedCode from './EmbedCode'
 

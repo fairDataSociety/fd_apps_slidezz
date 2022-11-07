@@ -1,13 +1,14 @@
+import { BiCopy } from 'react-icons/bi'
+
 import {
-  Text,
   Box,
-  useClipboard,
   HStack,
   IconButton,
-  Tooltip,
+  Text,
   Textarea,
+  Tooltip,
+  useClipboard,
 } from '@chakra-ui/react'
-import { BiCopy } from 'react-icons/bi'
 
 interface CopyPanelProps {
   label: string

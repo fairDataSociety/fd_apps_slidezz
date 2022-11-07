@@ -1,15 +1,16 @@
-import { Box, Image } from '@chakra-ui/react'
+import { useAtom } from 'jotai'
+import { useRouter } from 'next/router'
 import React, { RefObject, useEffect, useRef } from 'react'
-
 //@ts-ignore
 import Reveal from 'reveal.js'
 //@ts-ignore
-import Markdown from 'reveal.js/plugin/markdown/markdown'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-import { useRouter } from 'next/router'
+//@ts-ignore
+import Markdown from 'reveal.js/plugin/markdown/markdown'
+
+import { Box, Image } from '@chakra-ui/react'
+
 import { LogoPositions } from '../../config/logo-positions'
-import { useAtom } from 'jotai'
 import { slidesLogoAtom } from '../../store'
 
 interface EmbedSlideshowProps {

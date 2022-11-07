@@ -1,28 +1,30 @@
+import { useAtom } from 'jotai'
+import { basename, extname } from 'path'
+import { useEffect, useState } from 'react'
+import { AiOutlineInbox } from 'react-icons/ai'
+
 import {
+  Box,
+  HStack,
+  IconButton,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
   ModalBody,
   ModalCloseButton,
-  Box,
-  useToast,
-  HStack,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Text,
-  useColorModeValue,
-  IconButton,
   Tooltip,
+  useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import SelectPod from './SelectPod'
-import SelectPath from './SelectPath'
-import { AiOutlineInbox } from 'react-icons/ai'
-import { basename, extname } from 'path'
-import { File } from '../../types'
-import LoadingToast from '../Toast/LoadingToast'
-import { fairDriveDownloadFile } from '../../utils/fairdrive'
-import { useAtom } from 'jotai'
+
 import { fdpAtom } from '../../store'
+import { File } from '../../types'
+import { fairDriveDownloadFile } from '../../utils/fairdrive'
+import LoadingToast from '../Toast/LoadingToast'
+import SelectPath from './SelectPath'
+import SelectPod from './SelectPod'
 
 interface FairDriveImportFileModalProps {
   isOpen: boolean

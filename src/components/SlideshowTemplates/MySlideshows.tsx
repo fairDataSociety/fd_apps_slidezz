@@ -1,24 +1,26 @@
-import {
-  VStack,
-  useColorModeValue,
-  Spinner,
-  Center,
-  useToast,
-  Wrap,
-  WrapItem,
-  Text,
-  Icon,
-  Divider,
-} from '@chakra-ui/react'
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
+import { BiSlideshow } from 'react-icons/bi'
+
+import {
+  Center,
+  Divider,
+  Icon,
+  Spinner,
+  Text,
+  VStack,
+  Wrap,
+  WrapItem,
+  useColorModeValue,
+  useToast,
+} from '@chakra-ui/react'
+
 import { openPod } from '../../api/fairos/pod'
 import { fdpAtom, slidesAtom, slidesLogoAtom, userAtom } from '../../store'
 import { loadSlideshow } from '../../utils'
-import LoadingToast from '../Toast/LoadingToast'
-import { BiSlideshow } from 'react-icons/bi'
 import { fairDriveDownloadFile } from '../../utils/fairdrive'
 import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
+import LoadingToast from '../Toast/LoadingToast'
 
 export default function MySlideshows() {
   const toast = useToast()

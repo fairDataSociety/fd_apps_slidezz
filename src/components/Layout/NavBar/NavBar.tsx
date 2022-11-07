@@ -1,20 +1,22 @@
+import { useAtom } from 'jotai'
+import { IoLogoGithub } from 'react-icons/io5'
+
+import { ArrowBackIcon } from '@chakra-ui/icons'
 import {
   HStack,
-  Link,
   IconButton,
+  Link,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
-import ThemeToggleButton from './ThemeToggleButton'
-import { IoLogoGithub } from 'react-icons/io5'
-import { ArrowBackIcon } from '@chakra-ui/icons'
-import { useAtom } from 'jotai'
+
 import {
   moveableTargetAtom,
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
 } from '../../../store'
+import ThemeToggleButton from './ThemeToggleButton'
 
 export default function NavBar() {
   const [slides, setSlides] = useAtom(slidesAtom)

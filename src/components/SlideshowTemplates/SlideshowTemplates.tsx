@@ -1,32 +1,34 @@
+import { useAtom } from 'jotai'
+import dynamic from 'next/dynamic'
+
 import {
-  VStack,
+  Box,
   Container,
-  Heading,
   Divider,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Wrap,
-  WrapItem,
+  Heading,
+  Image,
   ListItem,
   OrderedList,
-  Box,
-  Image,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  VStack,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react'
-import FairdriveIcon from '../Icons/FairdriveIcon'
-import dynamic from 'next/dynamic'
-import ImportFile from '../FairDriveImportFile/FairDriveImportFile'
-import MySlideShows from './MySlideshows'
-import { File } from '../../types'
-import { useAtom } from 'jotai'
+
 import { slidesAtom, userAtom } from '../../store'
-import GoogleDriveImportFile from '../GoogleDriveImportFile/GoogleDriveImportFile'
-import GoogleSlidesImport from '../GoogleSlidesImport/GoogleSlidesImport'
-import GoogledriveIcon from '../Icons/GoogledriveIcon'
+import { File } from '../../types'
 import { loadSlideshow } from '../../utils'
 import ImportFileCard from '../Card/ImportFileCard'
+import ImportFile from '../FairDriveImportFile/FairDriveImportFile'
+import GoogleDriveImportFile from '../GoogleDriveImportFile/GoogleDriveImportFile'
+import GoogleSlidesImport from '../GoogleSlidesImport/GoogleSlidesImport'
+import FairdriveIcon from '../Icons/FairdriveIcon'
+import GoogledriveIcon from '../Icons/GoogledriveIcon'
+import MySlideShows from './MySlideshows'
 
 const TemplatePreview = dynamic(() => import('./TemplatePreview'), {
   ssr: false,

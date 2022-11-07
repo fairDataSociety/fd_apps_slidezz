@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai'
 import { AiFillDelete } from 'react-icons/ai'
+
 import { slidesDeckAtom } from '../../../store'
 import SlideSideBarItem from './SlideSidebarItem'
 

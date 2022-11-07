@@ -1,8 +1,10 @@
-import { Spinner, VStack, Center, Text, useToast } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { AiOutlineInbox } from 'react-icons/ai'
-import ItemBox from './ItemBox'
+
+import { Center, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
+
 import { getPods } from '../../api/fairos/pod'
+import ItemBox from './ItemBox'
 
 interface SelectPodProps {
   setPod: (pod: string) => void

@@ -1,19 +1,21 @@
-import type { NextPage } from 'next'
-import {
-  Heading,
-  Text,
-  Stack,
-  VStack,
-  useColorModeValue,
-  Container,
-  Button,
-  chakra,
-} from '@chakra-ui/react'
-import Layout from '../components/Layout/Layout'
-import NextLink from 'next/link'
 import { isValidMotionProp, motion } from 'framer-motion'
-import React from 'react'
+import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
+import NextLink from 'next/link'
+import React from 'react'
+
+import {
+  Button,
+  Container,
+  Heading,
+  Stack,
+  Text,
+  VStack,
+  chakra,
+  useColorModeValue,
+} from '@chakra-ui/react'
+
+import Layout from '../components/Layout/Layout'
 
 const AppUI = dynamic(() => import('../components/AppUI/AppUI'), { ssr: false })
 

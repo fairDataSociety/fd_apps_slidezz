@@ -1,43 +1,45 @@
+import { useAtom } from 'jotai'
+import { useState } from 'react'
+import { FaSave } from 'react-icons/fa'
+
 import {
-  useToast,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   Button,
+  FormControl,
+  FormLabel,
   Input,
   InputGroup,
   InputRightAddon,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Switch,
+  VStack,
+  useBoolean,
   useColorModeValue,
   useDisclosure,
-  VStack,
-  FormLabel,
-  Switch,
-  FormControl,
-  useBoolean,
+  useToast,
 } from '@chakra-ui/react'
-import { useAtom } from 'jotai'
-import { useState } from 'react'
+
+import { openPod } from '../../../api/fairos/pod'
 import {
-  slidesDeckAtom,
+  fdpAtom,
   slidesAtom,
+  slidesDeckAtom,
   slidesLogoAtom,
   userAtom,
-  fdpAtom,
 } from '../../../store'
-import { FaSave } from 'react-icons/fa'
-import SideBarItem from './SidebarItem'
-import LoadingToast from '../../Toast/LoadingToast'
 import { getSlidesHTML } from '../../../utils'
-import { openPod } from '../../../api/fairos/pod'
 import {
   fairDriveCreatePod,
   fairDrivePods,
   fairDriveUploadFile,
 } from '../../../utils/fairdrive'
+import LoadingToast from '../../Toast/LoadingToast'
+import SideBarItem from './SidebarItem'
 
 export default function SaveSlides() {
   const [deck] = useAtom(slidesDeckAtom)

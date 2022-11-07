@@ -1,22 +1,24 @@
+import { Field, Formik } from 'formik'
+import { useAtom } from 'jotai'
+import { BsLink } from 'react-icons/bs'
+
 import {
-  IconButton,
-  Tooltip,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
   Button,
   FormControl,
   FormErrorMessage,
+  IconButton,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { BsLink } from 'react-icons/bs'
-import { Formik, Field } from 'formik'
-import { useAtom } from 'jotai'
+
 import { moveableTargetAtom, slidesDeckAtom } from '../../../../store'
 
 interface AddYouTubeEmbedVideoProps {

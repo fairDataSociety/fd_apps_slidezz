@@ -1,23 +1,24 @@
+import { useAtom } from 'jotai'
+
+import { PlusSquareIcon } from '@chakra-ui/icons'
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-  SimpleGrid,
   Box,
-  Image,
-  Tooltip,
   Button,
+  Image,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  SimpleGrid,
+  Tooltip,
 } from '@chakra-ui/react'
 
-import ImportFile from '../../../FairDriveImportFile/FairDriveImportFile'
-import { File } from '../../../../types'
-import { PlusSquareIcon } from '@chakra-ui/icons'
-import { useAtom } from 'jotai'
 import { imageMediaAtom, mediaAtom } from '../../../../store'
+import { File } from '../../../../types'
+import ImportFile from '../../../FairDriveImportFile/FairDriveImportFile'
 
 interface AddImageModalProps {
   isOpen: boolean

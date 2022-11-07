@@ -1,20 +1,22 @@
 import { useAtom } from 'jotai'
 import { useState } from 'react'
-import { slidesAtom } from '../../../../store'
-import CopyPanel from './CopyPanel'
+
 import {
   FormControl,
   FormLabel,
+  HStack,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  HStack,
-  VStack,
   Select,
+  VStack,
 } from '@chakra-ui/react'
+
 import { slideThemes } from '../../../../config/slide-themes'
+import { slidesAtom } from '../../../../store'
+import CopyPanel from './CopyPanel'
 
 export default function EmbedCode() {
   const [slides] = useAtom(slidesAtom)

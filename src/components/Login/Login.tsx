@@ -1,19 +1,21 @@
-import {
-  VStack,
-  Heading,
-  Text,
-  useColorModeValue,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Link,
-  FormErrorMessage,
-  useToast,
-  Box,
-} from '@chakra-ui/react'
-import { Formik, FormikErrors, Field } from 'formik'
+import { Field, Formik, FormikErrors } from 'formik'
 import { useAtom } from 'jotai'
+
+import {
+  Box,
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Heading,
+  Input,
+  Link,
+  Text,
+  VStack,
+  useColorModeValue,
+  useToast,
+} from '@chakra-ui/react'
+
 import { fdpAtom, userAtom } from '../../store'
 import { fairDriveLogin } from '../../utils/fairdrive'
 import Layout from '../Layout/Layout'

@@ -1,8 +1,10 @@
-import { SimpleGrid, Box, Heading, Icon } from '@chakra-ui/react'
 import { useFormikContext } from 'formik'
-import { StyleSettings } from '../../../../../types'
-import { slideThemes } from '../../../../../config/slide-themes'
 import { AiFillCheckCircle } from 'react-icons/ai'
+
+import { Box, Heading, Icon, SimpleGrid } from '@chakra-ui/react'
+
+import { slideThemes } from '../../../../../config/slide-themes'
+import { StyleSettings } from '../../../../../types'
 
 export default function SelectColor() {
   const { setFieldValue, values } = useFormikContext<StyleSettings>()
