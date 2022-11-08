@@ -1,3 +1,4 @@
+import { useAtom } from 'jotai'
 import { BsDownload } from 'react-icons/bs'
 
 import {
@@ -12,11 +13,13 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import { ExportType, currentSlideToImage } from '../../../utils'
+import { slidesDeckAtom } from '../../../store'
+import { ExportType, currentSlideToImage, slidesToPdf } from '../../../utils'
 import SidebarItem from './SidebarItem'
 
 export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [deck] = useAtom(slidesDeckAtom)
   return (
     <>
       <SidebarItem icon={BsDownload} label="Download" onClick={onOpen} />
@@ -27,8 +30,9 @@ export default function DownloadSlides() {
           <ModalHeader>Download slides</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <VStack gap={2}>
+            <VStack w={{ base: 'full', md: '80%' }} mx="auto" gap={2}>
               <Button
+                w="full"
                 onClick={() => {
                   currentSlideToImage(ExportType.JPEG)
                   onClose()
@@ -39,6 +43,7 @@ export default function DownloadSlides() {
                 JPEG image(.jpg, current slide)
               </Button>
               <Button
+                w="full"
                 onClick={() => {
                   currentSlideToImage(ExportType.PNG)
                   onClose()
@@ -49,6 +54,7 @@ export default function DownloadSlides() {
                 PNG image(.png, current slide)
               </Button>
               <Button
+                w="full"
                 onClick={() => {
                   currentSlideToImage(ExportType.SVG)
                   onClose()
@@ -57,6 +63,17 @@ export default function DownloadSlides() {
                 variant="outline"
               >
                 SVG image(.svg, current slide)
+              </Button>
+              <Button
+                w="full"
+                size="md"
+                variant="outline"
+                onClick={() => {
+                  slidesToPdf(deck)
+                  onClose()
+                }}
+              >
+                PDF document(.pdf)
               </Button>
             </VStack>
           </ModalBody>

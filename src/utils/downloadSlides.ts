@@ -1,5 +1,6 @@
 import download from 'downloadjs'
 import { toJpeg, toPng, toSvg } from 'html-to-image'
+import { jsPDF } from 'jspdf'
 
 export enum ExportType {
   JPEG,
@@ -35,4 +36,41 @@ export async function currentSlideToImage(exportType: ExportType) {
     },
   })
   download(image, `slide.${extension[exportType]}`)
+}
+
+export async function slidesToPdf(deck: any) {
+  const { h: currentSlideNumber } = deck.getIndices() as { h: number }
+
+  const { presentationWidth, presentationHeight } =
+    deck.getComputedSlideSize() as {
+      width: number
+      height: number
+      presentationWidth: number
+      presentationHeight: number
+    }
+
+  const doc = new jsPDF('landscape', 'px', [
+    presentationWidth,
+    presentationHeight,
+  ])
+  const totalSlides = deck.getTotalSlides() as number
+  for (let i = 0; i < totalSlides; i++) {
+    deck.slide(i)
+    const currentSlide = deck.getRevealElement() as HTMLElement
+
+    const image = await toJpeg(currentSlide, {
+      filter: (node) => {
+        return node.classList
+          ? !node.classList.contains('controls') &&
+              !node.classList.contains('progress')
+          : true
+      },
+    })
+
+    doc.addImage(image, 0, 0, presentationWidth, presentationHeight)
+    if (i !== totalSlides - 1) doc.addPage()
+  }
+
+  deck.slide(currentSlideNumber)
+  doc.save('slides.pdf')
 }
