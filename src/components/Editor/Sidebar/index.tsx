@@ -3,6 +3,7 @@ import { FaPlay } from 'react-icons/fa'
 
 import { Box, useColorModeValue } from '@chakra-ui/react'
 
+import DownloadSlides from './DownloadSlides'
 import LogoImage from './LogoImage'
 import SaveSlides from './SaveSlides'
 import PresentationSettings from './Settings/SlideShowSettings'
@@ -42,6 +43,8 @@ export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
           <ShareSlides />
         </>
       )}
+
+      <DownloadSlides />
     </Box>
   )
 }
