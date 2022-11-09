@@ -1,8 +1,10 @@
 import fscreen from 'fscreen'
+import { useAtom } from 'jotai'
 import { FaPlay } from 'react-icons/fa'
 
 import { Box, useColorModeValue } from '@chakra-ui/react'
 
+import { slidesDeckAtom } from '../../../store'
 import DownloadSlides from './DownloadSlides'
 import LogoImage from './LogoImage'
 import SaveSlides from './SaveSlides'
@@ -16,6 +18,8 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
+  const [deck] = useAtom(slidesDeckAtom)
+
   return (
     <Box
       bg={useColorModeValue('latte-crust', 'frappe-crust')}
@@ -29,7 +33,7 @@ export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
         icon={FaPlay}
         label="Present"
         onClick={() => {
-          fscreen.requestFullscreen(document.querySelector('.reveal')!)
+          fscreen.requestFullscreen(deck.getRevealElement())
         }}
       />
 

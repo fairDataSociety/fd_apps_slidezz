@@ -72,7 +72,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
 
   useEffect(() => {
     const handleBodyClick = (e: MouseEvent) => {
-      const revealElement = document.querySelector('.reveal')!
+      const revealElement = deck.getRevealElement() as HTMLElement
       const target = e.target as HTMLElement
 
       if (
@@ -83,12 +83,12 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       }
     }
 
-    document.body.addEventListener('click', handleBodyClick)
+    if (deck) document.body.addEventListener('click', handleBodyClick)
 
     return () => {
       document.body.removeEventListener('click', handleBodyClick)
     }
-  }, [moveableRef])
+  }, [moveableRef, deck])
 
   useEffect(() => {
     if (slidesRef.current && isHTML(slides.data))
@@ -208,7 +208,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               throttleDrag={0}
               startDragRotate={0}
               throttleDragRotate={0}
-              zoom={1}
+              zoom={2}
               origin={true}
               padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
               resizable={editMode === 'MOVE' ? true : false}

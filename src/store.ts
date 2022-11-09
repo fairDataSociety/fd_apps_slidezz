@@ -110,3 +110,23 @@ export const userAtom = atom<User | undefined>(undefined)
 // Google Access token
 
 export const googleAccessTokenAtom = atom('')
+
+// Loading modal
+
+export const loadingModalAtom = atom<{ isOpen: boolean; message?: string }>({
+  isOpen: false,
+  message: undefined,
+})
+
+export const loadingModalActionAtom = atom(
+  null,
+  (
+    _,
+    set,
+    { action, message }: { action: 'start' | 'stop'; message?: string }
+  ) => {
+    if (action === 'start') set(loadingModalAtom, { isOpen: true, message })
+    if (action === 'stop')
+      set(loadingModalAtom, { isOpen: false, message: undefined })
+  }
+)

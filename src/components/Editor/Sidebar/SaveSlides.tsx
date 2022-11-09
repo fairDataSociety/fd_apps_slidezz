@@ -27,6 +27,7 @@ import {
 import { openPod } from '../../../api/fairos/pod'
 import {
   fdpAtom,
+  loadingModalActionAtom,
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
@@ -38,7 +39,6 @@ import {
   fairDrivePods,
   fairDriveUploadFile,
 } from '../../../utils/fairdrive'
-import LoadingToast from '../../Toast/LoadingToast'
 import SideBarItem from './SidebarItem'
 
 export default function SaveSlides() {
@@ -51,6 +51,7 @@ export default function SaveSlides() {
   const [shareSlides, setShareSlides] = useBoolean(false)
   const [fdp] = useAtom(fdpAtom)
   const toast = useToast()
+  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
 
   const handleSaveSlides = async () => {
     if (!slides || !deck || !user) return
@@ -61,11 +62,7 @@ export default function SaveSlides() {
     handleOnClose()
 
     try {
-      toast({
-        duration: null,
-        position: 'top-left',
-        render: () => <LoadingToast label="Saving slides" />,
-      })
+      loadingModalAction({ action: 'start', message: 'Saving slides' })
 
       const slidesHTML = getSlidesHTML(deck)
       const div = document.createElement('div')
@@ -109,10 +106,7 @@ export default function SaveSlides() {
         name: fileNameTmp,
         sharedRef: slidesShareRef,
       })
-
-      toast.closeAll()
     } catch (error: any) {
-      toast.closeAll()
       console.log(error)
 
       toast({
@@ -123,6 +117,7 @@ export default function SaveSlides() {
         isClosable: true,
       })
     }
+    loadingModalAction({ action: 'stop' })
   }
 
   const handleOnClose = () => {

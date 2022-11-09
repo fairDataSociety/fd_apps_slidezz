@@ -16,11 +16,16 @@ import {
 } from '@chakra-ui/react'
 
 import { openPod } from '../../api/fairos/pod'
-import { fdpAtom, slidesAtom, slidesLogoAtom, userAtom } from '../../store'
+import {
+  fdpAtom,
+  loadingModalActionAtom,
+  slidesAtom,
+  slidesLogoAtom,
+  userAtom,
+} from '../../store'
 import { loadSlideshow } from '../../utils'
 import { fairDriveDownloadFile } from '../../utils/fairdrive'
 import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
-import LoadingToast from '../Toast/LoadingToast'
 
 export default function MySlideshows() {
   const toast = useToast()
@@ -30,6 +35,7 @@ export default function MySlideshows() {
   const setSlides = useAtom(slidesAtom)[1]
   const setSlidesLogo = useAtom(slidesLogoAtom)[1]
   const borderColor = useColorModeValue('latte-overlay0', 'frappe-overlay0')
+  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
 
   const handleSetMyslideshows = async () => {
     if (!user) return
@@ -83,10 +89,9 @@ export default function MySlideshows() {
                 if (!user) return
 
                 try {
-                  toast({
-                    duration: null,
-                    position: 'top-left',
-                    render: () => <LoadingToast label="Loading File" />,
+                  loadingModalAction({
+                    action: 'start',
+                    message: 'Loading File',
                   })
 
                   const slideshowFile = await fairDriveDownloadFile(
@@ -99,11 +104,21 @@ export default function MySlideshows() {
                     setSlides,
                     setSlidesLogo
                   )
-                } catch (error) {
+                } catch (error: any) {
                   console.log(error)
+
+                  toast({
+                    title: 'Failed to load file',
+                    description: error.message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
                 }
 
-                toast.closeAll()
+                loadingModalAction({
+                  action: 'stop',
+                })
               }}
             >
               <Icon fontSize="8xl" as={BiSlideshow} />

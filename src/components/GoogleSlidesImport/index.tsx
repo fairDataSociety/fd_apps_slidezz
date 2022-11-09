@@ -3,18 +3,22 @@ import { useAtom } from 'jotai'
 
 import { useToast } from '@chakra-ui/react'
 
-import { googleAccessTokenAtom, slidesAtom } from '../../store'
+import {
+  googleAccessTokenAtom,
+  loadingModalActionAtom,
+  slidesAtom,
+} from '../../store'
 import { GoogleSlides } from '../../types/google-slides'
 import { parseGoogleSlides } from '../../utils'
 import ImportFileCard from '../Card/ImportFileCard'
 import GoogleDriveImportFile from '../GoogleDriveImportFile'
 import GoogleslidesIcon from '../Icons/GoolgeslidesIcon'
-import LoadingToast from '../Toast/LoadingToast'
 
 export default function GoogleSlidesImport() {
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
   const setSlides = useAtom(slidesAtom)[1]
   const toast = useToast()
+  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
 
   return (
     <GoogleDriveImportFile
@@ -31,12 +35,9 @@ export default function GoogleSlidesImport() {
               }
             )
 
-            toast({
-              duration: null,
-              position: 'top-left',
-              render: () => (
-                <LoadingToast label="Initializing slides. May take a few seconds." />
-              ),
+            loadingModalAction({
+              action: 'start',
+              message: 'Initializing slides. May take a few seconds.',
             })
 
             const slideIds = googleSlides.slides.map((slide) => slide.objectId)
@@ -76,11 +77,19 @@ export default function GoogleSlidesImport() {
               height: pageSize.height,
               width: pageSize.width,
             })
-          } catch (error) {
+          } catch (error: any) {
             console.log(error)
+
+            toast({
+              title: 'Failed to import google slides',
+              description: error.message,
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            })
           }
 
-          toast.closeAll()
+          loadingModalAction({ action: 'stop' })
         })()
       }}
     >

@@ -19,9 +19,8 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
-import { googleAccessTokenAtom } from '../../store'
+import { googleAccessTokenAtom, loadingModalActionAtom } from '../../store'
 import ItemBox from '../FairDriveImportFile/ItemBox'
-import LoadingToast from '../Toast/LoadingToast'
 
 interface GoogleDriveImportFileModalProps {
   isOpen: boolean
@@ -42,6 +41,7 @@ export default function GoogleDriveImportFileModal({
   const [files, setFiles] = useState<{ id: string; name: string }[]>()
   const [isLoading, setIsLoading] = useState(false)
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
+  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
 
   useEffect(() => {
     ;(async () => {
@@ -95,10 +95,9 @@ export default function GoogleDriveImportFileModal({
                       text={file.name}
                       icon={AiOutlineFile}
                       onClick={async () => {
-                        toast({
-                          duration: null,
-                          position: 'top-left',
-                          render: () => <LoadingToast label="Loading File" />,
+                        loadingModalAction({
+                          action: 'start',
+                          message: 'Loading File',
                         })
 
                         onClose()
@@ -116,11 +115,18 @@ export default function GoogleDriveImportFileModal({
                             }
                           )
                           callback(res.data)
-                        } catch (error) {
+                        } catch (error: any) {
                           console.log(error)
-                        }
 
-                        toast.closeAll()
+                          toast({
+                            title: 'Failed to load file',
+                            description: error.message,
+                            status: 'error',
+                            duration: 9000,
+                            isClosable: true,
+                          })
+                        }
+                        loadingModalAction({ action: 'stop' })
                       }}
                     />
                   )

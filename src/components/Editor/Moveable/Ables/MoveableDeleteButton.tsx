@@ -26,8 +26,8 @@ export const MoveableDeleteButton = {
             top: 0px;
             will-change: transform;
             transform-origin: 0px 0px;
-            width: 24px;
-            height: 24px;
+            width: 34px;
+            height: 34px;
             background: #4af;
             background: var(--moveable-color);
             opacity: 0.9;
@@ -40,7 +40,7 @@ export const MoveableDeleteButton = {
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%) rotate(45deg);
-            width: 16px;
+            width: 36px;
             height: 2px;
             background: #fff;
             border-radius: 1px;
@@ -62,7 +62,7 @@ export const MoveableDeleteButton = {
           }
         }}
         style={{
-          transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(10px)`,
+          transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(15px)`,
         }}
       />
     )

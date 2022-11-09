@@ -13,7 +13,11 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
+import {
+  loadingModalActionAtom,
+  moveableTargetAtom,
+  slidesDeckAtom,
+} from '../../../store'
 import { ExportType, currentSlideToImage, slidesToPdf } from '../../../utils'
 import SidebarItem from './SidebarItem'
 
@@ -21,6 +25,7 @@ export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deck] = useAtom(slidesDeckAtom)
   const setMoveableTarget = useAtom(moveableTargetAtom)[1]
+  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
   return (
     <>
       <SidebarItem
@@ -42,7 +47,7 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
-                  currentSlideToImage(ExportType.JPEG)
+                  currentSlideToImage(deck, ExportType.JPEG, loadingModalAction)
                   onClose()
                 }}
                 size="md"
@@ -53,7 +58,7 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
-                  currentSlideToImage(ExportType.PNG)
+                  currentSlideToImage(deck, ExportType.PNG, loadingModalAction)
                   onClose()
                 }}
                 size="md"
@@ -64,7 +69,7 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
-                  currentSlideToImage(ExportType.SVG)
+                  currentSlideToImage(deck, ExportType.SVG, loadingModalAction)
                   onClose()
                 }}
                 size="md"
@@ -77,7 +82,7 @@ export default function DownloadSlides() {
                 size="md"
                 variant="outline"
                 onClick={() => {
-                  slidesToPdf(deck)
+                  slidesToPdf(deck, loadingModalAction)
                   onClose()
                 }}
               >

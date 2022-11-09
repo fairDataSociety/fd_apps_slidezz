@@ -19,10 +19,9 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
-import { fdpAtom } from '../../store'
+import { fdpAtom, loadingModalActionAtom } from '../../store'
 import { File } from '../../types'
 import { fairDriveDownloadFile } from '../../utils/fairdrive'
-import LoadingToast from '../Toast/LoadingToast'
 import SelectPath from './SelectPath'
 import SelectPod from './SelectPod'
 
@@ -46,6 +45,7 @@ export default function FairDriveImportFileModal({
   const [filePath, setFilePath] = useState<string>()
   const [fdp] = useAtom(fdpAtom)
   const tooltipBg = useColorModeValue('latte-overlay1', 'frappe-overlay1')
+  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
 
   const handleModalClose = () => {
     setPod(undefined)
@@ -60,11 +60,7 @@ export default function FairDriveImportFileModal({
       const fullFilePath = filePath
       handleModalClose()
 
-      toast({
-        duration: null,
-        position: 'top-left',
-        render: () => <LoadingToast label="Loading File" />,
-      })
+      loadingModalAction({ action: 'start', message: 'Loading File' })
 
       fairDriveDownloadFile(pod, fullFilePath, fdp)
         .then((data) => {
@@ -74,11 +70,9 @@ export default function FairDriveImportFileModal({
             fullPath: fullFilePath,
             extension: extname(fullFilePath).slice(1),
             data,
-          }).then(() => toast.closeAll())
+          })
         })
         .catch((error: any) => {
-          toast.closeAll()
-
           toast({
             title: 'Failed to load file',
             description: error.message,
@@ -86,6 +80,9 @@ export default function FairDriveImportFileModal({
             duration: 9000,
             isClosable: true,
           })
+        })
+        .finally(() => {
+          loadingModalAction({ action: 'stop' })
         })
     }
   }, [pod, filePath])
