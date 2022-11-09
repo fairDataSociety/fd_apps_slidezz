@@ -39,24 +39,43 @@ export async function currentSlideToImage(exportType: ExportType) {
 }
 
 export async function slidesToPdf(deck: any) {
-  const { h: currentSlideNumber } = deck.getIndices() as { h: number }
+  const { width, height } = deck.getComputedSlideSize() as {
+    width: number
+    height: number
+    presentationWidth: number
+    presentationHeight: number
+  }
 
-  const { presentationWidth, presentationHeight } =
-    deck.getComputedSlideSize() as {
-      width: number
-      height: number
-      presentationWidth: number
-      presentationHeight: number
-    }
+  const reveal = document.querySelector('.reveal') as HTMLElement
+  const tmpDeckElement = document.querySelector('.tmpDeck') as HTMLElement
+  tmpDeckElement.style.display = 'block'
+  tmpDeckElement.innerHTML = reveal.innerHTML
 
-  const doc = new jsPDF('landscape', 'px', [
-    presentationWidth,
-    presentationHeight,
-  ])
-  const totalSlides = deck.getTotalSlides() as number
+  //@ts-ignore
+  const { default: Reveal } = await import('reveal.js')
+
+  //@ts-ignore
+  const tmpDeck = Reveal(tmpDeckElement, {
+    embedded: true,
+    center: false,
+    // keyboardCondition: 'focused',
+    // plugins: [Markdown, RevealHighlight],
+    // ...slideShowSettings,
+    width,
+    height,
+  })
+  await tmpDeck.initialize()
+  await tmpDeck.layout()
+  await tmpDeck.sync()
+
+  const doc = new jsPDF('landscape', 'px', [width, height])
+  const totalSlides = tmpDeck.getTotalSlides() as number
   for (let i = 0; i < totalSlides; i++) {
-    deck.slide(i)
-    const currentSlide = deck.getRevealElement() as HTMLElement
+    tmpDeck.slide(i)
+    const currentSlide = tmpDeck.getRevealElement() as HTMLElement
+
+    // const slides = currentSlide.querySelector('.slides') as HTMLElement
+    // slides.style.transform = slides.style.transform.replace(/scale\(.*\)/, '')
 
     const image = await toJpeg(currentSlide, {
       filter: (node) => {
@@ -67,10 +86,10 @@ export async function slidesToPdf(deck: any) {
       },
     })
 
-    doc.addImage(image, 0, 0, presentationWidth, presentationHeight)
+    doc.addImage(image, 0, 0, width, height)
     if (i !== totalSlides - 1) doc.addPage()
   }
+  tmpDeckElement.style.display = 'none'
 
-  deck.slide(currentSlideNumber)
   doc.save('slides.pdf')
 }

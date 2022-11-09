@@ -13,16 +13,24 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import { slidesDeckAtom } from '../../../store'
+import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
 import { ExportType, currentSlideToImage, slidesToPdf } from '../../../utils'
 import SidebarItem from './SidebarItem'
 
 export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deck] = useAtom(slidesDeckAtom)
+  const setMoveableTarget = useAtom(moveableTargetAtom)[1]
   return (
     <>
-      <SidebarItem icon={BsDownload} label="Download" onClick={onOpen} />
+      <SidebarItem
+        icon={BsDownload}
+        label="Download"
+        onClick={() => {
+          setMoveableTarget(undefined)
+          onOpen()
+        }}
+      />
 
       <Modal size={{ base: 'xs', md: 'sm' }} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

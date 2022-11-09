@@ -108,7 +108,7 @@ export default function SlideshowTemplates() {
                 <OrderedList spacing={2}>
                   <ListItem>{`In your slides file, Go to menu option File > Page Setup`}</ListItem>
                   <ListItem>{`In the popup box that appears, choose "custom" size from the dropdown`}</ListItem>
-                  <ListItem>{`Set the new size to larger than the current settings, making sure to preserve the aspect ratio (for example, this sets up a slide image with 16:9 aspect ratio but twice the width and height)`}</ListItem>
+                  <ListItem>{`Set the new size to larger than the current settings, making sure to preserve the aspect ratio`}</ListItem>
                   <Box>
                     <Image
                       alt="page setup"
