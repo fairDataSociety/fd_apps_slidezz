@@ -12,9 +12,10 @@ import { Box, Image } from '@chakra-ui/react'
 
 import { LogoPositions } from '../../config/logo-positions'
 import { slidesLogoAtom } from '../../store'
+import { Slides } from '../../types'
 
 interface EmbedSlideshowProps {
-  slides: string
+  slides: Slides
 }
 
 export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
@@ -26,7 +27,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
     (query.slidesLogoPosition as keyof typeof LogoPositions) || 'top-left'
 
   useEffect(() => {
-    if (slidesRef.current) slidesRef.current.innerHTML = slides
+    if (slidesRef.current) slidesRef.current.innerHTML = slides.data
   }, [slidesRef])
 
   useEffect(() => {
@@ -39,6 +40,8 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
       plugins: [Markdown, RevealHighlight],
       ...query,
       center: false,
+      width: slides.width || 1920,
+      height: slides.height || 1080,
     })
 
     newDeck.initialize().then(() => {

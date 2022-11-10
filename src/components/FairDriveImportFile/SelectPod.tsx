@@ -1,9 +1,11 @@
+import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { AiOutlineInbox } from 'react-icons/ai'
 
 import { Center, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
 
-import { getPods } from '../../api/fairos/pod'
+import { fdpAtom } from '../../store'
+import { fairDrivePods } from '../../utils/fairdrive'
 import ItemBox from './ItemBox'
 
 interface SelectPodProps {
@@ -12,14 +14,15 @@ interface SelectPodProps {
 
 export default function SelectPod({ setPod }: SelectPodProps) {
   const toast = useToast()
+  const [fdp] = useAtom(fdpAtom)
   const [pods, setPods] = useState<string[]>()
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     setIsLoading(true)
-    getPods()
+    fairDrivePods(fdp)
       .then((pods) => {
-        setPods(pods.pod_name)
+        setPods([...pods.pods, ...pods.sharedPods])
       })
       .catch((error: any) => {
         toast({

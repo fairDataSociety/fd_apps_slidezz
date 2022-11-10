@@ -15,9 +15,10 @@ import {
   slidesLogoAtom,
   styleSettingsAtom,
 } from '../../store'
+import { Slides } from '../../types'
 
 interface SharedSlideshowProps {
-  slides: string
+  slides: Slides
 }
 
 export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
@@ -28,7 +29,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
   const [deck, setDeck] = useState<any>()
 
   useEffect(() => {
-    if (slidesRef.current) slidesRef.current.innerHTML = slides
+    if (slidesRef.current) slidesRef.current.innerHTML = slides.data
   }, [slidesRef])
 
   useEffect(() => {
@@ -43,6 +44,8 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
       plugins: [Markdown, RevealHighlight],
       ...slideShowSettings,
       center: false,
+      width: slides.width || 1920,
+      height: slides.height || 1080,
     })
 
     newDeck.initialize().then(() => {

@@ -4,6 +4,8 @@ import { FaSave } from 'react-icons/fa'
 
 import {
   Button,
+  Checkbox,
+  Collapse,
   FormControl,
   FormLabel,
   Input,
@@ -37,6 +39,7 @@ import { getSlidesHTML } from '../../../utils'
 import {
   fairDriveCreatePod,
   fairDrivePods,
+  fairDriveSharePod,
   fairDriveUploadFile,
 } from '../../../utils/fairdrive'
 import SideBarItem from './SidebarItem'
@@ -49,17 +52,81 @@ export default function SaveSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [fileName, setFileName] = useState('')
   const [shareSlides, setShareSlides] = useBoolean(false)
+  const [allowDownloading, setAllowDownloading] = useBoolean(false)
+
   const [fdp] = useAtom(fdpAtom)
   const toast = useToast()
   const loadingModalAction = useAtom(loadingModalActionAtom)[1]
 
+  const handleFairOSSaveSlides = async (slidesDiv: HTMLElement) => {
+    if (!user || !slides) return
+
+    const slidesPodName = shareSlides
+      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-${user.username}-shared`
+      : process.env.NEXT_PUBLIC_SLIDES_POD!
+
+    const pods = await fairDrivePods()
+    const slidesPod = pods.pods.find((pod) => pod === slidesPodName)
+
+    if (!slidesPod) {
+      await fairDriveCreatePod({
+        podName: slidesPodName,
+        password: user.password,
+      })
+    }
+
+    //TODO: check if pod is already shared
+    const sharedRef = await fairDriveSharePod({
+      podName: slidesPodName,
+      password: user.password,
+    })
+
+    await openPod(slidesPodName, user.password)
+
+    const filePath = `/${fileName}.html`
+    await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML)
+
+    setSlides({
+      ...slides,
+      name: fileName,
+      sharedRef: `1${sharedRef}${fileName}`,
+    })
+  }
+
+  const handleFDPSaveSlides = async (slidesDiv: HTMLElement) => {
+    if (!user || !slides || !fdp) return
+
+    const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
+    const pods = await fairDrivePods()
+    const slidesPod = pods.pods.find((pod) => pod === slidesPodName)
+
+    if (!slidesPod) {
+      await fairDriveCreatePod(
+        {
+          podName: slidesPodName,
+          password: user.password,
+        },
+        fdp
+      )
+    }
+
+    const filePath = `/${fileName}.html`
+    await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML)
+
+    let slidesShareRef: string | undefined = undefined
+    if (shareSlides) {
+      slidesShareRef = await fdp.file.share(slidesPodName, filePath)
+    }
+
+    setSlides({
+      ...slides,
+      name: fileName,
+      sharedRef: `0${slidesShareRef}`,
+    })
+  }
+
   const handleSaveSlides = async () => {
     if (!slides || !deck || !user) return
-
-    const fileNameTmp = fileName
-    const shareSlidesTmp = shareSlides
-
-    handleOnClose()
 
     try {
       loadingModalAction({ action: 'start', message: 'Saving slides' })
@@ -75,37 +142,18 @@ export default function SaveSlides() {
         div.appendChild(logoElement)
       }
 
-      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
-      const pods = await fairDrivePods()
-      const slidesPod = pods.find((pod) => pod === slidesPodName)
-
-      if (!slidesPod) {
-        await fairDriveCreatePod(
-          {
-            podName: slidesPodName,
-            password: user.password,
-          },
-          fdp
+      if (shareSlides) {
+        const sharingOptionsElement = document.createElement('div')
+        sharingOptionsElement.classList.add('sharing-options')
+        sharingOptionsElement.setAttribute(
+          'data-allow-downloading',
+          `${allowDownloading}`
         )
+        div.appendChild(sharingOptionsElement)
       }
 
-      if (!fdp) {
-        await openPod(slidesPodName, user.password)
-      }
-
-      const filePath = `/${fileNameTmp}.html`
-      await fairDriveUploadFile(slidesPodName, filePath, div.innerHTML)
-
-      let slidesShareRef: string | undefined = undefined
-      if (shareSlidesTmp && fdp) {
-        slidesShareRef = await fdp.file.share(slidesPodName, filePath)
-      }
-
-      setSlides({
-        ...slides,
-        name: fileNameTmp,
-        sharedRef: slidesShareRef,
-      })
+      if (fdp) await handleFDPSaveSlides(div)
+      else await handleFairOSSaveSlides(div)
     } catch (error: any) {
       console.log(error)
 
@@ -117,11 +165,14 @@ export default function SaveSlides() {
         isClosable: true,
       })
     }
+    handleOnClose()
     loadingModalAction({ action: 'stop' })
   }
 
   const handleOnClose = () => {
     setFileName('')
+    setShareSlides.off()
+    setAllowDownloading.off()
     onClose()
   }
 
@@ -134,7 +185,7 @@ export default function SaveSlides() {
           <ModalHeader>Save Slides</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <VStack>
+            <VStack align="stretch">
               <InputGroup>
                 <Input
                   value={fileName}
@@ -146,19 +197,34 @@ export default function SaveSlides() {
                   .html
                 </InputRightAddon>
               </InputGroup>
-              {fdp && (
-                <FormControl display="flex" alignItems="center">
-                  <FormLabel htmlFor="share-slides" mb="0">
-                    Share slides?
-                  </FormLabel>
-                  <Switch
-                    colorScheme="surface1"
-                    isChecked={shareSlides}
-                    id="share-slides"
-                    onChange={setShareSlides.toggle}
-                  />
-                </FormControl>
-              )}
+
+              <FormControl display="flex" alignItems="center">
+                <FormLabel htmlFor="share-slides" mb="0">
+                  Share slides?
+                </FormLabel>
+                <Switch
+                  colorScheme="surface1"
+                  isChecked={shareSlides}
+                  id="share-slides"
+                  onChange={setShareSlides.toggle}
+                />
+              </FormControl>
+
+              <Collapse in={shareSlides}>
+                <VStack
+                  align="stretch"
+                  border="solid"
+                  borderWidth={1}
+                  p={2}
+                  rounded="md"
+                  borderColor={useColorModeValue(
+                    'latte-overlay0',
+                    'frappe-overlay0'
+                  )}
+                >
+                  <Checkbox>Allow downloading</Checkbox>
+                </VStack>
+              </Collapse>
             </VStack>
           </ModalBody>
           <ModalFooter>

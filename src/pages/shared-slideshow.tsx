@@ -8,7 +8,7 @@ import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 
 import SideBar from '../components/Editor/Sidebar'
 import Layout from '../components/Layout'
-import { fdpAtom, slidesLogoAtom } from '../store'
+import { fdpAtom, slidesAtom, slidesLogoAtom } from '../store'
 
 const SharedSlideshow = dynamic(() => import('../components/SharedSlideshow'), {
   ssr: false,
@@ -32,7 +32,7 @@ const SharedSlideshowPage: NextPage = () => {
   const router = useRouter()
   const [fdp] = useAtom(fdpAtom)
   const setSlidesLogo = useAtom(slidesLogoAtom)[1]
-  const [slides, setSlides] = useState<string | undefined>()
+  const [slides, setSlides] = useAtom(slidesAtom)
   const [isEmbed, setIsEmbed] = useState(false)
 
   useEffect(() => {
@@ -68,7 +68,15 @@ const SharedSlideshowPage: NextPage = () => {
           div.removeChild(logoImageElement)
         }
 
-        setSlides(div.innerHTML)
+        const firstSection = div.querySelector('section')
+        const width = firstSection?.getAttribute('data-width')
+        const height = firstSection?.getAttribute('data-height')
+
+        setSlides({
+          data: div.innerHTML,
+          width: width ? Number(width) : undefined,
+          height: height ? Number(height) : undefined,
+        })
       })()
     }
   }, [router.isReady, fdp])

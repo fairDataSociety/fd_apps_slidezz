@@ -5,6 +5,10 @@ export interface GetPodResponse {
   shared_pod_name: string[]
 }
 
+export interface SharePodResponse {
+  pod_sharing_reference: string
+}
+
 export async function getPods(): Promise<GetPodResponse> {
   return (await axios.get('pod/ls')).data
 }
@@ -31,4 +35,16 @@ export async function createPod(
     pod_name,
     password,
   })
+}
+
+export async function sharePod(
+  pod_name: string,
+  password: string
+): Promise<SharePodResponse> {
+  return (
+    await axios.post('pod/share', {
+      pod_name,
+      password,
+    })
+  ).data
 }
