@@ -36,7 +36,7 @@ import {
   slidesLogoAtom,
   userAtom,
 } from '../../../store'
-import { getSlidesHTML } from '../../../utils'
+import { getSlidesHTML, hashCode } from '../../../utils'
 import {
   fairDriveCreatePod,
   fairDrivePods,
@@ -62,9 +62,8 @@ export default function SaveSlides() {
   const handleFairOSSaveSlides = async (slidesDiv: HTMLElement) => {
     if (!user || !slides) return
 
-    //TODO: unique pod name
     const slidesPodName = shareSlides
-      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-sha`
+      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}${hashCode(user.username)}`
       : process.env.NEXT_PUBLIC_SLIDES_POD!
 
     const pods = await fairDrivePods()

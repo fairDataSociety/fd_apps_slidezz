@@ -19,6 +19,7 @@ import {
 import ThemeToggleButton from './ThemeToggleButton'
 
 export default function NavBar() {
+  //TODO: remove back button for shared slides
   const [slides, setSlides] = useAtom(slidesAtom)
   const setDeck = useAtom(slidesDeckAtom)[1]
   const setSlidesLogo = useAtom(slidesLogoAtom)[1]
