@@ -5,8 +5,8 @@ import { extname } from 'path'
 
 import {
   File,
-  SlideShowSettings,
   Slides,
+  SlideshowSettings,
   StyleSettings,
   User,
 } from '../src/types'
@@ -37,7 +37,7 @@ export const fdpAtom = atom(fdp)
 
 // Slide show settings
 
-const initialSettings: SlideShowSettings = {
+const initialSettings: SlideshowSettings = {
   controls: true,
   progress: true,
   history: true,
@@ -48,8 +48,8 @@ const initialSettings: SlideShowSettings = {
   slidesLogoPosition: 'top-left',
 }
 
-export const slideShowSettingsAtom = atomWithStorage(
-  'slideShowSettings',
+export const slideshowSettingsAtom = atomWithStorage(
+  'slideshowSettings',
   initialSettings
 )
 

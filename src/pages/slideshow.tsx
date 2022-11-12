@@ -7,11 +7,12 @@ import Editor from '../components/Editor'
 import Layout from '../components/Layout'
 import Login from '../components/Login'
 import SlideshowTemplates from '../components/SlideshowTemplates'
-import { slidesAtom, userAtom } from '../store'
+import { slidesAtom, slidesDeckAtom, userAtom } from '../store'
 
 const SlideShow: NextPage = () => {
   const [user] = useAtom(userAtom)
   const [slides] = useAtom(slidesAtom)
+  const [deck] = useAtom(slidesDeckAtom)
 
   if (!user) return <Login />
 
@@ -19,7 +20,13 @@ const SlideShow: NextPage = () => {
     <Layout>
       {slides ? <Editor /> : <SlideshowTemplates />}
 
-      <Box minW="100vw" minH="100vh" className="reveal tmpDeck" />
+      {deck && (
+        <Box
+          w={deck.getComputedSlideSize().width}
+          h={deck.getComputedSlideSize().height}
+          className="reveal tmpDeck"
+        />
+      )}
     </Layout>
   )
 }

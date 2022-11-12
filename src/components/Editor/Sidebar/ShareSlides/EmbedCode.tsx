@@ -29,7 +29,7 @@ export default function EmbedCode() {
     process.env.NODE_ENV === 'production'
       ? 'shared-slideshow.html'
       : 'shared-slideshow'
-  const embedURL = `${baseHref}${pageName}?ref=${slides?.sharedRef}&embed=true&theme=${style}`
+  const embedURL = `${baseHref}${pageName}?ref=${slides?.sharingInfo?.sharedRef}&embed=true&theme=${style}`
   const embedCode = `<iframe src="${embedURL}" width="${width}" height="${height}"></iframe>`
 
   return (

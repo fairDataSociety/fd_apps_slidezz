@@ -17,9 +17,9 @@ import {
   editModeAtom,
   moveableTargetAtom,
   replaceImageElementAtom,
-  slideShowSettingsAtom,
   slidesDeckAtom,
   slidesLogoAtom,
+  slideshowSettingsAtom,
   styleSettingsAtom,
 } from '../../store'
 import { Slides as SlidesType } from '../../types'
@@ -58,7 +58,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )
-  const [slideShowSettings] = useAtom(slideShowSettingsAtom)
+  const [slideshowSettings] = useAtom(slideshowSettingsAtom)
   const [styleSettings] = useAtom(styleSettingsAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
   const [editMode] = useAtom(editModeAtom)
@@ -105,7 +105,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       embedded: true,
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
-      ...slideShowSettings,
+      ...slideshowSettings,
       center: false,
       width: slides.width || 1920,
       height: slides.height || 1080,
@@ -154,8 +154,8 @@ export default function Slides({ deckName, slides }: SlidesProps) {
   }, [deck])
 
   useEffect(() => {
-    if (deck) deck.configure(slideShowSettings)
-  }, [slideShowSettings])
+    if (deck) deck.configure(slideshowSettings)
+  }, [slideshowSettings])
 
   return (
     <Box
@@ -257,7 +257,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
             alt="logo"
             zIndex={100}
             position="absolute"
-            {...LogoPositions[slideShowSettings.slidesLogoPosition]}
+            {...LogoPositions[slideshowSettings.slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}
             w={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}
             objectFit="cover"

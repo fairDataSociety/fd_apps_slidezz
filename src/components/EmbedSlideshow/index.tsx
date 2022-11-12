@@ -11,7 +11,7 @@ import Markdown from 'reveal.js/plugin/markdown/markdown'
 import { Box, Image } from '@chakra-ui/react'
 
 import { LogoPositions } from '../../config/logo-positions'
-import { slidesLogoAtom } from '../../store'
+import { slidesDeckAtom, slidesLogoAtom } from '../../store'
 import { Slides } from '../../types'
 
 interface EmbedSlideshowProps {
@@ -25,6 +25,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
   const query = router.query as { [key: string]: string | undefined }
   const slidesLogoPosition =
     (query.slidesLogoPosition as keyof typeof LogoPositions) || 'top-left'
+  const setDeck = useAtom(slidesDeckAtom)[1]
 
   useEffect(() => {
     if (slidesRef.current) slidesRef.current.innerHTML = slides.data
@@ -47,6 +48,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
     newDeck.initialize().then(() => {
       newDeck.layout()
       newDeck.sync()
+      setDeck(newDeck)
     })
 
     return () => {

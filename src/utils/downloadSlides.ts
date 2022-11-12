@@ -2,6 +2,8 @@ import download from 'downloadjs'
 import { toJpeg, toPng, toSvg } from 'html-to-image'
 import { jsPDF } from 'jspdf'
 
+import { SlideshowSettings } from '../types'
+
 export enum ExportType {
   JPEG,
   PNG,
@@ -30,7 +32,8 @@ type loadingModalAction = (update: {
 export async function currentSlideToImage(
   deck: any,
   exportType: ExportType,
-  loadingModalAction: loadingModalAction
+  loadingModalAction: loadingModalAction,
+  slideshowSettings: SlideshowSettings
 ) {
   loadingModalAction({
     action: 'start',
@@ -44,7 +47,12 @@ export async function currentSlideToImage(
   }
   const tmpDeckElement = document.querySelector('.tmpDeck') as HTMLElement
 
-  const tmpDeck = await generateTmpDeck(deck, tmpDeckElement, { width, height })
+  const tmpDeck = await generateTmpDeck(
+    deck,
+    tmpDeckElement,
+    { width, height },
+    slideshowSettings
+  )
 
   const currentSlide = tmpDeck.getRevealElement() as HTMLElement
 
@@ -68,7 +76,8 @@ export async function currentSlideToImage(
 
 export async function slidesToPdf(
   deck: any,
-  loadingModalAction: loadingModalAction
+  loadingModalAction: loadingModalAction,
+  slideshowSettings: SlideshowSettings
 ) {
   loadingModalAction({
     action: 'start',
@@ -82,7 +91,12 @@ export async function slidesToPdf(
   }
 
   const tmpDeckElement = document.querySelector('.tmpDeck') as HTMLElement
-  const tmpDeck = await generateTmpDeck(deck, tmpDeckElement, { width, height })
+  const tmpDeck = await generateTmpDeck(
+    deck,
+    tmpDeckElement,
+    { width, height },
+    slideshowSettings
+  )
 
   const doc = new jsPDF('landscape', 'px', [width, height])
   const totalSlides = tmpDeck.getTotalSlides() as number
@@ -121,7 +135,8 @@ async function generateTmpDeck(
   }: {
     width: number
     height: number
-  }
+  },
+  slideshowSettings: SlideshowSettings
 ) {
   const reveal = deck.getRevealElement() as HTMLElement
   tmpDeckElement.style.display = 'block'
@@ -130,13 +145,22 @@ async function generateTmpDeck(
   //@ts-ignore
   const { default: Reveal } = await import('reveal.js')
 
+  const { default: RevealHighlight } = await import(
+    //@ts-ignore
+    'reveal.js/plugin/highlight/highlight'
+  )
+  const { default: Markdown } = await import(
+    //@ts-ignore
+    'reveal.js/plugin/markdown/markdown'
+  )
+
   //@ts-ignore
   const tmpDeck = Reveal(tmpDeckElement, {
     embedded: true,
     center: false,
     keyboardCondition: 'focused',
-    // plugins: [Markdown, RevealHighlight],
-    // ...slideShowSettings,
+    plugins: [Markdown, RevealHighlight],
+    ...slideshowSettings,
     width,
     height,
   })

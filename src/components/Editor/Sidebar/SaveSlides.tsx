@@ -64,7 +64,7 @@ export default function SaveSlides() {
 
     //TODO: unique pod name
     const slidesPodName = shareSlides
-      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-shared`
+      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-sha`
       : process.env.NEXT_PUBLIC_SLIDES_POD!
 
     const pods = await fairDrivePods()
@@ -91,7 +91,10 @@ export default function SaveSlides() {
     setSlides({
       ...slides,
       name: fileName,
-      sharedRef: `1${sharedRef}${fileName}`,
+      sharingInfo: {
+        sharedRef: `1${sharedRef}${fileName}`,
+        allowDownloading: true,
+      },
     })
   }
 
@@ -123,7 +126,10 @@ export default function SaveSlides() {
     setSlides({
       ...slides,
       name: fileName,
-      sharedRef: `0${slidesShareRef}`,
+      sharingInfo: {
+        sharedRef: `0${slidesShareRef}`,
+        allowDownloading: true,
+      },
     })
   }
 
@@ -227,7 +233,12 @@ export default function SaveSlides() {
                     'frappe-overlay0'
                   )}
                 >
-                  <Checkbox>Allow downloading</Checkbox>
+                  <Checkbox
+                    isChecked={allowDownloading}
+                    onChange={setAllowDownloading.toggle}
+                  >
+                    Allow downloading
+                  </Checkbox>
                 </VStack>
               </Collapse>
             </VStack>

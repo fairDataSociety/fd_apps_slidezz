@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import React, { RefObject, useEffect, useRef } from 'react'
 //@ts-ignore
 import Reveal from 'reveal.js'
 //@ts-ignore
@@ -11,8 +11,9 @@ import { Box, Image, useColorModeValue } from '@chakra-ui/react'
 
 import { LogoPositions } from '../../config/logo-positions'
 import {
-  slideShowSettingsAtom,
+  slidesDeckAtom,
   slidesLogoAtom,
+  slideshowSettingsAtom,
   styleSettingsAtom,
 } from '../../store'
 import { Slides } from '../../types'
@@ -22,11 +23,11 @@ interface SharedSlideshowProps {
 }
 
 export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
-  const [slideShowSettings] = useAtom(slideShowSettingsAtom)
+  const [slideshowSettings] = useAtom(slideshowSettingsAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
   const [styleSettings] = useAtom(styleSettingsAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
-  const [deck, setDeck] = useState<any>()
+  const [deck, setDeck] = useAtom(slidesDeckAtom)
 
   useEffect(() => {
     if (slidesRef.current) slidesRef.current.innerHTML = slides.data
@@ -42,7 +43,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
       embedded: true,
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
-      ...slideShowSettings,
+      ...slideshowSettings,
       center: false,
       width: slides.width || 1920,
       height: slides.height || 1080,
@@ -67,8 +68,8 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
   }, [deck])
 
   useEffect(() => {
-    if (deck) deck.configure(slideShowSettings)
-  }, [slideShowSettings])
+    if (deck) deck.configure(slideshowSettings)
+  }, [slideshowSettings])
 
   return (
     <Box
@@ -87,7 +88,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
             alt="logo"
             zIndex={100}
             position="absolute"
-            {...LogoPositions[slideShowSettings.slidesLogoPosition]}
+            {...LogoPositions[slideshowSettings.slidesLogoPosition]}
             h={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}
             w={{ base: '10px', sm: '20px', md: '30px', lg: '50px' }}
             objectFit="cover"

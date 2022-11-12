@@ -26,12 +26,12 @@ import {
   checkBoxSettings,
   selectSettings,
 } from '../../../../config/slide-settings'
-import { slideShowSettingsAtom } from '../../../../store'
+import { slideshowSettingsAtom } from '../../../../store'
 import SideBarItem from '../SidebarItem'
 
-export default function SlideShowSettings() {
-  const [slideShowSettings, setSlideShowSettings] = useAtom(
-    slideShowSettingsAtom
+export default function SlideshowSettings() {
+  const [slideshowSettings, setSlideshowSettings] = useAtom(
+    slideshowSettingsAtom
   )
   const { isOpen, onOpen, onClose } = useDisclosure()
   const settingBg = useColorModeValue('latte-crust', 'frappe-crust')
@@ -48,10 +48,10 @@ export default function SlideShowSettings() {
         <DrawerOverlay />
         <Formik
           onSubmit={(values) => {
-            setSlideShowSettings(values)
+            setSlideshowSettings(values)
             onClose()
           }}
-          initialValues={slideShowSettings}
+          initialValues={slideshowSettings}
         >
           {({ handleSubmit, handleChange, values }) => (
             <Box>

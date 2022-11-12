@@ -17,6 +17,7 @@ import {
   loadingModalActionAtom,
   moveableTargetAtom,
   slidesDeckAtom,
+  slideshowSettingsAtom,
 } from '../../../store'
 import { ExportType, currentSlideToImage, slidesToPdf } from '../../../utils'
 import SidebarItem from './SidebarItem'
@@ -26,6 +27,8 @@ export default function DownloadSlides() {
   const [deck] = useAtom(slidesDeckAtom)
   const setMoveableTarget = useAtom(moveableTargetAtom)[1]
   const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const [slideshowSettings] = useAtom(slideshowSettingsAtom)
+
   return (
     <>
       <SidebarItem
@@ -47,7 +50,12 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
-                  currentSlideToImage(deck, ExportType.JPEG, loadingModalAction)
+                  currentSlideToImage(
+                    deck,
+                    ExportType.JPEG,
+                    loadingModalAction,
+                    slideshowSettings
+                  )
                   onClose()
                 }}
                 size="md"
@@ -58,7 +66,12 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
-                  currentSlideToImage(deck, ExportType.PNG, loadingModalAction)
+                  currentSlideToImage(
+                    deck,
+                    ExportType.PNG,
+                    loadingModalAction,
+                    slideshowSettings
+                  )
                   onClose()
                 }}
                 size="md"
@@ -69,7 +82,12 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
-                  currentSlideToImage(deck, ExportType.SVG, loadingModalAction)
+                  currentSlideToImage(
+                    deck,
+                    ExportType.SVG,
+                    loadingModalAction,
+                    slideshowSettings
+                  )
                   onClose()
                 }}
                 size="md"
@@ -82,7 +100,7 @@ export default function DownloadSlides() {
                 size="md"
                 variant="outline"
                 onClick={() => {
-                  slidesToPdf(deck, loadingModalAction)
+                  slidesToPdf(deck, loadingModalAction, slideshowSettings)
                   onClose()
                 }}
               >

@@ -29,11 +29,11 @@ export default function ShareSlides() {
     process.env.NODE_ENV === 'production'
       ? 'shared-slideshow.html'
       : 'shared-slideshow'
-  const shareLink = `${baseHref}${pageName}?ref=${slides?.sharedRef}`
+  const shareLink = `${baseHref}${pageName}?ref=${slides?.sharingInfo?.sharedRef}`
 
   return (
     <>
-      {slides && slides.sharedRef ? (
+      {slides && slides.sharingInfo ? (
         <>
           <SideBarItem onClick={onOpen} icon={BsShare} label="Share" />
 

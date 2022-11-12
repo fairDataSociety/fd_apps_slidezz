@@ -9,7 +9,13 @@ import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 import SideBar from '../components/Editor/Sidebar'
 import Layout from '../components/Layout'
 import Login from '../components/Login'
-import { fdpAtom, slidesAtom, slidesLogoAtom, userAtom } from '../store'
+import {
+  fdpAtom,
+  slidesAtom,
+  slidesDeckAtom,
+  slidesLogoAtom,
+  userAtom,
+} from '../store'
 import { fairDriveDownloadShared } from '../utils/fairdrive'
 
 const SharedSlideshow = dynamic(() => import('../components/SharedSlideshow'), {
@@ -37,6 +43,7 @@ const SharedSlideshowPage: NextPage = () => {
   const [slides, setSlides] = useAtom(slidesAtom)
   const [isEmbed, setIsEmbed] = useState(false)
   const [user] = useAtom(userAtom)
+  const [deck] = useAtom(slidesDeckAtom)
 
   useEffect(() => {
     if (router.isReady && (fdp || user)) {
@@ -75,10 +82,24 @@ const SharedSlideshowPage: NextPage = () => {
         const width = firstSection?.getAttribute('data-width')
         const height = firstSection?.getAttribute('data-height')
 
+        const sharingOptions = div.querySelector(
+          '.sharing-options'
+        ) as HTMLElement
+        const allowDownloading =
+          sharingOptions.getAttribute('data-allow-downloading') === 'true'
+            ? true
+            : false
+
+        div.removeChild(sharingOptions)
+
         setSlides({
           data: div.innerHTML,
           width: width ? Number(width) : undefined,
           height: height ? Number(height) : undefined,
+          sharingInfo: {
+            sharedRef: slidesShareRef,
+            allowDownloading,
+          },
         })
       })()
     }
@@ -96,19 +117,28 @@ const SharedSlideshowPage: NextPage = () => {
   if (isEmbed) return <EmbedSlideshow slides={slides} />
 
   return (
-    <Layout>
-      <HStack h="80vh">
-        <SideBar isSlidesReadOnly={true} />
-        <Center h="full" w="full">
+    <>
+      <Layout>
+        <HStack h="80vh">
+          <SideBar isSlidesReadOnly={true} />
+          <Center h="full" w="full">
+            <Box
+              w={{ base: '65%', md: '70%', lg: '60%' }}
+              h={{ base: '30%', md: '50%', lg: '70%' }}
+            >
+              <SharedSlideshow slides={slides} />
+            </Box>
+          </Center>
+        </HStack>
+        {deck && (
           <Box
-            w={{ base: '65%', md: '70%', lg: '60%' }}
-            h={{ base: '30%', md: '50%', lg: '70%' }}
-          >
-            <SharedSlideshow slides={slides} />
-          </Box>
-        </Center>
-      </HStack>
-    </Layout>
+            w={deck.getComputedSlideSize().width}
+            h={deck.getComputedSlideSize().height}
+            className="reveal tmpDeck"
+          />
+        )}
+      </Layout>
+    </>
   )
 }
 

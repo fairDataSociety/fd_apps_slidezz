@@ -4,11 +4,11 @@ import { FaPlay } from 'react-icons/fa'
 
 import { Box, useColorModeValue } from '@chakra-ui/react'
 
-import { slidesDeckAtom } from '../../../store'
+import { slidesAtom, slidesDeckAtom } from '../../../store'
 import DownloadSlides from './DownloadSlides'
 import LogoImage from './LogoImage'
 import SaveSlides from './SaveSlides'
-import PresentationSettings from './Settings/SlideShowSettings'
+import PresentationSettings from './Settings/SlideshowSettings'
 import StyleSettings from './Settings/StyleSettings'
 import ShareSlides from './ShareSlides'
 import SideBarItem from './SidebarItem'
@@ -19,6 +19,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
   const [deck] = useAtom(slidesDeckAtom)
+  const [slides] = useAtom(slidesAtom)
 
   return (
     <Box
@@ -48,7 +49,9 @@ export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
         </>
       )}
 
-      <DownloadSlides />
+      {!isSlidesReadOnly || slides?.sharingInfo?.allowDownloading ? (
+        <DownloadSlides />
+      ) : null}
     </Box>
   )
 }

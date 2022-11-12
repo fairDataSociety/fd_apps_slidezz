@@ -1,6 +1,6 @@
 import { slideThemes } from './config/slide-themes'
 
-export interface SlideShowSettings {
+export interface SlideshowSettings {
   controls: boolean
   progress: boolean
   history: boolean
@@ -28,7 +28,10 @@ export interface Slides {
   height?: number
   width?: number
   name?: string
-  sharedRef?: string
+  sharingInfo?: {
+    sharedRef: string
+    allowDownloading: boolean
+  }
 }
 
 export interface User {
