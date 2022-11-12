@@ -9,6 +9,14 @@ export interface SharePodResponse {
   pod_sharing_reference: string
 }
 
+export interface ReceiveInfoPodResponse {
+  pod_name: string
+  pod_address: string
+  user_name: string
+  user_address: string
+  shared_time: string
+}
+
 export async function getPods(): Promise<GetPodResponse> {
   return (await axios.get('pod/ls')).data
 }
@@ -47,4 +55,30 @@ export async function sharePod(
       password,
     })
   ).data
+}
+
+export async function receiveInfoPod(
+  sharingRef: string
+): Promise<[boolean, ReceiveInfoPodResponse | null]> {
+  const response = await axios.get('pod/receiveinfo', {
+    params: {
+      sharing_ref: sharingRef,
+    },
+    validateStatus: (status) => [200, 500].includes(status),
+  })
+
+  if (response.status === 500) {
+    return [false, null]
+  }
+
+  return [true, response.data as ReceiveInfoPodResponse]
+}
+
+export async function receivePod(sharingRef: string) {
+  await axios.get('pod/receive', {
+    params: {
+      sharing_ref: sharingRef,
+    },
+    validateStatus: (status) => [200, 500].includes(status),
+  })
 }

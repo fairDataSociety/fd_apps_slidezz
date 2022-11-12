@@ -19,6 +19,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Switch,
+  Text,
   VStack,
   useBoolean,
   useColorModeValue,
@@ -61,8 +62,9 @@ export default function SaveSlides() {
   const handleFairOSSaveSlides = async (slidesDiv: HTMLElement) => {
     if (!user || !slides) return
 
+    //TODO: unique pod name
     const slidesPodName = shareSlides
-      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-${user.username}-shared`
+      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-shared`
       : process.env.NEXT_PUBLIC_SLIDES_POD!
 
     const pods = await fairDrivePods()
@@ -211,6 +213,9 @@ export default function SaveSlides() {
               </FormControl>
 
               <Collapse in={shareSlides}>
+                <Text pt={2} color="gray.500" fontSize="sm">
+                  Sharing options
+                </Text>
                 <VStack
                   align="stretch"
                   border="solid"

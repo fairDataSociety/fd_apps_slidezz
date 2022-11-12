@@ -1,4 +1,5 @@
 import axios from './customAxios'
+import { openPod, receiveInfoPod, receivePod } from './pod'
 
 interface Dir {
   name: string
@@ -62,4 +63,23 @@ export async function uploadFile(data: UploadFileData) {
   formData.append('block_size', '64Mb')
 
   return await axios.post('file/upload', formData)
+}
+
+export async function downloadShared(
+  podSharingRef: string,
+  filePath: string,
+  password: string
+) {
+  const [isValid, receiveInfo] = await receiveInfoPod(podSharingRef)
+  if (!isValid || !receiveInfo) {
+    throw new Error(`sharing reference is not valid`)
+  }
+
+  await receivePod(podSharingRef)
+  await openPod(receiveInfo.pod_name, password)
+  const data = await downloadFile({
+    pod_name: receiveInfo.pod_name,
+    file_path: filePath,
+  })
+  return data
 }

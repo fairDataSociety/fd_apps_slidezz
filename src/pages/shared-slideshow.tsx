@@ -8,7 +8,9 @@ import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 
 import SideBar from '../components/Editor/Sidebar'
 import Layout from '../components/Layout'
-import { fdpAtom, slidesAtom, slidesLogoAtom } from '../store'
+import Login from '../components/Login'
+import { fdpAtom, slidesAtom, slidesLogoAtom, userAtom } from '../store'
+import { fairDriveDownloadShared } from '../utils/fairdrive'
 
 const SharedSlideshow = dynamic(() => import('../components/SharedSlideshow'), {
   ssr: false,
@@ -34,17 +36,18 @@ const SharedSlideshowPage: NextPage = () => {
   const setSlidesLogo = useAtom(slidesLogoAtom)[1]
   const [slides, setSlides] = useAtom(slidesAtom)
   const [isEmbed, setIsEmbed] = useState(false)
+  const [user] = useAtom(userAtom)
 
   useEffect(() => {
-    if (router.isReady && fdp) {
+    if (router.isReady && (fdp || user)) {
       ;(async () => {
         const slidesShareRef = router.query.ref as string
         const isEmbed = typeof router.query.embed === 'string'
 
         setIsEmbed(isEmbed)
 
-        const slidesHTML = (
-          await fdp.file.downloadShared(slidesShareRef)
+        const slidesHTML = await (
+          await fairDriveDownloadShared(slidesShareRef, fdp, user?.password)
         ).text()
 
         const div = document.createElement('div')
@@ -79,9 +82,9 @@ const SharedSlideshowPage: NextPage = () => {
         })
       })()
     }
-  }, [router.isReady, fdp])
+  }, [router.isReady, fdp, user])
 
-  if (!fdp) return <p>only available on fdp-storage</p>
+  if (!fdp && !user) return <Login />
 
   if (!slides)
     return (
