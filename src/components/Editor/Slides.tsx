@@ -24,6 +24,7 @@ import {
 } from '../../store'
 import { Slides as SlidesType } from '../../types'
 import { addMoveableToElements, isHTML } from '../../utils'
+import ColorPicker from './ColorPicker'
 import EditMode from './EditMode'
 import FontTab from './FontTab'
 import {
@@ -170,6 +171,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       <SlideSideBar />
       <EditMode />
       <FontTab />
+      <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
       <Box className={`reveal ${deckName}`}>

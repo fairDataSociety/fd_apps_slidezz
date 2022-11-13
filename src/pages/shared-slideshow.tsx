@@ -135,6 +135,7 @@ const SharedSlideshowPage: NextPage = () => {
             w={deck.getComputedSlideSize().width}
             h={deck.getComputedSlideSize().height}
             className="reveal tmpDeck"
+            display="none"
           />
         )}
       </Layout>
