@@ -63,7 +63,7 @@ export default function SaveSlides() {
     if (!user || !slides) return
 
     const slidesPodName = shareSlides
-      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}${hashCode(user.username)}`
+      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-${user.username}`
       : process.env.NEXT_PUBLIC_SLIDES_POD!
 
     const pods = await fairDrivePods()

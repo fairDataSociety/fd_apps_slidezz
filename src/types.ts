@@ -28,6 +28,7 @@ export interface Slides {
   height?: number
   width?: number
   name?: string
+  isReadonly?: boolean
   sharingInfo?: {
     sharedRef: string
     allowDownloading: boolean

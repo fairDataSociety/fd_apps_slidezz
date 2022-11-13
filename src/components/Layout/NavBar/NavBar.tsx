@@ -19,7 +19,6 @@ import {
 import ThemeToggleButton from './ThemeToggleButton'
 
 export default function NavBar() {
-  //TODO: remove back button for shared slides
   const [slides, setSlides] = useAtom(slidesAtom)
   const setDeck = useAtom(slidesDeckAtom)[1]
   const setSlidesLogo = useAtom(slidesLogoAtom)[1]
@@ -47,7 +46,7 @@ export default function NavBar() {
       </HStack>
 
       <HStack gap={2}>
-        {slides && (
+        {slides && !slides.isReadonly ? (
           <IconButton
             onClick={() => {
               setSlides(undefined)
@@ -58,7 +57,7 @@ export default function NavBar() {
             aria-label="back"
             icon={<ArrowBackIcon />}
           />
-        )}
+        ) : null}
 
         <Text fontSize="2xl" fontWeight="bold">
           Slide

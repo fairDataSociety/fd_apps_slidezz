@@ -96,6 +96,7 @@ const SharedSlideshowPage: NextPage = () => {
           data: div.innerHTML,
           width: width ? Number(width) : undefined,
           height: height ? Number(height) : undefined,
+          isReadonly: true,
           sharingInfo: {
             sharedRef: slidesShareRef,
             allowDownloading,
