@@ -54,8 +54,6 @@ export default function AddVideo() {
 
     videoElement.classList.add('fair-data')
 
-    videoContainer.style.cursor = 'pointer'
-
     videoContainer.addEventListener('click', () => {
       setMoveableTarget(videoContainer)
     })

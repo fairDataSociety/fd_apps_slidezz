@@ -30,7 +30,7 @@ export default function ColorPicker() {
   }, [moveableTarget])
 
   return (
-    <Box zIndex={100} className="test" position="absolute" top={-9} right={10}>
+    <Box position="absolute" top={-9} right={10}>
       <Popover placement="right-end">
         <PopoverTrigger>
           <IconButton
@@ -46,13 +46,17 @@ export default function ColorPicker() {
             icon={<MdColorLens />}
           />
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent w="230px">
           <PopoverArrow />
           <PopoverBody>
-            <VStack gap={2}>
+            <VStack alignItems="flex-start" gap={2}>
               <VStack>
                 <Text>Text Color</Text>
                 <HexColorPicker
+                  style={{
+                    width: '150px',
+                    height: '150px',
+                  }}
                   color={color}
                   onChange={(newColor) => {
                     if (moveableTarget) {
@@ -75,6 +79,10 @@ export default function ColorPicker() {
               <VStack>
                 <Text mb={3}>Background Color</Text>
                 <HexColorPicker
+                  style={{
+                    width: '150px',
+                    height: '150px',
+                  }}
                   color={bgColor}
                   onChange={(newColor) => {
                     if (moveableTarget) {

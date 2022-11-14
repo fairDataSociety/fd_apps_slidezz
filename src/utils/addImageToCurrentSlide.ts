@@ -16,7 +16,6 @@ export async function addImageToCurrentSlide(
   imageElement.src = await blobToBase64(image.data)
   imageElement.alt = image.name
   imageElement.classList.add('fair-data')
-  imageContainer.style.cursor = 'pointer'
 
   imageContainer.appendChild(imageElement)
 

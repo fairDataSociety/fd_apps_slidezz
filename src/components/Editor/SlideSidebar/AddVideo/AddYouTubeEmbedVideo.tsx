@@ -62,8 +62,6 @@ export default function AddYouTubeEmbedVideo({
       values.url
     )}`
 
-    videoContainer.style.cursor = 'pointer'
-
     videoContainer.addEventListener('click', () => {
       setMoveableTarget(videoContainer)
     })

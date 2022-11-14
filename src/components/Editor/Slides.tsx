@@ -174,7 +174,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
-      <Box className={`reveal ${deckName}`}>
+      <Box overflow="visible" className={`reveal ${deckName}`}>
         <Box ref={slidesRef} className="slides">
           {!isHTML(slides.data) && (
             <section data-markdown="" data-separator="---">
@@ -213,12 +213,13 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               zoom={2}
               origin={true}
               padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
-              resizable={editMode === 'MOVE' ? true : false}
+              resizable={true}
               keepRatio={false}
               throttleScale={0}
               renderDirections={['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se']}
               edge={false}
-              snappable={editMode === 'MOVE' ? true : false}
+              snappable={true}
+              rotatable={true}
               verticalGuidelines={[0, 200, 400]}
               horizontalGuidelines={[0, 200, 400]}
               snapThreshold={5}
@@ -245,6 +246,8 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               onResize={moveableHelper.onResize}
               onDragStart={moveableHelper.onDragStart}
               onDrag={moveableHelper.onDrag}
+              onRotateStart={moveableHelper.onRotateStart}
+              onRotate={moveableHelper.onRotate}
               onClick={(e) => {
                 const target = e.target as HTMLElement
                 if (editMode === 'TEXT') {

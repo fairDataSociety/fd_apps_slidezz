@@ -30,7 +30,5 @@ export function addMoveableToElements(
     element.addEventListener('click', () => {
       setMoveableTarget(element)
     })
-
-    element.style.cursor = 'pointer'
   })
 }
