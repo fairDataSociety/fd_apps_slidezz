@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 
 import { moveableTargetAtom } from '../../store'
+import { rgbToHex } from '../../utils'
 
 export default function ColorPicker() {
   const [moveableTarget] = useAtom(moveableTargetAtom)
@@ -24,8 +25,11 @@ export default function ColorPicker() {
 
   useEffect(() => {
     if (moveableTarget) {
-      setColor(moveableTarget.style.color)
-      setColor(moveableTarget.style.backgroundColor)
+      setColor(rgbToHex(moveableTarget.style.color))
+      setBgColor(rgbToHex(moveableTarget.style.backgroundColor))
+    } else {
+      setColor('')
+      setBgColor('')
     }
   }, [moveableTarget])
 

@@ -2,7 +2,6 @@ import { useAtom } from 'jotai'
 import { BsImageAlt } from 'react-icons/bs'
 
 import {
-  Box,
   Button,
   Center,
   Image,

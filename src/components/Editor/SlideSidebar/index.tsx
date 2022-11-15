@@ -11,6 +11,7 @@ import AddText from './AddText'
 import AddVideo from './AddVideo'
 import NewSlide from './NewSlide'
 import RemoveSlide from './RemoveSlide'
+import SlideBackground from './SlideBackground'
 import SlideSideBarItem from './SlideSidebarItem'
 
 export default function SlideSidebar() {
@@ -39,6 +40,7 @@ export default function SlideSidebar() {
         <SlideSideBarItem icon={BsFillImageFill} label="Image" />
       </AddImage>
       <AddVideo />
+      <SlideBackground />
       <RemoveSlide />
       <NewSlide />
     </Box>
