@@ -4,19 +4,28 @@ import { HexColorInput, HexColorPicker } from 'react-colorful'
 import { TbRectangle } from 'react-icons/tb'
 
 import {
+  Box,
+  Button,
+  Divider,
+  HStack,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  NumberInput,
+  NumberInputField,
+  Select,
   Text,
   VStack,
   useDisclosure,
 } from '@chakra-ui/react'
 
 import { slidesDeckAtom } from '../../../store'
-import { rgbToHex } from '../../../utils'
+import { blobToBase64, rgbToHex } from '../../../utils'
+import AddImage from './AddImage'
 import SlideSidebarItem from './SlideSidebarItem'
 
 export default function SlideBackground() {
@@ -24,15 +33,18 @@ export default function SlideBackground() {
   const [deck] = useAtom(slidesDeckAtom)
   const [currentSlide, setCurrentSlide] = useState<HTMLElement>()
   const [slideBgColor, setSlideBgColor] = useState('')
+  const [slideBgImage, setSlideBgImage] = useState('')
 
   useEffect(() => {
     if (deck && isOpen) {
       const currentSlide = deck.getCurrentSlide() as HTMLElement
       setCurrentSlide(currentSlide)
       setSlideBgColor(rgbToHex(currentSlide.style.backgroundColor))
+      setSlideBgImage(currentSlide.style.backgroundImage.slice(1, -1))
     } else {
       setCurrentSlide(undefined)
       setSlideBgColor('')
+      setSlideBgImage('')
     }
   }, [isOpen, deck])
 
@@ -44,7 +56,7 @@ export default function SlideBackground() {
         onClick={onOpen}
       />
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal size="4xl" isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Slide background</ModalHeader>
@@ -53,11 +65,12 @@ export default function SlideBackground() {
             {currentSlide && (
               <VStack>
                 <VStack>
-                  <Text>Color</Text>
+                  <Text fontSize="lg">Color</Text>
+                  <Divider />
                   <HexColorPicker
                     style={{
-                      width: '150px',
-                      height: '150px',
+                      width: '250px',
+                      height: '250px',
                     }}
                     color={slideBgColor}
                     onChange={(newColor) => {
@@ -72,6 +85,73 @@ export default function SlideBackground() {
                       setSlideBgColor(newColor)
                     }}
                   />
+                </VStack>
+
+                <VStack>
+                  <Text fontSize="lg">Image</Text>
+                  <Divider />
+
+                  {slideBgImage && (
+                    <HStack gap={2} align="flex-start">
+                      <Box w="250px" h="250px" border="solid" borderWidth="1px">
+                        <Image
+                          w="full"
+                          h="full"
+                          alt="slide background"
+                          src={slideBgImage.slice(4, -1)}
+                          objectFit="cover"
+                          backgroundPosition="center"
+                        />
+                      </Box>
+
+                      <VStack>
+                        <Select>
+                          <option value="cover">Cover</option>
+                          <option value="contain">Contain</option>
+                          <option value="original">Orginal</option>
+                        </Select>
+
+                        <Select placeholder="Select option">
+                          <option value="option1">Option 1</option>
+                          <option value="option2">Option 2</option>
+                          <option value="option3">Option 3</option>
+                        </Select>
+
+                        <NumberInput defaultValue={15} min={10} max={20}>
+                          <NumberInputField />
+                        </NumberInput>
+                      </VStack>
+                    </HStack>
+                  )}
+
+                  <HStack>
+                    <AddImage
+                      handleAddImage={async (image) => {
+                        const backgroundImage =
+                          'url(' + (await blobToBase64(image.data)) + ')'
+
+                        currentSlide.style.backgroundImage = backgroundImage
+                        currentSlide.style.backgroundSize = 'cover'
+                        currentSlide.style.backgroundPosition = 'center'
+                        setSlideBgImage(backgroundImage)
+                      }}
+                    >
+                      <Button variant="outline" size="md" w="full">
+                        {slideBgImage ? 'Replace image' : 'Choose image'}
+                      </Button>
+                    </AddImage>
+                    {slideBgImage && (
+                      <Button
+                        size="md"
+                        onClick={() => {
+                          currentSlide.style.backgroundImage = ''
+                          setSlideBgImage('')
+                        }}
+                      >
+                        Remove image
+                      </Button>
+                    )}
+                  </HStack>
                 </VStack>
               </VStack>
             )}

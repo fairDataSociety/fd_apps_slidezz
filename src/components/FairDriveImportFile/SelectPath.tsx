@@ -82,7 +82,7 @@ export default function SelectPath({
           onClick={() => {
             const pathArray = tmpPath.split('/')
             let newPath = pathArray.slice(0, pathArray.length - 1).join('/')
-            if (newPath === '') newPath = '/'
+            if (!newPath) newPath = '/'
             setTmpPath(newPath)
           }}
           size="sm"

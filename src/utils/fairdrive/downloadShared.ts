@@ -31,7 +31,10 @@ function parseSharedRef(sharedRef: string): {
   if (sharedRef[0] === '1') {
     return {
       parsedSharedRef: sharedRef.slice(1, 65),
-      filePath: `/${sharedRef.slice(65)}.html`,
+      filePath: `/${Buffer.from(
+        sharedRef.slice(65),
+        'base64'
+      ).toString()}.html`,
     }
   }
 

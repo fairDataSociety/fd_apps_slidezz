@@ -59,11 +59,11 @@ export default function Login() {
   const handleValidation = (values: LoginFormValues) => {
     const errors: FormikErrors<LoginFormValues> = {}
 
-    if (values.username === '') {
+    if (!values.username) {
       errors.username = 'username is required'
     }
 
-    if (values.password === '') {
+    if (!values.password) {
       errors.password = 'password is required'
     }
 

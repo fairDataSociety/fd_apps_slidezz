@@ -36,7 +36,7 @@ import {
   slidesLogoAtom,
   userAtom,
 } from '../../../store'
-import { getSlidesHTML, hashCode } from '../../../utils'
+import { getSlidesHTML } from '../../../utils'
 import {
   fairDriveCreatePod,
   fairDrivePods,
@@ -91,7 +91,7 @@ export default function SaveSlides() {
       ...slides,
       name: fileName,
       sharingInfo: {
-        sharedRef: `1${sharedRef}${fileName}`,
+        sharedRef: `1${sharedRef}${Buffer.from(fileName).toString('base64')}`,
         allowDownloading: true,
       },
     })
@@ -246,10 +246,7 @@ export default function SaveSlides() {
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button
-              isDisabled={fileName.length === 0}
-              onClick={handleSaveSlides}
-            >
+            <Button isDisabled={!fileName} onClick={handleSaveSlides}>
               Save
             </Button>
           </ModalFooter>

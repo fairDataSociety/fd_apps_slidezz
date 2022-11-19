@@ -24,11 +24,7 @@ export function parseGoogleSlides(
     revealSection.style.backgroundSize = 'cover'
     revealSection.style.backgroundPosition = 'center'
 
-    if (videos[i]) {
-      for (const video of videos[i]) {
-        revealSection.append(video)
-      }
-    }
+    if (videos[i]) for (const video of videos[i]) revealSection.append(video)
 
     revealSection.setAttribute('data-width', String(pageSize.width))
     revealSection.setAttribute('data-height', String(pageSize.height))
