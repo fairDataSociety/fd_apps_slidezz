@@ -3,12 +3,14 @@ import dynamic from 'next/dynamic'
 
 import {
   Box,
+  Center,
   Container,
   Divider,
   Heading,
   Image,
   ListItem,
   OrderedList,
+  Spinner,
   Tab,
   TabList,
   TabPanel,
@@ -32,6 +34,11 @@ import MySlideShows from './MySlideshows'
 
 const TemplatePreview = dynamic(() => import('./TemplatePreview'), {
   ssr: false,
+  loading: () => (
+    <Center h="full">
+      <Spinner size="xl" />
+    </Center>
+  ),
 })
 
 export default function SlideshowTemplates() {

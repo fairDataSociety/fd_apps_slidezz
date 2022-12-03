@@ -1,25 +1,35 @@
-import { isValidMotionProp, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import NextLink from 'next/link'
 import React from 'react'
 
 import {
+  Box,
   Button,
   Container,
   Heading,
+  Highlight,
   Stack,
   Text,
+  TextProps,
   VStack,
-  chakra,
+  useColorModeValue,
 } from '@chakra-ui/react'
 
+import {
+  CONTAINER_VARIANTS,
+  TEXT_UNDERLINE_VRIANTS,
+  TEXT_VARIANTS,
+} from '../animations'
 import Layout from '../components/Layout'
 import useColors from '../hooks/useColors'
 
 const AppUI = dynamic(() => import('../components/AppUI'), { ssr: false })
 
 const Home: NextPage = () => {
+  const { rosewater } = useColors()
+
   return (
     <Layout>
       <Container mt={{ base: '3rem', lg: '7rem' }} maxW="container.xl">
@@ -30,20 +40,50 @@ const Home: NextPage = () => {
           justify="center"
           gap={8}
         >
-          <VStack pt={5} align="flex-start" gap={4}>
+          <VStack
+            as={motion.div}
+            variants={CONTAINER_VARIANTS}
+            initial="hide"
+            animate="show"
+            pt={5}
+            align="flex-start"
+            gap={4}
+          >
             <Heading fontSize={{ base: '4xl', md: '6xl' }}>
-              <AnimatedText>Make</AnimatedText>
+              <TextWithUnderline as="span">Make</TextWithUnderline>
               <br />
-              <AnimatedText delay={0.7}>slideshows</AnimatedText>
+              <TextWithUnderline as="span">slideshows</TextWithUnderline>
             </Heading>
 
-            <Text variant="subtext">
-              Slidezz let you make slideshows and save/share them on Fairdrive
-            </Text>
+            <Box overflow="hidden">
+              <Text as={motion.p} variants={TEXT_VARIANTS} variant="subtext">
+                <Highlight
+                  query="Fairdrive"
+                  styles={{
+                    px: '2',
+                    py: '1',
+                    rounded: 'full',
+                    color: useColorModeValue('gray.100', 'gray.800'),
+                    bg: rosewater,
+                  }}
+                >
+                  Slidezz lets you make slideshows and save/share them on
+                  Fairdrive.
+                </Highlight>
+              </Text>
+            </Box>
 
-            <NextLink href="/slideshow">
-              <Button size={{ base: 'sm', sm: 'md' }}>Start presenting</Button>
-            </NextLink>
+            <Box overflow="hidden">
+              <NextLink href="/slideshow">
+                <Button
+                  as={motion.button}
+                  variants={TEXT_VARIANTS}
+                  size={{ base: 'sm', sm: 'md' }}
+                >
+                  Start presenting
+                </Button>
+              </NextLink>
+            </Box>
           </VStack>
 
           <AppUI />
@@ -53,33 +93,17 @@ const Home: NextPage = () => {
   )
 }
 
-const FramerBox = chakra(motion.div, {
-  shouldForwardProp: isValidMotionProp,
-})
-
-const AnimatedText = ({
-  children,
-  delay = 0,
-  duration = 0.7,
-}: {
-  children: React.ReactNode
-  delay?: number
-  duration?: number
-}) => {
+const TextWithUnderline: React.FC<
+  { children: React.ReactNode } & TextProps
+> = ({ children, ...props }) => {
   const { rosewater } = useColors()
 
   return (
-    <Text as="span" position="relative">
+    <Text position="relative" {...props}>
       {children}
-      <FramerBox
-        initial={{ width: '0%' }}
-        animate={{
-          width: '100%',
-          transition: {
-            duration: duration,
-            delay: delay,
-          },
-        }}
+      <Box
+        as={motion.div}
+        variants={TEXT_UNDERLINE_VRIANTS}
         bottom={0}
         left={0}
         position="absolute"
