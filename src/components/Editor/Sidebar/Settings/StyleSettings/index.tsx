@@ -13,10 +13,10 @@ import {
   DrawerHeader,
   DrawerOverlay,
   VStack,
-  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
 
+import useColors from '../../../../../hooks/useColors'
 import { styleSettingsAtom } from '../../../../../store'
 import SideBarItem from '../../SidebarItem'
 import SelectColor from './SelectColor'
@@ -24,7 +24,7 @@ import SelectColor from './SelectColor'
 export default function PresentationSettings() {
   const [styleSettings, setStyleSettings] = useAtom(styleSettingsAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const settingBg = useColorModeValue('latte-crust', 'frappe-crust')
+  const { crust } = useColors()
 
   return (
     <>
@@ -41,7 +41,7 @@ export default function PresentationSettings() {
         >
           {({ handleSubmit }) => (
             <Box>
-              <DrawerContent bg={settingBg}>
+              <DrawerContent bg={crust}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Style settings</DrawerHeader>
                 <DrawerBody mt={5}>

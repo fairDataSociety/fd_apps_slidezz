@@ -18,9 +18,9 @@ import {
   Text,
   Textarea,
   Tooltip,
-  useColorModeValue,
 } from '@chakra-ui/react'
 
+import useColors from '../../hooks/useColors'
 import { slidesAtom } from '../../store'
 import { isHTML } from '../../utils'
 
@@ -35,14 +35,15 @@ export default function TemplatePreview({
   title,
   slides,
 }: TemplatePreviewProps) {
-  const setSlides = useAtom(slidesAtom)[1]
+  const [, setSlides] = useAtom(slidesAtom)
+  const { overlay0 } = useColors()
 
   return (
     <Box
       w="350px"
       border="solid"
       borderWidth={1}
-      borderColor={useColorModeValue('latte-overlay0', 'frappe-overlay0')}
+      borderColor={overlay0}
       p={2}
       _hover={{
         boxShadow: 'lg',

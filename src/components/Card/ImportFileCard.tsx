@@ -1,10 +1,6 @@
-import {
-  Box,
-  HStack,
-  IconProps,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { Box, HStack, IconProps, Text } from '@chakra-ui/react'
+
+import useColors from '../../hooks/useColors'
 
 interface ImportFileCardProps {
   title: string
@@ -17,6 +13,8 @@ export default function ImportFileCard({
   description,
   Icon,
 }: ImportFileCardProps) {
+  const { overlay0 } = useColors()
+
   return (
     <HStack
       justify="space-between"
@@ -27,7 +25,7 @@ export default function ImportFileCard({
       borderWidth={1}
       p={6}
       rounded="lg"
-      borderColor={useColorModeValue('latte-overlay0', 'frappe-overlay0')}
+      borderColor={overlay0}
       _hover={{
         boxShadow: 'lg',
       }}

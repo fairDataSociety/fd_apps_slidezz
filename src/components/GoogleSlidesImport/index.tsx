@@ -16,9 +16,9 @@ import GoogleslidesIcon from '../Icons/GoolgeslidesIcon'
 
 export default function GoogleSlidesImport() {
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
-  const setSlides = useAtom(slidesAtom)[1]
+  const [, setSlides] = useAtom(slidesAtom)
   const toast = useToast()
-  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
 
   return (
     <GoogleDriveImportFile

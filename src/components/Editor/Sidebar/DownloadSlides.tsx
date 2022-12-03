@@ -25,8 +25,8 @@ import SidebarItem from './SidebarItem'
 export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deck] = useAtom(slidesDeckAtom)
-  const setMoveableTarget = useAtom(moveableTargetAtom)[1]
-  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
   const [slideshowSettings] = useAtom(slideshowSettingsAtom)
 
   return (

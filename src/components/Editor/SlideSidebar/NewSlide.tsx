@@ -20,7 +20,7 @@ import SlideSideBarItem from './SlideSidebarItem'
 
 export default function NewSlide() {
   const [deck] = useAtom(slidesDeckAtom)
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const addNewSlide = (content: string) => {

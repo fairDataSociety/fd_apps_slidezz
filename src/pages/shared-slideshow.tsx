@@ -39,7 +39,7 @@ const EmbedSlideshow = dynamic(() => import('../components/EmbedSlideshow'), {
 const SharedSlideshowPage: NextPage = () => {
   const router = useRouter()
   const [fdp] = useAtom(fdpAtom)
-  const setSlidesLogo = useAtom(slidesLogoAtom)[1]
+  const [, setSlidesLogo] = useAtom(slidesLogoAtom)
   const [slides, setSlides] = useAtom(slidesAtom)
   const [isEmbed, setIsEmbed] = useState(false)
   const [user] = useAtom(userAtom)

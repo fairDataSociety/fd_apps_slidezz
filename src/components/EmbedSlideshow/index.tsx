@@ -25,7 +25,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
   const query = router.query as { [key: string]: string | undefined }
   const slidesLogoPosition =
     (query.slidesLogoPosition as keyof typeof LogoPositions) || 'top-left'
-  const setDeck = useAtom(slidesDeckAtom)[1]
+  const [, setDeck] = useAtom(slidesDeckAtom)
 
   useEffect(() => {
     if (slidesRef.current) slidesRef.current.innerHTML = slides.data

@@ -7,9 +7,10 @@ import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
 //@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
-import { Box, Image, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image } from '@chakra-ui/react'
 
 import { LogoPositions } from '../../config/logo-positions'
+import useColors from '../../hooks/useColors'
 import {
   slidesDeckAtom,
   slidesLogoAtom,
@@ -28,6 +29,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
   const [styleSettings] = useAtom(styleSettingsAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
   const [deck, setDeck] = useAtom(slidesDeckAtom)
+  const { overlay0 } = useColors()
 
   useEffect(() => {
     if (slidesRef.current) slidesRef.current.innerHTML = slides.data
@@ -76,7 +78,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
       className="slideshow"
       position="relative"
       borderWidth="1px"
-      borderColor={useColorModeValue('latte-overlay0', 'frappe-overlay0')}
+      borderColor={overlay0}
       borderBottom="none"
       w="full"
       h="full"

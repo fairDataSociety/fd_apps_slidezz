@@ -1,6 +1,8 @@
 import { IconType } from 'react-icons'
 
-import { Box, HStack, Icon, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, HStack, Icon, Text } from '@chakra-ui/react'
+
+import useColors from '../../hooks/useColors'
 
 interface ItemBoxProps {
   text: string
@@ -9,11 +11,13 @@ interface ItemBoxProps {
 }
 
 export default function ItemBox({ text, icon, onClick }: ItemBoxProps) {
+  const { surface2, overlay1 } = useColors()
+
   return (
     <Box
-      bg={useColorModeValue('latte-surface2', 'frappe-surface2')}
+      bg={surface2}
       _hover={{
-        bg: useColorModeValue('latte-overlay1', 'frappe-overlay1'),
+        bg: overlay1,
       }}
       p={5}
       rounded="xl"

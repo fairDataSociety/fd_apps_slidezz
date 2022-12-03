@@ -8,7 +8,7 @@ import AddImageModal from './SlideSidebar/AddImage/AddImageModal'
 
 export function ReplaceImage() {
   const [isOpen, setIsOpen] = useState(true)
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )

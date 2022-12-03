@@ -19,7 +19,7 @@ export default function GoogleDriveImportFile({
   callback,
   downloadFile,
 }: GoogleDriveImportFileProps) {
-  const setGoogleAccessToken = useAtom(googleAccessTokenAtom)[1]
+  const [, setGoogleAccessToken] = useAtom(googleAccessTokenAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const googleDriveLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {

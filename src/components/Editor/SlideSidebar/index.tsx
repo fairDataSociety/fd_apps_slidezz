@@ -2,8 +2,9 @@ import { useAtom } from 'jotai'
 import { BsFillImageFill } from 'react-icons/bs'
 import { RiText } from 'react-icons/ri'
 
-import { Box, useColorModeValue } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
+import useColors from '../../../hooks/useColors'
 import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
 import { addImageToCurrentSlide } from '../../../utils'
 import AddImage from './AddImage'
@@ -16,11 +17,12 @@ import SlideSideBarItem from './SlideSidebarItem'
 
 export default function SlideSidebar() {
   const [deck] = useAtom(slidesDeckAtom)
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const { crust } = useColors()
 
   return (
     <Box
-      bg={useColorModeValue('latte-crust', 'frappe-crust')}
+      bg={crust}
       fontSize={{ base: 'xs', md: 'md' }}
       position="absolute"
       borderRadius="lg"

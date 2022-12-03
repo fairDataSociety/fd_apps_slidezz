@@ -11,11 +11,11 @@ import {
   VStack,
   Wrap,
   WrapItem,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 
 import { openPod } from '../../api/fairos/pod'
+import useColors from '../../hooks/useColors'
 import {
   fdpAtom,
   loadingModalActionAtom,
@@ -32,10 +32,10 @@ export default function MySlideshows() {
   const [mySlideshows, setMySlideshows] = useState<DirectoryItem['files']>()
   const [user] = useAtom(userAtom)
   const [fdp] = useAtom(fdpAtom)
-  const setSlides = useAtom(slidesAtom)[1]
-  const setSlidesLogo = useAtom(slidesLogoAtom)[1]
-  const borderColor = useColorModeValue('latte-overlay0', 'frappe-overlay0')
-  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const [, setSlides] = useAtom(slidesAtom)
+  const [, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const { overlay0 } = useColors()
+  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
 
   const handleSetMyslideshows = async () => {
     if (!user) return
@@ -78,7 +78,7 @@ export default function MySlideshows() {
               gap={3}
               border="solid"
               borderWidth={1}
-              borderColor={borderColor}
+              borderColor={overlay0}
               _hover={{
                 boxShadow: 'lg',
               }}

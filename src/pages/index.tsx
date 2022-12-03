@@ -12,10 +12,10 @@ import {
   Text,
   VStack,
   chakra,
-  useColorModeValue,
 } from '@chakra-ui/react'
 
 import Layout from '../components/Layout'
+import useColors from '../hooks/useColors'
 
 const AppUI = dynamic(() => import('../components/AppUI'), { ssr: false })
 
@@ -66,6 +66,8 @@ const AnimatedText = ({
   delay?: number
   duration?: number
 }) => {
+  const { rosewater } = useColors()
+
   return (
     <Text as="span" position="relative">
       {children}
@@ -83,7 +85,7 @@ const AnimatedText = ({
         position="absolute"
         h={{ base: '0.8rem', md: '1rem' }}
         zIndex={-1}
-        background={useColorModeValue('latte-rosewater', 'frappe-rosewater')}
+        background={rosewater}
       />
     </Text>
   )

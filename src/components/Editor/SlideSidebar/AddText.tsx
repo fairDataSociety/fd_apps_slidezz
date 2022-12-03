@@ -11,7 +11,7 @@ interface AddTextProps {
 
 export default function AddText({ children }: AddTextProps) {
   const [deck] = useAtom(slidesDeckAtom)
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
 
   const handleAddText = () => {
     const currentSlideIndex = deck.getState().indexh

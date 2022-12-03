@@ -2,8 +2,9 @@ import fscreen from 'fscreen'
 import { useAtom } from 'jotai'
 import { FaPlay } from 'react-icons/fa'
 
-import { Box, useColorModeValue } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
+import useColors from '../../../hooks/useColors'
 import { slidesAtom, slidesDeckAtom } from '../../../store'
 import DownloadSlides from './DownloadSlides'
 import LogoImage from './LogoImage'
@@ -20,10 +21,11 @@ interface SidebarProps {
 export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
   const [deck] = useAtom(slidesDeckAtom)
   const [slides] = useAtom(slidesAtom)
+  const { crust } = useColors()
 
   return (
     <Box
-      bg={useColorModeValue('latte-crust', 'frappe-crust')}
+      bg={crust}
       fontSize={{ base: 'xl', md: '2xl' }}
       w="5rem"
       h="90%"

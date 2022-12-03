@@ -2,14 +2,9 @@ import { useAtom } from 'jotai'
 import { IoLogoGithub } from 'react-icons/io5'
 
 import { ArrowBackIcon } from '@chakra-ui/icons'
-import {
-  HStack,
-  IconButton,
-  Link,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { HStack, IconButton, Link, Text } from '@chakra-ui/react'
 
+import useColors from '../../../hooks/useColors'
 import {
   moveableTargetAtom,
   slidesAtom,
@@ -20,9 +15,10 @@ import ThemeToggleButton from './ThemeToggleButton'
 
 export default function NavBar() {
   const [slides, setSlides] = useAtom(slidesAtom)
-  const setDeck = useAtom(slidesDeckAtom)[1]
-  const setSlidesLogo = useAtom(slidesLogoAtom)[1]
-  const setMoveableTarget = useAtom(moveableTargetAtom)[1]
+  const [, setDeck] = useAtom(slidesDeckAtom)
+  const [, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const { rosewater } = useColors()
 
   return (
     <HStack
@@ -61,10 +57,7 @@ export default function NavBar() {
 
         <Text fontSize="2xl" fontWeight="bold">
           Slide
-          <Text
-            as="span"
-            color={useColorModeValue('latte-rosewater', 'frappe-rosewater')}
-          >
+          <Text as="span" color={rosewater}>
             zz
           </Text>
         </Text>

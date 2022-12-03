@@ -28,6 +28,7 @@ import {
 } from '@chakra-ui/react'
 
 import { openPod } from '../../../api/fairos/pod'
+import useColors from '../../../hooks/useColors'
 import {
   fdpAtom,
   loadingModalActionAtom,
@@ -54,10 +55,10 @@ export default function SaveSlides() {
   const [fileName, setFileName] = useState('')
   const [shareSlides, setShareSlides] = useBoolean(false)
   const [allowDownloading, setAllowDownloading] = useBoolean(false)
-
+  const { overlay0 } = useColors()
   const [fdp] = useAtom(fdpAtom)
   const toast = useToast()
-  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
 
   const handleFairOSSaveSlides = async (slidesDiv: HTMLElement) => {
     if (!user || !slides) return
@@ -227,10 +228,7 @@ export default function SaveSlides() {
                   borderWidth={1}
                   p={2}
                   rounded="md"
-                  borderColor={useColorModeValue(
-                    'latte-overlay0',
-                    'frappe-overlay0'
-                  )}
+                  borderColor={overlay0}
                 >
                   <Checkbox
                     isChecked={allowDownloading}

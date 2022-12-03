@@ -10,9 +10,10 @@ import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
 //@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
-import { Box, Image, Textarea, useColorModeValue } from '@chakra-ui/react'
+import { Box, Image, Textarea } from '@chakra-ui/react'
 
 import { LogoPositions } from '../../config/logo-positions'
+import useColors from '../../hooks/useColors'
 import {
   editModeAtom,
   moveableTargetAtom,
@@ -49,6 +50,7 @@ interface SlidesProps {
 
 export default function Slides({ deckName, slides }: SlidesProps) {
   const [deck, setDeck] = useAtom(slidesDeckAtom)
+  const { overlay0 } = useColors()
   const moveableRef = useRef() as RefObject<
     Moveable<
       MoveableDeleteButtonProps &
@@ -163,7 +165,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       className="slideshow"
       position="relative"
       borderWidth="1px"
-      borderColor={useColorModeValue('latte-overlay0', 'frappe-overlay0')}
+      borderColor={overlay0}
       borderBottom="none"
       w="full"
       h="full"

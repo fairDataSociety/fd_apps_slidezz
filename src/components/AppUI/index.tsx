@@ -1,14 +1,12 @@
-import { Box, HStack, Image, useColorModeValue } from '@chakra-ui/react'
+import { Box, HStack, Image } from '@chakra-ui/react'
+
+import useColors from '../../hooks/useColors'
 
 export default function AppUI() {
+  const { crust } = useColors()
+
   return (
-    <Box
-      alignSelf="center"
-      w={{ base: '100%', sm: '80%', md: '90%' }}
-      bg={useColorModeValue('latte-crust', 'frappe-crust')}
-      rounded="md"
-      boxShadow="lg"
-    >
+    <Box w={{ base: '100%', lg: '90%' }} bg={crust} rounded="md" boxShadow="lg">
       <HStack p={2}>
         <Circle />
         <Circle />
@@ -18,8 +16,6 @@ export default function AppUI() {
       <Box w="full" px={2} py={2}>
         <Image
           alt="app screenshot"
-          w="98%"
-          mx="auto"
           h="full"
           objectFit="contain"
           src={`${window._detectedSiteType.basePath}/images/app-screenshot.png`}
@@ -30,12 +26,6 @@ export default function AppUI() {
 }
 
 const Circle = () => {
-  return (
-    <Box
-      w="0.5rem"
-      h="0.5rem"
-      rounded="full"
-      bg={useColorModeValue('latte-subtext0', 'frappe-subtext0')}
-    ></Box>
-  )
+  const { subtext0 } = useColors()
+  return <Box w="0.5rem" h="0.5rem" rounded="full" bg={subtext0}></Box>
 }

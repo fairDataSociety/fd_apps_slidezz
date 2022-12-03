@@ -15,10 +15,10 @@ import {
   ModalOverlay,
   Text,
   Tooltip,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 
+import useColors from '../../hooks/useColors'
 import { fdpAtom, loadingModalActionAtom } from '../../store'
 import { File } from '../../types'
 import { fairDriveDownloadFile } from '../../utils/fairdrive'
@@ -44,8 +44,8 @@ export default function FairDriveImportFileModal({
   const [pod, setPod] = useState<string | undefined>(initialPod)
   const [filePath, setFilePath] = useState<string>()
   const [fdp] = useAtom(fdpAtom)
-  const tooltipBg = useColorModeValue('latte-overlay1', 'frappe-overlay1')
-  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const { overlay1, crust } = useColors()
+  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
 
   const handleModalClose = () => {
     setPod(undefined)
@@ -95,14 +95,14 @@ export default function FairDriveImportFileModal({
       onClose={handleModalClose}
     >
       <ModalOverlay />
-      <ModalContent bg={useColorModeValue('latte-crust', 'frappe-crust')}>
+      <ModalContent bg={crust}>
         <ModalHeader>Select a {pod ? 'File' : 'Pod'}</ModalHeader>
         <ModalCloseButton />
         <ModalBody my={2} overflowY="scroll">
           {pod && (
             <HStack mb={3}>
               {!initialPod && (
-                <Tooltip bg={tooltipBg} hasArrow label="Select another pod">
+                <Tooltip bg={overlay1} hasArrow label="Select another pod">
                   <IconButton
                     size="sm"
                     icon={<AiOutlineInbox />}

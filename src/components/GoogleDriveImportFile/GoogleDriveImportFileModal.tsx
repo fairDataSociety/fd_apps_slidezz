@@ -15,10 +15,10 @@ import {
   Spinner,
   Text,
   VStack,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 
+import useColors from '../../hooks/useColors'
 import { googleAccessTokenAtom, loadingModalActionAtom } from '../../store'
 import ItemBox from '../FairDriveImportFile/ItemBox'
 
@@ -41,7 +41,8 @@ export default function GoogleDriveImportFileModal({
   const [files, setFiles] = useState<{ id: string; name: string }[]>()
   const [isLoading, setIsLoading] = useState(false)
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
-  const loadingModalAction = useAtom(loadingModalActionAtom)[1]
+  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const { crust } = useColors()
 
   useEffect(() => {
     ;(async () => {
@@ -76,7 +77,7 @@ export default function GoogleDriveImportFileModal({
       onClose={onClose}
     >
       <ModalOverlay />
-      <ModalContent bg={useColorModeValue('latte-crust', 'frappe-crust')}>
+      <ModalContent bg={crust}>
         <ModalHeader>Google Drive</ModalHeader>
         <ModalCloseButton />
         <ModalBody my={2} overflowY="scroll">

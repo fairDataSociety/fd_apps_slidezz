@@ -35,7 +35,7 @@ const TemplatePreview = dynamic(() => import('./TemplatePreview'), {
 })
 
 export default function SlideshowTemplates() {
-  const setSlides = useAtom(slidesAtom)[1]
+  const [, setSlides] = useAtom(slidesAtom)
   const [user] = useAtom(userAtom)
 
   return (

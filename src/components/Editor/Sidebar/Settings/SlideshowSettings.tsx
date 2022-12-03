@@ -26,6 +26,7 @@ import {
   checkBoxSettings,
   selectSettings,
 } from '../../../../config/slide-settings'
+import useColors from '../../../../hooks/useColors'
 import { slideshowSettingsAtom } from '../../../../store'
 import SideBarItem from '../SidebarItem'
 
@@ -34,7 +35,7 @@ export default function SlideshowSettings() {
     slideshowSettingsAtom
   )
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const settingBg = useColorModeValue('latte-crust', 'frappe-crust')
+  const { crust } = useColors()
 
   return (
     <>
@@ -55,7 +56,7 @@ export default function SlideshowSettings() {
         >
           {({ handleSubmit, handleChange, values }) => (
             <Box>
-              <DrawerContent bg={settingBg}>
+              <DrawerContent bg={crust}>
                 <DrawerCloseButton />
                 <DrawerHeader as="h2">Presentation settings</DrawerHeader>
                 <DrawerBody mt={5}>

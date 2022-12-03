@@ -12,10 +12,10 @@ import {
   Link,
   Text,
   VStack,
-  useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 
+import useColors from '../../hooks/useColors'
 import { fdpAtom, userAtom } from '../../store'
 import { fairDriveLogin } from '../../utils/fairdrive'
 import Layout from '../Layout'
@@ -33,8 +33,8 @@ const LoginFormInitialValues: LoginFormValues = {
 export default function Login() {
   const toast = useToast()
   const [fdp] = useAtom(fdpAtom)
-  const setUser = useAtom(userAtom)[1]
-  const loginBoxBg = useColorModeValue('latte-crust', 'frappe-crust')
+  const [, setUser] = useAtom(userAtom)
+  const { crust } = useColors()
 
   const handleLogin = async (values: LoginFormValues) => {
     try {
@@ -87,7 +87,7 @@ export default function Login() {
               </VStack>
 
               <VStack
-                bg={loginBoxBg}
+                bg={crust}
                 p={8}
                 rounded="lg"
                 boxShadow="lg"
