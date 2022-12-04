@@ -34,7 +34,11 @@ export default function ColorPicker() {
   }, [moveableTarget])
 
   return (
-    <Box position="absolute" top={-9} right={10}>
+    <Box
+      position="absolute"
+      top={{ base: -7, md: -9 }}
+      right={{ base: 8, md: 12 }}
+    >
       <Popover placement="right-end">
         <PopoverTrigger>
           <IconButton
@@ -45,7 +49,7 @@ export default function ColorPicker() {
               )
             }
             colorScheme="blue"
-            size="sm"
+            size={{ base: 'xs', md: 'sm' }}
             aria-label="color"
             icon={<MdColorLens />}
           />

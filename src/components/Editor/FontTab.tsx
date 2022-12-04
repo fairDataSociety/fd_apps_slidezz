@@ -42,7 +42,12 @@ export default function FontTab() {
   }, [moveableTarget])
 
   return (
-    <Box className="test" position="absolute" top={-9} right={0}>
+    <Box
+      className="test"
+      position="absolute"
+      top={{ base: -7, md: -9 }}
+      right={0}
+    >
       <Popover placement="left-end">
         <PopoverTrigger>
           <IconButton
@@ -53,7 +58,7 @@ export default function FontTab() {
               )
             }
             colorScheme="blue"
-            size="sm"
+            size={{ base: 'xs', md: 'sm' }}
             aria-label="font"
             icon={<RiFontSize />}
           />

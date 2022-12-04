@@ -10,19 +10,19 @@ export default function EditMode() {
   const [editMode, setEditMode] = useAtom(editModeAtom)
 
   return (
-    <HStack position="absolute" top={-9} left={0}>
+    <HStack position="absolute" top={{ base: -7, md: -9 }} left={0}>
       <IconButton
         colorScheme="blue"
         variant={editMode === 'MOVE' ? 'solid' : 'outline'}
         onClick={() => setEditMode('MOVE')}
-        size="sm"
+        size={{ base: 'xs', md: 'sm' }}
         aria-label="mouse"
         icon={<FaMousePointer />}
       />
       <IconButton
         colorScheme="blue"
         variant={editMode === 'TEXT' ? 'solid' : 'outline'}
-        size="sm"
+        size={{ base: 'xs', md: 'sm' }}
         onClick={() => setEditMode('TEXT')}
         aria-label="text"
         icon={<RiText />}

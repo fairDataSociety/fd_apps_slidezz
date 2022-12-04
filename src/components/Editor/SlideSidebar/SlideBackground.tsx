@@ -15,8 +15,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  NumberInput,
-  NumberInputField,
   Select,
   Text,
   VStack,
@@ -28,12 +26,18 @@ import { blobToBase64, rgbToHex } from '../../../utils'
 import AddImage from './AddImage'
 import SlideSidebarItem from './SlideSidebarItem'
 
+interface SlideBgOptions {
+  size?: string
+  position?: string
+}
+
 export default function SlideBackground() {
   const { onOpen, onClose, isOpen } = useDisclosure()
   const [deck] = useAtom(slidesDeckAtom)
   const [currentSlide, setCurrentSlide] = useState<HTMLElement>()
   const [slideBgColor, setSlideBgColor] = useState('')
   const [slideBgImage, setSlideBgImage] = useState('')
+  const [slideBgOptions, setSlideBgOptions] = useState<SlideBgOptions>({})
 
   useEffect(() => {
     if (deck && isOpen) {
@@ -41,10 +45,16 @@ export default function SlideBackground() {
       setCurrentSlide(currentSlide)
       setSlideBgColor(rgbToHex(currentSlide.style.backgroundColor))
       setSlideBgImage(currentSlide.style.backgroundImage.slice(1, -1))
+      console.log(currentSlide.style.backgroundPosition)
+      setSlideBgOptions({
+        size: currentSlide.style.backgroundSize,
+        position: currentSlide.style.backgroundPosition,
+      })
     } else {
       setCurrentSlide(undefined)
       setSlideBgColor('')
       setSlideBgImage('')
+      setSlideBgOptions({})
     }
   }, [isOpen, deck])
 
@@ -56,7 +66,12 @@ export default function SlideBackground() {
         onClick={onOpen}
       />
 
-      <Modal size="4xl" isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal
+        size={{ base: 'sm', md: 'xl' }}
+        isCentered
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Slide background</ModalHeader>
@@ -67,24 +82,29 @@ export default function SlideBackground() {
                 <VStack>
                   <Text fontSize="lg">Color</Text>
                   <Divider />
-                  <HexColorPicker
-                    style={{
-                      width: '250px',
-                      height: '250px',
-                    }}
-                    color={slideBgColor}
-                    onChange={(newColor) => {
-                      currentSlide.style.backgroundColor = newColor
-                      setSlideBgColor(newColor)
-                    }}
-                  />
-                  <HexColorInput
-                    color={slideBgColor}
-                    onChange={(newColor) => {
-                      currentSlide.style.backgroundColor = newColor
-                      setSlideBgColor(newColor)
-                    }}
-                  />
+                  <VStack boxSize={{ base: 40, md: 60 }}>
+                    <HexColorPicker
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                      }}
+                      color={slideBgColor}
+                      onChange={(newColor) => {
+                        currentSlide.style.backgroundColor = newColor
+                        setSlideBgColor(newColor)
+                      }}
+                    />
+                    <HexColorInput
+                      style={{
+                        width: '100%',
+                      }}
+                      color={slideBgColor}
+                      onChange={(newColor) => {
+                        currentSlide.style.backgroundColor = newColor
+                        setSlideBgColor(newColor)
+                      }}
+                    />
+                  </VStack>
                 </VStack>
 
                 <VStack>
@@ -93,33 +113,51 @@ export default function SlideBackground() {
 
                   {slideBgImage && (
                     <HStack gap={2} align="flex-start">
-                      <Box w="250px" h="250px" border="solid" borderWidth="1px">
+                      <Box
+                        boxSize={{ base: 40, md: 60 }}
+                        border="solid"
+                        borderWidth="1px"
+                      >
                         <Image
                           w="full"
                           h="full"
                           alt="slide background"
                           src={slideBgImage.slice(4, -1)}
-                          objectFit="cover"
+                          objectFit="contain"
                           backgroundPosition="center"
                         />
                       </Box>
 
                       <VStack>
-                        <Select>
+                        <Select
+                          value={slideBgOptions.size}
+                          onChange={(e) => {
+                            const size = e.target.value
+                            currentSlide.style.backgroundSize = size
+                            setSlideBgOptions((prev) => ({ ...prev, size }))
+                          }}
+                        >
                           <option value="cover">Cover</option>
                           <option value="contain">Contain</option>
                           <option value="original">Orginal</option>
                         </Select>
 
-                        <Select placeholder="Select option">
-                          <option value="option1">Option 1</option>
-                          <option value="option2">Option 2</option>
-                          <option value="option3">Option 3</option>
+                        <Select
+                          value={slideBgOptions.position}
+                          onChange={(e) => {
+                            const position = e.target.value
+                            currentSlide.style.backgroundPosition = position
+                            setSlideBgOptions((prev) => ({ ...prev, position }))
+                          }}
+                        >
+                          <option value="center top">Top</option>
+                          <option value="left top">Top Left</option>
+                          <option value="right top">Top Right</option>
+                          <option value="center center">Center</option>
+                          <option value="bottom center">Bottom</option>
+                          <option value="left bottom">Bottom Left</option>
+                          <option value="right bottom">Bottom Right</option>
                         </Select>
-
-                        <NumberInput defaultValue={15} min={10} max={20}>
-                          <NumberInputField />
-                        </NumberInput>
                       </VStack>
                     </HStack>
                   )}
@@ -131,9 +169,14 @@ export default function SlideBackground() {
                           'url(' + (await blobToBase64(image.data)) + ')'
 
                         currentSlide.style.backgroundImage = backgroundImage
+                        currentSlide.style.backgroundRepeat = 'no-repeat'
                         currentSlide.style.backgroundSize = 'cover'
                         currentSlide.style.backgroundPosition = 'center'
                         setSlideBgImage(backgroundImage)
+                        setSlideBgOptions({
+                          size: 'cover',
+                          position: 'center',
+                        })
                       }}
                     >
                       <Button variant="outline" size="md" w="full">

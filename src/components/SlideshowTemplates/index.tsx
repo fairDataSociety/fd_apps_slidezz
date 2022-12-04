@@ -52,7 +52,13 @@ export default function SlideshowTemplates() {
           Select a presentation template
         </Heading>
         <Divider />
-        <Tabs w="full" isFitted variant="solid-rounded" colorScheme="surface1">
+        <Tabs
+          size={{ base: 'sm', md: 'md' }}
+          w="full"
+          isFitted
+          variant="solid-rounded"
+          colorScheme="surface1"
+        >
           <TabList mb={5}>
             <Tab>Templates</Tab>
             <Tab>My Slideshows</Tab>

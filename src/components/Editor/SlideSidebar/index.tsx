@@ -23,12 +23,12 @@ export default function SlideSidebar() {
   return (
     <Box
       bg={crust}
-      fontSize={{ base: 'xs', md: 'md' }}
+      fontSize={{ base: 'xs', md: 'sm', lg: 'md' }}
       position="absolute"
       borderRadius="lg"
       overflow="hidden"
       top={0}
-      right={{ base: -8, md: -16 }}
+      right={{ base: -8, md: -12, lg: -16 }}
     >
       <AddText>
         <SlideSideBarItem icon={RiText} label="Text" />
