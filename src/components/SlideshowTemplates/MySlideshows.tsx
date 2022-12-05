@@ -23,7 +23,7 @@ import {
   slidesLogoAtom,
   userAtom,
 } from '../../store'
-import { loadSlideshow } from '../../utils'
+import { hashCode, loadSlideshow } from '../../utils'
 import { fairDriveDownloadFile } from '../../utils/fairdrive'
 import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
 
@@ -41,16 +41,26 @@ export default function MySlideshows() {
     if (!user) return
 
     try {
+      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
+
       if (!fdp) {
-        await openPod(process.env.NEXT_PUBLIC_SLIDES_POD!, user.password)
+        await openPod(slidesPodName, user.password)
+        await openPod(
+          `${slidesPodName}-${hashCode(user.username)}`,
+          user.password
+        )
       }
 
-      const mySlideshows = await fairDriveLs(
-        process.env.NEXT_PUBLIC_SLIDES_POD!,
-        '/',
-        fdp
-      )
-      setMySlideshows(mySlideshows.files)
+      const mySlideshows = await fairDriveLs(slidesPodName, '/', fdp)
+      if (!fdp) {
+        const sharedSlideshows = await fairDriveLs(
+          `${slidesPodName}-${hashCode(user.username)}`,
+          '/'
+        )
+        setMySlideshows([...mySlideshows.files, ...sharedSlideshows.files])
+      } else {
+        setMySlideshows(mySlideshows.files)
+      }
     } catch (error) {
       console.log(error)
       setMySlideshows([])
