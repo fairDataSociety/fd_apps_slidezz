@@ -90,6 +90,8 @@ export async function slidesToPdf(
     presentationHeight: number
   }
 
+  const currentSlide = deck.getIndices().h as number
+
   const tmpDeckElement = document.querySelector('.tmpDeck') as HTMLElement
   const tmpDeck = await generateTmpDeck(
     deck,
@@ -123,6 +125,7 @@ export async function slidesToPdf(
   }
   tmpDeckElement.style.display = 'none'
   doc.save('slides.pdf')
+  deck.slide(currentSlide)
   loadingModalAction({ action: 'stop' })
 }
 

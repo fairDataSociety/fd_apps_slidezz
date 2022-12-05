@@ -45,7 +45,6 @@ export default function SlideBackground() {
       setCurrentSlide(currentSlide)
       setSlideBgColor(rgbToHex(currentSlide.style.backgroundColor))
       setSlideBgImage(currentSlide.style.backgroundImage.slice(1, -1))
-      console.log(currentSlide.style.backgroundPosition)
       setSlideBgOptions({
         size: currentSlide.style.backgroundSize,
         position: currentSlide.style.backgroundPosition,
@@ -104,6 +103,22 @@ export default function SlideBackground() {
                         setSlideBgColor(newColor)
                       }}
                     />
+
+                    <HStack w="full" justify="space-between">
+                      <Text fontSize={{ base: 'sm', md: 'md' }}>
+                        Reset to theme
+                      </Text>
+                      <Button
+                        isDisabled={!slideBgColor}
+                        onClick={() => {
+                          currentSlide.style.backgroundColor = ''
+                          setSlideBgColor('')
+                        }}
+                        size={{ base: 'xs', md: 'sm' }}
+                      >
+                        Reset
+                      </Button>
+                    </HStack>
                   </VStack>
                 </VStack>
 

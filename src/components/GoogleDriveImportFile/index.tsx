@@ -33,13 +33,15 @@ export default function GoogleDriveImportFile({
   return (
     <>
       <Box onClick={() => googleDriveLogin()}>{children}</Box>
-      <GoogleDriveImportFileModal
-        isOpen={isOpen}
-        onClose={onClose}
-        mimeType={mimeType}
-        callback={callback}
-        downloadFile={downloadFile}
-      />
+      {isOpen && (
+        <GoogleDriveImportFileModal
+          isOpen={isOpen}
+          onClose={onClose}
+          mimeType={mimeType}
+          callback={callback}
+          downloadFile={downloadFile}
+        />
+      )}
     </>
   )
 }

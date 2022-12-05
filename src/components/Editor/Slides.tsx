@@ -220,7 +220,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               throttleScale={0}
               renderDirections={['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se']}
               edge={false}
-              snappable={true}
+              snappable={editMode === 'MOVE' ? true : false}
               rotatable={true}
               verticalGuidelines={[0, 200, 400]}
               horizontalGuidelines={[0, 200, 400]}

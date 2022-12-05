@@ -77,13 +77,16 @@ export default function SaveSlides() {
       })
     }
 
-    //TODO: check if pod is already shared
-    const sharedRef = await fairDriveSharePod({
-      podName: slidesPodName,
-      password: user.password,
-    })
+    let sharedRef = ''
+    if (shareSlides) {
+      //TODO: check if pod is already shared
+      sharedRef = await fairDriveSharePod({
+        podName: slidesPodName,
+        password: user.password,
+      })
 
-    await openPod(slidesPodName, user.password)
+      await openPod(slidesPodName, user.password)
+    }
 
     const filePath = `/${fileName}.html`
     await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML)
@@ -91,10 +94,14 @@ export default function SaveSlides() {
     setSlides({
       ...slides,
       name: fileName,
-      sharingInfo: {
-        sharedRef: `1${sharedRef}${Buffer.from(fileName).toString('base64')}`,
-        allowDownloading: true,
-      },
+      sharingInfo: sharedRef
+        ? {
+            sharedRef: `1${sharedRef}${Buffer.from(fileName).toString(
+              'base64'
+            )}`,
+            allowDownloading,
+          }
+        : undefined,
     })
   }
 
@@ -118,7 +125,7 @@ export default function SaveSlides() {
     const filePath = `/${fileName}.html`
     await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML)
 
-    let slidesShareRef: string | undefined = undefined
+    let slidesShareRef = ''
     if (shareSlides) {
       slidesShareRef = await fdp.file.share(slidesPodName, filePath)
     }
@@ -126,10 +133,12 @@ export default function SaveSlides() {
     setSlides({
       ...slides,
       name: fileName,
-      sharingInfo: {
-        sharedRef: `0${slidesShareRef}`,
-        allowDownloading: true,
-      },
+      sharingInfo: slidesShareRef
+        ? {
+            sharedRef: `0${slidesShareRef}`,
+            allowDownloading,
+          }
+        : undefined,
     })
   }
 
