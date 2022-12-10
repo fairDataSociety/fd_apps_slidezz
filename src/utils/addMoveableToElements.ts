@@ -25,6 +25,7 @@ export function addMoveableToElements(
         e.preventDefault()
       })
       element.contentEditable = 'true'
+      element.spellcheck = false
     }
 
     element.addEventListener('click', () => {

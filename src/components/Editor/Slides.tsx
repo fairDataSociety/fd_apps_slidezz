@@ -3,6 +3,7 @@ import { useAtom } from 'jotai'
 import MoveableHelper from 'moveable-helper'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
 import Moveable from 'react-moveable'
+import Selecto from 'react-selecto'
 //@ts-ignore
 import Reveal from 'reveal.js'
 //@ts-ignore
@@ -160,6 +161,10 @@ export default function Slides({ deckName, slides }: SlidesProps) {
     if (deck) deck.configure(slideshowSettings)
   }, [slideshowSettings])
 
+  useEffect(() => {
+    console.log(moveableTarget)
+  }, [moveableTarget])
+
   return (
     <Box
       className="slideshow"
@@ -176,6 +181,35 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
+      <Selecto
+        // The container to add a selection element
+        container={document.querySelector('.present') as HTMLElement}
+        // The area to drag selection element (default: container)
+        dragContainer={document.querySelector('.present') as HTMLElement}
+        // Targets to select. You can register a queryselector or an Element.
+        selectableTargets={['.present *']}
+        // Whether to select by click (default: true)
+        selectByClick={true}
+        // Whether to select from the target inside (default: true)
+        selectFromInside={true}
+        // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
+        continueSelect={false}
+        // Determines which key to continue selecting the next target via keydown and keyup.
+        toggleContinueSelect={'shift'}
+        // The container for keydown and keyup events
+        keyContainer={deck?.getRevealElement()}
+        // The rate at which the target overlaps the drag area to be selected. (default: 100)
+        hitRate={100}
+        onDragStart={(e) => {
+          if (moveableTarget) {
+            e.stop()
+          }
+        }}
+        onSelectEnd={(e) => {
+          setTimeout(() => {})
+        }}
+      />
+
       <Box overflow="visible" className={`reveal ${deckName}`}>
         <Box ref={slidesRef} className="slides">
           {!isHTML(slides.data) && (
@@ -183,6 +217,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               <Textarea data-template defaultValue={slides.data} />
             </section>
           )}
+
           {moveableTarget && !isFullscreen ? (
             <Moveable<
               MoveableDeleteButtonProps &
@@ -250,6 +285,8 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               onDrag={moveableHelper.onDrag}
               onRotateStart={moveableHelper.onRotateStart}
               onRotate={moveableHelper.onRotate}
+              onDragGroupStart={moveableHelper.onDragGroupStart}
+              onDragGroup={moveableHelper.onDragGroup}
               onClick={(e) => {
                 const target = e.target as HTMLElement
                 if (editMode === 'TEXT') {

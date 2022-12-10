@@ -19,6 +19,7 @@ export default function AddText({ children }: AddTextProps) {
 
     const textElement = document.createElement('p')
     textElement.innerText = 'text'
+    textElement.spellcheck = false
     textElement.classList.add('fair-text')
 
     slide.appendChild(textElement)
