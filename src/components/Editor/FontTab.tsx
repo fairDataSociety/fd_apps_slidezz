@@ -30,16 +30,17 @@ export default function FontTab() {
   const [textDecoration, setTextDecoration] = useState('')
   const [fontStyle, setFontStyle] = useState('')
   const [fontWeight, setFontWeight] = useState('')
+  const isTargetAnElement = moveableTarget instanceof HTMLElement
 
   useEffect(() => {
-    if (moveableTarget) {
+    if (isTargetAnElement) {
       setTextAlign(moveableTarget.style.textAlign)
       setTextDecoration(moveableTarget.style.textDecoration)
       setFontStyle(moveableTarget.style.fontStyle)
       setFontSize(moveableTarget.style.fontSize.replace(/px/, ''))
       setFontWeight(moveableTarget.style.fontWeight)
     }
-  }, [moveableTarget])
+  }, [moveableTarget, isTargetAnElement])
 
   return (
     <Box
@@ -52,7 +53,7 @@ export default function FontTab() {
         <PopoverTrigger>
           <IconButton
             isDisabled={
-              !moveableTarget ||
+              !isTargetAnElement ||
               !['h1', 'h2', 'h3', 'h4', 'h5', 'h5', 'p'].includes(
                 moveableTarget.tagName.toLowerCase()
               )
@@ -74,7 +75,7 @@ export default function FontTab() {
                 <NumberInput
                   value={fontSize}
                   onChange={(valueString) => {
-                    if (moveableTarget) {
+                    if (isTargetAnElement) {
                       moveableTarget.style.fontSize = valueString + 'px'
                       setFontSize(valueString)
                     }
@@ -97,7 +98,7 @@ export default function FontTab() {
                 <Select
                   value={textAlign}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== '') {
+                    if (isTargetAnElement && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.textAlign = newValue
                       setTextAlign(newValue)
@@ -119,7 +120,7 @@ export default function FontTab() {
                 <Select
                   value={textDecoration}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== '') {
+                    if (isTargetAnElement && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.textDecoration = newValue
                       setTextDecoration(newValue)
@@ -142,7 +143,7 @@ export default function FontTab() {
                 <Select
                   value={fontStyle}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== '') {
+                    if (isTargetAnElement && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.fontStyle = newValue
                       setFontStyle(newValue)
@@ -163,7 +164,7 @@ export default function FontTab() {
                 <Select
                   value={fontWeight}
                   onChange={(e) => {
-                    if (moveableTarget && e.target.value !== '') {
+                    if (isTargetAnElement && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.fontWeight = newValue
                       setFontWeight(newValue)

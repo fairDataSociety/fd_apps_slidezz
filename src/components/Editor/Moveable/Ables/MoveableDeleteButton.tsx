@@ -11,7 +11,9 @@ export const MoveableDeleteButton = {
   },
   events: {},
   render(
-    moveable: MoveableManagerInterface<MoveableDeleteButtonProps>,
+    moveable: MoveableManagerInterface<
+      MoveableDeleteButtonProps & { targets: HTMLElement[] | undefined }
+    >,
     React: Renderer
   ) {
     const rect = moveable.getRect()
@@ -54,12 +56,17 @@ export const MoveableDeleteButton = {
       <DeleteButton
         className={'moveable-delete-button'}
         onClick={() => {
+          const targets = moveable.props.targets
           const target = moveable.props.target
           const setTarget = moveable.props.setTarget
-          if (target && setTarget) {
-            target.parentElement?.removeChild(target)
-            setTarget(undefined)
+
+          if (targets) {
+            for (const target of targets) {
+              target.parentElement?.removeChild(target)
+            }
           }
+          if (target) target.parentElement?.removeChild(target)
+          if (setTarget) setTarget(undefined)
         }}
         style={{
           transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(15px)`,

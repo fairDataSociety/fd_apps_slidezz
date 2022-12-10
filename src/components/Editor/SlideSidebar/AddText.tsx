@@ -18,6 +18,7 @@ export default function AddText({ children }: AddTextProps) {
     const slide = deck.getSlides()[currentSlideIndex]
 
     const textElement = document.createElement('p')
+    textElement.style.fontSize = '50px'
     textElement.innerText = 'text'
     textElement.spellcheck = false
     textElement.classList.add('fair-text')

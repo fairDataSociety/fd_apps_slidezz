@@ -161,10 +161,6 @@ export default function Slides({ deckName, slides }: SlidesProps) {
     if (deck) deck.configure(slideshowSettings)
   }, [slideshowSettings])
 
-  useEffect(() => {
-    console.log(moveableTarget)
-  }, [moveableTarget])
-
   return (
     <Box
       className="slideshow"
@@ -189,7 +185,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
         // Targets to select. You can register a queryselector or an Element.
         selectableTargets={['.present *']}
         // Whether to select by click (default: true)
-        selectByClick={true}
+        selectByClick={false}
         // Whether to select from the target inside (default: true)
         selectFromInside={true}
         // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
@@ -206,7 +202,10 @@ export default function Slides({ deckName, slides }: SlidesProps) {
           }
         }}
         onSelectEnd={(e) => {
-          setTimeout(() => {})
+          setTimeout(() => {
+            const selected = e.selected as HTMLElement[]
+            if (selected.length) setMoveableTarget(selected)
+          })
         }}
       />
 
@@ -287,6 +286,10 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               onRotate={moveableHelper.onRotate}
               onDragGroupStart={moveableHelper.onDragGroupStart}
               onDragGroup={moveableHelper.onDragGroup}
+              onRotateGroupStart={moveableHelper.onRotateGroupStart}
+              onRotateGroup={moveableHelper.onRotateGroup}
+              onResizeGroupStart={moveableHelper.onResizeGroupStart}
+              onResizeGroup={moveableHelper.onResizeGroup}
               onClick={(e) => {
                 const target = e.target as HTMLElement
                 if (editMode === 'TEXT') {

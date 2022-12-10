@@ -22,16 +22,17 @@ export default function ColorPicker() {
   const [moveableTarget] = useAtom(moveableTargetAtom)
   const [color, setColor] = useState('')
   const [bgColor, setBgColor] = useState('')
+  const isTargetAnElement = moveableTarget instanceof HTMLElement
 
   useEffect(() => {
-    if (moveableTarget) {
+    if (isTargetAnElement) {
       setColor(rgbToHex(moveableTarget.style.color))
       setBgColor(rgbToHex(moveableTarget.style.backgroundColor))
     } else {
       setColor('')
       setBgColor('')
     }
-  }, [moveableTarget])
+  }, [moveableTarget, isTargetAnElement])
 
   return (
     <Box
@@ -43,7 +44,7 @@ export default function ColorPicker() {
         <PopoverTrigger>
           <IconButton
             isDisabled={
-              !moveableTarget ||
+              !isTargetAnElement ||
               !['h1', 'h2', 'h3', 'h4', 'h5', 'h5', 'p'].includes(
                 moveableTarget.tagName.toLowerCase()
               )
@@ -67,7 +68,7 @@ export default function ColorPicker() {
                   }}
                   color={color}
                   onChange={(newColor) => {
-                    if (moveableTarget) {
+                    if (isTargetAnElement) {
                       moveableTarget.style.color = newColor
                       setColor(newColor)
                     }
@@ -76,7 +77,7 @@ export default function ColorPicker() {
                 <HexColorInput
                   color={color}
                   onChange={(newColor) => {
-                    if (moveableTarget) {
+                    if (isTargetAnElement) {
                       moveableTarget.style.color = newColor
                       setColor(newColor)
                     }
@@ -93,7 +94,7 @@ export default function ColorPicker() {
                   }}
                   color={bgColor}
                   onChange={(newColor) => {
-                    if (moveableTarget) {
+                    if (isTargetAnElement) {
                       moveableTarget.style.backgroundColor = newColor
                       setBgColor(newColor)
                     }
@@ -103,7 +104,7 @@ export default function ColorPicker() {
                 <HexColorInput
                   color={bgColor}
                   onChange={(newColor) => {
-                    if (moveableTarget) {
+                    if (isTargetAnElement) {
                       moveableTarget.style.backgroundColor = newColor
                       setBgColor(newColor)
                     }
