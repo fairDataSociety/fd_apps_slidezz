@@ -39,3 +39,8 @@ export interface User {
   username: string
   password: string
 }
+
+export enum EditMode {
+  MOVE,
+  TEXT,
+}

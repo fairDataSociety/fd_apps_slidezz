@@ -16,10 +16,6 @@ export function addMoveableToElements(
     const textElements = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']
 
     if (textElements.includes(element.tagName.toLowerCase())) {
-      element.addEventListener('mousedown', (e) => {
-        e.preventDefault()
-      })
-      element.contentEditable = 'true'
       element.spellcheck = false
     }
 

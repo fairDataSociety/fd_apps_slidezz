@@ -25,9 +25,9 @@ import {
   styleSettingsAtom,
 } from '../../store'
 import { Slides as SlidesType } from '../../types'
+import { EditMode } from '../../types'
 import { addMoveableToElements, isHTML, parseElements } from '../../utils'
 import ColorPicker from './ColorPicker'
-import EditMode from './EditMode'
 import FontTab from './FontTab'
 import {
   MoveableDeleteButton,
@@ -42,6 +42,7 @@ import {
   MoveableReplaceImageProps,
 } from './Moveable/Ables/MoveableReplaceImage'
 import { ReplaceImage } from './ReplaceImage'
+import SetEditMode from './SetEditMode'
 import SlideSideBar from './SlideSidebar'
 
 interface SlidesProps {
@@ -162,6 +163,17 @@ export default function Slides({ deckName, slides }: SlidesProps) {
     if (deck) deck.configure(slideshowSettings)
   }, [slideshowSettings])
 
+  useEffect(() => {
+    console.log('here')
+    if (moveableTarget instanceof HTMLElement) {
+      if (editMode === EditMode.TEXT && !isFullscreen) {
+        moveableTarget.contentEditable = 'true'
+      } else {
+        moveableTarget.contentEditable = 'false'
+      }
+    }
+  }, [moveableTarget, editMode])
+
   return (
     <Box
       className="slideshow"
@@ -173,7 +185,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       h="full"
     >
       <SlideSideBar />
-      <EditMode />
+      <SetEditMode />
       <FontTab />
       <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
@@ -222,7 +234,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
             </section>
           )}
 
-          {moveableTarget && !isFullscreen ? (
+          {moveableTarget && !isFullscreen && editMode === EditMode.MOVE ? (
             <Moveable<
               MoveableDeleteButtonProps &
                 MoveableDimensionProps &
@@ -247,7 +259,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               target={moveableTarget}
               setTarget={setMoveableTarget}
               setReplaceImageElement={setReplaceImageElement}
-              draggable={editMode === 'MOVE' ? true : false}
+              draggable={true}
               throttleDrag={0}
               startDragRotate={0}
               throttleDragRotate={0}
@@ -259,7 +271,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               throttleScale={0}
               renderDirections={['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se']}
               edge={false}
-              snappable={editMode === 'MOVE' ? true : false}
+              snappable={true}
               rotatable={true}
               verticalGuidelines={[0, 200, 400]}
               horizontalGuidelines={[0, 200, 400]}
@@ -295,12 +307,6 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               onRotateGroup={moveableHelper.onRotateGroup}
               onResizeGroupStart={moveableHelper.onResizeGroupStart}
               onResizeGroup={moveableHelper.onResizeGroup}
-              onClick={(e) => {
-                const target = e.target as HTMLElement
-                if (editMode === 'TEXT') {
-                  target.focus()
-                }
-              }}
             />
           ) : null}
         </Box>

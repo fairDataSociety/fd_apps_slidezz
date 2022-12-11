@@ -4,6 +4,7 @@ import { atomWithStorage } from 'jotai/utils'
 import { extname } from 'path'
 
 import {
+  EditMode,
   File,
   Slides,
   SlideshowSettings,
@@ -97,7 +98,7 @@ export const moveableTargetAtom = atom<HTMLElement | HTMLElement[] | undefined>(
 
 // Edit mode
 
-export const editModeAtom = atom<'MOVE' | 'TEXT'>('MOVE')
+export const editModeAtom = atom<EditMode>(EditMode.MOVE)
 
 // Replace image
 
