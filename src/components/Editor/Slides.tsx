@@ -25,7 +25,7 @@ import {
   styleSettingsAtom,
 } from '../../store'
 import { Slides as SlidesType } from '../../types'
-import { addMoveableToElements, isHTML } from '../../utils'
+import { addMoveableToElements, isHTML, parseElements } from '../../utils'
 import ColorPicker from './ColorPicker'
 import EditMode from './EditMode'
 import FontTab from './FontTab'
@@ -120,6 +120,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       newDeck.sync()
 
       newDeck.getSlides().forEach((slide: any) => {
+        parseElements(slide.children)
         addMoveableToElements(slide.children, setMoveableTarget)
       })
 
@@ -203,7 +204,11 @@ export default function Slides({ deckName, slides }: SlidesProps) {
         }}
         onSelectEnd={(e) => {
           setTimeout(() => {
-            const selected = e.selected as HTMLElement[]
+            const selected = (e.selected as HTMLElement[]).filter(
+              (element) =>
+                !element.parentElement?.classList.contains('container')
+            )
+
             if (selected.length) setMoveableTarget(selected)
           })
         }}

@@ -5,10 +5,7 @@ export function addMoveableToElements(
   elements.forEach((element: HTMLElement) => {
     if (
       element.tagName.toLowerCase() === 'div' &&
-      !element.classList.contains('iframe-wrapper') &&
-      !element.classList.contains('media-container') &&
-      !element.classList.contains('sample-image-container') &&
-      !element.classList.contains('shape')
+      !element.classList.contains('container')
     ) {
       return addMoveableToElements(
         Array.from(element.children) as HTMLElement[],
@@ -16,11 +13,9 @@ export function addMoveableToElements(
       )
     }
 
-    if (
-      ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p'].includes(
-        element.tagName.toLowerCase()
-      )
-    ) {
+    const textElements = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']
+
+    if (textElements.includes(element.tagName.toLowerCase())) {
       element.addEventListener('mousedown', (e) => {
         e.preventDefault()
       })

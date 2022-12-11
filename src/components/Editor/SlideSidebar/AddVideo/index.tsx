@@ -33,7 +33,7 @@ export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [media, setMedia] = useAtom(mediaAtom)
   const [videos] = useAtom(videoMediaAtom)
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
   const [deck] = useAtom(slidesDeckAtom)
 
   const addVideoToCurrentSlide = async (video: File) => {
@@ -41,7 +41,7 @@ export default function AddVideo() {
     const slide = deck.getSlides()[currentSlideIndex]
 
     const videoContainer = document.createElement('div')
-    videoContainer.classList.add('media-container')
+    videoContainer.classList.add('container', 'media-container')
 
     const videoElement = document.createElement('video')
     const soruceElement = document.createElement('source')

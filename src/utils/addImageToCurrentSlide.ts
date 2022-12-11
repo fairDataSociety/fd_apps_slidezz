@@ -10,7 +10,7 @@ export async function addImageToCurrentSlide(
   const slide = deck.getSlides()[currentSlideIndex]
 
   const imageContainer = document.createElement('div')
-  imageContainer.classList.add('media-container')
+  imageContainer.classList.add('container', 'media-container')
 
   const imageElement = document.createElement('img')
   imageElement.src = await blobToBase64(image.data)
