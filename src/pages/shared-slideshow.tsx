@@ -60,12 +60,11 @@ const SharedSlideshowPage: NextPage = () => {
         const div = document.createElement('div')
         div.innerHTML = slidesHTML
 
-        const moveableElements = Array.from(
-          div.querySelectorAll('[style*="cursor: pointer"]')
+        const editableElement = Array.from(
+          div.querySelectorAll('[contenteditable=true]')
         ) as HTMLElement[]
 
-        moveableElements.forEach((element) => {
-          element.style.cursor = 'auto'
+        editableElement.forEach((element) => {
           element.contentEditable = 'false'
         })
 
