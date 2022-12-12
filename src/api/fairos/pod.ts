@@ -1,34 +1,34 @@
 import axios from './customAxios'
 
 export interface GetPodResponse {
-  pod_name: string[]
-  shared_pod_name: string[]
+  pods: string[]
+  sharedPods: string[]
 }
 
 export interface SharePodResponse {
-  pod_sharing_reference: string
+  podSharingReference: string
 }
 
 export interface ReceiveInfoPodResponse {
-  pod_name: string
-  pod_address: string
-  user_name: string
-  user_address: string
-  shared_time: string
+  podName: string
+  podAddress: string
+  userName: string
+  userAddress: string
+  sharedTime: string
 }
 
 export async function getPods(): Promise<GetPodResponse> {
-  return (await axios.get('pod/ls')).data
+  return (await axios.get('v1/pod/ls')).data
 }
 
 export async function openPod(
-  pod_name: string,
+  podName: string,
   password: string
 ): Promise<void> {
   await axios.post(
-    'pod/open',
+    'v1/pod/open',
     {
-      pod_name,
+      podName,
       password,
     },
     { validateStatus: (status) => [200, 500].includes(status) }
@@ -36,22 +36,22 @@ export async function openPod(
 }
 
 export async function createPod(
-  pod_name: string,
+  podName: string,
   password: string
 ): Promise<void> {
-  await axios.post('pod/new', {
-    pod_name,
+  await axios.post('v1/pod/new', {
+    podName,
     password,
   })
 }
 
 export async function sharePod(
-  pod_name: string,
+  podName: string,
   password: string
 ): Promise<SharePodResponse> {
   return (
-    await axios.post('pod/share', {
-      pod_name,
+    await axios.post('v1/pod/share', {
+      podName,
       password,
     })
   ).data
@@ -60,9 +60,9 @@ export async function sharePod(
 export async function receiveInfoPod(
   sharingRef: string
 ): Promise<[boolean, ReceiveInfoPodResponse | null]> {
-  const response = await axios.get('pod/receiveinfo', {
+  const response = await axios.get('v1/pod/receiveinfo', {
     params: {
-      sharing_ref: sharingRef,
+      sharingRef,
     },
     validateStatus: (status) => [200, 500].includes(status),
   })
@@ -75,9 +75,9 @@ export async function receiveInfoPod(
 }
 
 export async function receivePod(sharingRef: string) {
-  await axios.get('pod/receive', {
+  await axios.get('v1/pod/receive', {
     params: {
-      sharing_ref: sharingRef,
+      sharingRef,
     },
     validateStatus: (status) => [200, 500].includes(status),
   })

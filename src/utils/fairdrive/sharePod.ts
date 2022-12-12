@@ -11,5 +11,5 @@ export async function fairDriveSharePod(
     return reference as string
   }
   const response = await sharePod(podName, password)
-  return response.pod_sharing_reference
+  return response.podSharingReference
 }

@@ -11,5 +11,5 @@ export async function fairDriveLogin(
     await fdp.account.login(username, password)
     return
   }
-  await login({ user_name: username, password: password })
+  await login({ userName: username, password: password })
 }

@@ -3,20 +3,20 @@ import { openPod, receiveInfoPod, receivePod } from './pod'
 
 interface Dir {
   name: string
-  content_type: string
-  creation_time: string
-  modification_time: string
-  access_time: string
+  contentType: string
+  creationTime: string
+  modificationTime: string
+  accessTime: string
 }
 
 export interface File {
   name: string
-  content_type: string
+  contentType: string
   size: string
-  block_size: string
-  creation_time: string
-  modification_time: string
-  access_time: string
+  blockSize: string
+  creationTime: string
+  modificationTime: string
+  accessTime: string
 }
 
 export interface GetFilesResponse {
@@ -25,29 +25,29 @@ export interface GetFilesResponse {
 }
 
 interface DownloadFileData {
-  pod_name: string
-  file_path: string
+  podName: string
+  filePath: string
 }
 
 interface UploadFileData {
   file: Blob
-  pod_name: string
-  dir_path: string
+  podName: string
+  dirPath: string
 }
 
 export async function getFilesAndDirs(
-  pod_name: string,
-  dir_path: string
+  podName: string,
+  dirPath: string
 ): Promise<GetFilesResponse> {
-  return (await axios.get('dir/ls', { params: { pod_name, dir_path } })).data
+  return (await axios.get('v1/dir/ls', { params: { podName, dirPath } })).data
 }
 
 export async function downloadFile(data: DownloadFileData): Promise<Blob> {
   const formData = new FormData()
-  formData.append('pod_name', data.pod_name)
-  formData.append('file_path', data.file_path)
+  formData.append('podName', data.podName)
+  formData.append('filePath', data.filePath)
 
-  const downloadedFile = await axios.post('file/download', formData, {
+  const downloadedFile = await axios.post('v1/file/download', formData, {
     responseType: 'blob',
   })
 
@@ -58,11 +58,11 @@ export async function uploadFile(data: UploadFileData) {
   const formData = new FormData()
 
   formData.append('files', data.file)
-  formData.append('pod_name', data.pod_name)
-  formData.append('dir_path', data.dir_path)
-  formData.append('block_size', '64Mb')
+  formData.append('podName', data.podName)
+  formData.append('dirPath', data.dirPath)
+  formData.append('blockSize', '64Mb')
 
-  return await axios.post('file/upload', formData)
+  return await axios.post('v1/file/upload', formData)
 }
 
 export async function downloadShared(
@@ -76,10 +76,10 @@ export async function downloadShared(
   }
 
   await receivePod(podSharingRef)
-  await openPod(receiveInfo.pod_name, password)
+  await openPod(receiveInfo.podName, password)
   const data = await downloadFile({
-    pod_name: receiveInfo.pod_name,
-    file_path: filePath,
+    podName: receiveInfo.podName,
+    filePath,
   })
   return data
 }
