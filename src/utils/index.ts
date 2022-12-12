@@ -1,5 +1,4 @@
 export { addImageToCurrentSlide } from './addImageToCurrentSlide'
-export { addMoveableToElements } from './addMoveableToElements'
 export { blobToBase64 } from './blobToBase64'
 export { getSlidesHTML } from './getSlidesHTML'
 export { loadSlideshow } from './loadSlideshow'

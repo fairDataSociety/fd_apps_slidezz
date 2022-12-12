@@ -5,7 +5,7 @@ import { RiText } from 'react-icons/ri'
 import { Box } from '@chakra-ui/react'
 
 import useColors from '../../../hooks/useColors'
-import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
+import { moveableTargetsAtom, slidesDeckAtom } from '../../../store'
 import { addImageToCurrentSlide } from '../../../utils'
 import AddImage from './AddImage'
 import AddText from './AddText'
@@ -17,7 +17,7 @@ import SlideSideBarItem from './SlideSidebarItem'
 
 export default function SlideSidebar() {
   const [deck] = useAtom(slidesDeckAtom)
-  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const { crust } = useColors()
 
   return (
@@ -36,7 +36,7 @@ export default function SlideSidebar() {
 
       <AddImage
         handleAddImage={async (image) =>
-          await addImageToCurrentSlide(image, deck, setMoveableTarget)
+          await addImageToCurrentSlide(image, deck, setMoveableTargets)
         }
       >
         <SlideSideBarItem icon={BsFillImageFill} label="Image" />

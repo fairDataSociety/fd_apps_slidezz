@@ -1,14 +1,14 @@
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 
-import { moveableTargetAtom, replaceImageElementAtom } from '../../store'
+import { moveableTargetsAtom, replaceImageElementAtom } from '../../store'
 import { File } from '../../types'
 import { blobToBase64 } from '../../utils'
 import AddImageModal from './SlideSidebar/AddImage/AddImageModal'
 
 export function ReplaceImage() {
   const [isOpen, setIsOpen] = useState(true)
-  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )
@@ -24,7 +24,7 @@ export function ReplaceImage() {
   }
 
   useEffect(() => {
-    setMoveableTarget(undefined)
+    setMoveableTargets([])
   }, [])
 
   return (

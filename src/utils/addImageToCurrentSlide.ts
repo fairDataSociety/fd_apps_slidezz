@@ -4,7 +4,7 @@ import { blobToBase64 } from './blobToBase64'
 export async function addImageToCurrentSlide(
   image: File,
   deck: any,
-  setMoveableTarget: (target: HTMLElement | undefined) => void
+  setMoveableTarget: (target: HTMLElement[]) => void
 ) {
   const currentSlideIndex = deck.getState().indexh
   const slide = deck.getSlides()[currentSlideIndex]
@@ -20,11 +20,11 @@ export async function addImageToCurrentSlide(
   imageContainer.appendChild(imageElement)
 
   imageContainer.onclick = () => {
-    setMoveableTarget(imageContainer)
+    setMoveableTarget([imageContainer])
   }
 
   slide.appendChild(imageContainer)
   deck.sync()
   deck.layout()
-  setMoveableTarget(imageContainer)
+  setMoveableTarget([imageContainer])
 }

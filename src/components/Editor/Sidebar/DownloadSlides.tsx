@@ -15,7 +15,7 @@ import {
 
 import {
   loadingModalActionAtom,
-  moveableTargetAtom,
+  moveableTargetsAtom,
   slidesDeckAtom,
   slideshowSettingsAtom,
 } from '../../../store'
@@ -25,7 +25,7 @@ import SidebarItem from './SidebarItem'
 export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deck] = useAtom(slidesDeckAtom)
-  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const [, loadingModalAction] = useAtom(loadingModalActionAtom)
   const [slideshowSettings] = useAtom(slideshowSettingsAtom)
 
@@ -35,7 +35,7 @@ export default function DownloadSlides() {
         icon={BsDownload}
         label="Download"
         onClick={() => {
-          setMoveableTarget(undefined)
+          setMoveableTargets([])
           onOpen()
         }}
       />

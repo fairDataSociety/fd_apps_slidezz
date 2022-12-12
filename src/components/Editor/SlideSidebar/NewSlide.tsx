@@ -13,23 +13,17 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import { moveableTargetAtom, slidesDeckAtom } from '../../../store'
+import { slidesDeckAtom } from '../../../store'
 import { templates } from '../../../templates'
-import { addMoveableToElements } from '../../../utils'
 import SlideSideBarItem from './SlideSidebarItem'
 
 export default function NewSlide() {
   const [deck] = useAtom(slidesDeckAtom)
-  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const addNewSlide = (content: string) => {
     const sectionElement = document.createElement('section')
     sectionElement.innerHTML = content
-
-    const children = sectionElement.children as any
-
-    addMoveableToElements(children, setMoveableTarget)
 
     const currentSlideIndex = deck.getState().indexh
     const currentSlide = deck.getCurrentSlide() as HTMLElement

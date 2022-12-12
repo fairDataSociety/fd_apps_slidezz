@@ -18,7 +18,7 @@ import {
 
 import {
   mediaAtom,
-  moveableTargetAtom,
+  moveableTargetsAtom,
   slidesDeckAtom,
   videoMediaAtom,
 } from '../../../../store'
@@ -33,7 +33,7 @@ export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [media, setMedia] = useAtom(mediaAtom)
   const [videos] = useAtom(videoMediaAtom)
-  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const [deck] = useAtom(slidesDeckAtom)
 
   const addVideoToCurrentSlide = async (video: File) => {
@@ -55,7 +55,7 @@ export default function AddVideo() {
     videoElement.classList.add('fair-data')
 
     videoContainer.addEventListener('click', () => {
-      setMoveableTarget(videoContainer)
+      setMoveableTargets([videoContainer])
     })
 
     videoContainer.appendChild(videoElement)
@@ -64,7 +64,7 @@ export default function AddVideo() {
     deck.sync()
     deck.layout()
     onClose()
-    setMoveableTarget(videoContainer)
+    setMoveableTargets([videoContainer])
   }
 
   return (

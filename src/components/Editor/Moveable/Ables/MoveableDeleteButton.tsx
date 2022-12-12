@@ -2,7 +2,7 @@ import { MoveableManagerInterface, Renderer } from 'react-moveable'
 
 export interface MoveableDeleteButtonProps {
   deleteButton?: boolean
-  setTarget?: (target: HTMLElement | undefined) => void
+  setTarget?: (target: HTMLElement[]) => void
 }
 export const MoveableDeleteButton = {
   name: 'deleteButton',
@@ -66,7 +66,7 @@ export const MoveableDeleteButton = {
             }
           }
           if (target) target.parentElement?.removeChild(target)
-          if (setTarget) setTarget(undefined)
+          if (setTarget) setTarget([])
         }}
         style={{
           transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(15px)`,

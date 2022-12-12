@@ -17,7 +17,7 @@ import { LogoPositions } from '../../config/logo-positions'
 import useColors from '../../hooks/useColors'
 import {
   editModeAtom,
-  moveableTargetAtom,
+  moveableTargetsAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
   slidesLogoAtom,
@@ -26,7 +26,7 @@ import {
 } from '../../store'
 import { Slides as SlidesType } from '../../types'
 import { EditMode } from '../../types'
-import { addMoveableToElements, isHTML, parseElements } from '../../utils'
+import { isHTML, parseElements } from '../../utils'
 import ColorPicker from './ColorPicker'
 import FontTab from './FontTab'
 import {
@@ -42,7 +42,6 @@ import {
   MoveableReplaceImageProps,
 } from './Moveable/Ables/MoveableReplaceImage'
 import { ReplaceImage } from './ReplaceImage'
-import SetEditMode from './SetEditMode'
 import SlideSideBar from './SlideSidebar'
 
 interface SlidesProps {
@@ -60,40 +59,23 @@ export default function Slides({ deckName, slides }: SlidesProps) {
         MoveableReplaceImageProps
     >
   >
+
+  const selectoRef = useRef() as RefObject<Selecto>
+
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )
   const [slideshowSettings] = useAtom(slideshowSettingsAtom)
   const [styleSettings] = useAtom(styleSettingsAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
-  const [editMode] = useAtom(editModeAtom)
-  const [moveableTarget, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [editMode, setEditMode] = useAtom(editModeAtom)
+  const [moveableTargets, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const [moveableHelper] = useState(() => {
     return new MoveableHelper()
   })
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([])
   const [isFullscreen, setIsFullscreen] = useState(false)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
-
-  useEffect(() => {
-    const handleBodyClick = (e: MouseEvent) => {
-      const revealElement = deck.getRevealElement() as HTMLElement
-      const target = e.target as HTMLElement
-
-      if (
-        !moveableRef.current?.isInside(e.clientX, e.clientY) &&
-        revealElement.contains(target)
-      ) {
-        setMoveableTarget(undefined)
-      }
-    }
-
-    if (deck) document.body.addEventListener('click', handleBodyClick)
-
-    return () => {
-      document.body.removeEventListener('click', handleBodyClick)
-    }
-  }, [moveableRef, deck])
 
   useEffect(() => {
     if (slidesRef.current && isHTML(slides.data))
@@ -122,7 +104,6 @@ export default function Slides({ deckName, slides }: SlidesProps) {
 
       newDeck.getSlides().forEach((slide: any) => {
         parseElements(slide.children)
-        addMoveableToElements(slide.children, setMoveableTarget)
       })
 
       setElementGuidelines([
@@ -132,11 +113,11 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       ])
 
       newDeck.on('slidechanged', () => {
-        setMoveableTarget(undefined)
+        setMoveableTargets([])
       })
 
       newDeck.on('overviewshown', () => {
-        setMoveableTarget(undefined)
+        setMoveableTargets([])
       })
     })
 
@@ -153,52 +134,39 @@ export default function Slides({ deckName, slides }: SlidesProps) {
   }, [])
 
   useEffect(() => {
-    if (deck) {
-      deck.layout()
-      deck.sync()
-    }
-  }, [deck])
-
-  useEffect(() => {
     if (deck) deck.configure(slideshowSettings)
   }, [slideshowSettings])
 
   useEffect(() => {
-    console.log('here')
-    if (moveableTarget instanceof HTMLElement) {
-      if (editMode === EditMode.TEXT && !isFullscreen) {
-        moveableTarget.contentEditable = 'true'
-      } else {
-        moveableTarget.contentEditable = 'false'
-      }
-    }
-  }, [moveableTarget, editMode])
+    if (!moveableTargets.length) setEditMode(EditMode.MOVE)
+  }, [moveableTargets])
 
   return (
     <Box
       className="slideshow"
       position="relative"
-      borderWidth="1px"
-      borderColor={overlay0}
+      borderWidth="2px"
+      borderColor={moveableTargets.length ? overlay0 : 'blue.500'}
       borderBottom="none"
       w="full"
       h="full"
     >
       <SlideSideBar />
-      <SetEditMode />
+
       <FontTab />
       <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
       <Selecto
+        ref={selectoRef}
         // The container to add a selection element
-        container={document.querySelector('.present') as HTMLElement}
+        container={document.querySelector('section.present') as HTMLElement}
         // The area to drag selection element (default: container)
-        dragContainer={document.querySelector('.present') as HTMLElement}
+        dragContainer={document.querySelector('section.present') as HTMLElement}
         // Targets to select. You can register a queryselector or an Element.
-        selectableTargets={['.present *']}
+        selectableTargets={['section.present *']}
         // Whether to select by click (default: true)
-        selectByClick={false}
+        selectByClick={true}
         // Whether to select from the target inside (default: true)
         selectFromInside={true}
         // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
@@ -210,19 +178,30 @@ export default function Slides({ deckName, slides }: SlidesProps) {
         // The rate at which the target overlaps the drag area to be selected. (default: 100)
         hitRate={100}
         onDragStart={(e) => {
-          if (moveableTarget) {
+          const moveable = moveableRef.current
+          const target = e.inputEvent.target
+
+          if (
+            moveable?.isMoveableElement(target) ||
+            moveableTargets.some((t) => t === target || t.contains(target))
+          ) {
             e.stop()
           }
         }}
         onSelectEnd={(e) => {
-          setTimeout(() => {
-            const selected = (e.selected as HTMLElement[]).filter(
-              (element) =>
-                !element.parentElement?.classList.contains('container')
-            )
+          const moveable = moveableRef.current
+          const selected = (e.selected as HTMLElement[]).filter(
+            (element) => !element.parentElement?.classList.contains('container')
+          )
+          setMoveableTargets(selected)
 
-            if (selected.length) setMoveableTarget(selected)
-          })
+          if (e.isDragStart) {
+            e.inputEvent.preventDefault()
+
+            setTimeout(() => {
+              moveable?.dragStart(e.inputEvent)
+            })
+          }
         }}
       />
 
@@ -234,7 +213,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
             </section>
           )}
 
-          {moveableTarget && !isFullscreen && editMode === EditMode.MOVE ? (
+          {!isFullscreen ? (
             <Moveable<
               MoveableDeleteButtonProps &
                 MoveableDimensionProps &
@@ -256,23 +235,23 @@ export default function Slides({ deckName, slides }: SlidesProps) {
                 bottom: document.querySelector('.slides')?.clientHeight,
               }}
               elementGuidelines={elementGuidelines}
-              target={moveableTarget}
-              setTarget={setMoveableTarget}
+              target={moveableTargets}
+              setTarget={setMoveableTargets}
               setReplaceImageElement={setReplaceImageElement}
-              draggable={true}
+              draggable={editMode === EditMode.MOVE ? true : false}
               throttleDrag={0}
               startDragRotate={0}
               throttleDragRotate={0}
               zoom={2}
-              origin={true}
+              origin={editMode === EditMode.MOVE ? true : false}
               padding={{ left: 0, top: 0, right: 0, bottom: 0 }}
-              resizable={true}
+              resizable={editMode === EditMode.MOVE ? true : false}
               keepRatio={false}
               throttleScale={0}
               renderDirections={['nw', 'n', 'ne', 'w', 'e', 'sw', 's', 'se']}
               edge={false}
-              snappable={true}
-              rotatable={true}
+              snappable={editMode === EditMode.MOVE ? true : false}
+              rotatable={editMode === EditMode.MOVE ? true : false}
               verticalGuidelines={[0, 200, 400]}
               horizontalGuidelines={[0, 200, 400]}
               snapThreshold={5}
@@ -307,6 +286,17 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               onRotateGroup={moveableHelper.onRotateGroup}
               onResizeGroupStart={moveableHelper.onResizeGroupStart}
               onResizeGroup={moveableHelper.onResizeGroup}
+              onClickGroup={(e) => {
+                selectoRef.current?.clickTarget(e.inputEvent, e.inputTarget)
+              }}
+              onClick={(e) => {
+                if (e.isDouble && moveableTargets.length === 1) {
+                  const target = e.target as HTMLElement
+                  target.contentEditable = 'true'
+                  e.target.focus()
+                  setEditMode(EditMode.TEXT)
+                }
+              }}
             />
           ) : null}
         </Box>

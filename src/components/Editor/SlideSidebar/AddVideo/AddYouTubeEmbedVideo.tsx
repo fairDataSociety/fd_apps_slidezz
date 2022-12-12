@@ -19,7 +19,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import { moveableTargetAtom, slidesDeckAtom } from '../../../../store'
+import { moveableTargetsAtom, slidesDeckAtom } from '../../../../store'
 
 interface AddYouTubeEmbedVideoProps {
   addVideoOnClose: () => void
@@ -44,7 +44,7 @@ export default function AddYouTubeEmbedVideo({
   addVideoOnClose,
 }: AddYouTubeEmbedVideoProps) {
   const [deck] = useAtom(slidesDeckAtom)
-  const [_, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [_, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const addVideoToCurrentSlide = (values: FormValues) => {
@@ -63,7 +63,7 @@ export default function AddYouTubeEmbedVideo({
     )}`
 
     videoContainer.addEventListener('click', () => {
-      setMoveableTarget(videoContainer)
+      setMoveableTargets([videoContainer])
     })
 
     iframeWrapper.append(iframeElement)
@@ -75,7 +75,7 @@ export default function AddYouTubeEmbedVideo({
 
     onClose()
     addVideoOnClose()
-    setMoveableTarget(videoContainer)
+    setMoveableTargets([videoContainer])
   }
 
   return (

@@ -21,26 +21,32 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react'
 
-import { moveableTargetAtom } from '../../store'
+import { moveableTargetsAtom } from '../../store'
 
 export default function FontTab() {
-  const [moveableTarget] = useAtom(moveableTargetAtom)
+  const [moveableTargets] = useAtom(moveableTargetsAtom)
   const [fontSize, setFontSize] = useState('')
   const [textAlign, setTextAlign] = useState('')
   const [textDecoration, setTextDecoration] = useState('')
   const [fontStyle, setFontStyle] = useState('')
   const [fontWeight, setFontWeight] = useState('')
-  const isTargetAnElement = moveableTarget instanceof HTMLElement
+  const moveableTarget =
+    moveableTargets.length === 1 &&
+    ['h1', 'h2', 'h3', 'h4', 'h5', 'h5', 'p'].includes(
+      moveableTargets[0].tagName.toLowerCase()
+    )
+      ? moveableTargets[0]
+      : undefined
 
   useEffect(() => {
-    if (isTargetAnElement) {
+    if (moveableTarget) {
       setTextAlign(moveableTarget.style.textAlign)
       setTextDecoration(moveableTarget.style.textDecoration)
       setFontStyle(moveableTarget.style.fontStyle)
       setFontSize(moveableTarget.style.fontSize.replace(/px/, ''))
       setFontWeight(moveableTarget.style.fontWeight)
     }
-  }, [moveableTarget, isTargetAnElement])
+  }, [moveableTarget])
 
   return (
     <Box
@@ -52,12 +58,7 @@ export default function FontTab() {
       <Popover placement="left-end">
         <PopoverTrigger>
           <IconButton
-            isDisabled={
-              !isTargetAnElement ||
-              !['h1', 'h2', 'h3', 'h4', 'h5', 'h5', 'p'].includes(
-                moveableTarget.tagName.toLowerCase()
-              )
-            }
+            isDisabled={!moveableTarget}
             colorScheme="blue"
             size={{ base: 'xs', md: 'sm' }}
             aria-label="font"
@@ -75,7 +76,7 @@ export default function FontTab() {
                 <NumberInput
                   value={fontSize}
                   onChange={(valueString) => {
-                    if (isTargetAnElement) {
+                    if (moveableTarget) {
                       moveableTarget.style.fontSize = valueString + 'px'
                       setFontSize(valueString)
                     }
@@ -98,7 +99,7 @@ export default function FontTab() {
                 <Select
                   value={textAlign}
                   onChange={(e) => {
-                    if (isTargetAnElement && e.target.value !== '') {
+                    if (moveableTarget && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.textAlign = newValue
                       setTextAlign(newValue)
@@ -120,7 +121,7 @@ export default function FontTab() {
                 <Select
                   value={textDecoration}
                   onChange={(e) => {
-                    if (isTargetAnElement && e.target.value !== '') {
+                    if (moveableTarget && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.textDecoration = newValue
                       setTextDecoration(newValue)
@@ -143,7 +144,7 @@ export default function FontTab() {
                 <Select
                   value={fontStyle}
                   onChange={(e) => {
-                    if (isTargetAnElement && e.target.value !== '') {
+                    if (moveableTarget && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.fontStyle = newValue
                       setFontStyle(newValue)
@@ -164,7 +165,7 @@ export default function FontTab() {
                 <Select
                   value={fontWeight}
                   onChange={(e) => {
-                    if (isTargetAnElement && e.target.value !== '') {
+                    if (moveableTarget && e.target.value !== '') {
                       const newValue = e.target.value
                       moveableTarget.style.fontWeight = newValue
                       setFontWeight(newValue)

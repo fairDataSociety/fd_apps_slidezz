@@ -6,7 +6,7 @@ import { HStack, IconButton, Link, Text } from '@chakra-ui/react'
 
 import useColors from '../../../hooks/useColors'
 import {
-  moveableTargetAtom,
+  moveableTargetsAtom,
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
@@ -17,7 +17,7 @@ export default function NavBar() {
   const [slides, setSlides] = useAtom(slidesAtom)
   const [, setDeck] = useAtom(slidesDeckAtom)
   const [, setSlidesLogo] = useAtom(slidesLogoAtom)
-  const [, setMoveableTarget] = useAtom(moveableTargetAtom)
+  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const { rosewater } = useColors()
 
   return (
@@ -48,7 +48,7 @@ export default function NavBar() {
               setSlides(undefined)
               setDeck(undefined)
               setSlidesLogo(undefined)
-              setMoveableTarget(undefined)
+              setMoveableTargets([])
             }}
             aria-label="back"
             icon={<ArrowBackIcon />}
