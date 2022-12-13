@@ -157,55 +157,61 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
-      <Selecto
-        ref={selectoRef}
-        // The container to add a selection element
-        container={document.querySelector('section.present') as HTMLElement}
-        // The area to drag selection element (default: container)
-        dragContainer={document.querySelector('section.present') as HTMLElement}
-        // Targets to select. You can register a queryselector or an Element.
-        selectableTargets={['section.present *']}
-        // Whether to select by click (default: true)
-        selectByClick={true}
-        // Whether to select from the target inside (default: true)
-        selectFromInside={true}
-        // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
-        continueSelect={false}
-        // Determines which key to continue selecting the next target via keydown and keyup.
-        toggleContinueSelect={'shift'}
-        // The container for keydown and keyup events
-        keyContainer={deck?.getRevealElement()}
-        // The rate at which the target overlaps the drag area to be selected. (default: 100)
-        hitRate={100}
-        onDragStart={(e) => {
-          const moveable = moveableRef.current
-          const target = e.inputEvent.target
-
-          if (
-            moveable?.isMoveableElement(target) ||
-            moveableTargets.some((t) => t === target || t.contains(target))
-          ) {
-            e.stop()
-          }
-        }}
-        onSelectEnd={(e) => {
-          const moveable = moveableRef.current
-          const selected = (e.selected as HTMLElement[]).filter(
-            (element) => !element.parentElement?.classList.contains('container')
-          )
-          setMoveableTargets(selected)
-
-          if (e.isDragStart) {
-            e.inputEvent.preventDefault()
-
-            setTimeout(() => {
-              moveable?.dragStart(e.inputEvent)
-            })
-          }
-        }}
-      />
-
       <Box overflow="visible" className={`reveal ${deckName}`}>
+        {!isFullscreen && (
+          <Selecto
+            ref={selectoRef}
+            // The container to add a selection element
+            container={document.querySelector('section.present') as HTMLElement}
+            // The area to drag selection element (default: container)
+            dragContainer={
+              document.querySelector('section.present') as HTMLElement
+            }
+            // Targets to select. You can register a queryselector or an Element.
+            selectableTargets={['section.present *']}
+            // Whether to select by click (default: true)
+            selectByClick={true}
+            // Whether to select from the target inside (default: true)
+            selectFromInside={true}
+            // After the select, whether to select the next target with the selected target (deselected if the target is selected again).
+            continueSelect={false}
+            // Determines which key to continue selecting the next target via keydown and keyup.
+            toggleContinueSelect={'shift'}
+            // The container for keydown and keyup events
+            keyContainer={deck?.getRevealElement()}
+            // The rate at which the target overlaps the drag area to be selected. (default: 100)
+            hitRate={100}
+            onDragStart={(e) => {
+              const moveable = moveableRef.current
+              const target = e.inputEvent.target
+
+              if (
+                moveable?.isMoveableElement(target) ||
+                moveableTargets.some((t) => t === target || t.contains(target))
+              ) {
+                e.stop()
+              }
+            }}
+            onSelectEnd={(e) => {
+              const moveable = moveableRef.current
+              const selected = (e.selected as HTMLElement[]).filter(
+                (element) =>
+                  !element.parentElement?.classList.contains('container')
+              )
+
+              setMoveableTargets(selected)
+
+              if (e.isDragStart) {
+                e.inputEvent.preventDefault()
+
+                setTimeout(() => {
+                  moveable?.dragStart(e.inputEvent)
+                })
+              }
+            }}
+          />
+        )}
+
         <Box ref={slidesRef} className="slides">
           {!isHTML(slides.data) && (
             <section data-markdown="" data-separator="---">
