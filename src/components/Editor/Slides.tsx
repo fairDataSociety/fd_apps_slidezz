@@ -194,10 +194,21 @@ export default function Slides({ deckName, slides }: SlidesProps) {
             }}
             onSelectEnd={(e) => {
               const moveable = moveableRef.current
-              const selected = (e.selected as HTMLElement[]).filter(
-                (element) =>
-                  !element.parentElement?.classList.contains('container')
+              let selected = (e.selected as HTMLElement[]).map((element) => {
+                if (element.parentElement?.classList.contains('container'))
+                  return element.parentElement
+
+                return element
+              })
+
+              //TODO: a better way for filtering iframe tags
+              selected = selected.filter(
+                (element, i) =>
+                  selected.indexOf(element) === i &&
+                  !(element.tagName.toLowerCase() === 'iframe')
               )
+
+              console.log(selected)
 
               setMoveableTargets(selected)
 
