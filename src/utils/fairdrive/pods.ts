@@ -11,5 +11,5 @@ export async function fairDrivePods(fdp?: FdpStorage) {
     }
   }
   const pods = await getPods()
-  return { pods: pods.pod_name, sharedPods: pods.shared_pod_name }
+  return { pods: pods.pods, sharedPods: pods.sharedPods }
 }

@@ -11,6 +11,6 @@ export async function fairDriveDownloadFile(
     const data = await fdp.file.downloadData(pod, fullPath)
     return new Blob([data.buffer])
   }
-  const data = await downloadFile({ pod_name: pod, file_path: fullPath })
+  const data = await downloadFile({ podName: pod, filePath: fullPath })
   return data
 }

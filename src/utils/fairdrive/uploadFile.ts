@@ -18,5 +18,5 @@ export async function fairDriveUploadFile(
   const dir = parse(filePath).dir
   const file = new File([data], fileName)
 
-  await uploadFile({ pod_name: podName, dir_path: dir, file })
+  await uploadFile({ podName, dirPath: dir, file })
 }

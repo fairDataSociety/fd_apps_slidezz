@@ -6,7 +6,7 @@ import { fdpAtom, userAtom } from '../store'
 import { User } from '../types'
 
 async function userLogin(_: string, user: User) {
-  await login({ user_name: user.username, password: user.password })
+  await login({ userName: user.username, password: user.password })
 }
 
 export default function useFairOSCookieRenewal() {

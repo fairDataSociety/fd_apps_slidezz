@@ -1,7 +1,7 @@
 import axios from './customAxios'
 
 interface LoginData {
-  user_name: string
+  userName: string
   password: string
 }
 
@@ -11,9 +11,9 @@ interface LoginResponse {
 }
 
 export async function login(data: LoginData): Promise<LoginResponse> {
-  return axios.post('user/login', data)
+  return axios.post('v2/user/login', data)
 }
 
 export async function logout(): Promise<LoginResponse> {
-  return axios.post('user/logout')
+  return axios.post('v1/user/logout')
 }
