@@ -131,3 +131,9 @@ export const loadingModalActionAtom = atom(
       set(loadingModalAtom, { isOpen: false, message: undefined })
   }
 )
+
+// Edit text
+
+export const editTextAtom = atom<
+  { element: HTMLElement; callback?: () => void } | undefined
+>(undefined)

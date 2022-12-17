@@ -22,6 +22,7 @@ import {
   TEXT_UNDERLINE_VRIANTS,
   TEXT_VARIANTS,
 } from '../animations'
+import '../components/AppUI'
 import Layout from '../components/Layout'
 import useColors from '../hooks/useColors'
 

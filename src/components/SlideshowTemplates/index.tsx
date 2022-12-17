@@ -68,7 +68,19 @@ export default function SlideshowTemplates() {
                   <TemplatePreview
                     deckName="blank-slide"
                     title="Blank Slideshow"
-                    slides="## Slide 1---## Slide 2"
+                    slides={`
+## Slide 1
+
+test this is test
+
+---
+## Slide 2
+
+
+![image](https://picsum.photos/id/65/200/300)
+
+
+                  `}
                   />
                 </WrapItem>
               </Wrap>

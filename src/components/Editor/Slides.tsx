@@ -17,6 +17,7 @@ import { LogoPositions } from '../../config/logo-positions'
 import useColors from '../../hooks/useColors'
 import {
   editModeAtom,
+  editTextAtom,
   moveableTargetsAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
@@ -28,7 +29,6 @@ import { Slides as SlidesType } from '../../types'
 import { EditMode } from '../../types'
 import { isHTML, parseElements } from '../../utils'
 import ColorPicker from './ColorPicker'
-import FontTab from './FontTab'
 import {
   MoveableDeleteButton,
   MoveableDeleteButtonProps,
@@ -43,6 +43,7 @@ import {
 } from './Moveable/Ables/MoveableReplaceImage'
 import { ReplaceImage } from './ReplaceImage'
 import SlideSideBar from './SlideSidebar'
+import TextEditor from './TextEditor'
 
 interface SlidesProps {
   deckName: string
@@ -65,6 +66,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )
+  const [editText, setEditText] = useAtom(editTextAtom)
   const [slideshowSettings] = useAtom(slideshowSettingsAtom)
   const [styleSettings] = useAtom(styleSettingsAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
@@ -153,9 +155,9 @@ export default function Slides({ deckName, slides }: SlidesProps) {
     >
       <SlideSideBar />
 
-      <FontTab />
       <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
+      {editText && !isFullscreen && <TextEditor />}
 
       <Box overflow="visible" className={`reveal ${deckName}`}>
         {!isFullscreen && (
@@ -193,22 +195,21 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               }
             }}
             onSelectEnd={(e) => {
+              const selected: HTMLElement[] = []
               const moveable = moveableRef.current
-              let selected = (e.selected as HTMLElement[]).map((element) => {
-                if (element.parentElement?.classList.contains('container'))
-                  return element.parentElement
+              const containers = Array.from(
+                document.querySelectorAll('.present .container')
+              ) as HTMLElement[]
 
-                return element
-              })
-
-              //TODO: a better way for filtering iframe tags
-              selected = selected.filter(
-                (element, i) =>
-                  selected.indexOf(element) === i &&
-                  !(element.tagName.toLowerCase() === 'iframe')
-              )
-
-              console.log(selected)
+              for (const element of e.selected) {
+                for (const container of containers) {
+                  if (
+                    container.contains(element) &&
+                    !selected.includes(container)
+                  )
+                    selected.push(container)
+                }
+              }
 
               setMoveableTargets(selected)
 
@@ -309,9 +310,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               onClick={(e) => {
                 if (e.isDouble && moveableTargets.length === 1) {
                   const target = e.target as HTMLElement
-                  target.contentEditable = 'true'
-                  e.target.focus()
-                  setEditMode(EditMode.TEXT)
+                  setEditText({ element: target })
                 }
               }}
             />

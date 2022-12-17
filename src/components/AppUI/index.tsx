@@ -13,10 +13,13 @@ export default function AppUI() {
         <Circle />
       </HStack>
 
-      <Box w="full" px={2} py={2}>
+      <Box pb="50%" h={0} position="relative">
         <Image
+          display="block"
+          position="absolute"
           alt="app screenshot"
-          h="full"
+          pb={2}
+          boxSize="full"
           objectFit="contain"
           src={`${window._detectedSiteType.basePath}/images/app-screenshot.png`}
         />
