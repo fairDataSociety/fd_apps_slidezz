@@ -160,15 +160,11 @@ export default function Slides({ deckName, slides }: SlidesProps) {
       {editText && !isFullscreen && <TextEditor />}
 
       <Box overflow="visible" className={`reveal ${deckName}`}>
-        {!isFullscreen && (
+        {!isFullscreen && deck ? (
           <Selecto
             ref={selectoRef}
             // The container to add a selection element
-            container={document.querySelector('section.present') as HTMLElement}
-            // The area to drag selection element (default: container)
-            dragContainer={
-              document.querySelector('section.present') as HTMLElement
-            }
+            container={deck.getRevealElement() as HTMLElement}
             // Targets to select. You can register a queryselector or an Element.
             selectableTargets={['section.present *']}
             // Whether to select by click (default: true)
@@ -222,7 +218,7 @@ export default function Slides({ deckName, slides }: SlidesProps) {
               }
             }}
           />
-        )}
+        ) : null}
 
         <Box ref={slidesRef} className="slides">
           {!isHTML(slides.data) && (

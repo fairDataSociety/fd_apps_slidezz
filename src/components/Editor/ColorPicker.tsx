@@ -20,32 +20,20 @@ import { rgbToHex } from '../../utils'
 
 export default function ColorPicker() {
   const [moveableTargets] = useAtom(moveableTargetsAtom)
-  const [color, setColor] = useState('')
   const [bgColor, setBgColor] = useState('')
   const moveableTarget =
-    moveableTargets.length === 1 &&
-    ['h1', 'h2', 'h3', 'h4', 'h5', 'h5', 'p'].includes(
-      moveableTargets[0].tagName.toLowerCase()
-    )
-      ? moveableTargets[0]
-      : undefined
+    moveableTargets.length === 1 ? moveableTargets[0] : undefined
 
   useEffect(() => {
     if (moveableTarget) {
-      setColor(rgbToHex(moveableTarget.style.color))
       setBgColor(rgbToHex(moveableTarget.style.backgroundColor))
     } else {
-      setColor('')
       setBgColor('')
     }
   }, [moveableTarget])
 
   return (
-    <Box
-      position="absolute"
-      top={{ base: -7, md: -9 }}
-      right={{ base: 8, md: 12 }}
-    >
+    <Box position="absolute" top={{ base: -7, md: -9 }} right={0}>
       <Popover placement="right-end">
         <PopoverTrigger>
           <IconButton
@@ -60,32 +48,6 @@ export default function ColorPicker() {
           <PopoverArrow />
           <PopoverBody>
             <VStack alignItems="flex-start" gap={2}>
-              <VStack>
-                <Text>Text Color</Text>
-                <HexColorPicker
-                  style={{
-                    width: '150px',
-                    height: '150px',
-                  }}
-                  color={color}
-                  onChange={(newColor) => {
-                    if (moveableTarget) {
-                      moveableTarget.style.color = newColor
-                      setColor(newColor)
-                    }
-                  }}
-                />
-                <HexColorInput
-                  color={color}
-                  onChange={(newColor) => {
-                    if (moveableTarget) {
-                      moveableTarget.style.color = newColor
-                      setColor(newColor)
-                    }
-                  }}
-                />
-              </VStack>
-
               <VStack>
                 <Text mb={3}>Background Color</Text>
                 <HexColorPicker

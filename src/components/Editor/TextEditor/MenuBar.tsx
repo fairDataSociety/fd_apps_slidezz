@@ -4,6 +4,7 @@ import {
   AiOutlineItalic,
   AiOutlineOrderedList,
   AiOutlineStrikethrough,
+  AiOutlineUnderline,
   AiOutlineUnorderedList,
 } from 'react-icons/ai'
 import { BiCode, BiCodeBlock } from 'react-icons/bi'
@@ -14,6 +15,7 @@ import {
   Button,
   Divider,
   IconButton,
+  Input,
   VStack,
   Wrap,
   WrapItem,
@@ -85,6 +87,16 @@ export default function MenuBar({ editor }: MenuBarProps) {
             icon={<AiOutlineStrikethrough />}
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
+          />
+        </WrapItem>
+
+        <WrapItem>
+          <IconButton
+            variant={editor.isActive('underline') ? 'solid' : 'outline'}
+            size="sm"
+            aria-label="underline"
+            icon={<AiOutlineUnderline />}
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
           />
         </WrapItem>
 
@@ -315,6 +327,56 @@ export default function MenuBar({ editor }: MenuBarProps) {
         >
           unsetTextAlign
         </Button>
+      </Wrap>
+      <Divider />
+      <Wrap>
+        <WrapItem>
+          <Input
+            size="sm"
+            w="6rem"
+            type="color"
+            onInput={(event: any) =>
+              editor.chain().focus().setColor(event.target.value).run()
+            }
+            value={editor.getAttributes('textStyle').color}
+          />
+        </WrapItem>
+        <WrapItem>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => editor.chain().focus().unsetColor().run()}
+          >
+            unsetColor
+          </Button>
+        </WrapItem>
+      </Wrap>
+      <Divider />
+      <Wrap>
+        <WrapItem>
+          <Input
+            size="sm"
+            w="6rem"
+            type="color"
+            onInput={(event: any) =>
+              editor
+                .chain()
+                .focus()
+                .setHighlight({ color: event.target.value })
+                .run()
+            }
+            value={editor.getAttributes('highlight').color}
+          />
+        </WrapItem>
+        <WrapItem>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => editor.chain().focus().unsetHighlight().run()}
+          >
+            unsetHighlight
+          </Button>
+        </WrapItem>
       </Wrap>
     </VStack>
   )
