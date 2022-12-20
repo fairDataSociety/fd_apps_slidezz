@@ -37,7 +37,7 @@ export const MoveableReplaceImage = {
           borderRadius: '2px',
           padding: '4px 4px',
           color: 'white',
-          fontSize: '30px',
+          fontSize: '20px',
           whiteSpace: 'nowrap',
           fontWeight: 'bold',
           willChange: 'transform',

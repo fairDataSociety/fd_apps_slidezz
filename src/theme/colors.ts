@@ -22,6 +22,8 @@ const colors = {
   'frappe-lavender': frappe.lavender.hex,
   'latte-overlay1': latte.overlay1.hex,
   'frappe-overlay1': frappe.overlay1.hex,
+  'latte-surface0': latte.surface0.hex,
+  'frappe-surface0': frappe.surface0.hex,
   'latte-surface2': latte.surface2.hex,
   'frappe-surface2': frappe.surface2.hex,
   'latte-sky': latte.sky.hex,

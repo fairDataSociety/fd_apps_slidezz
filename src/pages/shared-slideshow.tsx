@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react'
 import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 
 import SideBar from '../components/Editor/Sidebar'
-import Layout from '../components/Layout'
 import Login from '../components/Login'
+import Navbar from '../components/Navbar'
 import {
   fdpAtom,
   slidesAtom,
@@ -118,27 +118,26 @@ const SharedSlideshowPage: NextPage = () => {
 
   return (
     <>
-      <Layout>
-        <HStack h="80vh">
-          <SideBar isSlidesReadOnly={true} />
-          <Center h="full" w="full">
-            <Box
-              w={{ base: '65%', md: '70%', lg: '60%' }}
-              h={{ base: '30%', md: '50%', lg: '70%' }}
-            >
-              <SharedSlideshow slides={slides} />
-            </Box>
-          </Center>
-        </HStack>
-        {deck && (
+      <Navbar />
+      <HStack h="80vh">
+        <SideBar isSlidesReadOnly={true} />
+        <Center h="full" w="full">
           <Box
-            w={deck.getComputedSlideSize().width}
-            h={deck.getComputedSlideSize().height}
-            className="reveal tmpDeck"
-            display="none"
-          />
-        )}
-      </Layout>
+            w={{ base: '65%', md: '70%', lg: '60%' }}
+            h={{ base: '30%', md: '50%', lg: '70%' }}
+          >
+            <SharedSlideshow slides={slides} />
+          </Box>
+        </Center>
+      </HStack>
+      {deck && (
+        <Box
+          w={deck.getComputedSlideSize().width}
+          h={deck.getComputedSlideSize().height}
+          className="reveal tmpDeck"
+          display="none"
+        />
+      )}
     </>
   )
 }

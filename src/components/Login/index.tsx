@@ -18,7 +18,7 @@ import {
 import useColors from '../../hooks/useColors'
 import { fdpAtom, userAtom } from '../../store'
 import { fairDriveLogin } from '../../utils/fairdrive'
-import Layout from '../Layout'
+import Navbar from '../Navbar'
 
 interface LoginFormValues {
   username: string
@@ -71,7 +71,8 @@ export default function Login() {
   }
 
   return (
-    <Layout>
+    <>
+      <Navbar />
       <Formik
         validateOnMount
         onSubmit={handleLogin}
@@ -136,6 +137,6 @@ export default function Login() {
           </Box>
         )}
       </Formik>
-    </Layout>
+    </>
   )
 }

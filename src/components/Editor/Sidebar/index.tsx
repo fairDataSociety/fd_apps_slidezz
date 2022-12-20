@@ -2,10 +2,12 @@ import fscreen from 'fscreen'
 import { useAtom } from 'jotai'
 import { FaPlay } from 'react-icons/fa'
 
-import { Box } from '@chakra-ui/react'
+import { Box, Divider, VStack } from '@chakra-ui/react'
 
 import useColors from '../../../hooks/useColors'
 import { slidesAtom, slidesDeckAtom } from '../../../store'
+import BackButton from '../../Buttons/BackButton'
+import ThemeToggleButton from '../../Buttons/ThemeToggleButton'
 import DownloadSlides from './DownloadSlides'
 import LogoImage from './LogoImage'
 import SaveSlides from './SaveSlides'
@@ -21,17 +23,17 @@ interface SidebarProps {
 export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
   const [deck] = useAtom(slidesDeckAtom)
   const [slides] = useAtom(slidesAtom)
-  const { crust } = useColors()
+  const { surface0 } = useColors()
 
   return (
-    <Box
-      bg={crust}
-      fontSize={{ base: 'xl', md: '2xl' }}
-      w="5rem"
-      h="90%"
-      my="auto"
-      overflow="hidden"
-    >
+    <Box bg={surface0} fontSize="2xl" w="5rem" h="full" my="auto">
+      <VStack my={2}>
+        <BackButton />
+        <ThemeToggleButton />
+      </VStack>
+
+      <Divider />
+
       <SideBarItem
         icon={FaPlay}
         label="Present"

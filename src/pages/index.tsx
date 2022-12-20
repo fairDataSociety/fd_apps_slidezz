@@ -23,7 +23,7 @@ import {
   TEXT_VARIANTS,
 } from '../animations'
 import '../components/AppUI'
-import Layout from '../components/Layout'
+import Navbar from '../components/Navbar'
 import useColors from '../hooks/useColors'
 
 const AppUI = dynamic(() => import('../components/AppUI'), { ssr: false })
@@ -32,7 +32,8 @@ const Home: NextPage = () => {
   const { rosewater } = useColors()
 
   return (
-    <Layout>
+    <>
+      <Navbar />
       <Container mt={{ base: '3rem', lg: '7rem' }} maxW="container.xl">
         <Stack
           h="full"
@@ -90,7 +91,7 @@ const Home: NextPage = () => {
           <AppUI />
         </Stack>
       </Container>
-    </Layout>
+    </>
   )
 }
 

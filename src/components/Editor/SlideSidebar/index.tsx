@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai'
+import dynamic from 'next/dynamic'
 import { BsFillImageFill } from 'react-icons/bs'
 import { RiText } from 'react-icons/ri'
 
@@ -10,10 +11,11 @@ import { addImageToCurrentSlide } from '../../../utils'
 import AddImage from './AddImage'
 import AddText from './AddText'
 import AddVideo from './AddVideo'
-import NewSlide from './NewSlide'
 import RemoveSlide from './RemoveSlide'
 import SlideBackground from './SlideBackground'
 import SlideSideBarItem from './SlideSidebarItem'
+
+const NewSlide = dynamic(() => import('./NewSlide'), { ssr: false })
 
 export default function SlideSidebar() {
   const [deck] = useAtom(slidesDeckAtom)
@@ -21,15 +23,7 @@ export default function SlideSidebar() {
   const { crust } = useColors()
 
   return (
-    <Box
-      bg={crust}
-      fontSize={{ base: 'xs', md: 'sm', lg: 'md' }}
-      position="absolute"
-      borderRadius="lg"
-      overflow="hidden"
-      top={0}
-      right={{ base: -8, md: -12, lg: -16 }}
-    >
+    <Box bg={crust} fontSize="lg" h="full" w="4rem">
       <AddText>
         <SlideSideBarItem icon={RiText} label="Text" />
       </AddText>

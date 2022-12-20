@@ -25,7 +25,7 @@ export const MoveableDimension = {
           borderRadius: '2px',
           padding: '2px 4px',
           color: 'white',
-          fontSize: '30px',
+          fontSize: '20px',
           whiteSpace: 'nowrap',
           fontWeight: 'bold',
           willChange: 'transform',

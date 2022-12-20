@@ -2,11 +2,7 @@ import { useAtom } from 'jotai'
 
 import { Box } from '@chakra-ui/react'
 
-import {
-  editTextAtom,
-  moveableTargetsAtom,
-  slidesDeckAtom,
-} from '../../../store'
+import { moveableTargetsAtom, slidesDeckAtom } from '../../../store'
 
 interface AddTextProps {
   children?: React.ReactNode
@@ -15,7 +11,6 @@ interface AddTextProps {
 export default function AddText({ children }: AddTextProps) {
   const [deck] = useAtom(slidesDeckAtom)
   const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
-  const [, setEditText] = useAtom(editTextAtom)
 
   const handleAddText = () => {
     const currentSlideIndex = deck.getState().indexh
@@ -25,13 +20,7 @@ export default function AddText({ children }: AddTextProps) {
     textContainer.classList.add('fair-text', 'container')
 
     slide.appendChild(textContainer)
-
-    setEditText({
-      element: textContainer,
-      callback: () => {
-        setMoveableTargets([textContainer])
-      },
-    })
+    setMoveableTargets([textContainer])
   }
 
   return <Box onClick={handleAddText}>{children}</Box>

@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic'
 import { Box } from '@chakra-ui/react'
 
 import Editor from '../components/Editor'
-import Layout from '../components/Layout'
 import Login from '../components/Login'
+import Navbar from '../components/Navbar'
 import { slidesAtom, slidesDeckAtom, userAtom } from '../store'
 
 const SlideshowTemplates = dynamic(
@@ -21,12 +21,18 @@ const SlideShow: NextPage = () => {
   const [slides] = useAtom(slidesAtom)
   const [deck] = useAtom(slidesDeckAtom)
 
-  if (!user) return <Login />
+  // if (!user) return <Login />
 
   return (
-    <Layout>
-      {slides ? <Editor /> : <SlideshowTemplates />}
-
+    <>
+      {slides ? (
+        <Editor />
+      ) : (
+        <>
+          <Navbar />
+          <SlideshowTemplates />
+        </>
+      )}
       {deck && (
         <Box
           w={deck.getComputedSlideSize().width}
@@ -35,7 +41,7 @@ const SlideShow: NextPage = () => {
           display="none"
         />
       )}
-    </Layout>
+    </>
   )
 }
 

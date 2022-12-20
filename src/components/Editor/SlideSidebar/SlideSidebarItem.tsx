@@ -22,7 +22,7 @@ export default function SlideSidebarItem({
       <Center
         onClick={onClick}
         cursor="pointer"
-        p={{ base: 2, md: 3, lg: 5 }}
+        p={5}
         w="full"
         _hover={{
           bg: surface2,

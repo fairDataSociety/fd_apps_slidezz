@@ -1,4 +1,5 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
+import { Editor } from '@tiptap/react'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { extname } from 'path'
@@ -94,10 +95,6 @@ export const videoMediaAtom = atom<File[]>((get) =>
 
 export const moveableTargetsAtom = atom<HTMLElement[]>([])
 
-// Edit mode
-
-export const editModeAtom = atom<EditMode>(EditMode.MOVE)
-
 // Replace image
 
 export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
@@ -131,9 +128,3 @@ export const loadingModalActionAtom = atom(
       set(loadingModalAtom, { isOpen: false, message: undefined })
   }
 )
-
-// Edit text
-
-export const editTextAtom = atom<
-  { element: HTMLElement; callback?: () => void } | undefined
->(undefined)
