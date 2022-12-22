@@ -324,10 +324,6 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 BR
               </Button>
             </WrapItem>
-
-            <WrapItem>
-              <ColorPicker />
-            </WrapItem>
           </Wrap>
           <Divider />
           <Wrap>
@@ -392,6 +388,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             </WrapItem>
           </Wrap>
           <Divider />
+
+          <ColorPicker />
+
           <Wrap>
             <WrapItem>
               <Input

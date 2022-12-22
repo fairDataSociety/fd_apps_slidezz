@@ -1,19 +1,7 @@
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import { HexColorInput, HexColorPicker } from 'react-colorful'
-import { MdColorLens } from 'react-icons/md'
 
-import {
-  Box,
-  IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Button, Input, Wrap, WrapItem } from '@chakra-ui/react'
 
 import { moveableTargetsAtom } from '../../store'
 import { rgbToHex } from '../../utils'
@@ -33,49 +21,35 @@ export default function ColorPicker() {
   }, [moveableTarget])
 
   return (
-    <Popover placement="bottom-end">
-      <PopoverTrigger>
-        <IconButton
-          isDisabled={!moveableTarget}
-          size="sm"
-          variant="outline"
-          aria-label="color"
-          icon={<MdColorLens />}
+    <Wrap>
+      <WrapItem>
+        <Input
+          w="9rem"
+          type="color"
+          value={bgColor}
+          onInput={(event: any) => {
+            if (!moveableTarget) return
+            const value = event.target.value
+            setBgColor(value)
+            moveableTarget.style.backgroundColor = value
+          }}
+          disabled={!moveableTarget}
         />
-      </PopoverTrigger>
-      <PopoverContent w="230px">
-        <PopoverArrow />
-        <PopoverBody>
-          <VStack alignItems="flex-start" gap={2}>
-            <VStack>
-              <Text mb={3}>Background Color</Text>
-              <HexColorPicker
-                style={{
-                  width: '150px',
-                  height: '150px',
-                }}
-                color={bgColor}
-                onChange={(newColor) => {
-                  if (moveableTarget) {
-                    moveableTarget.style.backgroundColor = newColor
-                    setBgColor(newColor)
-                  }
-                }}
-              />
-
-              <HexColorInput
-                color={bgColor}
-                onChange={(newColor) => {
-                  if (moveableTarget) {
-                    moveableTarget.style.backgroundColor = newColor
-                    setBgColor(newColor)
-                  }
-                }}
-              />
-            </VStack>
-          </VStack>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      </WrapItem>
+      <WrapItem>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => {
+            if (!moveableTarget) return
+            setBgColor('')
+            moveableTarget.style.backgroundColor = ''
+          }}
+          disabled={!moveableTarget}
+        >
+          unsetBackground
+        </Button>
+      </WrapItem>
+    </Wrap>
   )
 }
