@@ -23,6 +23,7 @@ export default function useTextEditor() {
       Underline,
       Placeholder,
     ],
+    autofocus: true,
   })
 
   return editor

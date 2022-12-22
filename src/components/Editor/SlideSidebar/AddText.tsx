@@ -18,6 +18,7 @@ export default function AddText({ children }: AddTextProps) {
 
     const textContainer = document.createElement('div')
     textContainer.classList.add('fair-text', 'container')
+    textContainer.innerHTML = '<p>Text</p>'
 
     slide.appendChild(textContainer)
     setMoveableTargets([textContainer])

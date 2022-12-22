@@ -18,6 +18,7 @@ import { LogoPositions } from '../../config/logo-positions'
 import useColors from '../../hooks/useColors'
 import useTextEditor from '../../hooks/useTextEditor'
 import {
+  editModeAtom,
   moveableTargetsAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
@@ -25,7 +26,7 @@ import {
   slideshowSettingsAtom,
   styleSettingsAtom,
 } from '../../store'
-import { Slides as SlidesType } from '../../types'
+import { EditMode, Slides as SlidesType } from '../../types'
 import { isHTML, parseElements } from '../../utils'
 import ColorPicker from './ColorPicker'
 import {
@@ -49,6 +50,7 @@ interface SlidesProps {
 }
 
 export default function Slides({ deckName, slides, editor }: SlidesProps) {
+  const [editMode, setEditMode] = useAtom(editModeAtom)
   const [deck, setDeck] = useAtom(slidesDeckAtom)
   const { overlay0 } = useColors()
   const moveableRef = useRef() as RefObject<
@@ -138,7 +140,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
   }, [slideshowSettings])
 
   useEffect(() => {
-    if (!moveableTargets.length && editor && deck) {
+    if (editor && deck) {
       const editorElement = editor.options.element
       const revealElement = deck.getRevealElement() as HTMLElement
       if (revealElement.contains(editorElement)) {
@@ -150,6 +152,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
           parentElement.innerHTML = editorHTML
         }
       }
+      setEditMode(EditMode.MOVE)
     }
   }, [moveableTargets, editor, deck])
 
@@ -312,6 +315,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               }}
               onClick={(e) => {
                 if (e.isDouble && moveableTargets.length === 1 && editor) {
+                  setEditMode(EditMode.TEXT)
                   const target = e.target as HTMLElement
                   editor.commands.setContent(target.innerHTML)
                   target.innerHTML = ''

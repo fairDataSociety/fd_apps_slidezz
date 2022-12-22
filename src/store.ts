@@ -1,5 +1,4 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
-import { Editor } from '@tiptap/react'
 import { atom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { extname } from 'path'
@@ -128,3 +127,5 @@ export const loadingModalActionAtom = atom(
       set(loadingModalAtom, { isOpen: false, message: undefined })
   }
 )
+
+export const editModeAtom = atom<EditMode>(EditMode.MOVE)

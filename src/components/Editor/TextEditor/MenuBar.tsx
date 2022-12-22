@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/react'
+import { useAtom } from 'jotai'
 import {
   AiOutlineBold,
   AiOutlineItalic,
@@ -29,13 +30,17 @@ import {
 } from '@chakra-ui/react'
 
 import useColors from '../../../hooks/useColors'
+import { editModeAtom } from '../../../store'
+import { EditMode } from '../../../types'
 
 interface MenuBarProps {
   editor: Editor | null
 }
 
 export default function MenuBar({ editor }: MenuBarProps) {
+  const [editMode] = useAtom(editModeAtom)
   const { crust } = useColors()
+  const isFocused = editMode === EditMode.TEXT
 
   return (
     <VStack align="stretch" bg={crust} p={2} h="full" w="12rem">
@@ -50,8 +55,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 icon={<MdUndo />}
                 onClick={() => editor.chain().focus().undo().run()}
                 disabled={
-                  !editor.can().chain().focus().undo().run() ||
-                  !editor.isFocused
+                  !editor.can().chain().focus().undo().run() || !isFocused
                 }
               />
             </WrapItem>
@@ -64,8 +68,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 icon={<MdRedo />}
                 onClick={() => editor.chain().focus().redo().run()}
                 disabled={
-                  !editor.can().chain().focus().redo().run() ||
-                  !editor.isFocused
+                  !editor.can().chain().focus().redo().run() || !isFocused
                 }
               />
             </WrapItem>
@@ -80,8 +83,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 icon={<AiOutlineBold />}
                 onClick={() => editor.chain().focus().toggleBold().run()}
                 disabled={
-                  !editor.can().chain().focus().toggleBold().run() ||
-                  !editor.isFocused
+                  !editor.can().chain().focus().toggleBold().run() || !isFocused
                 }
               />
             </WrapItem>
@@ -95,7 +97,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() => editor.chain().focus().toggleItalic().run()}
                 disabled={
                   !editor.can().chain().focus().toggleItalic().run() ||
-                  !editor.isFocused
+                  !isFocused
                 }
               />
             </WrapItem>
@@ -109,7 +111,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() => editor.chain().focus().toggleStrike().run()}
                 disabled={
                   !editor.can().chain().focus().toggleStrike().run() ||
-                  !editor.isFocused
+                  !isFocused
                 }
               />
             </WrapItem>
@@ -121,7 +123,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 aria-label="underline"
                 icon={<AiOutlineUnderline />}
                 onClick={() => editor.chain().focus().toggleUnderline().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -133,8 +135,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 icon={<BiCode />}
                 onClick={() => editor.chain().focus().toggleCode().run()}
                 disabled={
-                  !editor.can().chain().focus().toggleCode().run() ||
-                  !editor.isFocused
+                  !editor.can().chain().focus().toggleCode().run() || !isFocused
                 }
               />
             </WrapItem>
@@ -146,7 +147,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 w={5}
                 aria-label="paragraph"
                 onClick={() => editor.chain().focus().setParagraph().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 P
               </Button>
@@ -163,7 +164,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setHeading({ level: 1 }).run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 H1
               </Button>
@@ -180,7 +181,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setHeading({ level: 2 }).run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 H2
               </Button>
@@ -197,7 +198,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setHeading({ level: 3 }).run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 H3
               </Button>
@@ -214,7 +215,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setHeading({ level: 4 }).run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 H4
               </Button>
@@ -231,7 +232,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setHeading({ level: 5 }).run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 H5
               </Button>
@@ -248,7 +249,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setHeading({ level: 6 }).run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 H6
               </Button>
@@ -261,7 +262,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 aria-label="bulletList"
                 icon={<AiOutlineUnorderedList />}
                 onClick={() => editor.chain().focus().toggleBulletList().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -273,7 +274,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 aria-label="orderedList"
                 icon={<AiOutlineOrderedList />}
                 onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -284,7 +285,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 aria-label="codeBlock"
                 icon={<BiCodeBlock />}
                 onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -295,7 +296,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 aria-label="blockquote"
                 icon={<TbBlockquote />}
                 onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -306,7 +307,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 aria-label="horizontal-rule"
                 icon={<MdHorizontalRule />}
                 onClick={() => editor.chain().focus().setHorizontalRule().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -317,7 +318,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 w={5}
                 aria-label="br"
                 onClick={() => editor.chain().focus().setHardBreak().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 BR
               </Button>
@@ -336,7 +337,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setTextAlign('left').run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
 
@@ -351,7 +352,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setTextAlign('center').run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
             <WrapItem>
@@ -365,7 +366,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setTextAlign('right').run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
             <WrapItem>
@@ -381,7 +382,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 onClick={() =>
                   editor.chain().focus().setTextAlign('justify').run()
                 }
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
           </Wrap>
@@ -396,7 +397,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                   editor.chain().focus().setColor(event.target.value).run()
                 }
                 value={editor.getAttributes('textStyle').color}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
             <WrapItem>
@@ -404,7 +405,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => editor.chain().focus().unsetColor().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 unsetColor
               </Button>
@@ -425,7 +426,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                     .run()
                 }
                 value={editor.getAttributes('highlight').color}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               />
             </WrapItem>
             <WrapItem>
@@ -433,7 +434,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => editor.chain().focus().unsetHighlight().run()}
-                disabled={!editor.isFocused}
+                disabled={!isFocused}
               >
                 unsetHighlight
               </Button>
