@@ -33,51 +33,49 @@ export default function ColorPicker() {
   }, [moveableTarget])
 
   return (
-    <Box position="absolute" top={{ base: -7, md: -9 }} right={0}>
-      <Popover placement="right-end">
-        <PopoverTrigger>
-          <IconButton
-            isDisabled={!moveableTarget}
-            colorScheme="blue"
-            size={{ base: 'xs', md: 'sm' }}
-            aria-label="color"
-            icon={<MdColorLens />}
-          />
-        </PopoverTrigger>
-        <PopoverContent w="230px">
-          <PopoverArrow />
-          <PopoverBody>
-            <VStack alignItems="flex-start" gap={2}>
-              <VStack>
-                <Text mb={3}>Background Color</Text>
-                <HexColorPicker
-                  style={{
-                    width: '150px',
-                    height: '150px',
-                  }}
-                  color={bgColor}
-                  onChange={(newColor) => {
-                    if (moveableTarget) {
-                      moveableTarget.style.backgroundColor = newColor
-                      setBgColor(newColor)
-                    }
-                  }}
-                />
+    <Popover placement="bottom-end">
+      <PopoverTrigger>
+        <IconButton
+          isDisabled={!moveableTarget}
+          size="sm"
+          variant="outline"
+          aria-label="color"
+          icon={<MdColorLens />}
+        />
+      </PopoverTrigger>
+      <PopoverContent w="230px">
+        <PopoverArrow />
+        <PopoverBody>
+          <VStack alignItems="flex-start" gap={2}>
+            <VStack>
+              <Text mb={3}>Background Color</Text>
+              <HexColorPicker
+                style={{
+                  width: '150px',
+                  height: '150px',
+                }}
+                color={bgColor}
+                onChange={(newColor) => {
+                  if (moveableTarget) {
+                    moveableTarget.style.backgroundColor = newColor
+                    setBgColor(newColor)
+                  }
+                }}
+              />
 
-                <HexColorInput
-                  color={bgColor}
-                  onChange={(newColor) => {
-                    if (moveableTarget) {
-                      moveableTarget.style.backgroundColor = newColor
-                      setBgColor(newColor)
-                    }
-                  }}
-                />
-              </VStack>
+              <HexColorInput
+                color={bgColor}
+                onChange={(newColor) => {
+                  if (moveableTarget) {
+                    moveableTarget.style.backgroundColor = newColor
+                    setBgColor(newColor)
+                  }
+                }}
+              />
             </VStack>
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
-    </Box>
+          </VStack>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   )
 }

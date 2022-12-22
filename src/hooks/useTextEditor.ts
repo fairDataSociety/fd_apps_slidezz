@@ -1,5 +1,6 @@
 import Color from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
+import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
@@ -22,6 +23,10 @@ export default function useTextEditor() {
       }),
       Underline,
       Placeholder,
+      Image.configure({
+        allowBase64: true,
+        inline: true,
+      }),
     ],
     autofocus: true,
   })

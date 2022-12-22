@@ -166,7 +166,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       w="full"
       h="full"
     >
-      <ColorPicker />
       {replaceImageElement && !isFullscreen && <ReplaceImage />}
 
       <Box overflow="visible" className={`reveal ${deckName}`}>

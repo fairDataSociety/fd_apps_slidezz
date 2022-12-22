@@ -32,6 +32,7 @@ import {
 import useColors from '../../../hooks/useColors'
 import { editModeAtom } from '../../../store'
 import { EditMode } from '../../../types'
+import ColorPicker from '../ColorPicker'
 
 interface MenuBarProps {
   editor: Editor | null
@@ -322,6 +323,10 @@ export default function MenuBar({ editor }: MenuBarProps) {
               >
                 BR
               </Button>
+            </WrapItem>
+
+            <WrapItem>
+              <ColorPicker />
             </WrapItem>
           </Wrap>
           <Divider />
