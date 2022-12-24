@@ -2,7 +2,9 @@ import { useAtom } from 'jotai'
 import { BiPlus } from 'react-icons/bi'
 
 import {
+  Button,
   Center,
+  HStack,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,6 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   SimpleGrid,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -21,9 +24,10 @@ export default function NewSlide() {
   const [deck] = useAtom(slidesDeckAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const addNewSlide = (content: string) => {
+  const addNewSlide = (content?: string) => {
     const sectionElement = document.createElement('section')
-    sectionElement.innerHTML = content
+    sectionElement.innerHTML =
+      typeof content === 'string' ? content : deck.getCurrentSlide().innerHTML
 
     const currentSlideIndex = deck.getState().indexh
     const currentSlide = deck.getCurrentSlide() as HTMLElement
@@ -47,16 +51,21 @@ export default function NewSlide() {
     <>
       <SlideSideBarItem onClick={onOpen} icon={BiPlus} label="Add new slide" />
 
-      <Modal size="3xl" isOpen={isOpen} onClose={onClose}>
+      <Modal size={{ base: 'md', lg: '3xl' }} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent h="600px">
-          <ModalHeader>Select a template</ModalHeader>
+          <ModalHeader as={HStack} gap={5}>
+            <Text>Select a template</Text>
+            <Button size="sm" onClick={() => addNewSlide()}>
+              Duplicate
+            </Button>
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <SimpleGrid
               overflowY="scroll"
               h="500px"
-              columns={{ base: 1, md: 2 }}
+              columns={{ base: 1, lg: 2 }}
               spacing={5}
             >
               {templates.map((template, i) => {

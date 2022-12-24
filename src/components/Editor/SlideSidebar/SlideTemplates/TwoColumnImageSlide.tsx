@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react'
+import { Center, Flex, Heading, Text, VStack } from '@chakra-ui/react'
 
 export default function TwoColumnImageSlide() {
   return (
@@ -13,11 +13,9 @@ export default function TwoColumnImageSlide() {
         </Text>
       </VStack>
       <Flex align="center" justify="center" flex={1}>
-        <Image
-          w="80%"
-          objectFit="cover"
-          src={`${window._detectedSiteType.basePath}/images/sample.png`}
-        />
+        <Center bg="gray.900" objectFit="cover" h="full" w="80%">
+          <Text>Sample Image</Text>
+        </Center>
       </Flex>
     </Flex>
   )

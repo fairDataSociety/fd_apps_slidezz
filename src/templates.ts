@@ -20,35 +20,36 @@ export const templates: Template[] = [
   },
   {
     name: 'Title slide',
-    content: '<h2>Title text</h2>',
+    content: '<div class="container"><h2>Title text</h2><div>',
     component: TitleSlide,
   },
   {
     name: 'Title-Subtitle slide',
-    content: '<h2>TITLE TEXT</h2><h3>Subtitle</h3>',
+    content:
+      '<div class="container"><h2>TITLE TEXT</h2></div><div class="container"><h3>Subtitle</h3></div>',
     component: TitleSubtitleSlide,
   },
   {
     name: 'Two-column slide',
-    content: `<div class='two-column'><div class='col'><h2>Left column</h2><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
-      perferendis amet minus minima nihil asperiores culpa autem.</p></div><div class='col'><h2>Right column</h2><p> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
-      perferendis amet minus minima nihil asperiores culpa autem.</p></div></div>`,
+    content: `<div class='two-column'><div class='col'><div class="container"><h2>Left column</h2></div><div class="container"><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
+      perferendis amet minus minima nihil asperiores culpa autem.</p></div></div><div class='col'><div class="container"><h2>Right column</h2></div><div class="container"><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
+      perferendis amet minus minima nihil asperiores culpa autem.</p></div></div></div>`,
     component: TwoColumnSlide,
   },
   {
     name: 'Ttile image slide',
-    content: `<h3>TITLE TEXT</h3><div></div><div class="container sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div>`,
+    content: `<div class="container"><h3>TITLE TEXT</h3></div><div class="container sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div>`,
     component: TitleImageSlide,
   },
   {
     name: 'Image title slide',
-    content: `<div class="container sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div><h3>TITLE TEXT</h3>`,
+    content: `<div class="container sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div><div class="container"><h3>TITLE TEXT</h3></div>`,
     component: ImageTitleSlide,
   },
   {
     name: 'Two-column image slide',
-    content: `<div class='two-column'><div class='col'><h2>Left column</h2><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
-    perferendis amet minus minima.</p></div><div class='col'><div class="container sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div></div></div>`,
+    content: `<div class='two-column'><div class='col'><div class="container"><h2>Left column</h2></div><div class="container"><p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
+    perferendis amet minus minima.</p></div></div><div class='col'><div class="container sample-image-container"><img class="sample-data" src="${window._detectedSiteType.basePath}/images/sample.png" /></div></div></div>`,
     component: TwoColumnImageSlide,
   },
 ]

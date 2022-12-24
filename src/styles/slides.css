@@ -406,15 +406,6 @@ body[data-theme='beige'] .reveal-viewport {
   margin-bottom: 0;
 }
 
-/* Ensure certain elements are never larger than the slide itself */
-
-/* .reveal img,
-.reveal video,
-.reveal iframe {
-  max-width: 95%;
-  max-height: 95%;
-} */
-
 .reveal strong,
 .reveal b {
   font-weight: bold;
@@ -572,56 +563,9 @@ body[data-theme='beige'] .reveal-viewport {
   vertical-align: top;
 }
 
-.reveal .iframe-wrapper {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-}
-
-.reveal .iframe-wrapper iframe {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
 .reveal img {
   margin: var(--r-block-margin) 0;
   object-fit: cover;
-}
-
-.reveal .fair-data {
-  width: 100%;
-  height: 100%;
-  margin: auto;
-}
-
-.reveal .sample-data {
-  padding: 10px;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-}
-
-.reveal .media-container {
-  position: absolute;
-  top: 30%;
-  left: 30%;
-  padding: 10px;
-  height: 400px;
-  width: 400px;
-}
-
-.reveal .sample-image-container {
-  width: 100%;
-  height: 85%;
-}
-
-.reveal .fair-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-height: 70px;
-  min-width: 200px;
 }
 
 /*********************************************
@@ -680,18 +624,6 @@ body[data-theme='beige'] .reveal-viewport {
   outline: 0px solid transparent;
 }
 
-.reveal .two-column {
-  display: flex;
-}
-
-.reveal .two-column .col {
-  flex: 1;
-  text-align: left;
-}
-
-.reveal .slides {
-  pointer-events: auto !important;
-}
 /*********************************************
   * PRINT BACKGROUND
   *********************************************/
@@ -707,14 +639,66 @@ body[data-theme='beige'] .reveal-viewport {
   }
 }
 
-.present {
-  display: flex !important;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  pointer-events: none !important;
+/*********************************************
+  * CUSTOM
+  *********************************************/
+.reveal .iframe-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
 }
 
+.reveal .iframe-wrapper iframe {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.reveal .fair-data {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.reveal .sample-data {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.reveal .media-container {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  padding: 10px;
+  height: 400px;
+  width: 400px;
+}
+
+.reveal .sample-image-container {
+  width: 100%;
+  height: 85%;
+}
+
+.reveal .fair-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-height: 70px;
+  min-width: 200px;
+}
+
+.reveal .two-column {
+  display: flex;
+}
+
+.reveal .two-column .col {
+  flex: 1;
+  text-align: left;
+}
+
+.reveal .slides,
 .present * {
   pointer-events: auto !important;
 }
