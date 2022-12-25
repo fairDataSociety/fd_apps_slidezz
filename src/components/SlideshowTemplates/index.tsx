@@ -70,16 +70,10 @@ export default function SlideshowTemplates() {
                     title="Blank Slideshow"
                     slides={`
 ## Slide 1
-
-test this is test
-
+#### Sub Title
 ---
 ## Slide 2
-
-
 ![image](https://picsum.photos/id/65/200/300)
-
-
                   `}
                   />
                 </WrapItem>

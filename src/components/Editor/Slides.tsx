@@ -28,7 +28,6 @@ import {
 } from '../../store'
 import { EditMode, Slides as SlidesType } from '../../types'
 import { isHTML, parseElements } from '../../utils'
-import ColorPicker from './ColorPicker'
 import {
   MoveableDeleteButton,
   MoveableDeleteButtonProps,
@@ -50,7 +49,7 @@ interface SlidesProps {
 }
 
 export default function Slides({ deckName, slides, editor }: SlidesProps) {
-  const [editMode, setEditMode] = useAtom(editModeAtom)
+  const [, setEditMode] = useAtom(editModeAtom)
   const [deck, setDeck] = useAtom(slidesDeckAtom)
   const { overlay0 } = useColors()
   const moveableRef = useRef() as RefObject<
@@ -155,6 +154,57 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       setEditMode(EditMode.MOVE)
     }
   }, [moveableTargets, editor, deck])
+
+  useEffect(() => {
+    if (deck) {
+      const staticToAbsolute = () => {
+        const staticElements: {
+          element: HTMLElement
+          offsetTop: number
+          offsetLeft: number
+          offsetWidth: number
+          offsetHeight: number
+        }[] = []
+        const elements = Array.from(
+          (deck.getRevealElement() as HTMLElement).querySelectorAll(
+            '.present .container'
+          )
+        ) as HTMLElement[]
+
+        for (const element of elements) {
+          if (window.getComputedStyle(element).position === 'static') {
+            staticElements.push({
+              element,
+              offsetTop: element.offsetTop,
+              offsetLeft: element.offsetLeft,
+              offsetHeight: element.offsetHeight,
+              offsetWidth: element.offsetWidth,
+            })
+          }
+        }
+
+        for (const {
+          element,
+          offsetTop,
+          offsetLeft,
+          offsetWidth,
+          offsetHeight,
+        } of staticElements) {
+          element.style.position = 'absolute'
+          element.style.top = `${offsetTop}px`
+          element.style.left = `${offsetLeft}px`
+          element.style.width = `${offsetWidth}px`
+          element.style.height = `${offsetHeight}px`
+        }
+      }
+
+      staticToAbsolute()
+
+      deck.on('slidechanged', staticToAbsolute)
+
+      return () => deck.off('slidechanged')
+    }
+  }, [deck])
 
   return (
     <Box
