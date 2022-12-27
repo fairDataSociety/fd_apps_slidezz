@@ -94,6 +94,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       plugins: [Markdown, RevealHighlight],
       ...slideshowSettings,
       center: false,
+      history: false,
       width: slides.width || 1920,
       height: slides.height || 1080,
       minScale: 0,

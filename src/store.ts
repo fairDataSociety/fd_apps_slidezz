@@ -10,7 +10,7 @@ import {
   SlideshowSettings,
   StyleSettings,
   User,
-} from '../src/types'
+} from './types'
 
 // FDP instance
 
@@ -41,7 +41,6 @@ export const fdpAtom = atom(fdp)
 const initialSettings: SlideshowSettings = {
   controls: true,
   progress: true,
-  history: true,
   loop: true,
   slideNumber: false,
   controlsLayout: 'bottom-right',
@@ -127,5 +126,7 @@ export const loadingModalActionAtom = atom(
       set(loadingModalAtom, { isOpen: false, message: undefined })
   }
 )
+
+// Edit mode
 
 export const editModeAtom = atom<EditMode>(EditMode.MOVE)

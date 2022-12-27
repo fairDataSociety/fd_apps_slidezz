@@ -47,6 +47,7 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
       plugins: [Markdown, RevealHighlight],
       ...slideshowSettings,
       center: false,
+      history: true,
       width: slides.width || 1920,
       height: slides.height || 1080,
     })

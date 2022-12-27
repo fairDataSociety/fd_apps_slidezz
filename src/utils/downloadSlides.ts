@@ -161,6 +161,7 @@ async function generateTmpDeck(
   const tmpDeck = Reveal(tmpDeckElement, {
     embedded: true,
     center: false,
+    history: false,
     keyboardCondition: 'focused',
     plugins: [Markdown, RevealHighlight],
     ...slideshowSettings,

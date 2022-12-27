@@ -41,6 +41,7 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
       plugins: [Markdown, RevealHighlight],
       ...query,
       center: false,
+      history: false,
       width: slides.width || 1920,
       height: slides.height || 1080,
     })

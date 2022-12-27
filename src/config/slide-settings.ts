@@ -1,5 +1,5 @@
 interface CheckBoxSettings {
-  name: 'controls' | 'progress' | 'history' | 'loop' | 'slideNumber'
+  name: 'controls' | 'progress' | 'loop' | 'slideNumber'
   label: string
   description: string
 }
@@ -14,11 +14,6 @@ export const checkBoxSettings: CheckBoxSettings[] = [
     name: 'progress',
     label: 'Progress',
     description: 'Display a presentation progress bar',
-  },
-  {
-    name: 'history',
-    label: 'History',
-    description: 'Push each slide change to the browser history',
   },
   {
     name: 'loop',

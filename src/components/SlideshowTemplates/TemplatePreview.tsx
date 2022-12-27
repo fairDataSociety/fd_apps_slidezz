@@ -106,6 +106,7 @@ const Slideshow = ({ slides, deckName }: SlideshowProps) => {
       keyboardCondition: 'focused',
       plugins: [Markdown, RevealHighlight],
       center: false,
+      history: false,
       progress: false,
       controls: false,
     })

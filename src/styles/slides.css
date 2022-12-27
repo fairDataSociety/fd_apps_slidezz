@@ -357,7 +357,7 @@ body[data-theme='beige'] .reveal-viewport {
 .reveal h4,
 .reveal h5,
 .reveal h6 {
-  margin: var(--r-heading-margin);
+  /* margin: var(--r-heading-margin); */
   color: var(--r-heading-color);
   font-family: var(--r-heading-font);
   font-weight: var(--r-heading-font-weight);
@@ -392,7 +392,7 @@ body[data-theme='beige'] .reveal-viewport {
   * OTHER
   *********************************************/
 .reveal p {
-  margin: var(--r-block-margin) 0;
+  /* margin: var(--r-block-margin) 0; */
   line-height: 1.3;
 }
 

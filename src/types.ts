@@ -3,7 +3,6 @@ import { slideThemes } from './config/slide-themes'
 export interface SlideshowSettings {
   controls: boolean
   progress: boolean
-  history: boolean
   loop: boolean
   slideNumber: boolean
   controlsLayout: 'edges' | 'bottom-right'
