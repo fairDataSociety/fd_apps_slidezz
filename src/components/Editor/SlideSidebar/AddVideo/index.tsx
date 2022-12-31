@@ -16,6 +16,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
+import { addVideoToCurrentSlide } from '../../../../actions/addVideoToCurrentSlide'
 import {
   mediaAtom,
   moveableTargetsAtom,
@@ -23,7 +24,6 @@ import {
   videoMediaAtom,
 } from '../../../../store'
 import { File } from '../../../../types'
-import { blobToBase64 } from '../../../../utils'
 import ImportFile from '../../../FairDriveImportFile'
 import ItemBox from '../../../FairDriveImportFile/ItemBox'
 import SlideSideBarItem from '../SlideSidebarItem'
@@ -35,37 +35,6 @@ export default function AddVideo() {
   const [videos] = useAtom(videoMediaAtom)
   const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const [deck] = useAtom(slidesDeckAtom)
-
-  const addVideoToCurrentSlide = async (video: File) => {
-    const currentSlideIndex = deck.getState().indexh
-    const slide = deck.getSlides()[currentSlideIndex]
-
-    const videoContainer = document.createElement('div')
-    videoContainer.classList.add('container', 'media-container')
-
-    const videoElement = document.createElement('video')
-    const soruceElement = document.createElement('source')
-
-    videoElement.controls = true
-
-    soruceElement.src = await blobToBase64(video.data)
-
-    videoElement.appendChild(soruceElement)
-
-    videoElement.classList.add('fair-data')
-
-    videoContainer.addEventListener('click', () => {
-      setMoveableTargets([videoContainer])
-    })
-
-    videoContainer.appendChild(videoElement)
-
-    slide.appendChild(videoContainer)
-    deck.sync()
-    deck.layout()
-    onClose()
-    setMoveableTargets([videoContainer])
-  }
 
   return (
     <>
@@ -100,7 +69,9 @@ export default function AddVideo() {
                       icon={FaVideo}
                       text={video.name}
                       onClick={() => {
-                        addVideoToCurrentSlide(video)
+                        if (!deck) return
+                        addVideoToCurrentSlide(video, deck, setMoveableTargets)
+                        onClose()
                       }}
                     />
                   )

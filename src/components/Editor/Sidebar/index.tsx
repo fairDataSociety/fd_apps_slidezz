@@ -1,11 +1,19 @@
 import fscreen from 'fscreen'
 import { useAtom } from 'jotai'
 import { FaPlay } from 'react-icons/fa'
+import { MdRedo, MdUndo } from 'react-icons/md'
 
-import { Box, Divider, VStack } from '@chakra-ui/react'
+import { Box, Divider, IconButton, VStack } from '@chakra-ui/react'
 
 import useColors from '../../../hooks/useColors'
-import { slidesAtom, slidesDeckAtom } from '../../../store'
+import {
+  redoHistoryAtom,
+  redoHistoryStackLenAtom,
+  slidesAtom,
+  slidesDeckAtom,
+  undoHistoryAtom,
+  undoHistoryStackLenAtom,
+} from '../../../store'
 import BackButton from '../../Buttons/BackButton'
 import ThemeToggleButton from '../../Buttons/ThemeToggleButton'
 import DownloadSlides from './DownloadSlides'
@@ -24,12 +32,29 @@ export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
   const [deck] = useAtom(slidesDeckAtom)
   const [slides] = useAtom(slidesAtom)
   const { surface0 } = useColors()
+  const [undoHisoryStackLen] = useAtom(undoHistoryStackLenAtom)
+  const [redoHisoryStackLen] = useAtom(redoHistoryStackLenAtom)
+  const [, undoHistory] = useAtom(undoHistoryAtom)
+  const [, redoHistory] = useAtom(redoHistoryAtom)
 
   return (
     <Box bg={surface0} fontSize="2xl" w="5rem" h="full" my="auto">
       <VStack my={2}>
         <BackButton />
         <ThemeToggleButton />
+
+        <IconButton
+          aria-label="undo"
+          icon={<MdUndo />}
+          isDisabled={!undoHisoryStackLen}
+          onClick={() => undoHistory()}
+        />
+        <IconButton
+          aria-label="redo"
+          icon={<MdRedo />}
+          isDisabled={!redoHisoryStackLen}
+          onClick={() => redoHistory()}
+        />
       </VStack>
 
       <Divider />
@@ -38,6 +63,7 @@ export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
         icon={FaPlay}
         label="Present"
         onClick={() => {
+          if (!deck) return
           fscreen.requestFullscreen(deck.getRevealElement())
         }}
       />

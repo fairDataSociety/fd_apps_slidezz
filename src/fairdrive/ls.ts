@@ -1,6 +1,6 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 
-import { getFilesAndDirs } from '../../api/fairos/fs'
+import { getFilesAndDirs } from '../api/fairos/fs'
 
 export interface DirectoryItem {
   dirs: { name: string }[]

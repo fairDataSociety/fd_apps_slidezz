@@ -1,8 +1,9 @@
 import download from 'downloadjs'
 import { toJpeg, toPng, toSvg } from 'html-to-image'
 import { jsPDF } from 'jspdf'
+import Reveal from 'reveal.js'
 
-import { SlideshowSettings } from '../types'
+import { LoadingModalSetAction, SlideshowSettings } from '../types'
 
 export enum ExportType {
   JPEG,
@@ -24,33 +25,25 @@ const extension: { [exportType in ExportType]: string } = {
   [ExportType.SVG]: 'svg',
 }
 
-type loadingModalAction = (update: {
-  action: 'start' | 'stop'
-  message?: string | undefined
-}) => void
-
 export async function currentSlideToImage(
-  deck: any,
+  deck: Reveal.Api,
   exportType: ExportType,
-  loadingModalAction: loadingModalAction,
+  loadingModalSetAction: LoadingModalSetAction,
   slideshowSettings: SlideshowSettings
 ) {
-  loadingModalAction({
+  loadingModalSetAction({
     action: 'start',
     message: 'Converting current slide to image',
   })
-  const { width, height } = deck.getComputedSlideSize() as {
-    width: number
-    height: number
-    presentationWidth: number
-    presentationHeight: number
-  }
+  //@ts-ignore
+  const { width, height } = deck.getComputedSlideSize()
   const tmpDeckElement = document.querySelector('.tmpDeck') as HTMLElement
 
   const tmpDeck = await generateTmpDeck(
     deck,
     tmpDeckElement,
-    { width, height },
+    width,
+    height,
     slideshowSettings
   )
 
@@ -71,24 +64,20 @@ export async function currentSlideToImage(
 
   tmpDeckElement.style.display = 'none'
   download(image, `slide.${extension[exportType]}`)
-  loadingModalAction({ action: 'stop' })
+  loadingModalSetAction({ action: 'stop' })
 }
 
 export async function slidesToPdf(
-  deck: any,
-  loadingModalAction: loadingModalAction,
+  deck: Reveal.Api,
+  loadingModalSetAction: LoadingModalSetAction,
   slideshowSettings: SlideshowSettings
 ) {
-  loadingModalAction({
+  loadingModalSetAction({
     action: 'start',
     message: 'Converting slides to PDF document',
   })
-  const { width, height } = deck.getComputedSlideSize() as {
-    width: number
-    height: number
-    presentationWidth: number
-    presentationHeight: number
-  }
+  //@ts-ignore
+  const { width, height } = deck.getComputedSlideSize()
 
   const currentSlide = deck.getIndices().h as number
 
@@ -96,7 +85,8 @@ export async function slidesToPdf(
   const tmpDeck = await generateTmpDeck(
     deck,
     tmpDeckElement,
-    { width, height },
+    width,
+    height,
     slideshowSettings
   )
 
@@ -126,39 +116,31 @@ export async function slidesToPdf(
   tmpDeckElement.style.display = 'none'
   doc.save('slides.pdf')
   deck.slide(currentSlide)
-  loadingModalAction({ action: 'stop' })
+  loadingModalSetAction({ action: 'stop' })
 }
 
 async function generateTmpDeck(
-  deck: any,
+  deck: Reveal.Api,
   tmpDeckElement: HTMLElement,
-  {
-    width,
-    height,
-  }: {
-    width: number
-    height: number
-  },
+  width: number,
+  height: number,
   slideshowSettings: SlideshowSettings
 ) {
-  const reveal = deck.getRevealElement() as HTMLElement
+  const reveal = deck.getRevealElement()
   tmpDeckElement.style.display = 'block'
   tmpDeckElement.innerHTML = reveal.innerHTML
 
-  //@ts-ignore
   const { default: Reveal } = await import('reveal.js')
 
   const { default: RevealHighlight } = await import(
-    //@ts-ignore
     'reveal.js/plugin/highlight/highlight'
   )
+
   const { default: Markdown } = await import(
-    //@ts-ignore
     'reveal.js/plugin/markdown/markdown'
   )
 
-  //@ts-ignore
-  const tmpDeck = Reveal(tmpDeckElement, {
+  const tmpDeck = new Reveal(tmpDeckElement, {
     embedded: true,
     center: false,
     history: false,
@@ -168,9 +150,10 @@ async function generateTmpDeck(
     width,
     height,
   })
+
   await tmpDeck.initialize()
-  await tmpDeck.layout()
-  await tmpDeck.sync()
+  tmpDeck.layout()
+  tmpDeck.sync()
 
   return tmpDeck
 }

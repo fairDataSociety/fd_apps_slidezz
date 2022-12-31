@@ -1,6 +1,6 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 
-import { getPods } from '../../api/fairos/pod'
+import { getPods } from '../api/fairos/pod'
 
 export async function fairDrivePods(fdp?: FdpStorage) {
   if (fdp) {

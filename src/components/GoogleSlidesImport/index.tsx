@@ -3,13 +3,13 @@ import { useAtom } from 'jotai'
 
 import { useToast } from '@chakra-ui/react'
 
+import { googleSlidesToReveal } from '../../actions/googleSlidesToReveal'
 import {
   googleAccessTokenAtom,
-  loadingModalActionAtom,
+  loadingModalSetActionAtom,
   slidesAtom,
 } from '../../store'
 import { GoogleSlides } from '../../types/google-slides'
-import { parseGoogleSlides } from '../../utils'
 import ImportFileCard from '../Card/ImportFileCard'
 import GoogleDriveImportFile from '../GoogleDriveImportFile'
 import GoogleslidesIcon from '../Icons/GoolgeslidesIcon'
@@ -18,7 +18,7 @@ export default function GoogleSlidesImport() {
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
   const [, setSlides] = useAtom(slidesAtom)
   const toast = useToast()
-  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
 
   return (
     <GoogleDriveImportFile
@@ -35,7 +35,7 @@ export default function GoogleSlidesImport() {
               }
             )
 
-            loadingModalAction({
+            loadingModalSetAction({
               action: 'start',
               message: 'Initializing slides. May take a few seconds.',
             })
@@ -66,7 +66,7 @@ export default function GoogleSlidesImport() {
               slideImages.push(slideImage)
             }
 
-            const revealSlides = parseGoogleSlides(
+            const revealSlides = googleSlidesToReveal(
               slideImages,
               googleSlides,
               pageSize
@@ -89,7 +89,7 @@ export default function GoogleSlidesImport() {
             })
           }
 
-          loadingModalAction({ action: 'stop' })
+          loadingModalSetAction({ action: 'stop' })
         })()
       }}
     >

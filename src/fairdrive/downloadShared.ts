@@ -1,6 +1,6 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 
-import { downloadShared } from '../../api/fairos/fs'
+import { downloadShared } from '../api/fairos/fs'
 
 export async function fairDriveDownloadShared(
   sharedRef: string,

@@ -20,9 +20,9 @@ import {
   WrapItem,
 } from '@chakra-ui/react'
 
+import { importSlides } from '../../actions/importSlides'
 import { slidesAtom, userAtom } from '../../store'
 import { File } from '../../types'
-import { loadSlideshow } from '../../utils'
 import ImportFileCard from '../Card/ImportFileCard'
 import ImportFile from '../FairDriveImportFile'
 import GoogleDriveImportFile from '../GoogleDriveImportFile'
@@ -100,7 +100,7 @@ export default function SlideshowTemplates() {
                   mimeType="text/markdown"
                   callback={(data) => {
                     if (!user) return
-                    loadSlideshow({ data: new Blob([data]) }, setSlides)
+                    importSlides({ data: new Blob([data]) }, setSlides)
                   }}
                   downloadFile={true}
                 >

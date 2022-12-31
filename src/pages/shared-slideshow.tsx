@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 import { Box, Center, HStack, Spinner } from '@chakra-ui/react'
 
+import { importSharedSlides } from '../actions/importSharedSlides'
 import SideBar from '../components/Editor/Sidebar'
 import Login from '../components/Login'
 import Navbar from '../components/Navbar'
@@ -16,7 +17,6 @@ import {
   slidesLogoAtom,
   userAtom,
 } from '../store'
-import { fairDriveDownloadShared } from '../utils/fairdrive'
 
 const SharedSlideshow = dynamic(() => import('../components/SharedSlideshow'), {
   ssr: false,
@@ -47,63 +47,21 @@ const SharedSlideshowPage: NextPage = () => {
 
   useEffect(() => {
     if (router.isReady && (fdp || user)) {
-      ;(async () => {
-        const slidesShareRef = router.query.ref as string
-        const isEmbed = typeof router.query.embed === 'string'
+      const slidesShareRef = router.query.ref as string
+      const isEmbed = typeof router.query.embed === 'string'
 
-        setIsEmbed(isEmbed)
-
-        const slidesHTML = await (
-          await fairDriveDownloadShared(slidesShareRef, fdp, user?.password)
-        ).text()
-
-        const div = document.createElement('div')
-        div.innerHTML = slidesHTML
-
-        const editableElement = Array.from(
-          div.querySelectorAll('[contenteditable=true]')
-        ) as HTMLElement[]
-
-        editableElement.forEach((element) => {
-          element.contentEditable = 'false'
-        })
-
-        const logoImageElement = div.querySelector('.logo-image')
-        if (logoImageElement && setSlidesLogo) {
-          const data = logoImageElement.getAttribute('data-base64')!
-          setSlidesLogo({
-            data,
-          })
-          div.removeChild(logoImageElement)
-        }
-
-        const firstSection = div.querySelector('section')
-        const width = firstSection?.getAttribute('data-width')
-        const height = firstSection?.getAttribute('data-height')
-
-        const sharingOptions = div.querySelector(
-          '.sharing-options'
-        ) as HTMLElement
-        const allowDownloading =
-          sharingOptions.getAttribute('data-allow-downloading') === 'true'
-            ? true
-            : false
-
-        div.removeChild(sharingOptions)
-
-        setSlides({
-          data: div.innerHTML,
-          width: width ? Number(width) : undefined,
-          height: height ? Number(height) : undefined,
-          isReadonly: true,
-          sharingInfo: {
-            sharedRef: slidesShareRef,
-            allowDownloading,
-          },
-        })
-      })()
+      setIsEmbed(isEmbed)
+      importSharedSlides(slidesShareRef, setSlides, setSlidesLogo, fdp, user)
     }
-  }, [router.isReady, fdp, user])
+  }, [
+    router.isReady,
+    fdp,
+    user,
+    router.query.ref,
+    router.query.embed,
+    setSlides,
+    setSlidesLogo,
+  ])
 
   if (!fdp && !user) return <Login />
 
@@ -132,7 +90,9 @@ const SharedSlideshowPage: NextPage = () => {
       </HStack>
       {deck && (
         <Box
+          //@ts-ignore
           w={deck.getComputedSlideSize().width}
+          //@ts-ignore
           h={deck.getComputedSlideSize().height}
           className="reveal tmpDeck"
           display="none"

@@ -21,7 +21,7 @@ const SlideShow: NextPage = () => {
   const [slides] = useAtom(slidesAtom)
   const [deck] = useAtom(slidesDeckAtom)
 
-  if (!user) return <Login />
+  // if (!user) return <Login />
 
   return (
     <>
@@ -35,7 +35,9 @@ const SlideShow: NextPage = () => {
       )}
       {deck && (
         <Box
+          //@ts-ignore
           w={deck.getComputedSlideSize().width}
+          //@ts-ignore
           h={deck.getComputedSlideSize().height}
           className="reveal tmpDeck"
           display="none"

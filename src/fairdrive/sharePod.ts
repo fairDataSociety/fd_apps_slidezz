@@ -1,6 +1,6 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 
-import { sharePod } from '../../api/fairos/pod'
+import { sharePod } from '../api/fairos/pod'
 
 export async function fairDriveSharePod(
   { podName, password = '' }: { podName: string; password: string },

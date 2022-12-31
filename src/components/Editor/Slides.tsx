@@ -5,19 +5,19 @@ import MoveableHelper from 'moveable-helper'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
 import Moveable from 'react-moveable'
 import Selecto from 'react-selecto'
-//@ts-ignore
 import Reveal from 'reveal.js'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-//@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
 import { Box, Image, Textarea } from '@chakra-ui/react'
 
+import { wrapSlideElements } from '../../actions/wrapSlideElements'
 import { LogoPositions } from '../../config/logo-positions'
 import useColors from '../../hooks/useColors'
 import useTextEditor from '../../hooks/useTextEditor'
 import {
+  HistoryActionType,
+  addHistoryActionAtom,
   editModeAtom,
   moveableTargetsAtom,
   replaceImageElementAtom,
@@ -27,7 +27,7 @@ import {
   styleSettingsAtom,
 } from '../../store'
 import { EditMode, Slides as SlidesType } from '../../types'
-import { isHTML, parseElements } from '../../utils'
+import { isHTML } from '../../utils'
 import {
   MoveableDeleteButton,
   MoveableDeleteButtonProps,
@@ -74,44 +74,47 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
   })
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([])
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [, addHistoryAction] = useAtom(addHistoryActionAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
   useTextEditor()
 
   useEffect(() => {
     if (slidesRef.current && isHTML(slides.data))
       slidesRef.current.innerHTML = slides.data
-  }, [slidesRef])
+  }, [slidesRef, slides.data])
 
   useEffect(() => {
     document.body.setAttribute('data-theme', styleSettings.theme)
   }, [styleSettings])
 
   useEffect(() => {
-    //@ts-ignore
-    const newDeck = Reveal(document.querySelector(`.${deckName}`), {
-      embedded: true,
-      keyboardCondition: 'focused',
-      plugins: [Markdown, RevealHighlight],
-      ...slideshowSettings,
-      center: false,
-      history: false,
-      width: slides.width || 1920,
-      height: slides.height || 1080,
-      minScale: 0,
-    })
+    const newDeck = new Reveal(
+      document.querySelector(`.${deckName}`) as HTMLElement,
+      {
+        embedded: true,
+        keyboardCondition: 'focused',
+        plugins: [Markdown, RevealHighlight],
+        ...slideshowSettings,
+        center: false,
+        history: false,
+        width: slides.width || 1920,
+        height: slides.height || 1080,
+        minScale: 0,
+      }
+    )
     newDeck.initialize().then(() => {
       setDeck(newDeck)
       newDeck.layout()
       newDeck.sync()
 
-      newDeck.getSlides().forEach((slide: any) => {
-        parseElements(slide.children)
+      newDeck.getSlides().forEach((slide) => {
+        wrapSlideElements(Array.from(slide.children) as HTMLElement[])
       })
 
       setElementGuidelines([
-        newDeck.getRevealElement(),
-        newDeck.getSlidesElement(),
-        newDeck.getViewportElement(),
+        newDeck.getRevealElement() as HTMLElement,
+        newDeck.getSlidesElement() as HTMLElement,
+        newDeck.getViewportElement() as HTMLElement,
       ])
 
       newDeck.on('slidechanged', () => {
@@ -137,7 +140,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
 
   useEffect(() => {
     if (deck) deck.configure(slideshowSettings)
-  }, [slideshowSettings])
+  }, [slideshowSettings, deck])
 
   useEffect(() => {
     if (editor && deck) {
@@ -154,7 +157,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       }
       setEditMode(EditMode.MOVE)
     }
-  }, [moveableTargets, editor, deck])
+  }, [moveableTargets, editor, deck, setEditMode])
 
   useEffect(() => {
     if (deck) {
@@ -203,7 +206,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
 
       deck.on('slidechanged', staticToAbsolute)
 
-      return () => deck.off('slidechanged')
+      return () => deck.off('slidechanged', staticToAbsolute)
     }
   }, [deck])
 
@@ -236,7 +239,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
             // Determines which key to continue selecting the next target via keydown and keyup.
             toggleContinueSelect={'shift'}
             // The container for keydown and keyup events
-            keyContainer={deck?.getRevealElement()}
+            keyContainer={deck?.getRevealElement() as HTMLElement}
             // The rate at which the target overlaps the drag area to be selected. (default: 100)
             hitRate={100}
             onDragStart={(e) => {
@@ -267,7 +270,19 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                 }
               }
 
-              setMoveableTargets(selected)
+              setMoveableTargets((prevs) => {
+                if (
+                  prevs.length !== selected.length ||
+                  !prevs.every((prev, i) => selected[i] === prev)
+                ) {
+                  addHistoryAction({
+                    type: HistoryActionType.SetMoveableTargets,
+                    prevs,
+                    nexts: selected,
+                  })
+                }
+                return selected
+              })
 
               if (e.isDragStart) {
                 e.inputEvent.preventDefault()

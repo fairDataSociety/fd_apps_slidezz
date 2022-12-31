@@ -16,36 +16,14 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
+import { addNewSlide } from '../../../actions/addNewSlide'
+import { templates } from '../../../config/templates'
 import { slidesDeckAtom } from '../../../store'
-import { templates } from '../../../templates'
 import SlideSideBarItem from './SlideSidebarItem'
 
 export default function NewSlide() {
   const [deck] = useAtom(slidesDeckAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const addNewSlide = (content?: string) => {
-    const sectionElement = document.createElement('section')
-    sectionElement.innerHTML =
-      typeof content === 'string' ? content : deck.getCurrentSlide().innerHTML
-
-    const currentSlideIndex = deck.getState().indexh
-    const currentSlide = deck.getCurrentSlide() as HTMLElement
-    const slidesLen = deck.getTotalSlides()
-    const slides = deck.getSlidesElement() as HTMLElement
-
-    //append to the end
-    if (currentSlideIndex === slidesLen - 1) {
-      slides.appendChild(sectionElement)
-    } else {
-      slides.insertBefore(sectionElement, currentSlide.nextSibling)
-    }
-
-    deck.sync()
-    deck.layout()
-    deck.next()
-    onClose()
-  }
 
   return (
     <>
@@ -56,7 +34,14 @@ export default function NewSlide() {
         <ModalContent h="600px">
           <ModalHeader as={HStack} gap={5}>
             <Text>Select a template</Text>
-            <Button size="sm" onClick={() => addNewSlide()}>
+            <Button
+              size="sm"
+              onClick={() => {
+                if (!deck) return
+                addNewSlide(deck)
+                onClose()
+              }}
+            >
               Duplicate
             </Button>
           </ModalHeader>
@@ -72,7 +57,11 @@ export default function NewSlide() {
                 return (
                   <Center
                     key={i}
-                    onClick={() => addNewSlide(template.content)}
+                    onClick={() => {
+                      if (!deck) return
+                      addNewSlide(deck, template.content)
+                      onClose()
+                    }}
                     mx="auto"
                     cursor="pointer"
                     w="300px"

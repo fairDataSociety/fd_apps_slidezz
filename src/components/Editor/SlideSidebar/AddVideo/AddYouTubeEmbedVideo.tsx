@@ -19,7 +19,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
+import { addEmbedVideoToCurrentSlide } from '../../../../actions/addEmbedVideoToCurrentSlide'
 import { moveableTargetsAtom, slidesDeckAtom } from '../../../../store'
+import { youtubeUrlParser } from '../../../../utils'
 
 interface AddYouTubeEmbedVideoProps {
   addVideoOnClose: () => void
@@ -33,50 +35,12 @@ const initialValues: FormValues = {
   url: '',
 }
 
-function youtubeParser(url: string) {
-  const regExp =
-    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
-  const match = url.match(regExp)
-  return match && match[7].length == 11 ? match[7] : false
-}
-
 export default function AddYouTubeEmbedVideo({
   addVideoOnClose,
 }: AddYouTubeEmbedVideoProps) {
   const [deck] = useAtom(slidesDeckAtom)
-  const [_, setMoveableTargets] = useAtom(moveableTargetsAtom)
+  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const addVideoToCurrentSlide = (values: FormValues) => {
-    const currentSlideIndex = deck.getState().indexh
-    const slide = deck.getSlides()[currentSlideIndex]
-
-    const videoContainer = document.createElement('div')
-    videoContainer.classList.add('container', 'media-container')
-
-    const iframeWrapper = document.createElement('div')
-    iframeWrapper.classList.add('iframe-wrapper')
-
-    const iframeElement = document.createElement('iframe')
-    iframeElement.src = `https://www.youtube.com/embed/${youtubeParser(
-      values.url
-    )}`
-
-    videoContainer.addEventListener('click', () => {
-      setMoveableTargets([videoContainer])
-    })
-
-    iframeWrapper.append(iframeElement)
-    videoContainer.append(iframeWrapper)
-
-    slide.appendChild(videoContainer)
-    deck.sync()
-    deck.layout()
-
-    onClose()
-    addVideoOnClose()
-    setMoveableTargets([videoContainer])
-  }
 
   return (
     <>
@@ -88,7 +52,12 @@ export default function AddYouTubeEmbedVideo({
         <ModalOverlay />
         <Formik
           validateOnMount
-          onSubmit={addVideoToCurrentSlide}
+          onSubmit={(values) => {
+            if (!deck) return
+            addEmbedVideoToCurrentSlide(values.url, deck, setMoveableTargets)
+            onClose()
+            addVideoOnClose()
+          }}
           initialValues={initialValues}
         >
           {({ isValid, errors, touched, handleSubmit }) => (
@@ -107,7 +76,7 @@ export default function AddYouTubeEmbedVideo({
 
                       if (!value) {
                         error = 'Required'
-                      } else if (youtubeParser(value) === false) {
+                      } else if (youtubeUrlParser(value) === false) {
                         error = 'Invalid Youtube URL'
                       }
 
