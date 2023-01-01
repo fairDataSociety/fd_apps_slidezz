@@ -1,6 +1,7 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 import { atom } from 'jotai'
-import { atomWithStorage } from 'jotai/utils'
+import { atomWithReset, atomWithStorage, useResetAtom } from 'jotai/utils'
+import MoveableHelper from 'moveable-helper'
 import { extname } from 'path'
 import Reveal from 'reveal.js'
 
@@ -134,7 +135,7 @@ export const editModeAtom = atom<EditMode>(EditMode.MOVE)
 
 export enum HistoryActionType {
   SetMoveableTargets,
-  Move,
+  SetTransform,
 }
 
 export type HistoryAction =
@@ -144,12 +145,14 @@ export type HistoryAction =
       nexts: HTMLElement[]
     }
   | {
-      type: HistoryActionType.Move
-      info: string
+      type: HistoryActionType.SetTransform
+      element: HTMLElement
+      prev: string
+      next: string
     }
 
-const undoHistoryStackAtom = atom<HistoryAction[]>([])
-const redoHistoryStackAtom = atom<HistoryAction[]>([])
+export const undoHistoryStackAtom = atomWithReset<HistoryAction[]>([])
+export const redoHistoryStackAtom = atomWithReset<HistoryAction[]>([])
 
 export const undoHistoryStackLenAtom = atom(
   (get) => get(undoHistoryStackAtom).length
@@ -175,9 +178,13 @@ export const undoHistoryAtom = atom(null, (get, set) => {
   switch (undoAction.type) {
     case HistoryActionType.SetMoveableTargets:
       set(moveableTargetsAtom, undoAction.prevs)
+      break
+    case HistoryActionType.SetTransform:
+      undoAction.element.style.transform = undoAction.prev
+      break
   }
 
-  set(undoHistoryStackAtom, undoStack)
+  set(undoHistoryStackAtom, [...undoStack])
   set(redoHistoryStackAtom, (prev) => [...prev, undoAction])
 })
 
@@ -190,8 +197,15 @@ export const redoHistoryAtom = atom(null, (get, set) => {
   switch (redoAction.type) {
     case HistoryActionType.SetMoveableTargets:
       set(moveableTargetsAtom, redoAction.nexts)
+      break
+    case HistoryActionType.SetTransform:
+      redoAction.element.style.transform = redoAction.next
+      break
   }
 
-  set(redoHistoryStackAtom, redoStack)
+  set(redoHistoryStackAtom, [...redoStack])
   set(undoHistoryStackAtom, (prev) => [...prev, redoAction])
 })
+
+// Moveable helper
+export const moveableHelperAtom = atom(new MoveableHelper())

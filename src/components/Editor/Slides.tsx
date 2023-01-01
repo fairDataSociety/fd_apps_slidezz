@@ -19,6 +19,7 @@ import {
   HistoryActionType,
   addHistoryActionAtom,
   editModeAtom,
+  moveableHelperAtom,
   moveableTargetsAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
@@ -69,9 +70,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
   const [styleSettings] = useAtom(styleSettingsAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
   const [moveableTargets, setMoveableTargets] = useAtom(moveableTargetsAtom)
-  const [moveableHelper] = useState(() => {
-    return new MoveableHelper()
-  })
+  const [moveableHelper] = useAtom(moveableHelperAtom)
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([])
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [, addHistoryAction] = useAtom(addHistoryActionAtom)
@@ -103,12 +102,30 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       }
     )
     newDeck.initialize().then(() => {
-      setDeck(newDeck)
       newDeck.layout()
       newDeck.sync()
 
       newDeck.getSlides().forEach((slide) => {
         wrapSlideElements(Array.from(slide.children) as HTMLElement[])
+      })
+
+      const containers = Array.from(
+        newDeck.getRevealElement().querySelectorAll('.container')
+      ) as HTMLElement[]
+
+      containers.forEach((container) => {
+        const transform = container.style.transform
+        const translateReg = /translate\((.*?)\)/.exec(transform)
+        const rotateReg = /rotate\((.*?)\)/.exec(transform)
+
+        const properties = {
+          transform: {
+            translate: translateReg ? translateReg[1].trim() : '0px, 0px',
+            rotate: rotateReg ? rotateReg[1].trim() : '0deg',
+          },
+        }
+
+        moveableHelper.createFrame(container, properties)
       })
 
       setElementGuidelines([
@@ -124,6 +141,8 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       newDeck.on('overviewshown', () => {
         setMoveableTargets([])
       })
+
+      setDeck(newDeck)
     })
 
     const handleFullScreenChange = () => {
@@ -365,8 +384,19 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               snapDigit={0}
               onResizeStart={moveableHelper.onResizeStart}
               onResize={moveableHelper.onResize}
-              onDragStart={moveableHelper.onDragStart}
+              onDragStart={(e) => {
+                moveableHelper.onDragStart(e)
+              }}
               onDrag={moveableHelper.onDrag}
+              onDragEnd={(e) => {
+                // if (e.lastEvent)
+                // addHistoryAction({
+                //   type: HistoryActionType.SetTransform,
+                //   element: e.target as HTMLElement,
+                //   prev: frame.transform,
+                //   next: e.lastEvent.transform,
+                // })
+              }}
               onRotateStart={moveableHelper.onRotateStart}
               onRotate={moveableHelper.onRotate}
               onDragGroupStart={moveableHelper.onDragGroupStart}
