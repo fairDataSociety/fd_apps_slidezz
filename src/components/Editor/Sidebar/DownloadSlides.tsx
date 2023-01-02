@@ -14,19 +14,23 @@ import {
 } from '@chakra-ui/react'
 
 import {
-  loadingModalActionAtom,
+  ExportType,
+  currentSlideToImage,
+  slidesToPdf,
+} from '../../../actions/exportSlides'
+import {
+  loadingModalSetActionAtom,
   moveableTargetsAtom,
   slidesDeckAtom,
   slideshowSettingsAtom,
 } from '../../../store'
-import { ExportType, currentSlideToImage, slidesToPdf } from '../../../utils'
 import SidebarItem from './SidebarItem'
 
 export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [deck] = useAtom(slidesDeckAtom)
   const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
-  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
   const [slideshowSettings] = useAtom(slideshowSettingsAtom)
 
   return (
@@ -50,10 +54,11 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
+                  if (!deck) return
                   currentSlideToImage(
                     deck,
                     ExportType.JPEG,
-                    loadingModalAction,
+                    loadingModalSetAction,
                     slideshowSettings
                   )
                   onClose()
@@ -66,10 +71,12 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
+                  if (!deck) return
+
                   currentSlideToImage(
                     deck,
                     ExportType.PNG,
-                    loadingModalAction,
+                    loadingModalSetAction,
                     slideshowSettings
                   )
                   onClose()
@@ -82,10 +89,12 @@ export default function DownloadSlides() {
               <Button
                 w="full"
                 onClick={() => {
+                  if (!deck) return
+
                   currentSlideToImage(
                     deck,
                     ExportType.SVG,
-                    loadingModalAction,
+                    loadingModalSetAction,
                     slideshowSettings
                   )
                   onClose()
@@ -100,7 +109,8 @@ export default function DownloadSlides() {
                 size="md"
                 variant="outline"
                 onClick={() => {
-                  slidesToPdf(deck, loadingModalAction, slideshowSettings)
+                  if (!deck) return
+                  slidesToPdf(deck, loadingModalSetAction, slideshowSettings)
                   onClose()
                 }}
               >

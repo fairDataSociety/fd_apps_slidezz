@@ -6,7 +6,7 @@ import {
   VideoElement,
 } from '../types/google-slides'
 
-export function parseGoogleSlides(
+export function googleSlidesToReveal(
   slidesImages: string[],
   googleSlides: GoogleSlides,
   pageSize: { width: number; height: number }

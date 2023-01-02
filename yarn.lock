@@ -2305,6 +2305,11 @@
     "@types/node" "*"
     safe-buffer "*"
 
+"@types/reveal.js@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@types/reveal.js/-/reveal.js-4.4.0.tgz#fb1cbf51a285375bcfc8430d14df9c82306f4225"
+  integrity sha512-cdReHj44whG5JHLOziWgv5K36EjfM+POpM1WZl7uOUR8IPYM7ufyqx63RUtJD8WJjUnIuVyByWozsy4lZyq7XA==
+
 "@types/scheduler@*":
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"

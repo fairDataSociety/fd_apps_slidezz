@@ -5,9 +5,9 @@ import { RiText } from 'react-icons/ri'
 
 import { Box } from '@chakra-ui/react'
 
+import { addImageToCurrentSlide } from '../../../actions/addImageToCurrentSlide'
 import useColors from '../../../hooks/useColors'
 import { moveableTargetsAtom, slidesDeckAtom } from '../../../store'
-import { addImageToCurrentSlide } from '../../../utils'
 import AddImage from './AddImage'
 import AddText from './AddText'
 import AddVideo from './AddVideo'
@@ -29,9 +29,10 @@ export default function SlideSidebar() {
       </AddText>
 
       <AddImage
-        handleAddImage={async (image) =>
+        handleAddImage={async (image) => {
+          if (!deck) return
           await addImageToCurrentSlide(image, deck, setMoveableTargets)
-        }
+        }}
       >
         <SlideSideBarItem icon={BsFillImageFill} label="Image" />
       </AddImage>

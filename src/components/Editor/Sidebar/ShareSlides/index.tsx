@@ -24,7 +24,7 @@ import EmbedCode from './EmbedCode'
 export default function ShareSlides() {
   const [slides] = useAtom(slidesAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const baseHref = document.querySelector('base')!.href
+  const baseHref = (document.querySelector('base') as HTMLBaseElement).href
   const pageName =
     process.env.NODE_ENV === 'production'
       ? 'shared-slideshow.html'

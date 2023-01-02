@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react'
 
 import useColors from '../../hooks/useColors'
-import { googleAccessTokenAtom, loadingModalActionAtom } from '../../store'
+import { googleAccessTokenAtom, loadingModalSetActionAtom } from '../../store'
 import ItemBox from '../FairDriveImportFile/ItemBox'
 
 interface GoogleDriveImportFileModalProps {
@@ -41,7 +41,7 @@ export default function GoogleDriveImportFileModal({
   const [files, setFiles] = useState<{ id: string; name: string }[]>()
   const [isLoading, setIsLoading] = useState(false)
   const [googleAccessToken] = useAtom(googleAccessTokenAtom)
-  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
   const { crust } = useColors()
 
   useEffect(() => {
@@ -96,7 +96,7 @@ export default function GoogleDriveImportFileModal({
                       text={file.name}
                       icon={AiOutlineFile}
                       onClick={async () => {
-                        loadingModalAction({
+                        loadingModalSetAction({
                           action: 'start',
                           message: 'Loading File',
                         })
@@ -127,7 +127,7 @@ export default function GoogleDriveImportFileModal({
                             isClosable: true,
                           })
                         }
-                        loadingModalAction({ action: 'stop' })
+                        loadingModalSetAction({ action: 'stop' })
                       }}
                     />
                   )

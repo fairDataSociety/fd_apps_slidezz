@@ -1,6 +1,6 @@
 import { Slides } from '../types'
 
-export async function loadSlideshow(
+export async function importSlides(
   file: { data: Blob } | undefined,
   setSlides: (slides: Slides) => void,
   setSlidesLogo?: (logoFile: { data: string }) => void
@@ -10,6 +10,7 @@ export async function loadSlideshow(
   const template = document.createElement('template')
   template.innerHTML = await file.data.text()
 
+  //Check for logo
   const logoImageElement = template.content.querySelector('.logo-image')
 
   if (logoImageElement && setSlidesLogo) {
@@ -20,6 +21,7 @@ export async function loadSlideshow(
     template.content.removeChild(logoImageElement)
   }
 
+  //Slidshow width and height
   const firstSection = template.content.querySelector('section')
   const width = firstSection?.getAttribute('data-width')
   const height = firstSection?.getAttribute('data-height')

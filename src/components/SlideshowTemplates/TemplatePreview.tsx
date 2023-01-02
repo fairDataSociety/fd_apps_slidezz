@@ -2,11 +2,8 @@ import fscreen from 'fscreen'
 import { useAtom } from 'jotai'
 import { RefObject, useEffect, useRef, useState } from 'react'
 import { FiEye } from 'react-icons/fi'
-//@ts-ignore
 import Reveal from 'reveal.js'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-//@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
 import { ChevronRightIcon } from '@chakra-ui/icons'
@@ -15,7 +12,6 @@ import {
   Button,
   HStack,
   IconButton,
-  Skeleton,
   Text,
   Textarea,
   Tooltip,
@@ -76,7 +72,9 @@ export default function TemplatePreview({
           size="xs"
           icon={<FiEye />}
           onClick={() => {
-            fscreen.requestFullscreen(document.querySelector(`.${deckName}`)!)
+            fscreen.requestFullscreen(
+              document.querySelector(`.${deckName}`) as HTMLElement
+            )
           }}
         />
       </Tooltip>

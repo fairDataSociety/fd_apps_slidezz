@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 
 import { openPod } from '../../api/fairos/pod'
+import { DirectoryItem, fairDriveLs } from '../../fairdrive/ls'
 import { fdpAtom, userAtom } from '../../store'
-import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
 import ItemBox from './ItemBox'
 
 interface SelectPathProps {

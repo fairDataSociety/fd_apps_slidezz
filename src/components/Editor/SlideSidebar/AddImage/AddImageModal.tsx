@@ -65,6 +65,7 @@ export default function AddImageModal({
                     h="200px"
                   >
                     <Image
+                      alt={image.name}
                       objectFit="cover"
                       src={URL.createObjectURL(image.data)}
                     />

@@ -1,10 +1,7 @@
 import { useAtom } from 'jotai'
 import React, { RefObject, useEffect, useRef } from 'react'
-//@ts-ignore
 import Reveal from 'reveal.js'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-//@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
 import { Box, Image } from '@chakra-ui/react'
@@ -40,17 +37,19 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
   }, [styleSettings])
 
   useEffect(() => {
-    //@ts-ignore
-    const newDeck = Reveal(document.querySelector(`.reveal`), {
-      embedded: true,
-      keyboardCondition: 'focused',
-      plugins: [Markdown, RevealHighlight],
-      ...slideshowSettings,
-      center: false,
-      history: true,
-      width: slides.width || 1920,
-      height: slides.height || 1080,
-    })
+    const newDeck = new Reveal(
+      document.querySelector(`.reveal`) as HTMLElement,
+      {
+        embedded: true,
+        keyboardCondition: 'focused',
+        plugins: [Markdown, RevealHighlight],
+        ...slideshowSettings,
+        center: false,
+        history: true,
+        width: slides.width || 1920,
+        height: slides.height || 1080,
+      }
+    )
 
     newDeck.initialize().then(() => {
       setDeck(newDeck)
@@ -62,13 +61,6 @@ export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
       newDeck.destroy()
     }
   }, [])
-
-  useEffect(() => {
-    if (deck) {
-      deck.layout()
-      deck.sync()
-    }
-  }, [deck])
 
   useEffect(() => {
     if (deck) deck.configure(slideshowSettings)

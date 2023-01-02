@@ -28,22 +28,22 @@ import {
 } from '@chakra-ui/react'
 
 import { openPod } from '../../../api/fairos/pod'
+import {
+  fairDriveCreatePod,
+  fairDrivePods,
+  fairDriveSharePod,
+  fairDriveUploadFile,
+} from '../../../fairdrive'
 import useColors from '../../../hooks/useColors'
 import {
   fdpAtom,
-  loadingModalActionAtom,
+  loadingModalSetActionAtom,
   slidesAtom,
   slidesDeckAtom,
   slidesLogoAtom,
   userAtom,
 } from '../../../store'
 import { getSlidesHTML, hashCode } from '../../../utils'
-import {
-  fairDriveCreatePod,
-  fairDrivePods,
-  fairDriveSharePod,
-  fairDriveUploadFile,
-} from '../../../utils/fairdrive'
 import SideBarItem from './SidebarItem'
 
 export default function SaveSlides() {
@@ -58,14 +58,16 @@ export default function SaveSlides() {
   const { overlay0 } = useColors()
   const [fdp] = useAtom(fdpAtom)
   const toast = useToast()
-  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
 
   const handleFairOSSaveSlides = async (slidesDiv: HTMLElement) => {
     if (!user || !slides) return
 
     const slidesPodName = shareSlides
-      ? `${process.env.NEXT_PUBLIC_SLIDES_POD!}-${hashCode(user.username)}`
-      : process.env.NEXT_PUBLIC_SLIDES_POD!
+      ? `${process.env.NEXT_PUBLIC_SLIDES_POD as string}-${hashCode(
+          user.username
+        )}`
+      : (process.env.NEXT_PUBLIC_SLIDES_POD as string)
 
     const pods = await fairDrivePods()
     const slidesPod = pods.pods.find((pod) => pod === slidesPodName)
@@ -108,7 +110,7 @@ export default function SaveSlides() {
   const handleFDPSaveSlides = async (slidesDiv: HTMLElement) => {
     if (!user || !slides || !fdp) return
 
-    const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
+    const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD as string
     const pods = await fairDrivePods()
     const slidesPod = pods.pods.find((pod) => pod === slidesPodName)
 
@@ -146,7 +148,7 @@ export default function SaveSlides() {
     if (!slides || !deck || !user) return
 
     try {
-      loadingModalAction({ action: 'start', message: 'Saving slides' })
+      loadingModalSetAction({ action: 'start', message: 'Saving slides' })
 
       const slidesHTML = getSlidesHTML(deck)
       const div = document.createElement('div')
@@ -183,7 +185,7 @@ export default function SaveSlides() {
       })
     }
     handleOnClose()
-    loadingModalAction({ action: 'stop' })
+    loadingModalSetAction({ action: 'stop' })
   }
 
   const handleOnClose = () => {

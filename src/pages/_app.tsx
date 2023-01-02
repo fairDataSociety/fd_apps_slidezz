@@ -12,18 +12,16 @@ import 'reveal.js/plugin/highlight/zenburn.css'
 import { ChakraProvider } from '@chakra-ui/react'
 
 import LoadingModal from '../components/LoadingModal'
-import useFairOSCookieRenewal from '../hooks/useFairOSCookieRenewal'
 import { loadingModalAtom } from '../store'
 import '../styles/slides.css'
 import theme from '../theme'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loadingModal] = useAtom(loadingModalAtom)
-  useFairOSCookieRenewal()
 
   return (
     <GoogleOAuthProvider
-      clientId={process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID!}
+      clientId={process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID as string}
     >
       <ChakraProvider theme={theme}>
         <Component {...pageProps} />

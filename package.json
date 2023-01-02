@@ -62,6 +62,7 @@
     "@types/node": "18.7.8",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
+    "@types/reveal.js": "^4.4.0",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "eslint": "8.22.0",
     "eslint-config-next": "12.2.5",

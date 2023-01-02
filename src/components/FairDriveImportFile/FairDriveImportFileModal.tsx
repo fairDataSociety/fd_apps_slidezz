@@ -18,10 +18,10 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
+import { fairDriveDownloadFile } from '../../fairdrive'
 import useColors from '../../hooks/useColors'
-import { fdpAtom, loadingModalActionAtom } from '../../store'
+import { fdpAtom, loadingModalSetActionAtom } from '../../store'
 import { File } from '../../types'
-import { fairDriveDownloadFile } from '../../utils/fairdrive'
 import SelectPath from './SelectPath'
 import SelectPod from './SelectPod'
 
@@ -45,7 +45,7 @@ export default function FairDriveImportFileModal({
   const [filePath, setFilePath] = useState<string>()
   const [fdp] = useAtom(fdpAtom)
   const { overlay1, crust } = useColors()
-  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
 
   const handleModalClose = () => {
     setPod(undefined)
@@ -60,7 +60,7 @@ export default function FairDriveImportFileModal({
       const fullFilePath = filePath
       handleModalClose()
 
-      loadingModalAction({ action: 'start', message: 'Loading File' })
+      loadingModalSetAction({ action: 'start', message: 'Loading File' })
 
       fairDriveDownloadFile(pod, fullFilePath, fdp)
         .then((data) => {
@@ -82,7 +82,7 @@ export default function FairDriveImportFileModal({
           })
         })
         .finally(() => {
-          loadingModalAction({ action: 'stop' })
+          loadingModalSetAction({ action: 'stop' })
         })
     }
   }, [pod, filePath])

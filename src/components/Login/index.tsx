@@ -15,9 +15,9 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
+import { fairDriveLogin } from '../../fairdrive'
 import useColors from '../../hooks/useColors'
 import { fdpAtom, userAtom } from '../../store'
-import { fairDriveLogin } from '../../utils/fairdrive'
 import Navbar from '../Navbar'
 
 interface LoginFormValues {

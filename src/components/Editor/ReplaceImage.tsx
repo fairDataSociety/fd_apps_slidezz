@@ -1,10 +1,13 @@
-import { useAtom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 
-import { moveableTargetsAtom, replaceImageElementAtom } from '../../store'
-import { File } from '../../types'
-import { blobToBase64 } from '../../utils'
+import { replaceImage } from '../../actions/replaceImage'
+import { moveableTargetsAtom } from '../../store'
 import AddImageModal from './SlideSidebar/AddImage/AddImageModal'
+
+export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
+  undefined
+)
 
 export function ReplaceImage() {
   const [isOpen, setIsOpen] = useState(true)
@@ -13,23 +16,15 @@ export function ReplaceImage() {
     replaceImageElementAtom
   )
 
-  const handleReplaceImage = async (image: File) => {
-    if (!replaceImageElement) return
-
-    replaceImageElement.src = await blobToBase64(image.data)
-    replaceImageElement.alt = image.name
-    replaceImageElement.classList.add('fair-data')
-
-    setReplaceImageElement(undefined)
-  }
-
   useEffect(() => {
     setMoveableTargets([])
   }, [])
 
   return (
     <AddImageModal
-      handleAddImage={(image) => handleReplaceImage(image)}
+      handleAddImage={(image) =>
+        replaceImage(image, replaceImageElement, setReplaceImageElement)
+      }
       isOpen={isOpen}
       onClose={() => {
         setReplaceImageElement(undefined)

@@ -1,4 +1,12 @@
-import { slideThemes } from './config/slide-themes'
+import { slideThemes } from '../config/slide-themes'
+
+export * from './google-slides'
+
+declare global {
+  interface Window {
+    _detectedSiteType: { type: string; url: string; basePath: string }
+  }
+}
 
 export interface SlideshowSettings {
   controls: boolean
@@ -34,6 +42,10 @@ export interface Slides {
   }
 }
 
+export interface SlidesLogo {
+  data: string
+}
+
 export interface User {
   username: string
   password: string
@@ -43,3 +55,8 @@ export enum EditMode {
   MOVE,
   TEXT,
 }
+
+export type LoadingModalSetAction = (update: {
+  action: 'start' | 'stop'
+  message?: string | undefined
+}) => void

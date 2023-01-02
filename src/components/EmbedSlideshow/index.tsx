@@ -1,11 +1,8 @@
 import { useAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import React, { RefObject, useEffect, useRef } from 'react'
-//@ts-ignore
 import Reveal from 'reveal.js'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-//@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
 import { Box, Image } from '@chakra-ui/react'
@@ -34,17 +31,19 @@ export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
   useEffect(() => {
     if (query.theme) document.body.setAttribute('data-theme', query.theme)
 
-    //@ts-ignore
-    const newDeck = Reveal(document.querySelector(`.reveal`), {
-      embedded: true,
-      keyboardCondition: 'focused',
-      plugins: [Markdown, RevealHighlight],
-      ...query,
-      center: false,
-      history: false,
-      width: slides.width || 1920,
-      height: slides.height || 1080,
-    })
+    const newDeck = new Reveal(
+      document.querySelector(`.reveal`) as HTMLElement,
+      {
+        embedded: true,
+        keyboardCondition: 'focused',
+        plugins: [Markdown, RevealHighlight],
+        ...query,
+        center: false,
+        history: false,
+        width: slides.width || 1920,
+        height: slides.height || 1080,
+      }
+    )
 
     newDeck.initialize().then(() => {
       newDeck.layout()

@@ -4,8 +4,8 @@ import { AiOutlineInbox } from 'react-icons/ai'
 
 import { Center, Spinner, Text, VStack, useToast } from '@chakra-ui/react'
 
+import { fairDrivePods } from '../../fairdrive'
 import { fdpAtom } from '../../store'
-import { fairDrivePods } from '../../utils/fairdrive'
 import ItemBox from './ItemBox'
 
 interface SelectPodProps {

@@ -14,18 +14,19 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
+import { importSlides } from '../../actions/importSlides'
 import { openPod } from '../../api/fairos/pod'
+import { fairDriveDownloadFile } from '../../fairdrive'
+import { DirectoryItem, fairDriveLs } from '../../fairdrive/ls'
 import useColors from '../../hooks/useColors'
 import {
   fdpAtom,
-  loadingModalActionAtom,
+  loadingModalSetActionAtom,
   slidesAtom,
   slidesLogoAtom,
   userAtom,
 } from '../../store'
-import { hashCode, loadSlideshow } from '../../utils'
-import { fairDriveDownloadFile } from '../../utils/fairdrive'
-import { DirectoryItem, fairDriveLs } from '../../utils/fairdrive/ls'
+import { hashCode } from '../../utils'
 
 export default function MySlideshows() {
   const toast = useToast()
@@ -35,13 +36,13 @@ export default function MySlideshows() {
   const [, setSlides] = useAtom(slidesAtom)
   const [, setSlidesLogo] = useAtom(slidesLogoAtom)
   const { overlay0 } = useColors()
-  const [, loadingModalAction] = useAtom(loadingModalActionAtom)
+  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
 
   const handleSetMyslideshows = async () => {
     if (!user) return
 
     try {
-      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD!
+      const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD as string
 
       if (!fdp) {
         await openPod(slidesPodName, user.password)
@@ -99,17 +100,17 @@ export default function MySlideshows() {
                 if (!user) return
 
                 try {
-                  loadingModalAction({
+                  loadingModalSetAction({
                     action: 'start',
                     message: 'Loading File',
                   })
 
                   const slideshowFile = await fairDriveDownloadFile(
-                    process.env.NEXT_PUBLIC_SLIDES_POD!,
+                    process.env.NEXT_PUBLIC_SLIDES_POD as string,
                     `/${slideshow.name}`,
                     fdp
                   )
-                  await loadSlideshow(
+                  await importSlides(
                     { data: slideshowFile },
                     setSlides,
                     setSlidesLogo
@@ -126,7 +127,7 @@ export default function MySlideshows() {
                   })
                 }
 
-                loadingModalAction({
+                loadingModalSetAction({
                   action: 'stop',
                 })
               }}

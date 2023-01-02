@@ -35,7 +35,9 @@ const SlideShow: NextPage = () => {
       )}
       {deck && (
         <Box
+          //@ts-ignore
           w={deck.getComputedSlideSize().width}
+          //@ts-ignore
           h={deck.getComputedSlideSize().height}
           className="reveal tmpDeck"
           display="none"

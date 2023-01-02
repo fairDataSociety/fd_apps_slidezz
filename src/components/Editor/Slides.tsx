@@ -5,20 +5,21 @@ import MoveableHelper from 'moveable-helper'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
 import Moveable from 'react-moveable'
 import Selecto from 'react-selecto'
-//@ts-ignore
 import Reveal from 'reveal.js'
-//@ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
-//@ts-ignore
 import Markdown from 'reveal.js/plugin/markdown/markdown'
 
 import { Box, Image, Textarea } from '@chakra-ui/react'
 
+import { wrapSlideElements } from '../../actions/wrapSlideElements'
 import { LogoPositions } from '../../config/logo-positions'
 import useColors from '../../hooks/useColors'
 import useTextEditor from '../../hooks/useTextEditor'
 import {
+  HistoryActionType,
+  addHistoryActionAtom,
   editModeAtom,
+  moveableHelperAtom,
   moveableTargetsAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
@@ -27,7 +28,7 @@ import {
   styleSettingsAtom,
 } from '../../store'
 import { EditMode, Slides as SlidesType } from '../../types'
-import { isHTML, parseElements } from '../../utils'
+import { isHTML, parseTransform } from '../../utils'
 import {
   MoveableDeleteButton,
   MoveableDeleteButtonProps,
@@ -69,49 +70,66 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
   const [styleSettings] = useAtom(styleSettingsAtom)
   const [slidesLogo] = useAtom(slidesLogoAtom)
   const [moveableTargets, setMoveableTargets] = useAtom(moveableTargetsAtom)
-  const [moveableHelper] = useState(() => {
-    return new MoveableHelper()
-  })
+  const [moveableHelper, setMoveableHelper] = useAtom(moveableHelperAtom)
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([])
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [, addHistoryAction] = useAtom(addHistoryActionAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
+  const [map] = useState(new Map<HTMLElement | SVGElement, string>())
   useTextEditor()
 
   useEffect(() => {
     if (slidesRef.current && isHTML(slides.data))
       slidesRef.current.innerHTML = slides.data
-  }, [slidesRef])
+  }, [slidesRef, slides.data])
 
   useEffect(() => {
     document.body.setAttribute('data-theme', styleSettings.theme)
   }, [styleSettings])
 
   useEffect(() => {
-    //@ts-ignore
-    const newDeck = Reveal(document.querySelector(`.${deckName}`), {
-      embedded: true,
-      keyboardCondition: 'focused',
-      plugins: [Markdown, RevealHighlight],
-      ...slideshowSettings,
-      center: false,
-      history: false,
-      width: slides.width || 1920,
-      height: slides.height || 1080,
-      minScale: 0,
-    })
+    const newDeck = new Reveal(
+      document.querySelector(`.${deckName}`) as HTMLElement,
+      {
+        embedded: true,
+        keyboardCondition: 'focused',
+        plugins: [Markdown, RevealHighlight],
+        ...slideshowSettings,
+        center: false,
+        history: false,
+        width: slides.width || 1920,
+        height: slides.height || 1080,
+        minScale: 0,
+      }
+    )
     newDeck.initialize().then(() => {
-      setDeck(newDeck)
       newDeck.layout()
       newDeck.sync()
 
-      newDeck.getSlides().forEach((slide: any) => {
-        parseElements(slide.children)
+      newDeck.getSlides().forEach((slide) => {
+        wrapSlideElements(Array.from(slide.children) as HTMLElement[])
       })
 
+      const containers = Array.from(
+        newDeck.getRevealElement().querySelectorAll('.container')
+      ) as HTMLElement[]
+
+      const moveableHelper = new MoveableHelper()
+
+      containers.forEach((container) => {
+        const properties = {
+          transform: parseTransform(container.style.transform),
+        }
+
+        moveableHelper.createFrame(container, properties)
+      })
+
+      setMoveableHelper(moveableHelper)
+
       setElementGuidelines([
-        newDeck.getRevealElement(),
-        newDeck.getSlidesElement(),
-        newDeck.getViewportElement(),
+        newDeck.getRevealElement() as HTMLElement,
+        newDeck.getSlidesElement() as HTMLElement,
+        newDeck.getViewportElement() as HTMLElement,
       ])
 
       newDeck.on('slidechanged', () => {
@@ -121,6 +139,8 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       newDeck.on('overviewshown', () => {
         setMoveableTargets([])
       })
+
+      setDeck(newDeck)
     })
 
     const handleFullScreenChange = () => {
@@ -137,7 +157,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
 
   useEffect(() => {
     if (deck) deck.configure(slideshowSettings)
-  }, [slideshowSettings])
+  }, [slideshowSettings, deck])
 
   useEffect(() => {
     if (editor && deck) {
@@ -154,7 +174,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
       }
       setEditMode(EditMode.MOVE)
     }
-  }, [moveableTargets, editor, deck])
+  }, [moveableTargets, editor, deck, setEditMode])
 
   useEffect(() => {
     if (deck) {
@@ -203,7 +223,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
 
       deck.on('slidechanged', staticToAbsolute)
 
-      return () => deck.off('slidechanged')
+      return () => deck.off('slidechanged', staticToAbsolute)
     }
   }, [deck])
 
@@ -236,7 +256,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
             // Determines which key to continue selecting the next target via keydown and keyup.
             toggleContinueSelect={'shift'}
             // The container for keydown and keyup events
-            keyContainer={deck?.getRevealElement()}
+            keyContainer={deck?.getRevealElement() as HTMLElement}
             // The rate at which the target overlaps the drag area to be selected. (default: 100)
             hitRate={100}
             onDragStart={(e) => {
@@ -267,7 +287,19 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                 }
               }
 
-              setMoveableTargets(selected)
+              setMoveableTargets((prevs) => {
+                if (
+                  prevs.length !== selected.length ||
+                  !prevs.every((prev, i) => selected[i] === prev)
+                ) {
+                  addHistoryAction({
+                    type: HistoryActionType.SetMoveableTargets,
+                    prevs,
+                    nexts: selected,
+                  })
+                }
+                return selected
+              })
 
               if (e.isDragStart) {
                 e.inputEvent.preventDefault()
@@ -348,18 +380,89 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                 middle: true,
               }}
               snapDigit={0}
-              onResizeStart={moveableHelper.onResizeStart}
-              onResize={moveableHelper.onResize}
-              onDragStart={moveableHelper.onDragStart}
-              onDrag={moveableHelper.onDrag}
-              onRotateStart={moveableHelper.onRotateStart}
-              onRotate={moveableHelper.onRotate}
-              onDragGroupStart={moveableHelper.onDragGroupStart}
-              onDragGroup={moveableHelper.onDragGroup}
-              onRotateGroupStart={moveableHelper.onRotateGroupStart}
-              onRotateGroup={moveableHelper.onRotateGroup}
-              onResizeGroupStart={moveableHelper.onResizeGroupStart}
-              onResizeGroup={moveableHelper.onResizeGroup}
+              onResizeStart={moveableHelper?.onResizeStart}
+              onResize={moveableHelper?.onResize}
+              onDragStart={(e) => {
+                const target = e.target
+                const moveableControlBox = e.moveable.controlBox.getElement()
+
+                map.set(target, target.style.transform)
+                map.set(moveableControlBox, moveableControlBox.style.transform)
+
+                moveableHelper?.onDragStart(e)
+              }}
+              onDrag={moveableHelper?.onDrag}
+              onDragEnd={(e) => {
+                if (e.lastEvent) {
+                  const moveableControlBox = e.moveable.controlBox.getElement()
+
+                  addHistoryAction({
+                    type: HistoryActionType.SetTransform,
+                    prevInfos: {
+                      containers: [
+                        {
+                          element: e.target as HTMLElement,
+                          transform: map.get(e.target) || '',
+                        },
+                      ],
+                      moveableTransform: map.get(moveableControlBox) || '',
+                    },
+                    nextInfos: {
+                      containers: [
+                        {
+                          element: e.target as HTMLElement,
+                          transform: e.lastEvent.transform,
+                        },
+                      ],
+                      moveableTransform: moveableControlBox.style.transform,
+                    },
+                    moveableControlBoxElement: moveableControlBox,
+                  })
+                }
+              }}
+              onRotateStart={moveableHelper?.onRotateStart}
+              onRotate={moveableHelper?.onRotate}
+              onDragGroupStart={(e) => {
+                const targets = e.targets
+                const moveableControlBox = e.moveable.controlBox.getElement()
+                map.set(moveableControlBox, moveableControlBox.style.transform)
+
+                targets.forEach((target) =>
+                  map.set(target, target.style.transform)
+                )
+
+                moveableHelper?.onDragGroupStart(e)
+              }}
+              onDragGroup={moveableHelper?.onDragGroup}
+              onDragGroupEnd={(e) => {
+                if (e.lastEvent) {
+                  const moveableControlBox = e.moveable.controlBox.getElement()
+
+                  addHistoryAction({
+                    type: HistoryActionType.SetTransform,
+                    prevInfos: {
+                      containers: e.events.map((event) => ({
+                        element: event.target,
+                        transform: map.get(event.target) || '',
+                      })),
+
+                      moveableTransform: map.get(moveableControlBox) || '',
+                    },
+                    nextInfos: {
+                      containers: e.events.map((event) => ({
+                        element: event.target,
+                        transform: event.lastEvent.transform,
+                      })),
+                      moveableTransform: moveableControlBox.style.transform,
+                    },
+                    moveableControlBoxElement: moveableControlBox,
+                  })
+                }
+              }}
+              onRotateGroupStart={moveableHelper?.onRotateGroupStart}
+              onRotateGroup={moveableHelper?.onRotateGroup}
+              onResizeGroupStart={moveableHelper?.onResizeGroupStart}
+              onResizeGroup={moveableHelper?.onResizeGroup}
               onClickGroup={(e) => {
                 selectoRef.current?.clickTarget(e.inputEvent, e.inputTarget)
               }}
