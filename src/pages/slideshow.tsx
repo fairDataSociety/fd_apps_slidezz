@@ -21,7 +21,7 @@ const SlideShow: NextPage = () => {
   const [slides] = useAtom(slidesAtom)
   const [deck] = useAtom(slidesDeckAtom)
 
-  // if (!user) return <Login />
+  if (!user) return <Login />
 
   return (
     <>

@@ -49,3 +49,13 @@ export function youtubeUrlParser(url: string) {
   const match = url.match(regExp)
   return match && match[7].length == 11 ? match[7] : false
 }
+
+export function parseTransform(transform: string) {
+  const translateReg = /translate\((.*?)\)/.exec(transform)
+  const rotateReg = /rotate\((.*?)\)/.exec(transform)
+
+  return {
+    translate: translateReg ? translateReg[1].trim() : '0px, 0px',
+    rotate: rotateReg ? rotateReg[1].trim() : '0deg',
+  }
+}

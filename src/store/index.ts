@@ -1,6 +1,6 @@
 import { FdpStorage } from '@fairdatasociety/fdp-storage'
 import { atom } from 'jotai'
-import { atomWithReset, atomWithStorage, useResetAtom } from 'jotai/utils'
+import { atomWithReset, atomWithStorage } from 'jotai/utils'
 import MoveableHelper from 'moveable-helper'
 import { extname } from 'path'
 import Reveal from 'reveal.js'
@@ -14,6 +14,7 @@ import {
   StyleSettings,
   User,
 } from '../types'
+import { parseTransform } from '../utils'
 
 // FDP instance
 
@@ -146,9 +147,21 @@ export type HistoryAction =
     }
   | {
       type: HistoryActionType.SetTransform
-      element: HTMLElement
-      prev: string
-      next: string
+      moveableControlBoxElement: HTMLElement
+      prevInfos: {
+        containers: {
+          element: HTMLElement | SVGElement
+          transform: string
+        }[]
+        moveableTransform: string
+      }
+      nextInfos: {
+        containers: {
+          element: HTMLElement | SVGElement
+          transform: string
+        }[]
+        moveableTransform: string
+      }
     }
 
 export const undoHistoryStackAtom = atomWithReset<HistoryAction[]>([])
@@ -180,7 +193,19 @@ export const undoHistoryAtom = atom(null, (get, set) => {
       set(moveableTargetsAtom, undoAction.prevs)
       break
     case HistoryActionType.SetTransform:
-      undoAction.element.style.transform = undoAction.prev
+      const moveableHelper = get(moveableHelperAtom)
+
+      for (const { element, transform } of undoAction.prevInfos.containers) {
+        element.style.transform = transform
+
+        moveableHelper?.createFrame(element, {
+          transform: parseTransform(transform),
+        })
+      }
+
+      undoAction.moveableControlBoxElement.style.transform =
+        undoAction.prevInfos.moveableTransform
+
       break
   }
 
@@ -199,7 +224,19 @@ export const redoHistoryAtom = atom(null, (get, set) => {
       set(moveableTargetsAtom, redoAction.nexts)
       break
     case HistoryActionType.SetTransform:
-      redoAction.element.style.transform = redoAction.next
+      const moveableHelper = get(moveableHelperAtom)
+
+      for (const { element, transform } of redoAction.nextInfos.containers) {
+        element.style.transform = transform
+
+        moveableHelper?.createFrame(element, {
+          transform: parseTransform(transform),
+        })
+      }
+
+      redoAction.moveableControlBoxElement.style.transform =
+        redoAction.nextInfos.moveableTransform
+
       break
   }
 
@@ -208,4 +245,5 @@ export const redoHistoryAtom = atom(null, (get, set) => {
 })
 
 // Moveable helper
-export const moveableHelperAtom = atom(new MoveableHelper())
+
+export const moveableHelperAtom = atom<MoveableHelper | undefined>(undefined)

@@ -32,7 +32,7 @@ export default function BackButton() {
         setMoveableTargets([])
         restRedoHistoryStack()
         restUndoHistoryStack()
-        moveableHelper.clear()
+        moveableHelper?.clear()
       }}
       aria-label="back"
       icon={<ArrowBackIcon />}
