@@ -137,7 +137,27 @@ export const editModeAtom = atom<EditMode>(EditMode.MOVE)
 export enum HistoryActionType {
   SetMoveableTargets,
   SetTransform,
+  SetSize,
 }
+
+export type TransformHistoryMap = Map<
+  HTMLElement | SVGElement,
+  { prevTransform: string; nextTransform: string }
+>
+
+export type SizeHistoryMap = Map<
+  HTMLElement | SVGElement,
+  {
+    prev: {
+      width: string
+      height: string
+    }
+    next: {
+      width: string
+      height: string
+    }
+  }
+>
 
 export type HistoryAction =
   | {
@@ -147,21 +167,11 @@ export type HistoryAction =
     }
   | {
       type: HistoryActionType.SetTransform
-      moveableControlBoxElement: HTMLElement
-      prevInfos: {
-        containers: {
-          element: HTMLElement | SVGElement
-          transform: string
-        }[]
-        moveableTransform: string
-      }
-      nextInfos: {
-        containers: {
-          element: HTMLElement | SVGElement
-          transform: string
-        }[]
-        moveableTransform: string
-      }
+      infos: TransformHistoryMap
+    }
+  | {
+      type: HistoryActionType.SetSize
+      infos: SizeHistoryMap
     }
 
 export const undoHistoryStackAtom = atomWithReset<HistoryAction[]>([])
@@ -195,17 +205,19 @@ export const undoHistoryAtom = atom(null, (get, set) => {
     case HistoryActionType.SetTransform:
       const moveableHelper = get(moveableHelperAtom)
 
-      for (const { element, transform } of undoAction.prevInfos.containers) {
-        element.style.transform = transform
+      for (const [element, { prevTransform }] of undoAction.infos.entries()) {
+        element.style.transform = prevTransform
 
         moveableHelper?.createFrame(element, {
-          transform: parseTransform(transform),
+          transform: parseTransform(prevTransform),
         })
       }
-
-      undoAction.moveableControlBoxElement.style.transform =
-        undoAction.prevInfos.moveableTransform
-
+      break
+    case HistoryActionType.SetSize:
+      for (const [element, { prev }] of undoAction.infos.entries()) {
+        element.style.width = prev.width
+        element.style.height = prev.height
+      }
       break
   }
 
@@ -226,17 +238,19 @@ export const redoHistoryAtom = atom(null, (get, set) => {
     case HistoryActionType.SetTransform:
       const moveableHelper = get(moveableHelperAtom)
 
-      for (const { element, transform } of redoAction.nextInfos.containers) {
-        element.style.transform = transform
+      for (const [element, { nextTransform }] of redoAction.infos.entries()) {
+        element.style.transform = nextTransform
 
         moveableHelper?.createFrame(element, {
-          transform: parseTransform(transform),
+          transform: parseTransform(nextTransform),
         })
       }
-
-      redoAction.moveableControlBoxElement.style.transform =
-        redoAction.nextInfos.moveableTransform
-
+      break
+    case HistoryActionType.SetSize:
+      for (const [element, { next }] of redoAction.infos.entries()) {
+        element.style.width = next.width
+        element.style.height = next.height
+      }
       break
   }
 
