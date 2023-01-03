@@ -17,6 +17,8 @@ import useColors from '../../hooks/useColors'
 import useTextEditor from '../../hooks/useTextEditor'
 import {
   HistoryActionType,
+  SizeHistoryMap,
+  TransformHistoryMap,
   addHistoryActionAtom,
   editModeAtom,
   moveableHelperAtom,
@@ -75,7 +77,10 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [, addHistoryAction] = useAtom(addHistoryActionAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
-  const [map] = useState(new Map<HTMLElement | SVGElement, string>())
+  const [prevTransforms] = useState(new Map<HTMLElement | SVGElement, string>())
+  const [prevSizes] = useState(
+    new Map<HTMLElement | SVGElement, { width: string; height: string }>()
+  )
   useTextEditor()
 
   useEffect(() => {
@@ -380,14 +385,83 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                 middle: true,
               }}
               snapDigit={0}
-              onResizeStart={moveableHelper?.onResizeStart}
+              onResizeStart={(e) => {
+                const target = e.target
+                const width = target.style.width
+                const height = target.style.height
+
+                prevSizes.set(target, { width, height })
+
+                moveableHelper?.onResizeStart(e)
+              }}
               onResize={moveableHelper?.onResize}
+              onResizeEnd={(e) => {
+                if (e.lastEvent) {
+                  const target = e.target
+                  const infos: SizeHistoryMap = new Map()
+                  const prevSize = prevSizes.get(target) || {
+                    width: '',
+                    height: '',
+                  }
+
+                  infos.set(e.target, {
+                    prev: { ...prevSize },
+                    next: {
+                      width: target.style.width,
+                      height: target.style.height,
+                    },
+                  })
+
+                  addHistoryAction({
+                    type: HistoryActionType.SetSize,
+                    infos,
+                  })
+                }
+              }}
+              onResizeGroupStart={(e) => {
+                const targets = e.targets
+
+                targets.forEach((target) => {
+                  prevSizes.set(target, {
+                    width: target.style.width,
+                    height: target.style.height,
+                  })
+                })
+
+                moveableHelper?.onResizeGroupStart(e)
+              }}
+              onResizeGroup={moveableHelper?.onResizeGroup}
+              onResizeGroupEnd={(e) => {
+                if (e.events && e.events.length) {
+                  const targets = e.targets
+                  const infos: SizeHistoryMap = new Map()
+
+                  targets.forEach((target) => {
+                    const prevSize = prevSizes.get(target) || {
+                      width: '',
+                      height: '',
+                    }
+
+                    infos.set(target, {
+                      prev: { ...prevSize },
+                      next: {
+                        width: target.style.width,
+                        height: target.style.height,
+                      },
+                    })
+                  })
+
+                  addHistoryAction({
+                    type: HistoryActionType.SetSize,
+                    infos,
+                  })
+                }
+              }}
               onDragStart={(e) => {
                 const target = e.target
                 const moveableControlBox = e.moveable.controlBox.getElement()
 
-                map.set(target, target.style.transform)
-                map.set(moveableControlBox, moveableControlBox.style.transform)
+                prevTransforms.set(target, target.style.transform)
 
                 moveableHelper?.onDragStart(e)
               }}
@@ -395,74 +469,107 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               onDragEnd={(e) => {
                 if (e.lastEvent) {
                   const moveableControlBox = e.moveable.controlBox.getElement()
+                  const infos: TransformHistoryMap = new Map()
+                  const target = e.target
+
+                  infos.set(target, {
+                    prevTransform: prevTransforms.get(target) || '',
+                    nextTransform: e.lastEvent.transform,
+                  })
 
                   addHistoryAction({
                     type: HistoryActionType.SetTransform,
-                    prevInfos: {
-                      containers: [
-                        {
-                          element: e.target as HTMLElement,
-                          transform: map.get(e.target) || '',
-                        },
-                      ],
-                      moveableTransform: map.get(moveableControlBox) || '',
-                    },
-                    nextInfos: {
-                      containers: [
-                        {
-                          element: e.target as HTMLElement,
-                          transform: e.lastEvent.transform,
-                        },
-                      ],
-                      moveableTransform: moveableControlBox.style.transform,
-                    },
-                    moveableControlBoxElement: moveableControlBox,
+                    infos,
                   })
                 }
               }}
-              onRotateStart={moveableHelper?.onRotateStart}
+              onRotateStart={(e) => {
+                const target = e.target
+                const moveableControlBox = e.moveable.controlBox.getElement()
+
+                prevTransforms.set(target, target.style.transform)
+                moveableHelper?.onRotateStart(e)
+              }}
               onRotate={moveableHelper?.onRotate}
+              onRotateEnd={(e) => {
+                if (e.lastEvent) {
+                  const moveableControlBox = e.moveable.controlBox.getElement()
+                  const infos: TransformHistoryMap = new Map()
+                  const target = e.target
+
+                  infos.set(target, {
+                    prevTransform: prevTransforms.get(target) || '',
+                    nextTransform: e.lastEvent.transform,
+                  })
+
+                  addHistoryAction({
+                    type: HistoryActionType.SetTransform,
+                    infos,
+                  })
+                }
+              }}
               onDragGroupStart={(e) => {
                 const targets = e.targets
                 const moveableControlBox = e.moveable.controlBox.getElement()
-                map.set(moveableControlBox, moveableControlBox.style.transform)
 
                 targets.forEach((target) =>
-                  map.set(target, target.style.transform)
+                  prevTransforms.set(target, target.style.transform)
                 )
 
                 moveableHelper?.onDragGroupStart(e)
               }}
               onDragGroup={moveableHelper?.onDragGroup}
               onDragGroupEnd={(e) => {
-                if (e.lastEvent) {
+                if (e.isDrag && e.events && e.events.length) {
                   const moveableControlBox = e.moveable.controlBox.getElement()
+                  const infos: TransformHistoryMap = new Map()
+
+                  e.events.forEach((event) => {
+                    const target = event.target
+
+                    infos.set(target, {
+                      prevTransform: prevTransforms.get(target) || '',
+                      nextTransform: event.lastEvent.transform,
+                    })
+                  })
 
                   addHistoryAction({
                     type: HistoryActionType.SetTransform,
-                    prevInfos: {
-                      containers: e.events.map((event) => ({
-                        element: event.target,
-                        transform: map.get(event.target) || '',
-                      })),
-
-                      moveableTransform: map.get(moveableControlBox) || '',
-                    },
-                    nextInfos: {
-                      containers: e.events.map((event) => ({
-                        element: event.target,
-                        transform: event.lastEvent.transform,
-                      })),
-                      moveableTransform: moveableControlBox.style.transform,
-                    },
-                    moveableControlBoxElement: moveableControlBox,
+                    infos,
                   })
                 }
               }}
-              onRotateGroupStart={moveableHelper?.onRotateGroupStart}
+              onRotateGroupStart={(e) => {
+                const targets = e.targets
+                const moveableControlBox = e.moveable.controlBox.getElement()
+
+                targets.forEach((target) =>
+                  prevTransforms.set(target, target.style.transform)
+                )
+
+                moveableHelper?.onRotateGroupStart(e)
+              }}
               onRotateGroup={moveableHelper?.onRotateGroup}
-              onResizeGroupStart={moveableHelper?.onResizeGroupStart}
-              onResizeGroup={moveableHelper?.onResizeGroup}
+              onRotateGroupEnd={(e) => {
+                if (e.events && e.events.length) {
+                  const moveableControlBox = e.moveable.controlBox.getElement()
+                  const infos: TransformHistoryMap = new Map()
+
+                  e.events.forEach((event) => {
+                    const target = event.target
+
+                    infos.set(target, {
+                      prevTransform: prevTransforms.get(target) || '',
+                      nextTransform: event.lastEvent.transform,
+                    })
+                  })
+
+                  addHistoryAction({
+                    type: HistoryActionType.SetTransform,
+                    infos,
+                  })
+                }
+              }}
               onClickGroup={(e) => {
                 selectoRef.current?.clickTarget(e.inputEvent, e.inputTarget)
               }}
