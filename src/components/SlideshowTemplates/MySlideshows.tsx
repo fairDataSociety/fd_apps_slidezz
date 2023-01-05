@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { useEffect, useState } from 'react'
 import { BiSlideshow } from 'react-icons/bi'
 
@@ -31,12 +32,12 @@ import { hashCode } from '../../utils'
 export default function MySlideshows() {
   const toast = useToast()
   const [mySlideshows, setMySlideshows] = useState<DirectoryItem['files']>()
-  const [user] = useAtom(userAtom)
-  const [fdp] = useAtom(fdpAtom)
-  const [, setSlides] = useAtom(slidesAtom)
-  const [, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const user = useAtomValue(userAtom)
+  const fdp = useAtomValue(fdpAtom)
+  const setSlides = useUpdateAtom(slidesAtom)
+  const setSlidesLogo = useUpdateAtom(slidesLogoAtom)
   const { overlay0 } = useColors()
-  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
+  const loadingModalSetAction = useUpdateAtom(loadingModalSetActionAtom)
 
   const handleSetMyslideshows = async () => {
     if (!user) return

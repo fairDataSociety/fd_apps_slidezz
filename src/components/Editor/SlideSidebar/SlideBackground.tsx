@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useEffect, useState } from 'react'
 import { HexColorInput, HexColorPicker } from 'react-colorful'
 import { TbRectangle } from 'react-icons/tb'
@@ -33,7 +33,7 @@ interface SlideBgOptions {
 
 export default function SlideBackground() {
   const { onOpen, onClose, isOpen } = useDisclosure()
-  const [deck] = useAtom(slidesDeckAtom)
+  const deck = useAtomValue(slidesDeckAtom)
   const [currentSlide, setCurrentSlide] = useState<HTMLElement>()
   const [slideBgColor, setSlideBgColor] = useState('')
   const [slideBgImage, setSlideBgImage] = useState('')

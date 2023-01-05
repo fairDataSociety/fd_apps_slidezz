@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { FaVideo } from 'react-icons/fa'
 
 import { PlusSquareIcon } from '@chakra-ui/icons'
@@ -18,6 +19,7 @@ import {
 
 import { addVideoToCurrentSlide } from '../../../../actions/addVideoToCurrentSlide'
 import {
+  addHistoryActionAtom,
   mediaAtom,
   moveableTargetsAtom,
   slidesDeckAtom,
@@ -32,9 +34,10 @@ import AddYouTubeEmbedVideo from './AddYouTubeEmbedVideo'
 export default function AddVideo() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [media, setMedia] = useAtom(mediaAtom)
-  const [videos] = useAtom(videoMediaAtom)
-  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
-  const [deck] = useAtom(slidesDeckAtom)
+  const videos = useAtomValue(videoMediaAtom)
+  const setMoveableTargets = useUpdateAtom(moveableTargetsAtom)
+  const deck = useAtomValue(slidesDeckAtom)
+  const addHistoryAction = useUpdateAtom(addHistoryActionAtom)
 
   return (
     <>
@@ -70,7 +73,12 @@ export default function AddVideo() {
                       text={video.name}
                       onClick={() => {
                         if (!deck) return
-                        addVideoToCurrentSlide(video, deck, setMoveableTargets)
+                        addVideoToCurrentSlide(
+                          video,
+                          deck,
+                          setMoveableTargets,
+                          addHistoryAction
+                        )
                         onClose()
                       }}
                     />

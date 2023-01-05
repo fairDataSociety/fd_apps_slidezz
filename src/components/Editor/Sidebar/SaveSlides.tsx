@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { useState } from 'react'
 import { FaSave } from 'react-icons/fa'
 
@@ -47,18 +48,18 @@ import { getSlidesHTML, hashCode } from '../../../utils'
 import SideBarItem from './SidebarItem'
 
 export default function SaveSlides() {
-  const [deck] = useAtom(slidesDeckAtom)
+  const deck = useAtomValue(slidesDeckAtom)
   const [slides, setSlides] = useAtom(slidesAtom)
-  const [slidesLogo] = useAtom(slidesLogoAtom)
-  const [user] = useAtom(userAtom)
+  const slidesLogo = useAtomValue(slidesLogoAtom)
+  const user = useAtomValue(userAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [fileName, setFileName] = useState('')
   const [shareSlides, setShareSlides] = useBoolean(false)
   const [allowDownloading, setAllowDownloading] = useBoolean(false)
   const { overlay0 } = useColors()
-  const [fdp] = useAtom(fdpAtom)
+  const fdp = useAtomValue(fdpAtom)
   const toast = useToast()
-  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
+  const loadingModalSetAction = useUpdateAtom(loadingModalSetActionAtom)
 
   const handleFairOSSaveSlides = async (slidesDiv: HTMLElement) => {
     if (!user || !slides) return

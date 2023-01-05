@@ -1,4 +1,5 @@
 import { atom, useAtom } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { useEffect, useState } from 'react'
 
 import { replaceImage } from '../../actions/replaceImage'
@@ -11,7 +12,7 @@ export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
 
 export function ReplaceImage() {
   const [isOpen, setIsOpen] = useState(true)
-  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
+  const setMoveableTargets = useUpdateAtom(moveableTargetsAtom)
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )

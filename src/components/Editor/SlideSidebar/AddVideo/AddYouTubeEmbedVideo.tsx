@@ -1,5 +1,6 @@
 import { Field, Formik } from 'formik'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { BsLink } from 'react-icons/bs'
 
 import {
@@ -20,7 +21,11 @@ import {
 } from '@chakra-ui/react'
 
 import { addEmbedVideoToCurrentSlide } from '../../../../actions/addEmbedVideoToCurrentSlide'
-import { moveableTargetsAtom, slidesDeckAtom } from '../../../../store'
+import {
+  addHistoryActionAtom,
+  moveableTargetsAtom,
+  slidesDeckAtom,
+} from '../../../../store'
 import { youtubeUrlParser } from '../../../../utils'
 
 interface AddYouTubeEmbedVideoProps {
@@ -38,8 +43,9 @@ const initialValues: FormValues = {
 export default function AddYouTubeEmbedVideo({
   addVideoOnClose,
 }: AddYouTubeEmbedVideoProps) {
-  const [deck] = useAtom(slidesDeckAtom)
-  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
+  const deck = useAtomValue(slidesDeckAtom)
+  const setMoveableTargets = useUpdateAtom(moveableTargetsAtom)
+  const addHistoryAction = useUpdateAtom(addHistoryActionAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -54,7 +60,12 @@ export default function AddYouTubeEmbedVideo({
           validateOnMount
           onSubmit={(values) => {
             if (!deck) return
-            addEmbedVideoToCurrentSlide(values.url, deck, setMoveableTargets)
+            addEmbedVideoToCurrentSlide(
+              values.url,
+              deck,
+              setMoveableTargets,
+              addHistoryAction
+            )
             onClose()
             addVideoOnClose()
           }}

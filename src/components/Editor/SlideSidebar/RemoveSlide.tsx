@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { AiFillDelete } from 'react-icons/ai'
 
 import { removeCurrentSlide } from '../../../actions/removeCurrentSlide'
@@ -6,7 +6,7 @@ import { slidesDeckAtom } from '../../../store'
 import SlideSideBarItem from './SlideSidebarItem'
 
 export default function RemoveSlide() {
-  const [deck] = useAtom(slidesDeckAtom)
+  const deck = useAtomValue(slidesDeckAtom)
 
   return (
     <SlideSideBarItem

@@ -1,5 +1,5 @@
 import fscreen from 'fscreen'
-import { useAtom } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { RefObject, useEffect, useRef, useState } from 'react'
 import { FiEye } from 'react-icons/fi'
 import Reveal from 'reveal.js'
@@ -32,7 +32,7 @@ export default function TemplatePreview({
   title,
   slides,
 }: TemplatePreviewProps) {
-  const [, setSlides] = useAtom(slidesAtom)
+  const setSlides = useUpdateAtom(slidesAtom)
   const { overlay0 } = useColors()
 
   return (

@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { extname, join } from 'path'
 import { useEffect, useState } from 'react'
 import { AiFillFolder, AiOutlineFile } from 'react-icons/ai'
@@ -30,10 +30,10 @@ export default function SelectPath({
   allowedExtensions,
 }: SelectPathProps) {
   const [tmpPath, setTmpPath] = useState('/')
-  const [user] = useAtom(userAtom)
+  const user = useAtomValue(userAtom)
   const [isLoading, setIsLoading] = useState(false)
   const [items, setItems] = useState<DirectoryItem>()
-  const [fdp] = useAtom(fdpAtom)
+  const fdp = useAtomValue(fdpAtom)
   const [isPodOpen, setIsPodOpen] = useState(false)
 
   useEffect(() => {

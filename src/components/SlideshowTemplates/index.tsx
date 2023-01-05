@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import dynamic from 'next/dynamic'
 
 import {
@@ -37,8 +38,8 @@ const TemplatePreview = dynamic(() => import('./TemplatePreview'), {
 })
 
 export default function SlideshowTemplates() {
-  const [, setSlides] = useAtom(slidesAtom)
-  const [user] = useAtom(userAtom)
+  const setSlides = useUpdateAtom(slidesAtom)
+  const user = useAtomValue(userAtom)
 
   return (
     <Container maxW="container.xl">

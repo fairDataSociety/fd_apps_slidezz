@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { BiPlus } from 'react-icons/bi'
 
 import {
@@ -22,7 +22,7 @@ import { slidesDeckAtom } from '../../../store'
 import SlideSideBarItem from './SlideSidebarItem'
 
 export default function NewSlide() {
-  const [deck] = useAtom(slidesDeckAtom)
+  const deck = useAtomValue(slidesDeckAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (

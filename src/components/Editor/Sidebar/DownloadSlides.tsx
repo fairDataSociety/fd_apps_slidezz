@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { BsDownload } from 'react-icons/bs'
 
 import {
@@ -28,10 +29,10 @@ import SidebarItem from './SidebarItem'
 
 export default function DownloadSlides() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [deck] = useAtom(slidesDeckAtom)
-  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
-  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
-  const [slideshowSettings] = useAtom(slideshowSettingsAtom)
+  const deck = useAtomValue(slidesDeckAtom)
+  const setMoveableTargets = useUpdateAtom(moveableTargetsAtom)
+  const loadingModalSetAction = useUpdateAtom(loadingModalSetActionAtom)
+  const slideshowSettings = useAtomValue(slideshowSettingsAtom)
 
   return (
     <>

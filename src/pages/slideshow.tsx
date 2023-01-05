@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 
@@ -17,11 +17,11 @@ const SlideshowTemplates = dynamic(
 )
 
 const SlideShow: NextPage = () => {
-  const [user] = useAtom(userAtom)
-  const [slides] = useAtom(slidesAtom)
-  const [deck] = useAtom(slidesDeckAtom)
+  const user = useAtomValue(userAtom)
+  const slides = useAtomValue(slidesAtom)
+  const deck = useAtomValue(slidesDeckAtom)
 
-  if (!user) return <Login />
+  // if (!user) return <Login />
 
   return (
     <>

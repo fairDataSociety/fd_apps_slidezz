@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/react'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import {
   AiOutlineBold,
   AiOutlineItalic,
@@ -39,7 +39,7 @@ interface MenuBarProps {
 }
 
 export default function MenuBar({ editor }: MenuBarProps) {
-  const [editMode] = useAtom(editModeAtom)
+  const editMode = useAtomValue(editModeAtom)
   const { crust } = useColors()
   const isFocused = editMode === EditMode.TEXT
 

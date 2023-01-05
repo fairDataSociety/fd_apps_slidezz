@@ -1,5 +1,6 @@
 import { useGoogleLogin } from '@react-oauth/google'
 import { useAtom } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 
 import { Box, useDisclosure } from '@chakra-ui/react'
 
@@ -19,7 +20,7 @@ export default function GoogleDriveImportFile({
   callback,
   downloadFile,
 }: GoogleDriveImportFileProps) {
-  const [, setGoogleAccessToken] = useAtom(googleAccessTokenAtom)
+  const setGoogleAccessToken = useUpdateAtom(googleAccessTokenAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const googleDriveLogin = useGoogleLogin({
     onSuccess: (tokenResponse) => {

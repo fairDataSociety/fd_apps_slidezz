@@ -1,5 +1,5 @@
-import { useAtom } from 'jotai'
-import { useResetAtom } from 'jotai/utils'
+import { useAtomValue } from 'jotai'
+import { useResetAtom, useUpdateAtom } from 'jotai/utils'
 
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { IconButton } from '@chakra-ui/react'
@@ -15,13 +15,13 @@ import {
 } from '../../store'
 
 export default function BackButton() {
-  const [, setSlides] = useAtom(slidesAtom)
-  const [, setDeck] = useAtom(slidesDeckAtom)
-  const [, setSlidesLogo] = useAtom(slidesLogoAtom)
-  const [, setMoveableTargets] = useAtom(moveableTargetsAtom)
+  const setSlides = useUpdateAtom(slidesAtom)
+  const setDeck = useUpdateAtom(slidesDeckAtom)
+  const setSlidesLogo = useUpdateAtom(slidesLogoAtom)
+  const setMoveableTargets = useUpdateAtom(moveableTargetsAtom)
   const restUndoHistoryStack = useResetAtom(undoHistoryStackAtom)
   const restRedoHistoryStack = useResetAtom(redoHistoryStackAtom)
-  const [moveableHelper] = useAtom(moveableHelperAtom)
+  const moveableHelper = useAtomValue(moveableHelperAtom)
 
   return (
     <IconButton

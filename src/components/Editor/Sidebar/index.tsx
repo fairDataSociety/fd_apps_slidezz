@@ -1,5 +1,6 @@
 import fscreen from 'fscreen'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { FaPlay } from 'react-icons/fa'
 import { MdRedo, MdUndo } from 'react-icons/md'
 
@@ -29,13 +30,13 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isSlidesReadOnly }: SidebarProps) {
-  const [deck] = useAtom(slidesDeckAtom)
-  const [slides] = useAtom(slidesAtom)
+  const deck = useAtomValue(slidesDeckAtom)
+  const slides = useAtomValue(slidesAtom)
   const { surface0 } = useColors()
-  const [undoHisoryStackLen] = useAtom(undoHistoryStackLenAtom)
-  const [redoHisoryStackLen] = useAtom(redoHistoryStackLenAtom)
-  const [, undoHistory] = useAtom(undoHistoryAtom)
-  const [, redoHistory] = useAtom(redoHistoryAtom)
+  const undoHisoryStackLen = useAtomValue(undoHistoryStackLenAtom)
+  const redoHisoryStackLen = useAtomValue(redoHistoryStackLenAtom)
+  const undoHistory = useUpdateAtom(undoHistoryAtom)
+  const redoHistory = useUpdateAtom(redoHistoryAtom)
 
   return (
     <Box bg={surface0} fontSize="2xl" w="5rem" h="full" my="auto">

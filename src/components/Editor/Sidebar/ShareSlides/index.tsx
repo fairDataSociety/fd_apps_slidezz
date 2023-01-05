@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { BsShare } from 'react-icons/bs'
 
 import {
@@ -22,7 +22,7 @@ import CopyPanel from './CopyPanel'
 import EmbedCode from './EmbedCode'
 
 export default function ShareSlides() {
-  const [slides] = useAtom(slidesAtom)
+  const slides = useAtomValue(slidesAtom)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const baseHref = (document.querySelector('base') as HTMLBaseElement).href
   const pageName =

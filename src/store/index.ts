@@ -138,6 +138,8 @@ export enum HistoryActionType {
   SetMoveableTargets,
   SetTransform,
   SetSize,
+  RemoveElements,
+  AddElement,
 }
 
 export type TransformHistoryMap = Map<
@@ -151,10 +153,12 @@ export type SizeHistoryMap = Map<
     prev: {
       width: string
       height: string
+      transform: string
     }
     next: {
       width: string
       height: string
+      transform: string
     }
   }
 >
@@ -172,6 +176,16 @@ export type HistoryAction =
   | {
       type: HistoryActionType.SetSize
       infos: SizeHistoryMap
+    }
+  | {
+      type: HistoryActionType.AddElement
+      element: HTMLElement
+      slide: number
+    }
+  | {
+      type: HistoryActionType.RemoveElements
+      elements: HTMLElement[]
+      slide: number
     }
 
 export const undoHistoryStackAtom = atomWithReset<HistoryAction[]>([])
@@ -198,13 +212,15 @@ export const undoHistoryAtom = atom(null, (get, set) => {
 
   if (!undoAction) return
 
+  const deck = get(slidesDeckAtom)
+  const moveableHelper = get(moveableHelperAtom)
+
   switch (undoAction.type) {
-    case HistoryActionType.SetMoveableTargets:
+    case HistoryActionType.SetMoveableTargets: {
       set(moveableTargetsAtom, undoAction.prevs)
       break
-    case HistoryActionType.SetTransform:
-      const moveableHelper = get(moveableHelperAtom)
-
+    }
+    case HistoryActionType.SetTransform: {
       for (const [element, { prevTransform }] of undoAction.infos.entries()) {
         element.style.transform = prevTransform
 
@@ -213,12 +229,34 @@ export const undoHistoryAtom = atom(null, (get, set) => {
         })
       }
       break
-    case HistoryActionType.SetSize:
+    }
+    case HistoryActionType.SetSize: {
       for (const [element, { prev }] of undoAction.infos.entries()) {
         element.style.width = prev.width
         element.style.height = prev.height
+        element.style.transform = prev.transform
+
+        moveableHelper?.createFrame(element, {
+          transform: parseTransform(prev.transform),
+        })
       }
       break
+    }
+    case HistoryActionType.AddElement: {
+      const { element, slide } = undoAction
+      deck?.getSlide(slide, 0).removeChild(element)
+      set(moveableTargetsAtom, [])
+      break
+    }
+    case HistoryActionType.RemoveElements: {
+      const { elements, slide } = undoAction
+      const elementsSlide = deck?.getSlide(slide, 0)
+
+      elements.forEach((element) => elementsSlide?.appendChild(element))
+
+      set(moveableTargetsAtom, elements)
+      break
+    }
   }
 
   set(undoHistoryStackAtom, [...undoStack])
@@ -231,13 +269,15 @@ export const redoHistoryAtom = atom(null, (get, set) => {
 
   if (!redoAction) return
 
+  const deck = get(slidesDeckAtom)
+  const moveableHelper = get(moveableHelperAtom)
+
   switch (redoAction.type) {
-    case HistoryActionType.SetMoveableTargets:
+    case HistoryActionType.SetMoveableTargets: {
       set(moveableTargetsAtom, redoAction.nexts)
       break
-    case HistoryActionType.SetTransform:
-      const moveableHelper = get(moveableHelperAtom)
-
+    }
+    case HistoryActionType.SetTransform: {
       for (const [element, { nextTransform }] of redoAction.infos.entries()) {
         element.style.transform = nextTransform
 
@@ -246,12 +286,34 @@ export const redoHistoryAtom = atom(null, (get, set) => {
         })
       }
       break
-    case HistoryActionType.SetSize:
+    }
+    case HistoryActionType.SetSize: {
       for (const [element, { next }] of redoAction.infos.entries()) {
         element.style.width = next.width
         element.style.height = next.height
+        element.style.transform = next.transform
+
+        moveableHelper?.createFrame(element, {
+          transform: parseTransform(next.transform),
+        })
       }
       break
+    }
+    case HistoryActionType.AddElement: {
+      const { element, slide } = redoAction
+      deck?.getSlide(slide, 0).appendChild(element)
+      set(moveableTargetsAtom, [element])
+      break
+    }
+    case HistoryActionType.RemoveElements: {
+      const { elements, slide } = redoAction
+
+      const elementsSlide = deck?.getSlide(slide, 0)
+      elements.forEach((element) => elementsSlide?.removeChild(element))
+
+      set(moveableTargetsAtom, [])
+      break
+    }
   }
 
   set(redoHistoryStackAtom, [...redoStack])
