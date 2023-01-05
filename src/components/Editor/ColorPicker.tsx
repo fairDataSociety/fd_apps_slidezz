@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { useEffect, useState } from 'react'
 
 import { Button, Input, Wrap, WrapItem } from '@chakra-ui/react'
@@ -7,7 +7,7 @@ import { moveableTargetsAtom } from '../../store'
 import { rgbToHex } from '../../utils'
 
 export default function ColorPicker() {
-  const [moveableTargets] = useAtom(moveableTargetsAtom)
+  const moveableTargets = useAtomValue(moveableTargetsAtom)
   const [bgColor, setBgColor] = useState('')
   const moveableTarget =
     moveableTargets.length === 1 ? moveableTargets[0] : undefined

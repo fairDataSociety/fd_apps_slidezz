@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import dynamic from 'next/dynamic'
 
 import { Box, Center, Flex, Spinner } from '@chakra-ui/react'
@@ -19,7 +19,7 @@ const Slides = dynamic(() => import('./Slides'), {
 })
 
 export default function Editor() {
-  const [slides] = useAtom(slidesAtom)
+  const slides = useAtomValue(slidesAtom)
   const editor = useTextEditor()
 
   if (!slides) return null

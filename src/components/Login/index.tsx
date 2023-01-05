@@ -1,5 +1,6 @@
 import { Field, Formik, FormikErrors } from 'formik'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 
 import {
   Box,
@@ -32,8 +33,8 @@ const LoginFormInitialValues: LoginFormValues = {
 
 export default function Login() {
   const toast = useToast()
-  const [fdp] = useAtom(fdpAtom)
-  const [, setUser] = useAtom(userAtom)
+  const fdp = useAtomValue(fdpAtom)
+  const setUser = useUpdateAtom(userAtom)
   const { crust } = useColors()
 
   const handleLogin = async (values: LoginFormValues) => {

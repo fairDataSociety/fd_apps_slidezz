@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { basename, extname } from 'path'
 import { useEffect, useState } from 'react'
 import { AiOutlineInbox } from 'react-icons/ai'
@@ -43,9 +44,9 @@ export default function FairDriveImportFileModal({
   const toast = useToast()
   const [pod, setPod] = useState<string | undefined>(initialPod)
   const [filePath, setFilePath] = useState<string>()
-  const [fdp] = useAtom(fdpAtom)
+  const fdp = useAtomValue(fdpAtom)
   const { overlay1, crust } = useColors()
-  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
+  const loadingModalSetAction = useUpdateAtom(loadingModalSetActionAtom)
 
   const handleModalClose = () => {
     setPod(undefined)

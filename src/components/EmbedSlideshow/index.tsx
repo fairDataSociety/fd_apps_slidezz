@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { useRouter } from 'next/router'
 import React, { RefObject, useEffect, useRef } from 'react'
 import Reveal from 'reveal.js'
@@ -16,13 +17,13 @@ interface EmbedSlideshowProps {
 }
 
 export default function EmbedSlideshow({ slides }: EmbedSlideshowProps) {
-  const [slidesLogo] = useAtom(slidesLogoAtom)
+  const slidesLogo = useAtomValue(slidesLogoAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
   const router = useRouter()
   const query = router.query as { [key: string]: string | undefined }
   const slidesLogoPosition =
     (query.slidesLogoPosition as keyof typeof LogoPositions) || 'top-left'
-  const [, setDeck] = useAtom(slidesDeckAtom)
+  const setDeck = useUpdateAtom(slidesDeckAtom)
 
   useEffect(() => {
     if (slidesRef.current) slidesRef.current.innerHTML = slides.data

@@ -1,11 +1,13 @@
 import Reveal from 'reveal.js'
 
+import { HistoryAction, HistoryActionType } from '../store'
 import { youtubeUrlParser } from '../utils'
 
 export async function addEmbedVideoToCurrentSlide(
   url: string,
   deck: Reveal.Api,
-  setMoveableTargets: (target: HTMLElement[]) => void
+  setMoveableTargets: (target: HTMLElement[]) => void,
+  addHistoryAction: (action: HistoryAction) => void
 ) {
   const currentSlideIndex = deck.getState().indexh
   const slide = deck.getSlides()[currentSlideIndex]
@@ -24,4 +26,10 @@ export async function addEmbedVideoToCurrentSlide(
   slide.appendChild(videoContainer)
 
   setMoveableTargets([videoContainer])
+
+  addHistoryAction({
+    type: HistoryActionType.AddElement,
+    element: videoContainer,
+    slide: currentSlideIndex,
+  })
 }

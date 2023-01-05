@@ -1,8 +1,13 @@
 import { MoveableManagerInterface, Renderer } from 'react-moveable'
+import Reveal from 'reveal.js'
+
+import { HistoryAction, HistoryActionType } from '../../../../store'
 
 export interface MoveableDeleteButtonProps {
   deleteButton?: boolean
   setTarget?: (target: HTMLElement[]) => void
+  addHistoryAction?: (action: HistoryAction) => void
+  deck?: Reveal.Api
 }
 export const MoveableDeleteButton = {
   name: 'deleteButton',
@@ -59,6 +64,8 @@ export const MoveableDeleteButton = {
           const targets = moveable.props.targets
           const target = moveable.props.target
           const setTarget = moveable.props.setTarget
+          const addHistoryAction = moveable.props.addHistoryAction
+          const deck = moveable.props.deck
 
           if (targets) {
             for (const target of targets) {
@@ -67,6 +74,13 @@ export const MoveableDeleteButton = {
           }
           if (target) target.parentElement?.removeChild(target)
           if (setTarget) setTarget([])
+
+          if (addHistoryAction && targets && deck)
+            addHistoryAction({
+              type: HistoryActionType.RemoveElements,
+              elements: targets,
+              slide: deck.getState().indexh,
+            })
         }}
         style={{
           transform: `translate(${pos2[0]}px, ${pos2[1]}px) rotate(${rect.rotation}deg) translate(15px)`,

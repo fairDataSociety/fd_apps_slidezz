@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 
 import { PlusSquareIcon } from '@chakra-ui/icons'
 import {
@@ -32,7 +32,7 @@ export default function AddImageModal({
   handleAddImage,
 }: AddImageModalProps) {
   const [media, setMedia] = useAtom(mediaAtom)
-  const [images] = useAtom(imageMediaAtom)
+  const images = useAtomValue(imageMediaAtom)
 
   return (
     <Modal

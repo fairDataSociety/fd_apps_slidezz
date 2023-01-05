@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { useState } from 'react'
 
 import {
@@ -19,7 +19,7 @@ import { slidesAtom } from '../../../../store'
 import CopyPanel from './CopyPanel'
 
 export default function EmbedCode() {
-  const [slides] = useAtom(slidesAtom)
+  const slides = useAtomValue(slidesAtom)
   const [width, setWidth] = useState(576)
   const [height, setHeight] = useState(420)
   const [style, setStyle] = useState('white')

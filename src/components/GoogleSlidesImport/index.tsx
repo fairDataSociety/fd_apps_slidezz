@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 
 import { useToast } from '@chakra-ui/react'
 
@@ -15,10 +16,10 @@ import GoogleDriveImportFile from '../GoogleDriveImportFile'
 import GoogleslidesIcon from '../Icons/GoolgeslidesIcon'
 
 export default function GoogleSlidesImport() {
-  const [googleAccessToken] = useAtom(googleAccessTokenAtom)
-  const [, setSlides] = useAtom(slidesAtom)
+  const googleAccessToken = useAtomValue(googleAccessTokenAtom)
+  const setSlides = useUpdateAtom(slidesAtom)
   const toast = useToast()
-  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
+  const loadingModalSetAction = useUpdateAtom(loadingModalSetActionAtom)
 
   return (
     <GoogleDriveImportFile

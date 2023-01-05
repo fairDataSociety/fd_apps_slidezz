@@ -1,4 +1,5 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -38,12 +39,12 @@ const EmbedSlideshow = dynamic(() => import('../components/EmbedSlideshow'), {
 
 const SharedSlideshowPage: NextPage = () => {
   const router = useRouter()
-  const [fdp] = useAtom(fdpAtom)
-  const [, setSlidesLogo] = useAtom(slidesLogoAtom)
+  const fdp = useAtomValue(fdpAtom)
+  const setSlidesLogo = useUpdateAtom(slidesLogoAtom)
   const [slides, setSlides] = useAtom(slidesAtom)
   const [isEmbed, setIsEmbed] = useState(false)
-  const [user] = useAtom(userAtom)
-  const [deck] = useAtom(slidesDeckAtom)
+  const user = useAtomValue(userAtom)
+  const deck = useAtomValue(slidesDeckAtom)
 
   useEffect(() => {
     if (router.isReady && (fdp || user)) {

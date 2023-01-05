@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/react'
 import fscreen from 'fscreen'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import MoveableHelper from 'moveable-helper'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
 import Moveable from 'react-moveable'
@@ -23,11 +24,13 @@ import {
   editModeAtom,
   moveableHelperAtom,
   moveableTargetsAtom,
+  redoHistoryStackLenAtom,
   replaceImageElementAtom,
   slidesDeckAtom,
   slidesLogoAtom,
   slideshowSettingsAtom,
   styleSettingsAtom,
+  undoHistoryStackLenAtom,
 } from '../../store'
 import { EditMode, Slides as SlidesType } from '../../types'
 import { isHTML, parseTransform } from '../../utils'
@@ -52,7 +55,7 @@ interface SlidesProps {
 }
 
 export default function Slides({ deckName, slides, editor }: SlidesProps) {
-  const [, setEditMode] = useAtom(editModeAtom)
+  const setEditMode = useUpdateAtom(editModeAtom)
   const [deck, setDeck] = useAtom(slidesDeckAtom)
   const { overlay0 } = useColors()
   const moveableRef = useRef() as RefObject<
@@ -62,25 +65,26 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
         MoveableReplaceImageProps
     >
   >
-
   const selectoRef = useRef() as RefObject<Selecto>
-
   const [replaceImageElement, setReplaceImageElement] = useAtom(
     replaceImageElementAtom
   )
-  const [slideshowSettings] = useAtom(slideshowSettingsAtom)
-  const [styleSettings] = useAtom(styleSettingsAtom)
-  const [slidesLogo] = useAtom(slidesLogoAtom)
+  const slideshowSettings = useAtomValue(slideshowSettingsAtom)
+  const styleSettings = useAtomValue(styleSettingsAtom)
+  const slidesLogo = useAtomValue(slidesLogoAtom)
   const [moveableTargets, setMoveableTargets] = useAtom(moveableTargetsAtom)
   const [moveableHelper, setMoveableHelper] = useAtom(moveableHelperAtom)
   const [elementGuidelines, setElementGuidelines] = useState<HTMLElement[]>([])
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [, addHistoryAction] = useAtom(addHistoryActionAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
   const [prevTransforms] = useState(new Map<HTMLElement | SVGElement, string>())
   const [prevSizes] = useState(
     new Map<HTMLElement | SVGElement, { width: string; height: string }>()
   )
+  const undoHistoryStackLen = useAtomValue(undoHistoryStackLenAtom)
+  const redoHistoryStackLen = useAtomValue(redoHistoryStackLenAtom)
+  const addHistoryAction = useUpdateAtom(addHistoryActionAtom)
+
   useTextEditor()
 
   useEffect(() => {
@@ -232,6 +236,10 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
     }
   }, [deck])
 
+  useEffect(() => {
+    moveableRef.current?.updateRect()
+  }, [undoHistoryStackLen, redoHistoryStackLen])
+
   return (
     <Box
       className="slideshow"
@@ -348,6 +356,8 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               elementGuidelines={elementGuidelines}
               target={moveableTargets}
               setTarget={setMoveableTargets}
+              addHistoryAction={addHistoryAction}
+              deck={deck}
               setReplaceImageElement={setReplaceImageElement}
               draggable={true}
               throttleDrag={0}
@@ -389,8 +399,10 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                 const target = e.target
                 const width = target.style.width
                 const height = target.style.height
+                const transform = target.style.transform
 
                 prevSizes.set(target, { width, height })
+                prevTransforms.set(target, transform)
 
                 moveableHelper?.onResizeStart(e)
               }}
@@ -405,10 +417,14 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   }
 
                   infos.set(e.target, {
-                    prev: { ...prevSize },
+                    prev: {
+                      ...prevSize,
+                      transform: prevTransforms.get(target) || '',
+                    },
                     next: {
                       width: target.style.width,
                       height: target.style.height,
+                      transform: target.style.transform,
                     },
                   })
 
@@ -443,10 +459,14 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                     }
 
                     infos.set(target, {
-                      prev: { ...prevSize },
+                      prev: {
+                        ...prevSize,
+                        transform: prevTransforms.get(target) || '',
+                      },
                       next: {
                         width: target.style.width,
                         height: target.style.height,
+                        transform: target.style.transform,
                       },
                     })
                   })
@@ -459,7 +479,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               }}
               onDragStart={(e) => {
                 const target = e.target
-                const moveableControlBox = e.moveable.controlBox.getElement()
 
                 prevTransforms.set(target, target.style.transform)
 
@@ -468,7 +487,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               onDrag={moveableHelper?.onDrag}
               onDragEnd={(e) => {
                 if (e.lastEvent) {
-                  const moveableControlBox = e.moveable.controlBox.getElement()
                   const infos: TransformHistoryMap = new Map()
                   const target = e.target
 
@@ -485,7 +503,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               }}
               onRotateStart={(e) => {
                 const target = e.target
-                const moveableControlBox = e.moveable.controlBox.getElement()
 
                 prevTransforms.set(target, target.style.transform)
                 moveableHelper?.onRotateStart(e)
@@ -493,7 +510,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               onRotate={moveableHelper?.onRotate}
               onRotateEnd={(e) => {
                 if (e.lastEvent) {
-                  const moveableControlBox = e.moveable.controlBox.getElement()
                   const infos: TransformHistoryMap = new Map()
                   const target = e.target
 
@@ -510,7 +526,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               }}
               onDragGroupStart={(e) => {
                 const targets = e.targets
-                const moveableControlBox = e.moveable.controlBox.getElement()
 
                 targets.forEach((target) =>
                   prevTransforms.set(target, target.style.transform)
@@ -521,7 +536,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               onDragGroup={moveableHelper?.onDragGroup}
               onDragGroupEnd={(e) => {
                 if (e.isDrag && e.events && e.events.length) {
-                  const moveableControlBox = e.moveable.controlBox.getElement()
                   const infos: TransformHistoryMap = new Map()
 
                   e.events.forEach((event) => {
@@ -541,7 +555,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               }}
               onRotateGroupStart={(e) => {
                 const targets = e.targets
-                const moveableControlBox = e.moveable.controlBox.getElement()
 
                 targets.forEach((target) =>
                   prevTransforms.set(target, target.style.transform)
@@ -552,7 +565,6 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
               onRotateGroup={moveableHelper?.onRotateGroup}
               onRotateGroupEnd={(e) => {
                 if (e.events && e.events.length) {
-                  const moveableControlBox = e.moveable.controlBox.getElement()
                   const infos: TransformHistoryMap = new Map()
 
                   e.events.forEach((event) => {

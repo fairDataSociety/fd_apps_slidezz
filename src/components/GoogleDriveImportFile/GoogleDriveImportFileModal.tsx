@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
+import { useUpdateAtom } from 'jotai/utils'
 import { useEffect, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 
@@ -40,8 +41,8 @@ export default function GoogleDriveImportFileModal({
   const toast = useToast()
   const [files, setFiles] = useState<{ id: string; name: string }[]>()
   const [isLoading, setIsLoading] = useState(false)
-  const [googleAccessToken] = useAtom(googleAccessTokenAtom)
-  const [, loadingModalSetAction] = useAtom(loadingModalSetActionAtom)
+  const googleAccessToken = useAtomValue(googleAccessTokenAtom)
+  const loadingModalSetAction = useUpdateAtom(loadingModalSetActionAtom)
   const { crust } = useColors()
 
   useEffect(() => {

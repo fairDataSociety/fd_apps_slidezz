@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import React, { RefObject, useEffect, useRef } from 'react'
 import Reveal from 'reveal.js'
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight'
@@ -21,9 +21,9 @@ interface SharedSlideshowProps {
 }
 
 export default function SharedSlideshow({ slides }: SharedSlideshowProps) {
-  const [slideshowSettings] = useAtom(slideshowSettingsAtom)
-  const [slidesLogo] = useAtom(slidesLogoAtom)
-  const [styleSettings] = useAtom(styleSettingsAtom)
+  const slideshowSettings = useAtomValue(slideshowSettingsAtom)
+  const slidesLogo = useAtomValue(slidesLogoAtom)
+  const styleSettings = useAtomValue(styleSettingsAtom)
   const slidesRef = useRef() as RefObject<HTMLDivElement>
   const [deck, setDeck] = useAtom(slidesDeckAtom)
   const { overlay0 } = useColors()

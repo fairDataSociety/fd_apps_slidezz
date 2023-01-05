@@ -1,4 +1,4 @@
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useEffect, useState } from 'react'
 import { AiOutlineInbox } from 'react-icons/ai'
 
@@ -14,7 +14,7 @@ interface SelectPodProps {
 
 export default function SelectPod({ setPod }: SelectPodProps) {
   const toast = useToast()
-  const [fdp] = useAtom(fdpAtom)
+  const fdp = useAtomValue(fdpAtom)
   const [pods, setPods] = useState<string[]>()
   const [isLoading, setIsLoading] = useState(false)
 
