@@ -3,8 +3,8 @@ import Reveal from 'reveal.js'
 export function removeCurrentSlide(deck: Reveal.Api) {
   if (deck.getTotalSlides() <= 1) return
 
-  const slides = deck.getSlidesElement() as HTMLElement
-  const currentSlide = deck.getCurrentSlide() as HTMLElement
+  const slides = deck.getSlidesElement()
+  const currentSlide = deck.getCurrentSlide()
   const currentSlideIndex = deck.getState().indexh
 
   slides.removeChild(currentSlide)

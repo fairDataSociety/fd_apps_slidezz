@@ -7,8 +7,7 @@ export function addTextToCurrentSlide(
   setMoveableTargets: (target: HTMLElement[]) => void,
   addHistoryAction: (action: HistoryAction) => void
 ) {
-  const currentSlideIndex = deck.getState().indexh
-  const slide = deck.getSlides()[currentSlideIndex]
+  const slide = deck.getCurrentSlide()
 
   const textContainer = document.createElement('div')
   textContainer.classList.add('text-container', 'container')
@@ -19,6 +18,6 @@ export function addTextToCurrentSlide(
   addHistoryAction({
     type: HistoryActionType.AddElement,
     element: textContainer,
-    slide: currentSlideIndex,
+    deckState: deck.getState(),
   })
 }

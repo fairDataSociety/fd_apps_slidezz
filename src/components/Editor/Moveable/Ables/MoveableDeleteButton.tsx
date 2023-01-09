@@ -79,7 +79,7 @@ export const MoveableDeleteButton = {
             addHistoryAction({
               type: HistoryActionType.RemoveElements,
               elements: targets,
-              slide: deck.getState().indexh,
+              deckState: deck.getState(),
             })
         }}
         style={{

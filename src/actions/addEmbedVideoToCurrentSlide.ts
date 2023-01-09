@@ -9,8 +9,7 @@ export async function addEmbedVideoToCurrentSlide(
   setMoveableTargets: (target: HTMLElement[]) => void,
   addHistoryAction: (action: HistoryAction) => void
 ) {
-  const currentSlideIndex = deck.getState().indexh
-  const slide = deck.getSlides()[currentSlideIndex]
+  const slide = deck.getCurrentSlide()
 
   const videoContainer = document.createElement('div')
   videoContainer.classList.add('container', 'media-container')
@@ -30,6 +29,6 @@ export async function addEmbedVideoToCurrentSlide(
   addHistoryAction({
     type: HistoryActionType.AddElement,
     element: videoContainer,
-    slide: currentSlideIndex,
+    deckState: deck.getState(),
   })
 }

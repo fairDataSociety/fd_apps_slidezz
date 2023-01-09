@@ -72,9 +72,7 @@ export default function SlideshowTemplates() {
                     slides={`
 ## Slide 1
 #### Sub Title
----
-## Slide 2
-![image](https://picsum.photos/id/65/200/300)
+
                   `}
                   />
                 </WrapItem>

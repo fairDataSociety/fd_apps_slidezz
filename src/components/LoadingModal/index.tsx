@@ -16,7 +16,7 @@ interface LoadingModalProps {
 export default function LoadingModal({ isOpen, message }: LoadingModalProps) {
   return (
     <Modal isCentered isOpen={isOpen} onClose={() => {}}>
-      <ModalOverlay />
+      <ModalOverlay backdropFilter="blur(10px)" />
       <ModalContent>
         <ModalBody>
           <VStack gap={3}>

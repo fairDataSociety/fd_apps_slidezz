@@ -21,18 +21,20 @@ import {
   CONTAINER_VARIANTS,
   TEXT_UNDERLINE_VRIANTS,
   TEXT_VARIANTS,
+  WAVE_VARIANTS,
 } from '../animations'
 import '../components/AppUI'
 import Navbar from '../components/Navbar'
+import Wave from '../components/Svg/Wave'
 import useColors from '../hooks/useColors'
 
 const AppUI = dynamic(() => import('../components/AppUI'), { ssr: false })
 
 const Home: NextPage = () => {
-  const { rosewater } = useColors()
+  const { rosewater, overlay0, overlay1, surface2 } = useColors()
 
   return (
-    <>
+    <Box position="relative" minH="100vh">
       <Navbar />
       <Container mt={{ base: '3rem', lg: '7rem' }} maxW="container.xl">
         <Stack
@@ -86,12 +88,46 @@ const Home: NextPage = () => {
                 </Button>
               </NextLink>
             </Box>
+            <Wave
+              wave="wave1"
+              fill={overlay0}
+              variants={WAVE_VARIANTS}
+              w="full"
+              h="25rem"
+              position="absolute"
+              bottom={0}
+              right={0}
+              zIndex={-100}
+            />
+            <Wave
+              wave="wave2"
+              fill={overlay1}
+              variants={WAVE_VARIANTS}
+              w="full"
+              h="12rem"
+              position="absolute"
+              bottom={0}
+              right={0}
+              zIndex={-100}
+            />
+
+            <Wave
+              wave="wave3"
+              fill={surface2}
+              variants={WAVE_VARIANTS}
+              w="full"
+              h="8rem"
+              position="absolute"
+              bottom={0}
+              right={0}
+              zIndex={-100}
+            />
           </VStack>
 
           <AppUI />
         </Stack>
       </Container>
-    </>
+    </Box>
   )
 }
 

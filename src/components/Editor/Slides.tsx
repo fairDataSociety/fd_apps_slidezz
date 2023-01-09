@@ -309,6 +309,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                     type: HistoryActionType.SetMoveableTargets,
                     prevs,
                     nexts: selected,
+                    deckState: deck.getState(),
                   })
                 }
                 return selected
@@ -332,7 +333,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
             </section>
           )}
 
-          {!isFullscreen ? (
+          {!isFullscreen && deck ? (
             <Moveable<
               MoveableDeleteButtonProps &
                 MoveableDimensionProps &
@@ -431,6 +432,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   addHistoryAction({
                     type: HistoryActionType.SetSize,
                     infos,
+                    deckState: deck.getState(),
                   })
                 }
               }}
@@ -474,6 +476,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   addHistoryAction({
                     type: HistoryActionType.SetSize,
                     infos,
+                    deckState: deck.getState(),
                   })
                 }
               }}
@@ -498,6 +501,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   addHistoryAction({
                     type: HistoryActionType.SetTransform,
                     infos,
+                    deckState: deck.getState(),
                   })
                 }
               }}
@@ -521,6 +525,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   addHistoryAction({
                     type: HistoryActionType.SetTransform,
                     infos,
+                    deckState: deck.getState(),
                   })
                 }
               }}
@@ -550,6 +555,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   addHistoryAction({
                     type: HistoryActionType.SetTransform,
                     infos,
+                    deckState: deck.getState(),
                   })
                 }
               }}
@@ -579,6 +585,7 @@ export default function Slides({ deckName, slides, editor }: SlidesProps) {
                   addHistoryAction({
                     type: HistoryActionType.SetTransform,
                     infos,
+                    deckState: deck.getState(),
                   })
                 }
               }}

@@ -10,8 +10,7 @@ export async function addImageToCurrentSlide(
   setMoveableTargets: (target: HTMLElement[]) => void,
   addHistoryAction: (action: HistoryAction) => void
 ) {
-  const currentSlideIndex = deck.getState().indexh
-  const slide = deck.getSlides()[currentSlideIndex]
+  const slide = deck.getCurrentSlide()
 
   const imageContainer = document.createElement('div')
   imageContainer.classList.add('container', 'media-container')
@@ -28,6 +27,6 @@ export async function addImageToCurrentSlide(
   addHistoryAction({
     type: HistoryActionType.AddElement,
     element: imageContainer,
-    slide: currentSlideIndex,
+    deckState: deck.getState(),
   })
 }

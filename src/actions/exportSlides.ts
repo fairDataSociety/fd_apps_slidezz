@@ -47,6 +47,8 @@ export async function currentSlideToImage(
     slideshowSettings
   )
 
+  tmpDeck.setState(deck.getState())
+
   const currentSlide = tmpDeck.getRevealElement() as HTMLElement
 
   const convertor = convetorFunction[exportType]
@@ -79,7 +81,7 @@ export async function slidesToPdf(
   //@ts-ignore
   const { width, height } = deck.getComputedSlideSize()
 
-  const currentSlide = deck.getIndices().h as number
+  const currentState = deck.getState()
 
   const tmpDeckElement = document.querySelector('.tmpDeck') as HTMLElement
   const tmpDeck = await generateTmpDeck(
@@ -91,7 +93,7 @@ export async function slidesToPdf(
   )
 
   const doc = new jsPDF('landscape', 'px', [width, height])
-  const totalSlides = tmpDeck.getTotalSlides() as number
+  const totalSlides = tmpDeck.getTotalSlides()
   for (let i = 0; i < totalSlides; i++) {
     tmpDeck.slide(i)
     const currentSlide = tmpDeck.getRevealElement() as HTMLElement
@@ -115,7 +117,7 @@ export async function slidesToPdf(
   }
   tmpDeckElement.style.display = 'none'
   doc.save('slides.pdf')
-  deck.slide(currentSlide)
+  deck.setState(currentState)
   loadingModalSetAction({ action: 'stop' })
 }
 
