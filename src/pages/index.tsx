@@ -78,7 +78,11 @@ const Home: NextPage = () => {
             </Box>
 
             <Box overflow="hidden">
-              <NextLink href="/slideshow">
+              <NextLink
+                href={`/slideshow${
+                  process.env.NODE_ENV === 'production' ? '.html' : ''
+                }`}
+              >
                 <Button
                   as={motion.button}
                   variants={TEXT_VARIANTS}
