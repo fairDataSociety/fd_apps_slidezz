@@ -80,7 +80,7 @@ const Home: NextPage = () => {
             <Box overflow="hidden">
               <NextLink
                 href={`/slideshow${
-                  process.env.NODE_ENV === 'production' ? '.html' : ''
+                  process.env.NEXT_PUBLIC_IS_STATIC ? '.html' : ''
                 }`}
               >
                 <Button

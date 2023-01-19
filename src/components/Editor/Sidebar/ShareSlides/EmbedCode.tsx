@@ -25,10 +25,9 @@ export default function EmbedCode() {
   const [style, setStyle] = useState('white')
 
   const baseHref = document.querySelector('base')!.href
-  const pageName =
-    process.env.NODE_ENV === 'production'
-      ? 'shared-slideshow.html'
-      : 'shared-slideshow'
+  const pageName = process.env.NEXT_PUBLIC_IS_STATIC
+    ? 'shared-slideshow.html'
+    : 'shared-slideshow'
   const embedURL = `${baseHref}${pageName}?ref=${slides?.sharingInfo?.sharedRef}&embed=true&theme=${style}`
   const embedCode = `<iframe src="${embedURL}" width="${width}" height="${height}"></iframe>`
 

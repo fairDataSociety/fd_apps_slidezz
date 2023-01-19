@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  assetPrefix: process.env.NODE_ENV === 'production' ? './' : '/',
+  assetPrefix: process.env.NEXT_PUBLIC_IS_STATIC ? './' : '/',
 }
 
 module.exports = nextConfig

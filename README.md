@@ -2,6 +2,8 @@
 
 A slideshow dapp that connects to Fairdrive.
 
+Slidezz is available at https://slidezz.vercel.app. Censorship-resistant version is hosted on Swarm and can be accessed at:
+
 Fair-OS version: https://slidezz.bzz.link
 
 FDP-Storage version: https://slidezz.link.dev.fairdatasociety.org
