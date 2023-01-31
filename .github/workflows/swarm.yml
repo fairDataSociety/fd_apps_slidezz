@@ -14,7 +14,7 @@ jobs:
         run: yarn
 
       - name: Build
-        run: yarn export
+        run: yarn build:static
         env:
           NEXT_PUBLIC_BEE_URL: https://bee-1.dev.fairdatasociety.org
           NEXT_PUBLIC_BATCH_ID: '0000000000000000000000000000000000000000000000000000000000000000'
@@ -60,7 +60,7 @@ jobs:
         run: yarn
 
       - name: Build
-        run: yarn export
+        run: yarn build:static
         env:
           NEXT_PUBLIC_IS_FAIROS: true
           NEXT_PUBLIC_FAIROSHOST: https://fairos.fairdatasociety.org/

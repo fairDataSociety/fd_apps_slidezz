@@ -3268,6 +3268,15 @@ canvg@^3.0.6:
     stackblur-canvas "^2.0.0"
     svg-pathdata "^6.0.3"
 
+catppuccin-chakra-ui-theme@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/catppuccin-chakra-ui-theme/-/catppuccin-chakra-ui-theme-0.0.7.tgz#7c1fda85c2c3a737fe90d83ac0df67a8f592d792"
+  integrity sha512-ZBVPPPy1MAol9T9lsI7VkFu4UZLDAyA3GttPqr8YrMXEGMsNzmU+X03ilH/hr1pRlmqQjTB7CQajgpCoLyr7CA==
+  dependencies:
+    "@catppuccin/palette" "^0.1.5"
+    color2k "^2.0.1"
+    dlv "^1.1.3"
+
 center-align@^0.1.1:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/center-align/-/center-align-0.1.3.tgz#aa0d32629b6ee972200411cbd4461c907bc2b7ad"
@@ -3472,6 +3481,11 @@ color2k@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/color2k/-/color2k-2.0.0.tgz#86992c82e248c29f524023ed0822bc152c4fa670"
   integrity sha512-DWX9eXOC4fbJNiuvdH4QSHvvfLWyFo9TuFp7V9OzdsbPAdrWAuYc8qvFP2bIQ/LKh4LrAVnJ6vhiQYPvAHdtTg==
+
+color2k@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/color2k/-/color2k-2.0.1.tgz#bea59670b323265cc13a745f239c6bd6a89d9a89"
+  integrity sha512-iCg+xrEqtYISsSJZN1z44fyhv4EfX8lSkcDhodt6VnMf1+iMwZxAtmGXchTCeMUnTbXunGvUVK6E3skkApPnZw==
 
 combined-stream@^1.0.8:
   version "1.0.8"
@@ -3843,6 +3857,11 @@ dir-glob@^3.0.1:
   integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
   dependencies:
     path-type "^4.0.0"
+
+dlv@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
+  integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
 doctrine@^2.1.0:
   version "2.1.0"

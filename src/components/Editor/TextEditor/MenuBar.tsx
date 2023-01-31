@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/react'
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtom, useAtomValue } from 'jotai'
 import {
   AiOutlineBold,
@@ -29,7 +30,6 @@ import {
   WrapItem,
 } from '@chakra-ui/react'
 
-import useColors from '../../../hooks/useColors'
 import { editModeAtom } from '../../../store'
 import { EditMode } from '../../../types'
 import ColorPicker from '../ColorPicker'
@@ -50,7 +50,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
           <Wrap>
             <WrapItem>
               <IconButton
-                variant="outline"
+                variant="c-outline"
                 size="sm"
                 aria-label="undo"
                 icon={<MdUndo />}
@@ -63,7 +63,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant="outline"
+                variant="c-outline"
                 size="sm"
                 aria-label="redo"
                 icon={<MdRedo />}
@@ -78,7 +78,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
           <Wrap>
             <WrapItem>
               <IconButton
-                variant={editor.isActive('bold') ? 'solid' : 'outline'}
+                variant={editor.isActive('bold') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 aria-label="bold"
                 icon={<AiOutlineBold />}
@@ -91,7 +91,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('italic') ? 'solid' : 'outline'}
+                variant={editor.isActive('italic') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 aria-label="italic"
                 icon={<AiOutlineItalic />}
@@ -105,7 +105,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('strike') ? 'solid' : 'outline'}
+                variant={editor.isActive('strike') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 aria-label="strike"
                 icon={<AiOutlineStrikethrough />}
@@ -119,7 +119,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('underline') ? 'solid' : 'outline'}
+                variant={editor.isActive('underline') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 aria-label="underline"
                 icon={<AiOutlineUnderline />}
@@ -130,7 +130,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('code') ? 'solid' : 'outline'}
+                variant={editor.isActive('code') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 aria-label="code"
                 icon={<BiCode />}
@@ -143,7 +143,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <Button
-                variant={editor.isActive('paragraph') ? 'solid' : 'outline'}
+                variant={editor.isActive('paragraph') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 w={5}
                 aria-label="paragraph"
@@ -157,7 +157,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <Button
                 variant={
-                  editor.isActive('heading', { level: 1 }) ? 'solid' : 'outline'
+                  editor.isActive('heading', { level: 1 })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 w={5}
@@ -174,7 +176,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <Button
                 variant={
-                  editor.isActive('heading', { level: 2 }) ? 'solid' : 'outline'
+                  editor.isActive('heading', { level: 2 })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 w={5}
@@ -191,7 +195,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <Button
                 variant={
-                  editor.isActive('heading', { level: 3 }) ? 'solid' : 'outline'
+                  editor.isActive('heading', { level: 3 })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 w={5}
@@ -208,7 +214,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <Button
                 variant={
-                  editor.isActive('heading', { level: 4 }) ? 'solid' : 'outline'
+                  editor.isActive('heading', { level: 4 })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 w={5}
@@ -225,7 +233,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <Button
                 variant={
-                  editor.isActive('heading', { level: 5 }) ? 'solid' : 'outline'
+                  editor.isActive('heading', { level: 5 })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 w={5}
@@ -242,7 +252,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <Button
                 variant={
-                  editor.isActive('heading', { level: 6 }) ? 'solid' : 'outline'
+                  editor.isActive('heading', { level: 6 })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 w={5}
@@ -258,7 +270,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('bulletList') ? 'solid' : 'outline'}
+                variant={
+                  editor.isActive('bulletList') ? 'c-solid' : 'c-outline'
+                }
                 size="sm"
                 aria-label="bulletList"
                 icon={<AiOutlineUnorderedList />}
@@ -269,7 +283,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('orderedList') ? 'solid' : 'outline'}
+                variant={
+                  editor.isActive('orderedList') ? 'c-solid' : 'c-outline'
+                }
                 size="sm"
                 fontSize="xl"
                 aria-label="orderedList"
@@ -281,7 +297,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('codeBlock') ? 'solid' : 'outline'}
+                variant={editor.isActive('codeBlock') ? 'c-solid' : 'c-outline'}
                 size="sm"
                 aria-label="codeBlock"
                 icon={<BiCodeBlock />}
@@ -292,7 +308,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant={editor.isActive('blockquote') ? 'solid' : 'outline'}
+                variant={
+                  editor.isActive('blockquote') ? 'c-solid' : 'c-outline'
+                }
                 size="sm"
                 aria-label="blockquote"
                 icon={<TbBlockquote />}
@@ -303,7 +321,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <IconButton
-                variant="outline"
+                variant="c-outline"
                 size="sm"
                 aria-label="horizontal-rule"
                 icon={<MdHorizontalRule />}
@@ -314,7 +332,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
 
             <WrapItem>
               <Button
-                variant="outline"
+                variant="c-outline"
                 size="sm"
                 w={5}
                 aria-label="br"
@@ -330,7 +348,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <IconButton
                 variant={
-                  editor.isActive({ textAlign: 'left' }) ? 'solid' : 'outline'
+                  editor.isActive({ textAlign: 'left' })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 aria-label="alignment-left"
@@ -345,7 +365,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <IconButton
                 variant={
-                  editor.isActive({ textAlign: 'center' }) ? 'solid' : 'outline'
+                  editor.isActive({ textAlign: 'center' })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 aria-label="alignment-center"
@@ -359,7 +381,9 @@ export default function MenuBar({ editor }: MenuBarProps) {
             <WrapItem>
               <IconButton
                 variant={
-                  editor.isActive({ textAlign: 'right' }) ? 'solid' : 'outline'
+                  editor.isActive({ textAlign: 'right' })
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 aria-label="alignment-right"
@@ -374,8 +398,8 @@ export default function MenuBar({ editor }: MenuBarProps) {
               <IconButton
                 variant={
                   editor.isActive({ textAlign: 'justify' })
-                    ? 'solid'
-                    : 'outline'
+                    ? 'c-solid'
+                    : 'c-outline'
                 }
                 size="sm"
                 aria-label="alignment-justify"
@@ -406,7 +430,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
             </WrapItem>
             <WrapItem>
               <Button
-                variant="outline"
+                variant="c-outline"
                 size="sm"
                 onClick={() => editor.chain().focus().unsetColor().run()}
                 disabled={!isFocused}
@@ -435,7 +459,7 @@ export default function MenuBar({ editor }: MenuBarProps) {
             </WrapItem>
             <WrapItem>
               <Button
-                variant="outline"
+                variant="c-outline"
                 size="sm"
                 onClick={() => editor.chain().focus().unsetHighlight().run()}
                 disabled={!isFocused}

@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { Field, Formik, FormikErrors } from 'formik'
 import { useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
@@ -17,7 +18,6 @@ import {
 } from '@chakra-ui/react'
 
 import { fairDriveLogin } from '../../fairdrive'
-import useColors from '../../hooks/useColors'
 import { fdpAtom, userAtom } from '../../store'
 import Navbar from '../Navbar'
 
@@ -85,7 +85,7 @@ export default function Login() {
             <VStack gap={5}>
               <VStack gap={1}>
                 <Heading fontSize="5xl">Please login</Heading>
-                <Text variant="subtext">to your Fairdrive account</Text>
+                <Text variant="c-subtext0">to your Fairdrive account</Text>
               </VStack>
 
               <VStack
@@ -127,7 +127,7 @@ export default function Login() {
                 >
                   Login
                 </Button>
-                <Text align="center" variant="subtext">
+                <Text align="center" variant="c-subtext0">
                   Don&apos;t have an account?{' '}
                   <Link href="https://fairdrive.vercel.app/register" isExternal>
                     Register

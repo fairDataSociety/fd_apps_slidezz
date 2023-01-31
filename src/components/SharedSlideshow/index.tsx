@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtom, useAtomValue } from 'jotai'
 import React, { RefObject, useEffect, useRef } from 'react'
 import Reveal from 'reveal.js'
@@ -7,7 +8,6 @@ import Markdown from 'reveal.js/plugin/markdown/markdown'
 import { Box, Image } from '@chakra-ui/react'
 
 import { LogoPositions } from '../../config/logo-positions'
-import useColors from '../../hooks/useColors'
 import {
   slidesDeckAtom,
   slidesLogoAtom,

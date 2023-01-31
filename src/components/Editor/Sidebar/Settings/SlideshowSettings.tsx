@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { Formik } from 'formik'
 import { useAtom } from 'jotai'
 import { FiSettings } from 'react-icons/fi'
@@ -25,7 +26,6 @@ import {
   checkBoxSettings,
   selectSettings,
 } from '../../../../config/slide-settings'
-import useColors from '../../../../hooks/useColors'
 import { slideshowSettingsAtom } from '../../../../store'
 import SideBarItem from '../SidebarItem'
 
@@ -100,7 +100,7 @@ export default function SlideshowSettings() {
                 </DrawerBody>
 
                 <DrawerFooter>
-                  <Button variant="outline" mr={3} onClick={onClose}>
+                  <Button variant="c-outline" mr={3} onClick={onClose}>
                     Cancel
                   </Button>
                   <Button onClick={() => handleSubmit()}>Save</Button>

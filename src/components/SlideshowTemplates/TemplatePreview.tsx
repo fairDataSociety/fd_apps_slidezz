@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import fscreen from 'fscreen'
 import { useUpdateAtom } from 'jotai/utils'
 import { RefObject, useEffect, useRef, useState } from 'react'
@@ -17,7 +18,6 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 
-import useColors from '../../hooks/useColors'
 import { slidesAtom } from '../../store'
 import { isHTML } from '../../utils'
 

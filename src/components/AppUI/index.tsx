@@ -1,6 +1,6 @@
-import { Box, HStack, Image } from '@chakra-ui/react'
+import { useColors } from 'catppuccin-chakra-ui-theme'
 
-import useColors from '../../hooks/useColors'
+import { Box, HStack, Image } from '@chakra-ui/react'
 
 export default function AppUI() {
   const { crust } = useColors()

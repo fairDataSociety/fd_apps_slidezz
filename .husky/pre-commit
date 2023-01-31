@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-yarn tsc --noEmit && yarn eslint . && yarn pretty-quick --staged . && git add --all
+yarn check:ts
+yarn format
+yarn lint

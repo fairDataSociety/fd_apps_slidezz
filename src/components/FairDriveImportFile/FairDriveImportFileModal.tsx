@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtom, useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 import { basename, extname } from 'path'
@@ -20,7 +21,6 @@ import {
 } from '@chakra-ui/react'
 
 import { fairDriveDownloadFile } from '../../fairdrive'
-import useColors from '../../hooks/useColors'
 import { fdpAtom, loadingModalSetActionAtom } from '../../store'
 import { File } from '../../types'
 import SelectPath from './SelectPath'

@@ -41,7 +41,7 @@ export default function CopyPanel({ label, text }: CopyPanelProps) {
         >
           <IconButton
             size="sm"
-            variant="outline"
+            variant="c-outline"
             aria-label="copy"
             icon={<BiCopy />}
             onClick={onCopy}

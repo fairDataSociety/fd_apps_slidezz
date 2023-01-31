@@ -38,7 +38,7 @@ export default function ColorPicker() {
       </WrapItem>
       <WrapItem>
         <Button
-          variant="outline"
+          variant="c-outline"
           size="sm"
           onClick={() => {
             if (!moveableTarget) return

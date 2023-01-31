@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtom, useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 import { useState } from 'react'
@@ -35,7 +36,6 @@ import {
   fairDriveSharePod,
   fairDriveUploadFile,
 } from '../../../fairdrive'
-import useColors from '../../../hooks/useColors'
 import {
   fdpAtom,
   loadingModalSetActionAtom,
@@ -223,7 +223,8 @@ export default function SaveSlides() {
                   Share slides?
                 </FormLabel>
                 <Switch
-                  colorScheme="surface1"
+                  //TODO: add variant
+                  // colorScheme="surface1"
                   isChecked={shareSlides}
                   id="share-slides"
                   onChange={setShareSlides.toggle}
@@ -253,7 +254,7 @@ export default function SaveSlides() {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
+            <Button variant="c-outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
             <Button isDisabled={!fileName} onClick={handleSaveSlides}>

@@ -52,8 +52,9 @@ export default function SlideshowTemplates() {
           size={{ base: 'sm', md: 'md' }}
           w="full"
           isFitted
-          variant="solid-rounded"
-          colorScheme="surface1"
+          //TODO: add variant
+          // variant="solid-rounded"
+          // colorScheme="surface1"
         >
           <TabList mb={5}>
             <Tab>Templates</Tab>

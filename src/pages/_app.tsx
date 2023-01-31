@@ -14,7 +14,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import LoadingModal from '../components/LoadingModal'
 import { loadingModalAtom } from '../store'
 import '../styles/slides.css'
-import theme from '../theme'
+import { theme } from '../theme'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const loadingModal = useAtomValue(loadingModalAtom)

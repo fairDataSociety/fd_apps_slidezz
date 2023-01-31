@@ -42,7 +42,10 @@ export default function ShareSlides() {
               <ModalHeader>Share slides</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <Tabs colorScheme="surface1">
+                <Tabs
+                //TODO: add variant
+                // colorScheme="surface1"
+                >
                   <TabList>
                     <Tab>Copy Link</Tab>
                     <Tab>Embed</Tab>

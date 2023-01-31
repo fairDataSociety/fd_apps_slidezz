@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 import { useEffect, useState } from 'react'
@@ -19,7 +20,6 @@ import { importSlides } from '../../actions/importSlides'
 import { openPod } from '../../api/fairos/pod'
 import { fairDriveDownloadFile } from '../../fairdrive'
 import { DirectoryItem, fairDriveLs } from '../../fairdrive/ls'
-import useColors from '../../hooks/useColors'
 import {
   fdpAtom,
   loadingModalSetActionAtom,

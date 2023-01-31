@@ -194,7 +194,7 @@ export default function SlideBackground() {
                         })
                       }}
                     >
-                      <Button variant="outline" size="md" w="full">
+                      <Button variant="c-outline" size="md" w="full">
                         {slideBgImage ? 'Replace image' : 'Choose image'}
                       </Button>
                     </AddImage>

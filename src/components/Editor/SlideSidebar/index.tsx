@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtom, useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 import dynamic from 'next/dynamic'
@@ -7,7 +8,6 @@ import { RiText } from 'react-icons/ri'
 import { Box } from '@chakra-ui/react'
 
 import { addImageToCurrentSlide } from '../../../actions/addImageToCurrentSlide'
-import useColors from '../../../hooks/useColors'
 import {
   addHistoryActionAtom,
   moveableTargetsAtom,

@@ -1,6 +1,6 @@
-import { Box, HStack, IconProps, Text } from '@chakra-ui/react'
+import { useColors } from 'catppuccin-chakra-ui-theme'
 
-import useColors from '../../hooks/useColors'
+import { Box, HStack, IconProps, Text } from '@chakra-ui/react'
 
 interface ImportFileCardProps {
   title: string
@@ -35,7 +35,7 @@ export default function ImportFileCard({
         <Text fontSize="lg" fontWeight="bold">
           {title}
         </Text>
-        <Text variant="subtext">{description}</Text>
+        <Text variant="c-subtext0">{description}</Text>
       </Box>
     </HStack>
   )

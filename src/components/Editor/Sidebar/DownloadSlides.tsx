@@ -65,7 +65,7 @@ export default function DownloadSlides() {
                   onClose()
                 }}
                 size="md"
-                variant="outline"
+                variant="c-outline"
               >
                 JPEG image(.jpg, current slide)
               </Button>
@@ -83,7 +83,7 @@ export default function DownloadSlides() {
                   onClose()
                 }}
                 size="md"
-                variant="outline"
+                variant="c-outline"
               >
                 PNG image(.png, current slide)
               </Button>
@@ -101,14 +101,14 @@ export default function DownloadSlides() {
                   onClose()
                 }}
                 size="md"
-                variant="outline"
+                variant="c-outline"
               >
                 SVG image(.svg, current slide)
               </Button>
               <Button
                 w="full"
                 size="md"
-                variant="outline"
+                variant="c-outline"
                 onClick={() => {
                   if (!deck) return
                   slidesToPdf(deck, loadingModalSetAction, slideshowSettings)

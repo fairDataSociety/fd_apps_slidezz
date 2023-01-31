@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { motion } from 'framer-motion'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
@@ -26,7 +27,6 @@ import {
 import '../components/AppUI'
 import Navbar from '../components/Navbar'
 import Wave from '../components/Svg/Wave'
-import useColors from '../hooks/useColors'
 
 const AppUI = dynamic(() => import('../components/AppUI'), { ssr: false })
 
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
             </Heading>
 
             <Box overflow="hidden">
-              <Text as={motion.p} variants={TEXT_VARIANTS} variant="subtext">
+              <Text as={motion.p} variants={TEXT_VARIANTS} variant="c-subtext0">
                 <Highlight
                   query="Fairdrive"
                   styles={{

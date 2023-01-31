@@ -1,8 +1,8 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { IoLogoGithub } from 'react-icons/io5'
 
 import { HStack, Link, Text } from '@chakra-ui/react'
 
-import useColors from '../../hooks/useColors'
 import ThemeToggleButton from '../Buttons/ThemeToggleButton'
 
 export default function Navbar() {
@@ -31,7 +31,7 @@ export default function Navbar() {
 
       <Text fontSize="2xl" fontWeight="bold">
         Slide
-        <Text as="span" color={rosewater}>
+        <Text as="span" color={`${rosewater} !important`}>
           zz
         </Text>
       </Text>

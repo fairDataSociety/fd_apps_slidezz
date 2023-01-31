@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 import { useEffect, useState } from 'react'
@@ -19,7 +20,6 @@ import {
   useToast,
 } from '@chakra-ui/react'
 
-import useColors from '../../hooks/useColors'
 import { googleAccessTokenAtom, loadingModalSetActionAtom } from '../../store'
 import ItemBox from '../FairDriveImportFile/ItemBox'
 

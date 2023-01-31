@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { Formik } from 'formik'
 import { useAtom } from 'jotai'
 import { HiColorSwatch } from 'react-icons/hi'
@@ -16,7 +17,6 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 
-import useColors from '../../../../../hooks/useColors'
 import { styleSettingsAtom } from '../../../../../store'
 import SideBarItem from '../../SidebarItem'
 import SelectColor from './SelectColor'
@@ -51,7 +51,7 @@ export default function PresentationSettings() {
                 </DrawerBody>
 
                 <DrawerFooter>
-                  <Button variant="outline" mr={3} onClick={onClose}>
+                  <Button variant="c-outline" mr={3} onClick={onClose}>
                     Cancel
                   </Button>
                   <Button onClick={() => handleSubmit()}>Save</Button>

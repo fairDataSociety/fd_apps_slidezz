@@ -70,7 +70,7 @@ export default function LogoImage() {
                   </AddImage>
 
                   <Button
-                    variant="outline"
+                    variant="c-outline"
                     onClick={() => {
                       setSlidesLogo(undefined)
                       onClose()

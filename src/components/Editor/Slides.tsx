@@ -1,4 +1,5 @@
 import { Editor } from '@tiptap/react'
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import fscreen from 'fscreen'
 import { useAtom, useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
@@ -14,7 +15,6 @@ import { Box, Image, Textarea } from '@chakra-ui/react'
 
 import { wrapSlideElements } from '../../actions/wrapSlideElements'
 import { LogoPositions } from '../../config/logo-positions'
-import useColors from '../../hooks/useColors'
 import useTextEditor from '../../hooks/useTextEditor'
 import {
   HistoryActionType,

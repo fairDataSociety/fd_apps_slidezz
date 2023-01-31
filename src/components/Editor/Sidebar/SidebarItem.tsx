@@ -1,8 +1,7 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { IconType } from 'react-icons'
 
 import { Center, Icon, Tooltip } from '@chakra-ui/react'
-
-import useColors from '../../../hooks/useColors'
 
 interface SidebarItemProps {
   onClick?: () => void

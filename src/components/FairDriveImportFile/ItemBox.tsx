@@ -1,8 +1,7 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import { IconType } from 'react-icons'
 
 import { Box, HStack, Icon, Text } from '@chakra-ui/react'
-
-import useColors from '../../hooks/useColors'
 
 interface ItemBoxProps {
   text: string

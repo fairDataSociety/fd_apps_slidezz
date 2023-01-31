@@ -1,3 +1,4 @@
+import { useColors } from 'catppuccin-chakra-ui-theme'
 import fscreen from 'fscreen'
 import { useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
@@ -6,7 +7,6 @@ import { MdRedo, MdUndo } from 'react-icons/md'
 
 import { Box, Divider, IconButton, VStack } from '@chakra-ui/react'
 
-import useColors from '../../../hooks/useColors'
 import {
   redoHistoryAtom,
   redoHistoryStackLenAtom,

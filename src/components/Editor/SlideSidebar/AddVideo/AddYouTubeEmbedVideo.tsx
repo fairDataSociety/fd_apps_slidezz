@@ -98,7 +98,7 @@ export default function AddYouTubeEmbedVideo({
                 </FormControl>
               </ModalBody>
               <ModalFooter>
-                <Button variant="outline" mr={3} onClick={onClose}>
+                <Button variant="c-outline" mr={3} onClick={onClose}>
                   Cancel
                 </Button>
                 <Button onClick={() => handleSubmit()} isDisabled={!isValid}>
