@@ -21,7 +21,7 @@ export default function AppUI() {
           pb={2}
           boxSize="full"
           objectFit="contain"
-          src={`${window._detectedSiteType.basePath}/images/app-screenshot.png`}
+          src={`${window._detectedSiteType.basePath}/public/images/app-screenshot.png`}
         />
       </Box>
     </Box>
