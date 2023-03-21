@@ -44,6 +44,18 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Install fdp-storage dependencies
+        run: npm install --prefix  node_modules/@fairdatasociety/fdp-storage/
+
+      - name: Build fdp-storage
+        run: npm run prepare --prefix node_modules/@fairdatasociety/fdp-storage/
+
+      - name: Copy fdp-storage index
+        run: cp node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js node_modules/@fairdatasociety/fdp-storage/dist/index.min.js
+
+      - name: Copy fdp-storage index map
+        run: cp node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js.map node_modules/@fairdatasociety/fdp-storage/dist/index.min.js.map
+
       - name: copy NEXT vars to .env
         run: |
           env |grep 'NEXT_PUBLIC' > .env
@@ -52,7 +64,7 @@ jobs:
         run: yarn build:static
         env:
           NEXT_PUBLIC_BASE_PATH: /apps/slidezz
-          NEXT_PUBLIC_BATCH_ID: '0000000000000000000000000000000000000000000000000000000000000000'
+          NEXT_PUBLIC_BATCH_ID: 'b48953f094938e65f64addef4049b1f41b8140f3673053f2bb0db74b0b15f7be'
           NEXT_PUBLIC_FDS_REGISTRAR: '0xF4C9Cd25031E3BB8c5618299bf35b349c1aAb6A9'
           NEXT_PUBLIC_ENS_REGISTRY: '0x42B22483e3c8dF794f351939620572d1a3193c12'
           NEXT_PUBLIC_PUBLIC_RESOLVER: '0xbfeCC6c32B224F7D0026ac86506Fe40A9607BD14'

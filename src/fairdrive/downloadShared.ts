@@ -10,7 +10,14 @@ export async function fairDriveDownloadShared(
   const { parsedSharedRef, filePath } = parseSharedRef(sharedRef)
 
   if (fdp) {
-    const data = await fdp.file.downloadShared(parsedSharedRef)
+    const [podSharedInfo, fileSharedInfo] = await Promise.all([
+      fdp.personalStorage.getSharedInfo(parsedSharedRef),
+      fdp.file.getSharedInfo(parsedSharedRef),
+    ])
+    const data = await fdp.file.downloadData(
+      podSharedInfo.podName,
+      fileSharedInfo.meta.filePath
+    )
     return new Blob([data.buffer])
   }
   const data = await downloadShared(parsedSharedRef, filePath, password)

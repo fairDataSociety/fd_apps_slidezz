@@ -13,12 +13,12 @@ export async function fairDriveLs(
   fdp?: FdpStorage
 ): Promise<DirectoryItem> {
   if (fdp) {
-    const directoryItem = await fdp.directory.read(pod, path)
+    const { directories, files } = await fdp.directory.read(pod, path)
     return {
-      dirs: directoryItem.getDirectories().map((dir) => {
+      dirs: directories.map((dir) => {
         return { name: dir.name }
       }),
-      files: directoryItem.getFiles().map((file) => {
+      files: files.map((file) => {
         return { name: file.name }
       }),
     }
