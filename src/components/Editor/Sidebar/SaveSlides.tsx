@@ -70,8 +70,8 @@ export default function SaveSlides() {
         )}`
       : (process.env.NEXT_PUBLIC_SLIDES_POD as string)
 
-    const pods = await fairDrivePods()
-    const slidesPod = pods.pods.find((pod) => pod === slidesPodName)
+    const { pods } = await fairDrivePods()
+    const slidesPod = pods.find((pod) => pod === slidesPodName)
 
     if (!slidesPod) {
       await fairDriveCreatePod({

@@ -44,6 +44,18 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Install fdp-storage dependencies
+        run: npm install --prefix  node_modules/@fairdatasociety/fdp-storage/
+
+      - name: Build fdp-storage
+        run: npm run prepare --prefix node_modules/@fairdatasociety/fdp-storage/
+
+      - name: Rename fdp-storage index
+        run: mv node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js node_modules/@fairdatasociety/fdp-storage/dist/index.min.js
+
+      - name: Rename fdp-storage index map
+        run: mv node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js.map node_modules/@fairdatasociety/fdp-storage/dist/index.min.js.map
+
       - name: copy NEXT vars to .env
         run: |
           env |grep 'NEXT_PUBLIC' > .env
