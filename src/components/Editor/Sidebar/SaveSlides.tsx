@@ -70,7 +70,7 @@ export default function SaveSlides() {
         )}`
       : (process.env.NEXT_PUBLIC_SLIDES_POD as string)
 
-    const { pods } = await fairDrivePods()
+    const { pods } = await fairDrivePods(fdp)
     const slidesPod = pods.find((pod) => pod === slidesPodName)
 
     if (!slidesPod) {
@@ -92,7 +92,7 @@ export default function SaveSlides() {
     }
 
     const filePath = `/${fileName}.html`
-    await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML)
+    await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML, fdp)
 
     setSlides({
       ...slides,
@@ -112,7 +112,7 @@ export default function SaveSlides() {
     if (!user || !slides || !fdp) return
 
     const slidesPodName = process.env.NEXT_PUBLIC_SLIDES_POD as string
-    const pods = await fairDrivePods()
+    const pods = await fairDrivePods(fdp)
     const slidesPod = pods.pods.find((pod) => pod === slidesPodName)
 
     if (!slidesPod) {
@@ -126,7 +126,7 @@ export default function SaveSlides() {
     }
 
     const filePath = `/${fileName}.html`
-    await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML)
+    await fairDriveUploadFile(slidesPodName, filePath, slidesDiv.innerHTML, fdp)
 
     let slidesShareRef = ''
     if (shareSlides) {

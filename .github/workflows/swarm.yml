@@ -50,11 +50,11 @@ jobs:
       - name: Build fdp-storage
         run: npm run prepare --prefix node_modules/@fairdatasociety/fdp-storage/
 
-      - name: Rename fdp-storage index
-        run: mv node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js node_modules/@fairdatasociety/fdp-storage/dist/index.min.js
+      - name: Copy fdp-storage index
+        run: cp node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js node_modules/@fairdatasociety/fdp-storage/dist/index.min.js
 
-      - name: Rename fdp-storage index map
-        run: mv node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js.map node_modules/@fairdatasociety/fdp-storage/dist/index.min.js.map
+      - name: Copy fdp-storage index map
+        run: cp node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js.map node_modules/@fairdatasociety/fdp-storage/dist/index.min.js.map
 
       - name: copy NEXT vars to .env
         run: |
