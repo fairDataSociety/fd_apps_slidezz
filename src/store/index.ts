@@ -108,10 +108,6 @@ export const replaceImageElementAtom = atom<HTMLImageElement | undefined>(
 
 export const userAtom = atom<User | undefined>(undefined)
 
-// Google Access token
-
-export const googleAccessTokenAtom = atom('')
-
 // Loading modal
 
 export const loadingModalAtom = atom<{ isOpen: boolean; message?: string }>({

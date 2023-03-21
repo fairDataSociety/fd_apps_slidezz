@@ -3,7 +3,6 @@ import '@fontsource/source-sans-pro/300.css'
 import '@fontsource/source-sans-pro/400.css'
 import '@fontsource/source-sans-pro/600.css'
 import '@fontsource/source-sans-pro/700.css'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 import { useAtomValue } from 'jotai'
 import type { AppProps } from 'next/app'
 import 'reveal.js/dist/reveal.css'
@@ -20,17 +19,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   const loadingModal = useAtomValue(loadingModalAtom)
 
   return (
-    <GoogleOAuthProvider
-      clientId={process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID as string}
-    >
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-        <LoadingModal
-          isOpen={loadingModal.isOpen}
-          message={loadingModal.message}
-        />
-      </ChakraProvider>
-    </GoogleOAuthProvider>
+    <ChakraProvider theme={theme}>
+      <Component {...pageProps} />
+      <LoadingModal
+        isOpen={loadingModal.isOpen}
+        message={loadingModal.message}
+      />
+    </ChakraProvider>
   )
 }
 
