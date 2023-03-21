@@ -45,8 +45,6 @@ you can copy the `.env.example` file:
 cp .env.example .env
 ```
 
-- **NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID** - Google Drive client ID
-
 - **NEXT_PUBLIC_SLIDES_POD** - name of the pod that is used for storing slides
 
 For fdp-storage:

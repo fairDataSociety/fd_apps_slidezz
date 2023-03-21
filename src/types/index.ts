@@ -1,7 +1,5 @@
 import { slideThemes } from '../config/slide-themes'
 
-export * from './google-slides'
-
 declare global {
   interface Window {
     _detectedSiteType: { type: string; url: string; basePath: string }
