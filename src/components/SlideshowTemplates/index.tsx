@@ -40,6 +40,7 @@ const TemplatePreview = dynamic(() => import('./TemplatePreview'), {
 export default function SlideshowTemplates() {
   const setSlides = useUpdateAtom(slidesAtom)
   const user = useAtomValue(userAtom)
+  const googleEnabled = Boolean(process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID)
 
   return (
     <Container maxW="container.xl">
@@ -60,7 +61,7 @@ export default function SlideshowTemplates() {
             <Tab>Templates</Tab>
             <Tab>My Slideshows</Tab>
             <Tab>Markdown</Tab>
-            <Tab>Google slides</Tab>
+            {googleEnabled && <Tab>Google slides</Tab>}
           </TabList>
 
           <TabPanels>
@@ -96,25 +97,27 @@ export default function SlideshowTemplates() {
                     Icon={FairdriveIcon}
                   />
                 </ImportFile>
-                <GoogleDriveImportFile
-                  mimeType="text/markdown"
-                  callback={(data) => {
-                    if (!user) return
-                    importSlides({ data: new Blob([data]) }, setSlides)
-                  }}
-                  downloadFile={true}
-                >
-                  <ImportFileCard
-                    title="Google Drive"
-                    description="Select a Markdown File from Google Drive"
-                    Icon={GoogledriveIcon}
-                  />
-                </GoogleDriveImportFile>
+                {googleEnabled && (
+                  <GoogleDriveImportFile
+                    mimeType="text/markdown"
+                    callback={(data) => {
+                      if (!user) return
+                      importSlides({ data: new Blob([data]) }, setSlides)
+                    }}
+                    downloadFile={true}
+                  >
+                    <ImportFileCard
+                      title="Google Drive"
+                      description="Select a Markdown File from Google Drive"
+                      Icon={GoogledriveIcon}
+                    />
+                  </GoogleDriveImportFile>
+                )}
               </VStack>
             </TabPanel>
             <TabPanel>
               <VStack gap={4}>
-                <GoogleSlidesImport />
+                {googleEnabled && <GoogleSlidesImport />}
                 <Divider />
                 <Heading textAlign="center">
                   High-resolution Google slides

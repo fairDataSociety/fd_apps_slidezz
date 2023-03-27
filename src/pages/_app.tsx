@@ -19,19 +19,27 @@ import { theme } from '../theme'
 function MyApp({ Component, pageProps }: AppProps) {
   const loadingModal = useAtomValue(loadingModalAtom)
 
-  return (
-    <GoogleOAuthProvider
-      clientId={process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID as string}
-    >
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-        <LoadingModal
-          isOpen={loadingModal.isOpen}
-          message={loadingModal.message}
-        />
-      </ChakraProvider>
-    </GoogleOAuthProvider>
+  const renderApp = () => (
+    <ChakraProvider theme={theme}>
+      <Component {...pageProps} />
+      <LoadingModal
+        isOpen={loadingModal.isOpen}
+        message={loadingModal.message}
+      />
+    </ChakraProvider>
   )
+
+  if (Boolean(process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID)) {
+    return (
+      <GoogleOAuthProvider
+        clientId={process.env.NEXT_PUBLIC_GOOGLE_DRIVE_CLIENT_ID as string}
+      >
+        {renderApp()}
+      </GoogleOAuthProvider>
+    )
+  }
+
+  return renderApp()
 }
 
 export default MyApp
