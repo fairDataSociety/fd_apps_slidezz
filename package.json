@@ -22,6 +22,7 @@
     "@emotion/styled": "^11.10.5",
     "@fairdatasociety/fdp-storage": "github:fairDataSociety/fdp-storage#fix/bee-js-new-762",
     "@fontsource/source-sans-pro": "^4.5.11",
+    "@react-oauth/google": "^0.2.8",
     "@tiptap/extension-color": "^2.0.0-beta.209",
     "@tiptap/extension-highlight": "^2.0.0-beta.209",
     "@tiptap/extension-image": "^2.0.0-beta.209",
