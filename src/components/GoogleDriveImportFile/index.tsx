@@ -1,5 +1,4 @@
 import { useGoogleLogin } from '@react-oauth/google'
-import { useAtom } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 
 import { Box, useDisclosure } from '@chakra-ui/react'
