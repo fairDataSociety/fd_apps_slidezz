@@ -6,7 +6,7 @@ on:
       - main
       - development
 jobs:
-  build-fdp-storage:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -43,18 +43,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn
-
-      - name: Install fdp-storage dependencies
-        run: npm install --prefix  node_modules/@fairdatasociety/fdp-storage/
-
-      - name: Build fdp-storage
-        run: npm run prepare --prefix node_modules/@fairdatasociety/fdp-storage/
-
-      - name: Copy fdp-storage index
-        run: cp node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js node_modules/@fairdatasociety/fdp-storage/dist/index.min.js
-
-      - name: Copy fdp-storage index map
-        run: cp node_modules/@fairdatasociety/fdp-storage/dist/index.browser.min.js.map node_modules/@fairdatasociety/fdp-storage/dist/index.min.js.map
 
       - name: copy NEXT vars to .env
         run: |
